@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Step active step 1`] = `
+<div>
+  <div
+    class="form-step success,step,active"
+  >
+    <div
+      class="form-step__fields"
+    >
+      <div
+        id="Field"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/Step inactive step 1`] = `
+<div>
+  <div
+    class="form-step success,step,"
+  >
+    <div
+      class="form-step__fields"
+    >
+      <div
+        id="Field"
+      />
+    </div>
+  </div>
+</div>
+`;

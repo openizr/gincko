@@ -1,0 +1,72 @@
+{
+  "name": "gincko",
+  "version": "TRAVIS_TAG",
+  "description": "Build complex, dynamic forms or inputs-based UIs in seconds",
+  "repository": "https://github.com/openizr/gincko",
+  "bugs": "https://github.com/openizr/gincko/issues",
+  "main": "./main.js",
+  "types": "./types.d.ts",
+  "contributors": [
+    {
+      "name": "Matthieu Jabbour",
+      "email": "matthieu.jabbour@gmail.com",
+      "homepage": "https://github.com/matthieujabbour"
+    }
+  ],
+  "keywords": [
+    "dynamic",
+    "ui",
+    "forms",
+    "engine",
+    "inputs",
+    "fields",
+    "react",
+    "vue"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/prop-types": "^15.7.3",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
+    "typescript-dev-kit": "^3.0.8"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/typescript-dev-kit/main.js"
+    ]
+  },
+  "dependencies": {
+    "basx": "^1.3.1",
+    "gincko": "^4.0.1",
+    "sonar-ui": "^0.0.31"
+  },
+  "tsDevKitConfig": {
+    "target": "node",
+    "entry": {
+      "main": "./scripts/main.ts"
+    },
+    "runInDev": false,
+    "splitChunks": false,
+    "srcPath": "src",
+    "distPath": "dist",
+    "banner": "/*!\n * Copyright (c) Matthieu Jabbour. All Rights Reserved.\n *\n * This source code is licensed under the MIT license found in the\n * LICENSE file in the root directory of this source tree.\n */",
+    "env": {
+      "development": {},
+      "production": {}
+    }
+  },
+  "scripts": {
+    "init": "node_modules/typescript-dev-kit/scripts/init.sh",
+    "dev": "cd node_modules/typescript-dev-kit/ && node scripts/dev",
+    "build": "cd node_modules/typescript-dev-kit/ && node scripts/build && cp ../../src/scripts/types.d.ts ../../dist",
+    "test": "cd node_modules/typescript-dev-kit/ && node scripts/test",
+    "doc": "node_modules/.bin/typedoc --out ../docs/ --exclude \"**/*.js\" --exclude \"**/__+(tests|mocks)__/**\" src/",
+    "postinstall": "rm -f node_modules/.eslintcache && test -n \"$POSTINSTALLED\" || POSTINSTALLED=1 yarn add --peer react react-dom vue prop-types"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "vue": "^2.6.12"
+  }
+}
