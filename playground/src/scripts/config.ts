@@ -17,7 +17,7 @@ export default {
     next: {
       type: 'Button',
       label: 'Next',
-    }
+    },
   },
   plugins: [],
 };
