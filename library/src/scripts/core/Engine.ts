@@ -7,10 +7,9 @@
  */
 
 import {
-  Json,
   Step,
-  FormField,
   Hook,
+  Field,
   FormEvent,
   UserAction,
   FormValues,
@@ -234,11 +233,11 @@ export default class Engine {
    *
    * @param {string} fieldId Field id.
    *
-   * @returns {FormField} Generated field.
+   * @returns {Field} Generated field.
    *
    * @throws {Error} If the field does not exist.
    */
-  public generateField(fieldId: string): FormField {
+  public generateField(fieldId: string): Field {
     const field = this.configuration.fields[fieldId];
     const nonInteractiveFields = this.configuration.nonInteractiveFields || ['Message'];
     if (field === undefined) {
@@ -252,7 +251,6 @@ export default class Engine {
       value: field.value,
       label: field.label,
       options: field.options || {},
-      tooltip: field.tooltip || null,
     });
   }
 

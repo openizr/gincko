@@ -153,7 +153,7 @@ describe('core/Engine', () => {
     expect((engine as Json).store.mutate).toHaveBeenCalledWith('steps', 'SET', {
       steps: [{
         fields: [{
-          id: 'test', label: undefined, message: null, options: {}, status: 'initial', tooltip: null, type: 'Test', value: undefined,
+          id: 'test', label: undefined, message: null, options: {}, status: 'initial', type: 'Test', value: undefined,
         }],
         id: 'test',
         status: 'initial',
@@ -180,7 +180,7 @@ describe('core/Engine', () => {
     expect((engine as Json).store.mutate).toHaveBeenCalledWith('steps', 'SET', {
       steps: [{
         fields: [{
-          id: 'test', label: undefined, message: null, options: {}, status: 'initial', tooltip: null, type: 'Test', value: undefined,
+          id: 'test', label: undefined, message: null, options: {}, status: 'initial', type: 'Test', value: undefined,
         }],
         id: 'test',
         status: 'initial',
@@ -207,7 +207,7 @@ describe('core/Engine', () => {
     expect((engine as Json).store.mutate).toHaveBeenCalledWith('steps', 'SET', {
       steps: [{
         fields: [{
-          id: 'test', label: undefined, message: null, options: {}, status: 'initial', tooltip: null, type: 'Test', value: undefined,
+          id: 'test', label: undefined, message: null, options: {}, status: 'initial', type: 'Test', value: undefined,
         }],
         id: 'test',
         status: 'initial',
@@ -234,7 +234,7 @@ describe('core/Engine', () => {
     expect((engine as Json).store.mutate).toHaveBeenCalledWith('steps', 'SET', {
       steps: [{
         fields: [{
-          id: 'test', label: undefined, message: null, options: {}, status: 'initial', tooltip: null, type: 'Test', value: undefined,
+          id: 'test', label: undefined, message: null, options: {}, status: 'initial', type: 'Test', value: undefined,
         }],
         id: 'test',
         status: 'initial',
@@ -261,7 +261,7 @@ describe('core/Engine', () => {
     expect((engine as Json).store.mutate).toHaveBeenCalledWith('steps', 'SET', {
       steps: [{
         fields: [{
-          id: 'test', label: undefined, message: null, options: {}, status: 'initial', tooltip: null, type: 'Test', value: undefined,
+          id: 'test', label: undefined, message: null, options: {}, status: 'initial', type: 'Test', value: undefined,
         }],
         id: 'test',
         status: 'initial',
@@ -314,7 +314,6 @@ describe('core/Engine', () => {
       message: null,
       options: {},
       status: 'success',
-      tooltip: null,
       type: 'Message',
       value: undefined,
     });
@@ -333,7 +332,6 @@ describe('core/Engine', () => {
       message: null,
       options: {},
       status: 'initial',
-      tooltip: null,
       type: 'Test',
       value: undefined,
     });
@@ -365,7 +363,6 @@ describe('core/Engine', () => {
         message: null,
         options: {},
         status: 'initial',
-        tooltip: null,
         type: 'Test',
         value: undefined,
       }],

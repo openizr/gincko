@@ -48,7 +48,9 @@
   "tsDevKitConfig": {
     "target": "node",
     "entry": {
-      "main": "./scripts/main.ts"
+      "vue": "./scripts/vue.ts",
+      "main": "./scripts/main.ts",
+      "react": "./scripts/react.ts"
     },
     "runInDev": false,
     "splitChunks": false,

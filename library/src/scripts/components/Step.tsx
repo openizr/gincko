@@ -8,10 +8,10 @@
 
 import * as React from 'react';
 import { InferProps } from 'prop-types';
-import { UserAction } from 'scripts/types';
 import { buildClass } from 'sonar-ui/react';
 import Field from 'scripts/components/Field';
 import stepPropType from 'scripts/propTypes/step';
+import { UserAction, Components } from 'scripts/types';
 
 const defaultProps = {};
 
@@ -23,7 +23,7 @@ export default function Step(props: InferProps<typeof stepPropType>): JSX.Elemen
   const { id, status, index, fields, customComponents, isActive } = props;
 
   const onUserAction = (fieldId: string, userAction: UserAction): void => {
-    props.onUserAction(index, fieldId, userAction);
+    (props.onUserAction as Json)(index, fieldId, userAction);
   };
 
   return (
@@ -40,11 +40,10 @@ export default function Step(props: InferProps<typeof stepPropType>): JSX.Elemen
             label={field.label}
             value={field.value}
             status={field.status}
-            tooltip={field.tooltip}
             options={field.options}
             message={field.message}
             onUserAction={onUserAction}
-            customComponents={customComponents}
+            customComponents={customComponents as Components}
           />
         ))}
       </div>

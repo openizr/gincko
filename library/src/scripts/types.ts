@@ -8,11 +8,20 @@
 
 import { InferProps } from 'prop-types';
 import Engine from 'scripts/core/Engine';
-import configuration from 'scripts/propTypes/configuration';
+import stepPropTypes from 'scripts/propTypes/step';
+import fieldPropTypes from 'scripts/propTypes/field';
+import configurationPropTypes from 'scripts/propTypes/configuration';
 
-export type Json = any; // eslint-disable-line @typescript-eslint/no-explicit-any
-
-export type FormValue = string | string[];// TODO fileReader
+export type FormValue = Json;
+export type Plugin = (engine: Engine) => void;
+export type Step = InferProps<typeof stepPropTypes>;
+export type Field = InferProps<typeof fieldPropTypes>;
+export type Configuration = InferProps<typeof configurationPropTypes>;
+export type Hook = (data: Json, next: (data?: Json) => Promise<Json>) => Promise<Json>;
+export type FormEvent = 'loadNextStep' | 'loadedNextStep' | 'userAction' | 'submit' | 'error';
+export type Component = (field: Field, onUserAction: (newValue: string) => void) => JSX.Element;
+export type Listener = (data: Json, middlewaresChain: (data?: Json) => Promise<Json>) =>
+  Promise<Json>;
 
 export interface UserAction {
   fieldId: string;
@@ -21,43 +30,14 @@ export interface UserAction {
   value: FormValue;
 }
 
-export type Listener = (data: Json, middlewaresChain: (data?: Json) => Promise<Json>) =>
-  Promise<Json>;
-
-export interface FormField {
-  id: string;
-  type: string;
-  options: Json;
-  active?: boolean | null;
-  label?: string | null;
-  tooltip?: string | null;
-  message?: string | null;
-  value?: string | string[] | null;
-  status: 'initial' | 'error' | 'success';
-}
-export type FormEvent = 'loadNextStep' | 'loadedNextStep' | 'userAction' | 'submit' | 'error';
-export type Hook = (data: Json, next: (data?: Json) => Promise<Json>) => Promise<Json>;
-
-export interface Step {
-  id: string;
-  fields: FormField[];
-  status: string;
-}
-
-export type Configuration = InferProps<typeof configuration>;
-
 export type Components = {
   [type: string]: Component;
 };
-
-export type Component = (field: FormField, onUserAction: (newValue: string) => void) => JSX.Element;
 
 export interface UserActionsState {
   actionsPerStep: UserAction[][];
   lastUserAction: UserAction | null;
 }
-
-export type Plugin = (engine: Engine) => void;
 
 export interface FormValues {
   [fieldId: string]: FormValue;

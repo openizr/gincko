@@ -17,15 +17,11 @@ export default {
   validation: PropTypes.func,
   transform: PropTypes.func,
   label: PropTypes.string,
-  tooltip: PropTypes.string,
   messages: PropTypes.shape({
     success: PropTypes.string,
     required: PropTypes.string,
     validation: PropTypes.string,
   }),
-  value: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  ]),
+  value: PropTypes.any,
   options: PropTypes.any,
 };

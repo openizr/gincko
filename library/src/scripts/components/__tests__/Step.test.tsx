@@ -11,18 +11,14 @@ import { act } from 'react-dom/test-utils';
 import Step from 'scripts/components/Step';
 import { render, unmountComponentAtNode } from 'react-dom';
 
-jest.mock('scripts/components/Field', () => {
-  return (props: Json) => {
-    props.onUserAction();
-    return <div id="Field" />;
-  };
+jest.mock('scripts/components/Field', () => ({ onUserAction }: Json): JSX.Element => {
+  onUserAction();
+  return <div id="Field" />;
 });
-jest.mock('sonar-ui/react', () => {
-  return {
-    markdown: (value: string): string => value,
-    buildClass: (...values: string[]): string => values.join(' '),
-  };
-});
+jest.mock('sonar-ui/react', () => ({
+  markdown: (value: string): string => value,
+  buildClass: (...values: string[]): string => values.join(' '),
+}));
 
 describe('components/Step', () => {
   let container = document.createElement('div');
@@ -46,12 +42,12 @@ describe('components/Step', () => {
       render(<Step
         id="step"
         status="success"
-        isActive={true}
+        isActive
         index={0}
         fields={[{
-          id: "Message",
-          type: "Unknown",
-          status: "initial",
+          id: 'Message',
+          type: 'Unknown',
+          status: 'initial',
           options: {},
         }]}
         customComponents={customComponents}
@@ -70,9 +66,9 @@ describe('components/Step', () => {
         isActive={false}
         index={0}
         fields={[{
-          id: "Message",
-          type: "Unknown",
-          status: "initial",
+          id: 'Message',
+          type: 'Unknown',
+          status: 'initial',
           options: {},
         }]}
         customComponents={customComponents}

@@ -45,8 +45,8 @@ describe('plugins/valuesLoader', () => {
     await engine.trigger('userAction', { type: 'input' });
     await engine.trigger('loadNextStep', { fields: [{ id: 'test', type: 'Test' }] });
     expect(engine.next).toHaveBeenCalledTimes(2);
-    expect(engine.next).toHaveBeenNthCalledWith(1, { 'type': 'input' });
-    expect(engine.next).toHaveBeenNthCalledWith(2, { 'fields': [{ 'id': 'test', 'type': 'Test' }] });
+    expect(engine.next).toHaveBeenNthCalledWith(1, { type: 'input' });
+    expect(engine.next).toHaveBeenNthCalledWith(2, { fields: [{ id: 'test', type: 'Test' }] });
   });
 
   test('userAction hook - injectTo contains field type', async () => {
@@ -55,7 +55,9 @@ describe('plugins/valuesLoader', () => {
     await engine.trigger('loadNextStep', { fields: [{ id: 'test', type: 'Message' }] });
     expect(engine.next).toHaveBeenCalledTimes(2);
     expect(engine.next).toHaveBeenNthCalledWith(1, { type: 'input', fieldId: 'test', value: 'value' });
-    expect(engine.next).toHaveBeenNthCalledWith(2, { 'fields': [{ 'id': 'test', 'type': 'Message', options: { formValues: { test: 'value' } } }] });
+    expect(engine.next).toHaveBeenNthCalledWith(2, {
+      fields: [{ id: 'test', type: 'Message', options: { formValues: { test: 'value' } } }],
+    });
   });
 
   test('loadedNextStep hook - null next step', async () => {

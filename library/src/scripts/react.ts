@@ -8,6 +8,6 @@
 
 /* istanbul ignore file */
 
-import Engine from 'scripts/core/Engine';
+import Form from 'scripts/containers/Form';
 
-export default Engine;
+export default Form;

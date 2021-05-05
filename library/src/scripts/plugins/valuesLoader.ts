@@ -6,7 +6,7 @@
  *
  */
 
-import { Plugin, FormField } from 'scripts/types';
+import { Plugin, Field, FormValue } from 'scripts/types';
 
 interface Options {
   enabled?: boolean;
@@ -25,8 +25,8 @@ export default function valuesLoader(options: Options): Plugin {
   return (engine): void => {
     const enabled = options.enabled !== false;
     const autoSubmit = options.autoSubmit === true;
+    const formValues: { [fieldId: string]: FormValue; } = {};
     const injectValuesTo = options.injectValuesTo || ['Message'];
-    const formValues: { [fieldId: string]: string | string[]; } = {};
 
     if (enabled === true) {
       engine.on('userAction', (userAction, next) => {
@@ -37,7 +37,7 @@ export default function valuesLoader(options: Options): Plugin {
       });
       engine.on('loadNextStep', (nextStep, next) => next((nextStep === null) ? nextStep : {
         ...nextStep,
-        fields: nextStep.fields.map((field: FormField) => ((injectValuesTo.includes(field.type))
+        fields: nextStep.fields.map((field: Field) => ((injectValuesTo.includes(field.type))
           ? { ...field, options: { ...field.options, formValues } }
           : field)),
       }));
@@ -48,8 +48,8 @@ export default function valuesLoader(options: Options): Plugin {
     // Also loads values defined by default in configuration's fields.
     engine.on('loadedNextStep', (nextStep, next) => {
       if (nextStep !== null) {
-        const defaultValues: { [fieldId: string]: string | string[]; } = {};
-        nextStep.fields.forEach((field: FormField) => {
+        const defaultValues: { [fieldId: string]: FormValue; } = {};
+        nextStep.fields.forEach((field: Field) => {
           if (field.value !== undefined && field.value !== null) {
             defaultValues[field.id] = field.value;
           }

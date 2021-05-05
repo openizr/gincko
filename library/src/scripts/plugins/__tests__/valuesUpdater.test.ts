@@ -33,12 +33,32 @@ describe('plugins/valuesUpdater', () => {
     valuesUpdater()(engine);
     await engine.trigger('userAction', { fieldId: 'test', type: 'input' });
     expect(engine.updateCurrentStep).toHaveBeenCalledTimes(1);
-    expect(engine.updateCurrentStep).toHaveBeenCalledWith({ 'fields': [{ 'id': 'test', 'message': null, 'status': 'initial', 'type': 'Message', 'value': 'transformedValue' }, { 'id': 'new', 'type': 'Message', value: 'ok' }, { 'id': 'other', 'type': 'Message' }, { 'id': 'last', 'type': 'Message', value: 'last' }], 'status': 'progress' });
+    expect(engine.updateCurrentStep).toHaveBeenCalledWith({
+      fields: [
+        {
+          id: 'test', message: null, status: 'initial', type: 'Message', value: 'transformedValue',
+        },
+        { id: 'new', type: 'Message', value: 'ok' },
+        { id: 'other', type: 'Message' },
+        { id: 'last', type: 'Message', value: 'last' },
+      ],
+      status: 'progress',
+    });
   });
 
   test('userAction hook - normal user action on non-transformable field', async () => {
     valuesUpdater()(engine);
     await engine.trigger('userAction', { fieldId: 'last', type: 'input', value: 'initialValue' });
-    expect(engine.updateCurrentStep).toHaveBeenCalledWith({ 'fields': [{ 'id': 'test', 'type': 'Message', value: [] }, { 'id': 'new', 'type': 'Message', value: 'ok' }, { 'id': 'other', 'type': 'Message' }, { 'id': 'last', 'message': null, 'status': 'initial', 'type': 'Message', 'value': 'initialValue' }], 'status': 'progress' });
+    expect(engine.updateCurrentStep).toHaveBeenCalledWith({
+      fields: [
+        { id: 'test', type: 'Message', value: [] },
+        { id: 'new', type: 'Message', value: 'ok' },
+        { id: 'other', type: 'Message' },
+        {
+          id: 'last', message: null, status: 'initial', type: 'Message', value: 'initialValue',
+        },
+      ],
+      status: 'progress',
+    });
   });
 });

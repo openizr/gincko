@@ -6,12 +6,10 @@
  *
  */
 
-import { Json } from 'scripts/types';
-
 /**
  * Engine mock.
  */
-export default jest.fn(() => {
+export default jest.fn((): Json => {
   const hooks: { [key: string]: Json[] } = {
     error: [],
     submit: [],
@@ -37,18 +35,18 @@ export default jest.fn(() => {
       fields: {
         test: {
           type: 'Test',
-          transform: () => 'transformedValue',
+          transform: (): string => 'transformedValue',
         },
         new: {
           type: 'Test',
           validation: (value: string): boolean => value === 'new',
-          transform: () => 'transformedValue',
+          transform: (): string => 'transformedValue',
         },
         other: {
           type: 'Test',
           required: true,
           validation: (value: string): boolean => value === 'other',
-          transform: () => 'transformedValue',
+          transform: (): string => 'transformedValue',
         },
         last: {
           required: true,
@@ -60,7 +58,7 @@ export default jest.fn(() => {
     displayStepLoader: jest.fn(),
     updateCurrentStep: jest.fn(),
     updateGeneratedSteps: jest.fn(),
-    getCurrentStep: jest.fn(() => (process.env.ALL_FIELDS_VALID === 'true')
+    getCurrentStep: jest.fn(() => ((process.env.ALL_FIELDS_VALID === 'true')
       ? ({
         fields: [
           {
@@ -92,15 +90,15 @@ export default jest.fn(() => {
             value: 'last',
           },
         ],
-      })),
+      }))),
     on: jest.fn((event: string, callback: Json) => {
       hooks[event].push(callback);
     }),
-    trigger: (event: string, data: Json, nextData?: Json) => {
-      return Promise.all(hooks[event].map((hook) => hook(data, (updatedData: Json) => {
+    trigger: (event: string, data: Json, nextData?: Json): Json => (
+      Promise.all(hooks[event].map((hook) => hook(data, (updatedData: Json) => {
         next(updatedData);
         return Promise.resolve(nextData);
-      })));
-    }
-  }) as Json;
+      })))
+    ),
+  });
 });

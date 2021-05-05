@@ -13,11 +13,11 @@ import fieldPropType from 'scripts/propTypes/field';
  * Form step propType.
  */
 export default {
+  index: PropTypes.number,
+  isActive: PropTypes.bool,
+  onUserAction: PropTypes.func,
   id: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  onUserAction: PropTypes.func.isRequired,
-  customComponents: PropTypes.objectOf(PropTypes.func.isRequired).isRequired,
+  customComponents: PropTypes.objectOf(PropTypes.func.isRequired),
   fields: PropTypes.arrayOf(PropTypes.shape(fieldPropType).isRequired).isRequired,
 };

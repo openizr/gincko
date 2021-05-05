@@ -147,9 +147,8 @@ const builtInComponents: Components = {
  * Form field.
  */
 export default function Field(props: InferProps<typeof propTypes>): JSX.Element | null {
-  const {
-    label, active, tooltip, value, status, options, message, id, type, customComponents,
-  } = props;
+  // eslint-disable-next-line object-curly-newline
+  const { label, active, value, status, options, message, id, type, customComponents } = props;
   const allComponents: Components = { ...builtInComponents, ...customComponents };
 
   // The following lines prevent browsers auto-fill system from changing fields
@@ -160,10 +159,10 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
     setIsActive(active);
   }, [active]);
 
-  const focusField = (value: string | string[]): void => {
+  const focusField = (focusedValue: string | string[]): void => {
     setIsActive(true);
     if (options.onFocus !== undefined) {
-      options.onFocus(value);
+      options.onFocus(focusedValue);
     }
   };
 
@@ -181,7 +180,6 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
     label,
     type,
     options: { ...options, onFocus: focusField },
-    tooltip,
     message,
     active: isActive,
     value: value as string | string[],

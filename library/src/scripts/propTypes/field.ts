@@ -12,17 +12,12 @@ import PropTypes from 'prop-types';
  * Form field propType.
  */
 export default {
+  value: PropTypes.any,
   active: PropTypes.bool,
+  label: PropTypes.string,
+  message: PropTypes.string,
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  message: PropTypes.string,
-  label: PropTypes.string,
-  tooltip: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.bool.isRequired,
-    PropTypes.string.isRequired,
-    PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  ]),
   status: PropTypes.oneOf(['initial', 'error', 'success']),
   options: PropTypes.any.isRequired,
 };

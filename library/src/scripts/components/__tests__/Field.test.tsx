@@ -12,11 +12,18 @@ import Field from 'scripts/components/Field';
 import { render, unmountComponentAtNode } from 'react-dom';
 
 jest.mock('sonar-ui/react', () => {
+  /* eslint-disable react/destructuring-assignment, jsx-a11y/no-static-element-interactions */
   function Component(props: Json): JSX.Element {
     return (
-      <div id={props.id} onClick={props.onClick} onKeyDown={props.onFocus} data-readonly={props.readonly} />
+      <div
+        id={props.id}
+        onClick={props.onClick}
+        onKeyDown={props.onFocus}
+        data-readonly={props.readonly}
+      />
     );
   }
+  /* eslint-enable react/destructuring-assignment, jsx-a11y/no-static-element-interactions */
 
   const markdown = (value: string): string => value;
   const buildClass = (...values: string[]): string => values.join(' ');
@@ -36,7 +43,7 @@ jest.mock('sonar-ui/react', () => {
     UICheckbox,
     UITextfield,
     UIFileUploader,
-  }
+  };
 });
 
 describe('components/Field', () => {
@@ -131,7 +138,7 @@ describe('components/Field', () => {
         status="initial"
         label="Test"
         options={{}}
-        active={true}
+        active
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -147,7 +154,7 @@ describe('components/Field', () => {
         status="initial"
         label="Test"
         options={{ readonly: true }}
-        active={true}
+        active
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);

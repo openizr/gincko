@@ -1,5 +1,5 @@
-import Form from 'gincko';
 import * as React from 'react';
+import Form from 'gincko/react';
 import * as ReactDOM from 'react-dom';
 import configuration from 'scripts/config';
 
@@ -8,8 +8,12 @@ interface ExtendedNodeModule extends NodeModule {
   hot: { accept: () => void };
 }
 
+// const en = new Engine({} as Configuration);
+
 function main(): void {
-  ReactDOM.render(<Form configuration={configuration} />, document.querySelector('#root'));
+  ReactDOM.render(<Form
+    configuration={configuration}
+  />, document.querySelector('#root'));
 }
 
 // Ensures DOM is fully loaded before running app's main logic.

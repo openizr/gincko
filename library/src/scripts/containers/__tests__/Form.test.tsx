@@ -12,24 +12,18 @@ import Form from 'scripts/containers/Form';
 import { render, unmountComponentAtNode } from 'react-dom';
 
 jest.mock('scripts/core/Engine');
-jest.mock('scripts/components/Step', () => {
-  return (props: Json) => {
-    props.onUserAction();
-    return <div id="Step" />;
-  };
+jest.mock('scripts/components/Step', () => ({ onUserAction }: Json): JSX.Element => {
+  onUserAction();
+  return <div id="Step" />;
 });
-jest.mock('sonar-ui/react', () => {
-  return {
-    markdown: (value: string): string => value,
-    buildClass: (...values: string[]): string => values.join(' '),
-  };
-});
-jest.mock('diox/connectors/react', () => {
-  return jest.fn(() => [jest.fn(() => [{
-    steps: [{ id: 'start' }, { id: 'end' }],
-    loadingNextStep: process.env.LOADING === 'true',
-  }]), jest.fn()]);
-});
+jest.mock('sonar-ui/react', () => ({
+  markdown: (value: string): string => value,
+  buildClass: (...values: string[]): string => values.join(' '),
+}));
+jest.mock('diox/connectors/react', () => jest.fn(() => [jest.fn(() => [{
+  steps: [{ id: 'start' }, { id: 'end' }],
+  loadingNextStep: process.env.LOADING === 'true',
+}]), jest.fn()]));
 
 describe('containers/Form', () => {
   let container = document.createElement('div');

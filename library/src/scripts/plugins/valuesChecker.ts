@@ -6,13 +6,13 @@
  *
  */
 
-import { Json, Plugin } from 'scripts/types';
+import { Plugin, FormValue } from 'scripts/types';
 
 interface Options {
   onSubmit?: boolean;
 }
 
-const isEmpty = (value: Json): boolean => {
+const isEmpty = (value: FormValue): boolean => {
   if (Array.isArray(value)) {
     return value.length === 0;
   }
