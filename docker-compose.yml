@@ -6,7 +6,7 @@ services:
     image: openizr/node:2.0.0-dev
     env_file:
       - .env
-    command: sh -c "yarn && (sleep 5 && dsync src/scripts/types.d.ts dist/types.d.ts & yarn run dev)"
+    command: sh -c "yarn && (sleep 10 && dsync src/scripts/types.d.ts dist/types.d.ts & dsync src/scripts/types.d.ts dist/react.d.ts & dsync src/scripts/types.d.ts dist/vue.d.ts & yarn run dev)"
     volumes:
       - ./library:/var/www/html
     restart: unless-stopped
@@ -17,7 +17,7 @@ services:
       - .env
     ports:
       - "127.0.0.1:${PLAYGROUND_PORT}:${PLAYGROUND_PORT}"
-    command: sh -c "dsync /library/dist/ node_modules/gincko/ & yarn && cp /library/src/scripts/types.d.ts node_modules/gincko/types.d.ts && yarn run dev"
+    command: sh -c "dsync /library/dist/ node_modules/gincko/ & yarn && cp /library/src/scripts/types.d.ts node_modules/gincko/ && cp /library/src/scripts/types.d.ts node_modules/gincko/react.d.ts && cp /library/src/scripts/types.d.ts node_modules/gincko/vue.d.ts && yarn run dev"
     volumes:
       - ./playground:/var/www/html
       - ./library:/library
