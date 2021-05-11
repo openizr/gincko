@@ -35,6 +35,9 @@ export default function valuesLoader(options: Options): Plugin {
         }
         return next(userAction);
       });
+
+      // Automatically injects form values in specified fields' options to allow for more dynamic
+      // behaviours such as using filled values as variables in another step's message field.
       engine.on('loadNextStep', (nextStep, next) => next((nextStep === null) ? nextStep : {
         ...nextStep,
         fields: nextStep.fields.map((field: Field) => ((injectValuesTo.includes(field.type))
@@ -43,9 +46,7 @@ export default function valuesLoader(options: Options): Plugin {
       }));
     }
 
-    // Automatically injects form values in specified fields' options to allow for more dynamic
-    // behaviours such as using filled values as variables in another step's message field.
-    // Also loads values defined by default in configuration's fields.
+    // Loads values defined by default in configuration's fields, as well as values already filled.
     engine.on('loadedNextStep', (nextStep, next) => {
       if (nextStep !== null) {
         const defaultValues: { [fieldId: string]: FormValue; } = {};

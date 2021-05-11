@@ -203,7 +203,7 @@ export class Engine {
    *
    * @param {string | null} stepId Step id.
    *
-   * @returns {Step | null} Generated step if it exists in configuration, `null` otherwise.
+   * @returns {Step | null} Generated step, or `null`.
    *
    * @throws {Error} If the step does not exist.
    */
