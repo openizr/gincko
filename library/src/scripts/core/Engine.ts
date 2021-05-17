@@ -68,6 +68,16 @@ export default class Engine {
     // Hooks chain must first be wrapped in a Promise to catch all errors with proper error hooks.
     return Promise.resolve()
       .then(() => (hooksChain as (data: Json) => Promise<Json>)(data))
+      .then((updatedData) => {
+        if (updatedData === undefined) {
+          throw new Error(
+            `Event "${eventName}": data passed to the next hook is "undefined".`
+            + ' This usually means that you did not correctly resolved your hook\'s Promise with'
+            + ' proper data.',
+          );
+        }
+        return updatedData;
+      })
       .catch((error) => this.triggerHooks('error', error).then(() => null))
       .finally(() => this.updateCurrentStep(this.getCurrentStep(), true));
   }

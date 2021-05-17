@@ -290,6 +290,33 @@ describe('core/Engine', () => {
     });
   });
 
+  test('triggerHooks - hook does not return valid data', (done) => {
+    const handleError = (error: Error): void => {
+      expect(error.message).toBe(
+        'Event "loadNextStep": data passed to the next hook is "undefined". '
+        + 'This usually means that you did not correctly resolved your hook\'s Promise '
+        + 'with proper data.',
+      );
+      done();
+    };
+    const engine = new Engine({
+      root: 'test',
+      steps: { test: { fields: ['test'] } },
+      fields: { test: { type: 'Test' } },
+      plugins: [((api): void => {
+        api.on('error', (error: Error, next: (error: Error) => Promise<void>) => {
+          setImmediate(() => {
+            handleError(error);
+          });
+          return next(error);
+        });
+        api.on('loadNextStep', () => Promise.resolve().then(() => {
+          consolelog(engine);
+        }));
+      })],
+    });
+  });
+
   test('getConfiguration', () => {
     const configuration = {
       root: 'test',
