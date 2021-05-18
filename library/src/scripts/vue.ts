@@ -8,6 +8,6 @@
 
 /* istanbul ignore file */
 
-import Form from 'scripts/containers/Form';
+import Form from 'scripts/vue/containers/Form.vue';
 
 export default Form;

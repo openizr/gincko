@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vue/components/Step active step 1`] = `
+"<div class=\\"form-step success,step,active\\">
+  <div class=\\"form-step__fields\\">
+    <div id=\\"Message\\" active=\\"true\\" type=\\"Unknown\\" status=\\"initial\\" options=\\"[object Object]\\" custom-components=\\"[object Object]\\"></div>
+  </div>
+</div>"
+`;
+
+exports[`vue/components/Step inactive step 1`] = `
+"<div class=\\"form-step success,step,\\">
+  <div class=\\"form-step__fields\\">
+    <div id=\\"Message\\" type=\\"Unknown\\" status=\\"initial\\" options=\\"[object Object]\\" custom-components=\\"[object Object]\\"></div>
+  </div>
+</div>"
+`;

@@ -4,8 +4,9 @@
 <head>
   <base href="/" />
   <meta charset="UTF-8">
-  <script async src="./assets/scripts/runtime.js"></script>
-  <script async src="./assets/scripts/react.js"></script>
+  <% for (var filePath in htmlWebpackPlugin.files.js) { %>
+    <script async src="<%= htmlWebpackPlugin.files.js[filePath] %>"></script>
+  <% } %>
 </head>
 
 <body>

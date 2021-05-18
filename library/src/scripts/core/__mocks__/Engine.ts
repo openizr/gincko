@@ -22,7 +22,14 @@ export default jest.fn((): Json => {
 
   return ({
     next,
-    getStore: jest.fn(),
+    getStore: jest.fn(() => ({
+      subscribe: jest.fn((_name, callback) => callback({
+        steps: [{ id: 'start' }, { id: 'end' }],
+        loadingNextStep: process.env.LOADING === 'true',
+      })),
+      unsubscribe: jest.fn(),
+      mutate: jest.fn(),
+    })),
     loadValues: jest.fn(),
     loadNextStep: jest.fn(),
     handleSubmit: jest.fn(),

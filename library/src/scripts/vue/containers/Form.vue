@@ -1,0 +1,106 @@
+<template>
+  <form class="form">
+    <div class="form__steps">
+      <!-- Steps. -->
+      <Step
+        v-for="(step, index) in steps"
+        :id="step.id"
+        :key="`${index}_${step.id}`"
+        :index="index"
+        :is-active="(activeStep !== null)
+          ? activeStep === step.id
+          : index === steps.length - 1"
+        :fields="step.fields"
+        :status="step.status"
+        :custom-components="customComponents"
+        @userAction="onUserAction"
+      />
+
+      <!-- Step loader. -->
+      <div
+        v-if="loadingNextStep === true"
+        class="ui-loader"
+      />
+    </div>
+  </form>
+</template>
+
+<script lang="ts">
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import Vue from 'vue';
+import {
+  Field,
+  Generic,
+  FormValue,
+  UserAction,
+  Configuration,
+} from 'scripts/types';
+import Engine from 'scripts/core/Engine';
+import Step from 'scripts/vue/components/Step.vue';
+
+interface Props {
+  activeStep: string;
+  configuration: Configuration;
+  customComponents: {
+    [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
+      name: string;
+      props: Json;
+      events: Json;
+    };
+  };
+}
+
+/**
+ * Dynamic form.
+ */
+export default Vue.extend<Generic, Generic, Generic, Props>({
+  $store: null,
+  $subscription: null,
+  components: { Step },
+  props: {
+    activeStep: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    configuration: {
+      type: Object,
+      required: true,
+    },
+    customComponents: {
+      type: Object,
+      required: false,
+      default: () => ({}),
+    },
+  },
+  data() {
+    return {
+      steps: [],
+      loadingNextStep: true,
+    };
+  },
+  mounted() {
+    const engine = new Engine(this.configuration);
+    this.$store = engine.getStore();
+    this.$subscription = this.$store.subscribe('steps', (newState: Json) => {
+      this.steps = newState.steps;
+      this.loadingNextStep = newState.loadingNextStep;
+    });
+  },
+  beforeDestroy(): void {
+    this.$store.unsubscribe('steps', this.$subscription);
+  },
+  methods: {
+    onUserAction(stepIndex: number, fieldId: string, userAction: UserAction): void {
+      (this as Json).$store.mutate('userActions', 'ADD', { ...userAction, stepIndex, fieldId });
+    },
+  },
+} as Json);
+</script>

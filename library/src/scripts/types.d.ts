@@ -6,13 +6,12 @@
  *
  */
 
-/* eslint-disable import/export */
-
 import Store from 'diox';
 import * as PropTypes from 'prop-types';
 
 /** Any valid JavaScript primitive. */
 type Json = any; // eslint-disable-line @typescript-eslint/no-explicit-any
+type Generic = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export type FormValue = Json;
 export type Plugin = (engine: Engine) => void;
@@ -32,7 +31,7 @@ export type Step = PropTypes.InferProps<{
     message: PropTypes.Requireable<string>;
     id: PropTypes.Validator<string>;
     type: PropTypes.Validator<string>;
-    status: PropTypes.Requireable<string>;
+    status: PropTypes.Validator<string>;
     options: PropTypes.Validator<Json>;
   }>[]>;
 }>;
@@ -43,7 +42,7 @@ export type Field = PropTypes.InferProps<{
   message: PropTypes.Requireable<string>;
   id: PropTypes.Validator<string>;
   type: PropTypes.Validator<string>;
-  status: PropTypes.Requireable<string>;
+  status: PropTypes.Validator<string>;
   options: PropTypes.Validator<Json>;
 }>;
 export type Configuration = PropTypes.Validator<PropTypes.InferProps<{
@@ -280,5 +279,29 @@ declare module 'gincko/react' {
   export default function Form(props: PropTypes.InferProps<{
     activeStep: PropTypes.Requireable<string>;
     configuration: Configuration;
+    customComponents: PropTypes.Requireable<{
+      [x: string]: (...args: Json[]) => Json;
+    }>;
   }>): JSX.Element;
+}
+
+declare module 'gincko/vue' {
+  import Vue from 'vue';
+  import { ExtendedVue } from 'vue/types/vue.d';
+
+  /**
+   * Dynamic form.
+   */
+  const Form: ExtendedVue<Vue, Generic, Generic, Generic, {
+    activeStep: string;
+    configuration: Configuration;
+    customComponents: {
+      [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
+        component: Vue.Component;
+        props: Json;
+        events: Json;
+      };
+    };
+  }>;
+  export default Form;
 }

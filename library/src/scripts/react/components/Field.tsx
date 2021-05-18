@@ -19,7 +19,7 @@ import {
   UIFileUploader,
 } from 'sonar-ui/react';
 import * as React from 'react';
-import { Components } from 'scripts/types';
+import { Components, FormValue } from 'scripts/types';
 import PropTypes, { InferProps } from 'prop-types';
 import fieldPropType from 'scripts/propTypes/field';
 
@@ -159,14 +159,14 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
     setIsActive(active);
   }, [active]);
 
-  const focusField = (focusedValue: string | string[]): void => {
+  const focusField = (focusedValue: FormValue): void => {
     setIsActive(true);
     if (options.onFocus !== undefined) {
       options.onFocus(focusedValue);
     }
   };
 
-  const onUserAction = (newValue: string): void => {
+  const onUserAction = (newValue: FormValue): void => {
     props.onUserAction(id, { type: 'input', value: newValue });
   };
 
@@ -182,7 +182,7 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
     options: { ...options, onFocus: focusField },
     message,
     active: isActive,
-    value: value as string | string[],
+    value: value as FormValue,
     status: status as 'success' | 'error' | 'initial',
   }, onUserAction);
 }

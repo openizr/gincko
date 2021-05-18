@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`react/components/Field Button 1`] = `
+<div>
+  <div
+    id="Button"
+  />
+</div>
+`;
+
+exports[`react/components/Field Checkbox 1`] = `
+<div>
+  <div
+    id="Checkbox"
+  />
+</div>
+`;
+
+exports[`react/components/Field Dropdown 1`] = `
+<div>
+  <div
+    id="Dropdown"
+  />
+</div>
+`;
+
+exports[`react/components/Field FileUploader 1`] = `
+<div>
+  <div
+    id="FileUploader"
+  />
+</div>
+`;
+
+exports[`react/components/Field Message with empty label 1`] = `
+<div>
+  <section
+    class="ui-message initial,"
+    id="Message"
+  />
+</div>
+`;
+
+exports[`react/components/Field Message with label 1`] = `
+<div>
+  <section
+    class="ui-message initial,"
+    id="Message"
+  >
+    Test test
+  </section>
+</div>
+`;
+
+exports[`react/components/Field Radio 1`] = `
+<div>
+  <div
+    id="Radio"
+  />
+</div>
+`;
+
+exports[`react/components/Field Textfield - active step 1`] = `
+<div>
+  <div
+    data-readonly="false"
+    id="Textfield"
+  />
+</div>
+`;
+
+exports[`react/components/Field Textfield - active step, readonly option is \`true\` 1`] = `
+<div>
+  <div
+    data-readonly="true"
+    id="Textfield"
+  />
+</div>
+`;
+
+exports[`react/components/Field Textfield - with no onFocus method 1`] = `
+<div>
+  <div
+    data-readonly="false"
+    id="Textfield"
+  />
+</div>
+`;
+
+exports[`react/components/Field Textfield - with onFocus method, inactive step 1`] = `
+<div>
+  <div
+    data-readonly="true"
+    id="Textfield"
+  />
+</div>
+`;
+
+exports[`react/components/Field Textfield - with onFocus method, inactive step 2`] = `
+<div>
+  <div
+    data-readonly="false"
+    id="Textfield"
+  />
+</div>
+`;
+
+exports[`react/components/Field unknown field type 1`] = `<div />`;

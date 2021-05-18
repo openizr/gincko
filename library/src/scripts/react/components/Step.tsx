@@ -9,8 +9,8 @@
 import * as React from 'react';
 import { InferProps } from 'prop-types';
 import { buildClass } from 'sonar-ui/react';
-import Field from 'scripts/components/Field';
 import stepPropType from 'scripts/propTypes/step';
+import Field from 'scripts/react/components/Field';
 import { UserAction, Components } from 'scripts/types';
 
 const defaultProps = {};

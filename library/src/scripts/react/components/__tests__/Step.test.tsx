@@ -8,10 +8,10 @@
 
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import Step from 'scripts/components/Step';
+import Step from 'scripts/react/components/Step';
 import { render, unmountComponentAtNode } from 'react-dom';
 
-jest.mock('scripts/components/Field', () => ({ onUserAction }: Json): JSX.Element => {
+jest.mock('scripts/react/components/Field', () => ({ onUserAction }: Json): JSX.Element => {
   onUserAction();
   return <div id="Field" />;
 });
@@ -20,7 +20,7 @@ jest.mock('sonar-ui/react', () => ({
   buildClass: (...values: string[]): string => values.join(' '),
 }));
 
-describe('components/Step', () => {
+describe('react/components/Step', () => {
   let container = document.createElement('div');
   const onUserAction = jest.fn();
   const customComponents = {};

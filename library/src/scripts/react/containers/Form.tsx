@@ -8,8 +8,8 @@
 
 import * as React from 'react';
 import Engine from 'scripts/core/Engine';
-import Step from 'scripts/components/Step';
 import useStore from 'diox/connectors/react';
+import Step from 'scripts/react/components/Step';
 import stepPropType from 'scripts/propTypes/step';
 import PropTypes, { InferProps } from 'prop-types';
 import { Components, UserAction } from 'scripts/types';

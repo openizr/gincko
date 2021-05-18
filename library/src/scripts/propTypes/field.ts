@@ -18,6 +18,6 @@ export default {
   message: PropTypes.string,
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(['initial', 'error', 'success']),
+  status: PropTypes.oneOf(['initial', 'error', 'success']).isRequired,
   options: PropTypes.any.isRequired,
 };

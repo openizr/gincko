@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.3",
-    "typescript-dev-kit": "^3.0.8"
+    "@types/react": "^17.0.5",
+    "@types/react-dom": "^17.0.5",
+    "typescript-dev-kit": "^3.1.0"
   },
   "eslintConfig": {
     "extends": [
@@ -10,18 +10,26 @@
     ]
   },
   "dependencies": {
-    "gincko": "file:../../../../library/dist",
+    "gincko": "file:../../../library/dist",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "vue": "^2.6.12"
   },
   "tsDevKitConfig": {
     "target": "web",
     "entry": {
+      "vue": "./scripts/vue.ts",
       "react": "./scripts/react.tsx"
     },
     "devServer": {
       "ip": "0.0.0.0",
       "port": 5050
+    },
+    "html": {
+      "template": "./html/index.html",
+      "entries": [
+        "vue"
+      ]
     },
     "splitChunks": false,
     "srcPath": "src",

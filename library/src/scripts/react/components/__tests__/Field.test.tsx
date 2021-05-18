@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import Field from 'scripts/components/Field';
+import Field from 'scripts/react/components/Field';
 import { render, unmountComponentAtNode } from 'react-dom';
 
 jest.mock('sonar-ui/react', () => {
@@ -46,7 +46,7 @@ jest.mock('sonar-ui/react', () => {
   };
 });
 
-describe('components/Field', () => {
+describe('react/components/Field', () => {
   let container = document.createElement('div');
   const onUserAction = jest.fn();
   const customComponents = {};

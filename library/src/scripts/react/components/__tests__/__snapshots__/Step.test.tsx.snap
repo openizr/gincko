@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/Step active step 1`] = `
+exports[`react/components/Step active step 1`] = `
 <div>
   <div
     class="form-step success,step,active"
@@ -16,7 +16,7 @@ exports[`components/Step active step 1`] = `
 </div>
 `;
 
-exports[`components/Step inactive step 1`] = `
+exports[`react/components/Step inactive step 1`] = `
 <div>
   <div
     class="form-step success,step,"
