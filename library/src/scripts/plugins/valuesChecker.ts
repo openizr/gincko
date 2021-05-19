@@ -44,7 +44,8 @@ export default function valuesChecker(options: Options): Plugin {
         for (let index = 0; index < currentStep.fields.length; index += 1) {
           const field = currentStep.fields[index];
           const fieldIsRequired = configuration.fields[field.id].required === true;
-          const shouldLoadNextStep = configuration.fields[field.id].loadNextStep === true;
+          const shouldLoadNextStep = configuration.fields[field.id].loadNextStep === true
+            || (fieldId === currentStep.fields.slice(-1)[0].id);
           // If we are about to load next step, we check must all fields to ensure they are all
           // valid. Otherwise, we just check current one. If `onSubmit` option is set to `true`,
           // we only want to check all fields once, before loading next step.

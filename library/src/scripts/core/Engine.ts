@@ -139,7 +139,8 @@ export default class Engine {
     this.formValues[userAction.fieldId] = userAction.value;
     const currentStep = this.getCurrentStep();
     const stepConfiguration = this.configuration.steps[currentStep.id];
-    const shouldLoadNextStep = this.configuration.fields[userAction.fieldId].loadNextStep === true;
+    const shouldLoadNextStep = this.configuration.fields[userAction.fieldId].loadNextStep === true
+      || this.configuration.steps[currentStep.id].fields.slice(-1)[0] === userAction.fieldId;
     if (userAction.type === 'input' && shouldLoadNextStep) {
       const submitPromise = (stepConfiguration.submit === true)
         ? this.triggerHooks('submit', this.formValues)
