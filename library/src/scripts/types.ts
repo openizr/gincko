@@ -19,6 +19,8 @@ declare module 'scripts/types' {
   import fieldPropTypes from 'scripts/propTypes/field';
   import configurationPropTypes from 'scripts/propTypes/configuration';
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export type Json = any;
   export type FormValue = Json;
   export type Plugin = (engine: Engine) => void;
   export type Step = InferProps<typeof stepPropTypes>;

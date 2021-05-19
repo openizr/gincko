@@ -34,14 +34,15 @@
  *
  */
 
-import Vue from 'vue';
 import {
+  Json,
   Field,
   Generic,
   FormValue,
   UserAction,
   Configuration,
 } from 'scripts/types';
+import Vue from 'vue';
 import Engine from 'scripts/core/Engine';
 import Step from 'scripts/vue/components/Step.vue';
 

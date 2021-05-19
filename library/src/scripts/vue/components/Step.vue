@@ -31,10 +31,11 @@
  */
 
 import {
-  Field as FormField,
+  Json,
   Generic,
   FormValue,
   UserAction,
+  Field as FormField,
 } from 'scripts/types';
 import Vue from 'vue';
 import { buildClass } from 'sonar-ui/vue';

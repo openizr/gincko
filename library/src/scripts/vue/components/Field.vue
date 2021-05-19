@@ -23,6 +23,12 @@
 /* eslint-disable vue/one-component-per-file */
 
 import {
+  Json,
+  Field,
+  Generic,
+  FormValue,
+} from 'scripts/types';
+import {
   UIRadio,
   UIButton,
   markdown,
@@ -33,8 +39,7 @@ import {
   UIFileUploader,
 } from 'sonar-ui/vue';
 import Vue from 'vue';
-import { ExtendedVue } from 'vue/types/vue';
-import { Field, Generic, FormValue } from 'scripts/types';
+import { ExtendedVue } from 'vue/types/vue.d';
 
 type Components = { [type: string]: Component; };
 type Component = (field: Field, onUserAction: (newValue: FormValue) => void) => Json;
