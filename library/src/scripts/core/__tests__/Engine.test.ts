@@ -22,19 +22,19 @@ jest.mock('scripts/core/userActions');
 console.log = jest.fn(); // eslint-disable-line no-console
 const consolelog = console.log; // eslint-disable-line no-console
 jest.mock('scripts/plugins/errorHandler', jest.fn(() => (options: Json): () => void => (): void => {
-  console.log('errorHandler', options); // eslint-disable-line no-console
+  consolelog('errorHandler', options);
 }));
 jest.mock('scripts/plugins/valuesChecker', jest.fn(() => (options: Json): () => void => (): void => {
-  console.log('valuesChecker', options); // eslint-disable-line no-console
+  consolelog('valuesChecker', options);
 }));
 jest.mock('scripts/plugins/valuesUpdater', jest.fn(() => (options: Json): () => void => (): void => {
-  console.log('valuesUpdater', options); // eslint-disable-line no-console
+  consolelog('valuesUpdater', options);
 }));
 jest.mock('scripts/plugins/loaderDisplayer', jest.fn(() => (options: Json): () => void => (): void => {
-  console.log('loaderDisplayer', options); // eslint-disable-line no-console
+  consolelog('loaderDisplayer', options);
 }));
 jest.mock('scripts/plugins/valuesLoader', jest.fn(() => (options: Json): () => void => (): void => {
-  console.log('valuesLoader', options); // eslint-disable-line no-console
+  consolelog('valuesLoader', options);
 }));
 
 describe('core/Engine', () => {
@@ -116,7 +116,7 @@ describe('core/Engine', () => {
     expect((engine as Json).store.mutate).toHaveBeenCalledTimes(0);
   });
 
-  test('handleUserAction - non-null value, not last step field', async () => {
+  test('handleUserAction - non-null value, non-submitting step field', async () => {
     const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test', 'last'] } },
@@ -137,11 +137,11 @@ describe('core/Engine', () => {
     expect((engine as Json).store.mutate).toHaveBeenCalledTimes(0);
   });
 
-  test('handleUserAction - non-null value, last step field, `submit` not `true`', async () => {
+  test('handleUserAction - non-null value, submitting step field, `submit` not `true`', async () => {
     const engine = new Engine({
       root: 'test',
-      steps: { test: { fields: ['test'], nextStep: 'last' }, last: { fields: [] } },
-      fields: { test: { type: 'Test' } },
+      steps: { test: { fields: ['test', 'last'], nextStep: 'last' }, last: { fields: [] } },
+      fields: { test: { type: 'Test', loadNextStep: true }, last: { type: 'Test' } },
     });
     await flushPromises();
     jest.clearAllMocks();
@@ -152,16 +152,21 @@ describe('core/Engine', () => {
     expect((engine as Json).store.mutate).toHaveBeenCalledTimes(4);
     expect((engine as Json).store.mutate).toHaveBeenCalledWith('steps', 'SET', {
       steps: [{
-        fields: [{
-          id: 'test', label: undefined, message: null, options: {}, status: 'initial', type: 'Test', value: undefined,
-        }],
+        fields: [
+          {
+            id: 'test', label: undefined, message: null, options: {}, status: 'initial', type: 'Test', value: undefined,
+          },
+          {
+            id: 'last', label: undefined, message: null, options: {}, status: 'initial', type: 'Test', value: undefined,
+          },
+        ],
         id: 'test',
         status: 'initial',
       }],
     });
   });
 
-  test('handleUserAction - non-null value, last step field, `submit` is `true`', async () => {
+  test('handleUserAction - non-null value, submitting step field, `submit` is `true`', async () => {
     const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'], submit: true } },
@@ -188,7 +193,7 @@ describe('core/Engine', () => {
     });
   });
 
-  test('handleUserAction - non-null value, last step field, nextStep is `null`', async () => {
+  test('handleUserAction - non-null value, submitting step field, nextStep is `null`', async () => {
     const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'], nextStep: null } },
@@ -215,7 +220,7 @@ describe('core/Engine', () => {
     });
   });
 
-  test('handleUserAction - non-null value, last step field, loaded next step is `null`', async () => {
+  test('handleUserAction - non-null value, submitting step field, loaded next step is `null`', async () => {
     const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'], nextStep: null } },
@@ -365,22 +370,20 @@ describe('core/Engine', () => {
   });
 
   test('generateField - field does not exist', () => {
-    const configuration = {
+    const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'] } },
       fields: { test: { type: 'Test' } },
-    };
-    const engine = new Engine(configuration);
+    });
     expect(() => engine.generateField('other')).toThrow(new Error('Field "other" does not exist.'));
   });
 
   test('generateStep - step exists', () => {
-    const configuration = {
+    const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'] } },
       fields: { test: { type: 'Test' } },
-    };
-    const engine = new Engine(configuration);
+    });
     expect(engine.generateStep('test')).toEqual({
       id: 'test',
       status: 'initial',
@@ -397,22 +400,33 @@ describe('core/Engine', () => {
   });
 
   test('generateStep - step does not exist', () => {
-    const configuration = {
+    const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'] } },
       fields: { test: { type: 'Test' } },
-    };
-    const engine = new Engine(configuration);
+    });
     expect(() => engine.generateStep('other')).toThrow(new Error('Step "other" does not exist.'));
   });
 
+  test('getValues', async () => {
+    const engine = new Engine({
+      root: 'test',
+      steps: { test: { fields: ['test'] } },
+      fields: { test: { type: 'Test' } },
+    });
+    (engine as Json).formValues.test = 'testValue';
+    await flushPromises();
+    jest.clearAllMocks();
+    expect(engine.getValues()).toEqual((engine as Json).formValues);
+    expect(engine.getValues()).not.toBe((engine as Json).formValues);
+  });
+
   test('loadValues', async () => {
-    const configuration = {
+    const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test', 'last'] } },
       fields: { test: { type: 'Test' }, last: { type: 'Test' } },
-    };
-    const engine = new Engine(configuration);
+    });
     await flushPromises();
     jest.clearAllMocks();
     engine.loadValues({ test: 'test', other: 'other' });
@@ -423,22 +437,39 @@ describe('core/Engine', () => {
   });
 
   test('getStore', () => {
-    const configuration = {
+    const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test', 'last'] } },
       fields: { test: { type: 'Test' }, last: { type: 'Test' } },
-    };
-    const engine = new Engine(configuration);
+    });
     expect((engine as Json).store).toBe(engine.getStore());
   });
 
-  test('getCurrentStep', async () => {
-    const configuration = {
+  test('getFieldIndex - existing field', async () => {
+    const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test', 'last'] } },
       fields: { test: { type: 'Test' }, last: { type: 'Test' } },
-    };
-    const engine = new Engine(configuration);
+    });
+    await flushPromises();
+    expect(engine.getFieldIndex('last')).toBe(1);
+  });
+
+  test('getFieldIndex - non-existing field', async () => {
+    const engine = new Engine({
+      root: 'test',
+      steps: { test: { fields: ['test', 'last'] } },
+      fields: { test: { type: 'Test' }, last: { type: 'Test' } },
+    });
+    expect(engine.getFieldIndex('unknown')).toBe(-1);
+  });
+
+  test('getCurrentStep', async () => {
+    const engine = new Engine({
+      root: 'test',
+      steps: { test: { fields: ['test', 'last'] } },
+      fields: { test: { type: 'Test' }, last: { type: 'Test' } },
+    });
     process.env.DEEP_COPY = 'undefined';
     expect(engine.getCurrentStep()).toBeNull();
     delete process.env.DEEP_COPY;
@@ -448,12 +479,11 @@ describe('core/Engine', () => {
   });
 
   test('updateCurrentStep - no notification', async () => {
-    const configuration = {
+    const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test', 'last'] } },
       fields: { test: { type: 'Test' }, last: { type: 'Test' } },
-    };
-    const engine = new Engine(configuration);
+    });
     await flushPromises();
     jest.clearAllMocks();
     engine.updateCurrentStep({
@@ -465,12 +495,11 @@ describe('core/Engine', () => {
   });
 
   test('on', () => {
-    const configuration = {
+    const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test', 'last'] } },
       fields: { test: { type: 'Test' }, last: { type: 'Test' } },
-    };
-    const engine = new Engine(configuration);
+    });
     engine.on('submit', (data, next) => next(data));
     expect((engine as Json).hooks).toEqual({
       error: [],
@@ -482,24 +511,22 @@ describe('core/Engine', () => {
   });
 
   test('displayStepLoader', () => {
-    const configuration = {
+    const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'] } },
       fields: { test: { type: 'Test' } },
-    };
-    const engine = new Engine(configuration);
+    });
     engine.displayStepLoader();
     expect((engine as Json).store.mutate).toHaveBeenCalledTimes(1);
     expect((engine as Json).store.mutate).toHaveBeenCalledWith('steps', 'SET_LOADER', { loadingNextStep: true });
   });
 
   test('hideStepLoader', () => {
-    const configuration = {
+    const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'] } },
       fields: { test: { type: 'Test' } },
-    };
-    const engine = new Engine(configuration);
+    });
     engine.hideStepLoader();
     expect((engine as Json).store.mutate).toHaveBeenCalledTimes(1);
     expect((engine as Json).store.mutate).toHaveBeenCalledWith('steps', 'SET_LOADER', { loadingNextStep: false });

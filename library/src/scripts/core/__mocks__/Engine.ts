@@ -42,6 +42,7 @@ export default jest.fn((): Json => {
       fields: {
         test: {
           type: 'Test',
+          value: 'first',
           transform: (): string => 'transformedValue',
         },
         new: {
@@ -58,9 +59,12 @@ export default jest.fn((): Json => {
         last: {
           required: true,
           type: 'Test',
+          value: null,
         },
       },
     })),
+    getValues: jest.fn(() => ({ test: 'value' })),
+    getFieldIndex: jest.fn(() => ((process.env.LAST_FIELD === 'true') ? 3 : 0)),
     handleUserAction: jest.fn(),
     displayStepLoader: jest.fn(),
     updateCurrentStep: jest.fn(),

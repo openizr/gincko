@@ -48,6 +48,7 @@ describe('plugins/valuesUpdater', () => {
 
   test('userAction hook - normal user action on non-transformable field', async () => {
     valuesUpdater()(engine);
+    process.env.LAST_FIELD = 'true';
     await engine.trigger('userAction', { fieldId: 'last', type: 'input', value: 'initialValue' });
     expect(engine.updateCurrentStep).toHaveBeenCalledWith({
       fields: [
@@ -60,5 +61,6 @@ describe('plugins/valuesUpdater', () => {
       ],
       status: 'progress',
     });
+    delete process.env.LAST_FIELD;
   });
 });

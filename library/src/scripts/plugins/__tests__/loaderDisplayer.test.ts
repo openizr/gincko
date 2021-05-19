@@ -28,13 +28,13 @@ describe('plugins/loaderDisplayer', () => {
     expect(engine.hideStepLoader).toHaveBeenCalledTimes(1);
   });
 
-  test('userAction hook - input on first step field', async () => {
+  test('userAction hook - input on non-submitting step field', async () => {
     await engine.trigger('userAction', { fieldId: 'test', type: 'input' });
     expect(engine.hideStepLoader).not.toHaveBeenCalled();
     expect(engine.displayStepLoader).not.toHaveBeenCalled();
   });
 
-  test('userAction hook - input on last step field', async () => {
+  test('userAction hook - input on submitting step field', async () => {
     await engine.trigger('userAction', { fieldId: 'last', type: 'input' });
     expect(engine.hideStepLoader).not.toHaveBeenCalled();
     expect(engine.displayStepLoader).toHaveBeenCalledTimes(1);
