@@ -65,7 +65,7 @@ export type Configuration = PropTypes.InferProps<{
     [x: string]: PropTypes.InferProps<{
       fields: PropTypes.Validator<string[]>;
       submit: PropTypes.Requireable<boolean>;
-      nextStep: PropTypes.Requireable<string | number | ((...args: Json[]) => string | number)>;
+      nextStep: PropTypes.Requireable<string | ((...args: Json[]) => string)>;
     }>;
   }>;
   fields: PropTypes.Validator<{
@@ -231,6 +231,15 @@ export class Engine {
    * @returns {Store} Current store instance.
    */
   public getStore(): Store;
+
+  /**
+   * Returns index of the field with the given id.
+   *
+   * @param {string} fieldId Field's id.
+   *
+   * @returns {number} Field's index in current step.
+   */
+  public getFieldIndex(fieldId: string): number;
 
   /**
    * Returns current generated step.

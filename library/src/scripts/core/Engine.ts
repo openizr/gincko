@@ -326,6 +326,18 @@ export default class Engine {
   }
 
   /**
+   * Returns index of the field with the given id.
+   *
+   * @param {string} fieldId Field's id.
+   *
+   * @returns {number} Field's index in current step.
+   */
+  public getFieldIndex(fieldId: string): number {
+    const currentStep = this.generatedSteps[this.generatedSteps.length - 1] || { fields: [] };
+    return currentStep.fields.findIndex((field) => field.id === fieldId);
+  }
+
+  /**
    * Returns current generated step.
    *
    * @returns {Step} Current generated step.

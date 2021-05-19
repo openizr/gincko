@@ -16,7 +16,6 @@ export default {
   submit: PropTypes.bool,
   nextStep: PropTypes.oneOfType([
     PropTypes.string.isRequired,
-    PropTypes.number.isRequired,
     PropTypes.func.isRequired,
   ]),
 };

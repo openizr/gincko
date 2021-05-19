@@ -24,9 +24,9 @@ export default function valuesUpdater(): Plugin {
       const { fieldId, value, type } = userAction;
       if (type === 'input') {
         const currentStep = engine.getCurrentStep();
+        const fieldIndex = engine.getFieldIndex(fieldId);
         const fieldConfiguration = configuration.fields[fieldId];
         const transform = fieldConfiguration.transform || ((input: FormValue): FormValue => input);
-        const fieldIndex = currentStep.fields.findIndex((field) => field.id === fieldId);
         // We reset current step status to not stay in error state forever.
         currentStep.status = 'progress';
         currentStep.fields[fieldIndex].status = 'initial';
