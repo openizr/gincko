@@ -24,6 +24,7 @@ export default function loaderDisplayer(options: Options): Plugin {
   return (engine): void => {
     const enabled = options.enabled !== false;
     const timeout = options.timeout || 250;
+    const configuration = engine.getConfiguration();
     // This timestamp is used to mesure total time between user action and next step rendering.
     // In case some long asynchronous operations are performed in plugins, we don't want to apply
     // the extra "fake" loading time, thus we directly display next step. On the other hand, if no
@@ -34,12 +35,12 @@ export default function loaderDisplayer(options: Options): Plugin {
     if (enabled === true) {
       // Optimizes number of mutations on store.
       let loading = false;
+
+      // Displays loader when next step must be loaded, hides loader if an error occurs in any hook.
       engine.on('userAction', (userAction, next) => {
         if (userAction !== null) {
           const { type, fieldId } = userAction;
-          const currentStep = engine.getCurrentStep();
-          const shouldLoadNextStep = (fieldId === currentStep.fields.slice(-1)[0].id);
-          if (shouldLoadNextStep === true && type === 'input') {
+          if (configuration.fields[fieldId].loadNextStep === true && type === 'input') {
             loading = true;
             engine.displayStepLoader();
             startTimestamp = Date.now();
@@ -53,6 +54,8 @@ export default function loaderDisplayer(options: Options): Plugin {
           return Promise.resolve(updatedUserAction);
         });
       });
+
+      // Keeps loader while next step is being loaded, hides loader if an error occurs in any hook.
       engine.on('loadNextStep', (nextStep, next) => (
         next(nextStep).then((updatedNextStep) => new Promise((resolve) => {
           const elapsedTime = Date.now() - startTimestamp;
@@ -65,6 +68,8 @@ export default function loaderDisplayer(options: Options): Plugin {
           return Promise.resolve(updatedNextStep);
         })
       ));
+
+      // Hides loader once next step is fully loaded.
       engine.on('loadedNextStep', (nextStep, next) => {
         if (loading === true) {
           loading = false;

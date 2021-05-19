@@ -15,6 +15,8 @@ import { Plugin, FormValue } from 'scripts/types';
  */
 export default function valuesUpdater(): Plugin {
   return (engine): void => {
+    const configuration = engine.getConfiguration();
+
     engine.on('userAction', (userAction, next) => {
       if (userAction === null) {
         return next(userAction);
@@ -22,8 +24,8 @@ export default function valuesUpdater(): Plugin {
       const { fieldId, value, type } = userAction;
       if (type === 'input') {
         const currentStep = engine.getCurrentStep();
-        const configuration = engine.getConfiguration().fields[fieldId];
-        const transform = configuration.transform || ((input: FormValue): FormValue => input);
+        const fieldConfiguration = configuration.fields[fieldId];
+        const transform = fieldConfiguration.transform || ((input: FormValue): FormValue => input);
         const fieldIndex = currentStep.fields.findIndex((field) => field.id === fieldId);
         // We reset current step status to not stay in error state forever.
         currentStep.status = 'progress';

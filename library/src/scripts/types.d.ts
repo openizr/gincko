@@ -72,6 +72,7 @@ export type Configuration = PropTypes.Validator<PropTypes.InferProps<{
     [x: string]: PropTypes.InferProps<{
       type: PropTypes.Validator<string>;
       required: PropTypes.Requireable<boolean>;
+      loadNextStep: PropTypes.Requireable<boolean>;
       validation: PropTypes.Requireable<(...args: Json[]) => boolean>;
       transform: PropTypes.Requireable<(...args: Json[]) => Json>;
       label: PropTypes.Requireable<string>;

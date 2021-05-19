@@ -17,6 +17,7 @@ export default {
     next: {
       type: 'Button',
       label: 'Next',
+      loadNextStep: true,
     },
   },
   plugins: [],

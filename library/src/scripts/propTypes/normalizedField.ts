@@ -24,4 +24,5 @@ export default {
   }),
   value: PropTypes.any,
   options: PropTypes.any,
+  loadNextStep: PropTypes.bool,
 };

@@ -30,20 +30,21 @@ export default function valuesChecker(options: Options): Plugin {
   const onSubmit = options.onSubmit || false;
 
   return (engine): void => {
+    const configuration = engine.getConfiguration();
+
     engine.on('userAction', (userAction, next) => {
       if (userAction === null) {
         return next(userAction);
       }
       const { fieldId, type } = userAction;
       const currentStep = engine.getCurrentStep();
-      const configuration = engine.getConfiguration();
-      const shouldLoadNextStep = (fieldId === currentStep.fields.slice(-1)[0].id);
       if (type === 'input') {
         // Allows to switch step status to "success" when all fields are in "success" status.
         let allFieldsSucceeded = true;
         for (let index = 0; index < currentStep.fields.length; index += 1) {
           const field = currentStep.fields[index];
           const fieldIsRequired = configuration.fields[field.id].required === true;
+          const shouldLoadNextStep = configuration.fields[field.id].loadNextStep === true;
           // If we are about to load next step, we check must all fields to ensure they are all
           // valid. Otherwise, we just check current one. If `onSubmit` option is set to `true`,
           // we only want to check all fields once, before loading next step.
