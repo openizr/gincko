@@ -45,7 +45,7 @@ export type Field = PropTypes.InferProps<{
   status: PropTypes.Validator<string>;
   options: PropTypes.Validator<Json>;
 }>;
-export type Configuration = PropTypes.Validator<PropTypes.InferProps<{
+export type Configuration = PropTypes.InferProps<{
   loaderDisplayerOptions: PropTypes.Requireable<PropTypes.InferProps<{
     enabled: PropTypes.Requireable<boolean>;
     timeout: PropTypes.Requireable<number>;
@@ -85,7 +85,7 @@ export type Configuration = PropTypes.Validator<PropTypes.InferProps<{
       options: PropTypes.Requireable<Json>;
     }>;
   }>;
-}>>;
+}>;
 
 export type Hook = (data: Json, next: (data?: Json) => Promise<Json>) => Promise<Json>;
 export type FormEvent = 'loadNextStep' | 'loadedNextStep' | 'userAction' | 'submit' | 'error';
