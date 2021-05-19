@@ -209,6 +209,7 @@ export default class Engine {
       adapter({
         on: this.on.bind(this),
         getStore: this.getStore.bind(this),
+        getValues: this.getValues.bind(this),
         loadValues: this.loadValues.bind(this),
         getConfiguration: this.getConfiguration.bind(this),
         hideStepLoader: this.hideStepLoader.bind(this),
@@ -286,6 +287,15 @@ export default class Engine {
       status: 'initial',
       fields: this.configuration.steps[stepId].fields.map(this.generateField.bind(this)),
     };
+  }
+
+  /**
+   * Retrieves form fields values that have been filled.
+   *
+   * @returns {FormValues} Form values.
+   */
+  public getValues(): FormValues {
+    return deepCopy(this.formValues);
   }
 
   /**

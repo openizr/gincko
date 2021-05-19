@@ -210,6 +210,13 @@ export class Engine {
   public generateStep(stepId: string | null): Step | null;
 
   /**
+   * Retrieves form fields values that have been filled.
+   *
+   * @returns {FormValues} Form values.
+   */
+  public getValues(): FormValues;
+
+  /**
    * Loads the given form fields values into current step.
    *
    * @param {FormValues} values Form values to load in form.
