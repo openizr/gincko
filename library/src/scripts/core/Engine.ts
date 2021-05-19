@@ -215,6 +215,7 @@ export default class Engine {
         getConfiguration: this.getConfiguration.bind(this),
         hideStepLoader: this.hideStepLoader.bind(this),
         displayStepLoader: this.displayStepLoader.bind(this),
+        getFieldIndex: this.getFieldIndex.bind(this),
         getCurrentStep: this.getCurrentStep.bind(this),
         updateCurrentStep: this.updateCurrentStep.bind(this),
         generateField: this.generateField.bind(this),
