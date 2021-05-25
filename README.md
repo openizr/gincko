@@ -1,6 +1,6 @@
 # gincko
 
-Build complex, dynamic forms or inputs-based UIs in seconds.
+Build complex, smart forms or inputs-based UIs in seconds.
 
 [![Build Status](https://travis-ci.org/openizr/gincko.svg?branch=master)](https://travis-ci.org/openizr/gincko)
 [![Coverage Status](https://coveralls.io/repos/github/openizr/gincko/badge.svg)](https://coveralls.io/github/openizr/gincko)
@@ -28,6 +28,23 @@ yarn add gincko
 
 
 ## Features
+
+Building user interfaces containing multiple inputs is very repetitive and low-value process. It always contains the same logic, and doesn't fundamentally change much accross apps and websites: we need to implement different types of fields, fields validations logic, transitions, manage form submission, and so on. Why should we always go back to that each time we create a new feature?
+
+gincko is meant to remove these unecessary, time-consuming parts, by providing a common, generic engine that automatically performs usual checks. Through a simple JSON configuration, you can generate deep, complex UIs, without a line of code, so you can focus on the real value of your project.
+
+gincko can be used for a wide variety of use cases, including:
+- Forms, surveys
+- Profile / settings edition pages, blog post creation, ...
+- Contact or support page with ticket creation
+- And even chatbots or FAQs!
+
+Why choosing gincko to develop your project?
+- Small learning curve, simple concepts
+- Tiny JSON configuration for basic use cases
+- Completely dynamic form steps generation, based on previous inputs
+- Fully extensible and customizable for most complex use cases, using plugins
+- Supports React and VueJS natively, although you can also provide your own implementation for them or any other frontend framework
 
 
 ## Documentation
