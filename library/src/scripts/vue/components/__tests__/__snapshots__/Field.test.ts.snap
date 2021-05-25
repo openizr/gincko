@@ -14,6 +14,18 @@ exports[`vue/components/Field Message with label 1`] = `"<section id=\\"Message\
 
 exports[`vue/components/Field Radio 1`] = `"<div id=\\"Radio\\" name=\\"Radio\\" label=\\"Test\\" modifiers=\\"initial \\"></div>"`;
 
+exports[`vue/components/Field Textarea - active step, readonly option is \`true\` 1`] = `"<div id=\\"Textarea\\" name=\\"Textarea\\" label=\\"Test\\" readonly=\\"readonly\\" modifiers=\\"initial \\"></div>"`;
+
+exports[`vue/components/Field Textarea - active then inactive step 1`] = `"<div id=\\"Textarea\\" name=\\"Textarea\\" label=\\"Test\\" modifiers=\\"initial \\"></div>"`;
+
+exports[`vue/components/Field Textarea - active then inactive step 2`] = `"<div id=\\"Textarea\\" name=\\"Textarea\\" label=\\"Test\\" modifiers=\\"initial \\" readonly=\\"readonly\\"></div>"`;
+
+exports[`vue/components/Field Textarea - with no onFocus method 1`] = `"<div id=\\"Textarea\\" name=\\"Textarea\\" label=\\"Test\\" modifiers=\\"initial \\"></div>"`;
+
+exports[`vue/components/Field Textarea - with onFocus method, inactive step 1`] = `"<div id=\\"Textarea\\" name=\\"Textarea\\" label=\\"Test\\" readonly=\\"readonly\\" modifiers=\\"initial \\"></div>"`;
+
+exports[`vue/components/Field Textarea - with onFocus method, inactive step 2`] = `"<div id=\\"Textarea\\" name=\\"Textarea\\" label=\\"Test\\" modifiers=\\"initial \\"></div>"`;
+
 exports[`vue/components/Field Textfield - active step, readonly option is \`true\` 1`] = `"<div id=\\"Textfield\\" name=\\"Textfield\\" label=\\"Test\\" readonly=\\"readonly\\" modifiers=\\"initial  \\"></div>"`;
 
 exports[`vue/components/Field Textfield - active then inactive step 1`] = `"<div id=\\"Textfield\\" name=\\"Textfield\\" label=\\"Test\\" modifiers=\\"initial  \\"></div>"`;

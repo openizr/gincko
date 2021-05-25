@@ -60,6 +60,51 @@ exports[`react/components/Field Radio 1`] = `
 </div>
 `;
 
+exports[`react/components/Field Textarea - active step 1`] = `
+<div>
+  <div
+    data-readonly="false"
+    id="Textarea"
+  />
+</div>
+`;
+
+exports[`react/components/Field Textarea - active step, readonly option is \`true\` 1`] = `
+<div>
+  <div
+    data-readonly="true"
+    id="Textarea"
+  />
+</div>
+`;
+
+exports[`react/components/Field Textarea - with no onFocus method 1`] = `
+<div>
+  <div
+    data-readonly="false"
+    id="Textarea"
+  />
+</div>
+`;
+
+exports[`react/components/Field Textarea - with onFocus method, inactive step 1`] = `
+<div>
+  <div
+    data-readonly="true"
+    id="Textarea"
+  />
+</div>
+`;
+
+exports[`react/components/Field Textarea - with onFocus method, inactive step 2`] = `
+<div>
+  <div
+    data-readonly="false"
+    id="Textarea"
+  />
+</div>
+`;
+
 exports[`react/components/Field Textfield - active step 1`] = `
 <div>
   <div

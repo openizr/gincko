@@ -35,6 +35,7 @@ import {
   buildClass,
   UIDropdown,
   UICheckbox,
+  UITextarea,
   UITextfield,
   UIFileUploader,
 } from 'sonar-ui/vue';
@@ -163,6 +164,28 @@ const builtInComponents: Components = {
       iconClick: field.options.onIconClick,
     },
   }),
+  Textarea: (field, onUserAction) => ({
+    name: 'UITextarea',
+    props: {
+      id: field.id,
+      name: field.id,
+      label: field.label,
+      value: field.value,
+      cols: field.options.cols,
+      rows: field.options.rows,
+      maxlength: field.options.maxlength,
+      placeholder: field.options.placeholder,
+      autocomplete: field.options.autocomplete,
+      helper: field.message || field.options.helper,
+      readonly: field.options.readonly || field.active === false,
+      modifiers: `${field.status} ${field.options.modifiers || ''}`,
+    },
+    events: {
+      change: onUserAction,
+      focus: field.options.onFocus,
+      blur: field.options.onBlur,
+    },
+  }),
   FileUploader: (field, onUserAction) => ({
     name: 'UIFileUploader',
     props: {
@@ -242,6 +265,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     UIButton,
     UIDropdown,
     UICheckbox,
+    UITextarea,
     UITextfield,
     UIFileUploader,
   },

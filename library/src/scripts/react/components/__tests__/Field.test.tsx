@@ -32,6 +32,7 @@ jest.mock('sonar-ui/react', () => {
   const UIDropdown = Component;
   const UICheckbox = Component;
   const UITextfield = Component;
+  const UITextarea = Component;
   const UIFileUploader = Component;
 
   return {
@@ -41,6 +42,7 @@ jest.mock('sonar-ui/react', () => {
     UIButton,
     UIDropdown,
     UICheckbox,
+    UITextarea,
     UITextfield,
     UIFileUploader,
   };
@@ -200,6 +202,82 @@ describe('react/components/Field', () => {
       />, container);
     });
     const div = document.querySelector('#Textfield') as HTMLButtonElement;
+    act(() => {
+      div.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true }));
+    });
+    expect(container).toMatchSnapshot();
+  });
+
+  test('Textarea - active step', () => {
+    act(() => {
+      render(<Field
+        id="Textarea"
+        type="Textarea"
+        status="initial"
+        label="Test"
+        options={{}}
+        active
+        onUserAction={onUserAction}
+        customComponents={customComponents}
+      />, container);
+    });
+    expect(container).toMatchSnapshot();
+  });
+
+  test('Textarea - active step, readonly option is `true`', () => {
+    act(() => {
+      render(<Field
+        id="Textarea"
+        type="Textarea"
+        status="initial"
+        label="Test"
+        options={{ readonly: true }}
+        active
+        onUserAction={onUserAction}
+        customComponents={customComponents}
+      />, container);
+    });
+    expect(container).toMatchSnapshot();
+  });
+
+  test('Textarea - with onFocus method, inactive step', () => {
+    const onFocus = jest.fn();
+    act(() => {
+      render(<Field
+        id="Textarea"
+        type="Textarea"
+        status="initial"
+        label="Test"
+        options={{ onFocus }}
+        active={false}
+        onUserAction={onUserAction}
+        customComponents={customComponents}
+      />, container);
+    });
+    expect(container).toMatchSnapshot();
+    expect(onFocus).toHaveBeenCalledTimes(0);
+    const div = document.querySelector('#Textarea') as HTMLButtonElement;
+    act(() => {
+      div.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true }));
+    });
+    expect(container).toMatchSnapshot();
+    expect(onFocus).toHaveBeenCalledTimes(1);
+  });
+
+  test('Textarea - with no onFocus method', () => {
+    act(() => {
+      render(<Field
+        id="Textarea"
+        type="Textarea"
+        status="initial"
+        label="Test"
+        options={{}}
+        active={false}
+        onUserAction={onUserAction}
+        customComponents={customComponents}
+      />, container);
+    });
+    const div = document.querySelector('#Textarea') as HTMLButtonElement;
     act(() => {
       div.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true }));
     });

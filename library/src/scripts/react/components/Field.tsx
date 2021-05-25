@@ -15,6 +15,7 @@ import {
   buildClass,
   UIDropdown,
   UICheckbox,
+  UITextarea,
   UITextfield,
   UIFileUploader,
 } from 'sonar-ui/react';
@@ -76,12 +77,32 @@ const builtInComponents: Components = {
       type={field.options.type}
       onBlur={field.options.onBlur}
       onFocus={field.options.onFocus}
+      autocomplete={field.options.autocomplete}
       readonly={field.options.readonly || field.active === false}
       maxlength={field.options.maxlength}
       placeholder={field.options.placeholder}
       onIconClick={field.options.onIconClick}
       iconPosition={field.options.iconPosition}
       helper={field.message || field.options.helper}
+      modifiers={`${field.status} ${field.options.modifiers || ''}`}
+    />
+  ),
+  Textarea: (field, onUserAction) => (
+    <UITextarea
+      id={field.id}
+      name={field.id}
+      label={field.label}
+      value={field.value}
+      onChange={onUserAction}
+      cols={field.options.cols}
+      rows={field.options.rows}
+      onBlur={field.options.onBlur}
+      onFocus={field.options.onFocus}
+      maxlength={field.options.maxlength}
+      placeholder={field.options.placeholder}
+      autocomplete={field.options.autocomplete}
+      helper={field.message || field.options.helper}
+      readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
   ),

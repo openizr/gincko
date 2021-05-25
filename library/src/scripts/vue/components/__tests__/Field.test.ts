@@ -37,6 +37,7 @@ jest.mock('sonar-ui/vue', () => {
   const UIButton = Vue.extend(Component);
   const UIDropdown = Vue.extend(Component);
   const UICheckbox = Vue.extend(Component);
+  const UITextarea = Vue.extend(Component);
   const UITextfield = Vue.extend(Component);
   const UIFileUploader = Vue.extend(Component);
 
@@ -47,6 +48,7 @@ jest.mock('sonar-ui/vue', () => {
     UIButton,
     UIDropdown,
     UICheckbox,
+    UITextarea,
     UITextfield,
     UIFileUploader,
   };
@@ -197,6 +199,89 @@ describe('vue/components/Field', () => {
         id: 'Textfield',
         active: false,
         type: 'Textfield',
+        status: 'initial',
+        label: 'Test',
+        options: {},
+        customComponents,
+      },
+      listeners: {
+        userAction: onUserAction,
+      },
+    });
+    await wrapper.trigger('keyDown');
+    await wrapper.vm.$nextTick();
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  test('Textarea - active then inactive step', async () => {
+    const wrapper = mount(Field, {
+      propsData: {
+        id: 'Textarea',
+        active: true,
+        type: 'Textarea',
+        status: 'initial',
+        label: 'Test',
+        options: {},
+        customComponents,
+      },
+      listeners: {
+        userAction: onUserAction,
+      },
+    });
+    expect(wrapper.html()).toMatchSnapshot();
+    wrapper.setProps({ active: false });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  test('Textarea - active step, readonly option is `true`', () => {
+    const wrapper = mount(Field, {
+      propsData: {
+        id: 'Textarea',
+        active: true,
+        type: 'Textarea',
+        status: 'initial',
+        label: 'Test',
+        options: { readonly: true },
+        customComponents,
+      },
+      listeners: {
+        userAction: onUserAction,
+      },
+    });
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  test('Textarea - with onFocus method, inactive step', async () => {
+    const onFocus = jest.fn();
+    const wrapper = mount(Field, {
+      propsData: {
+        id: 'Textarea',
+        active: false,
+        type: 'Textarea',
+        status: 'initial',
+        label: 'Test',
+        options: { onFocus },
+        customComponents,
+      },
+      listeners: {
+        userAction: onUserAction,
+      },
+    });
+    expect(wrapper.html()).toMatchSnapshot();
+    expect(onFocus).toHaveBeenCalledTimes(0);
+    await wrapper.trigger('keyDown');
+    await wrapper.vm.$nextTick();
+    expect(wrapper.html()).toMatchSnapshot();
+    expect(onFocus).toHaveBeenCalledTimes(1);
+  });
+
+  test('Textarea - with no onFocus method', async () => {
+    const wrapper = mount(Field, {
+      propsData: {
+        id: 'Textarea',
+        active: false,
+        type: 'Textarea',
         status: 'initial',
         label: 'Test',
         options: {},
