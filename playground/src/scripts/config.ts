@@ -1,7 +1,10 @@
+import { Engine } from 'gincko/react';
+
 export default {
   root: 'start',
   steps: {
     start: { fields: ['email', 'next'], nextStep: 'end' },
+    mid: { fields: ['azd'], nextStep: 'end' },
     end: { fields: ['address', 'city', 'next'] },
   },
   fields: {
@@ -20,5 +23,18 @@ export default {
       loadNextStep: true,
     },
   },
-  plugins: [],
+  plugins: [
+    (engine: Engine): void => {
+      engine.on('loadedNextStep', (nextStep, next) => {
+        const newStep = engine.generateStep('mid');
+        if (newStep !== null) {
+          engine.updateCurrentStep(newStep);
+        }
+        return next(nextStep);
+      });
+      engine.on('error', () => {
+        throw new Error('Test');
+      });
+    },
+  ],
 };

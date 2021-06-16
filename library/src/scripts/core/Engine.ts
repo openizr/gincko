@@ -78,7 +78,10 @@ export default class Engine {
         }
         return updatedData;
       })
-      .catch((error) => this.triggerHooks('error', error).then(() => null))
+      // This safety mechanism prevents infinite loops when throwing errors from "error" hooks.
+      .catch((error) => ((eventName === 'error')
+        ? this.hooks.error.slice(-1)[0](error, () => Promise.resolve(null))
+        : this.triggerHooks('error', error).then(() => null)))
       .finally(() => this.updateCurrentStep(this.getCurrentStep(), true));
   }
 
