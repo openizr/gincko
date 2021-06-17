@@ -34,9 +34,8 @@ export default jest.fn((): Json => {
     loadNextStep: jest.fn(),
     handleSubmit: jest.fn(),
     triggerHooks: jest.fn(),
-    generateStep: jest.fn(),
-    generateField: jest.fn(),
-    hideStepLoader: jest.fn(),
+    createStep: jest.fn(),
+    createField: jest.fn(),
     getConfiguration: jest.fn(() => ({
       steps: {},
       fields: {
@@ -66,8 +65,8 @@ export default jest.fn((): Json => {
     getValues: jest.fn(() => ({ test: 'value' })),
     getFieldIndex: jest.fn(() => ((process.env.LAST_FIELD === 'true') ? 3 : 0)),
     handleUserAction: jest.fn(),
-    displayStepLoader: jest.fn(),
-    updateCurrentStep: jest.fn(),
+    toggleStepLoader: jest.fn(),
+    setCurrentStep: jest.fn(),
     updateGeneratedSteps: jest.fn(),
     getCurrentStep: jest.fn(() => ((process.env.ALL_FIELDS_VALID === 'true')
       ? ({

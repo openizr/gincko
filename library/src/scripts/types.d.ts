@@ -50,6 +50,10 @@ export type Configuration = PropTypes.InferProps<{
     enabled: PropTypes.Requireable<boolean>;
     timeout: PropTypes.Requireable<number>;
   }>>;
+  reCaptchaHandlerOptions: PropTypes.Requireable<PropTypes.InferProps<{
+    enabled: PropTypes.Requireable<boolean>;
+    siteKey: PropTypes.Requireable<string>;
+  }>>;
   valuesCheckerOptions: PropTypes.Requireable<PropTypes.InferProps<{
     onSubmit: PropTypes.Requireable<boolean>;
   }>>;
@@ -196,7 +200,7 @@ export class Engine {
    *
    * @throws {Error} If the field does not exist.
    */
-  public generateField(fieldId: string): Field;
+  public createField(fieldId: string): Field;
 
   /**
    * Generates step with the given id from configuration.
@@ -207,7 +211,7 @@ export class Engine {
    *
    * @throws {Error} If the step does not exist.
    */
-  public generateStep(stepId: string | null): Step | null;
+  public createStep(stepId: string | null): Step | null;
 
   /**
    * Retrieves form fields values that have been filled.
@@ -257,7 +261,7 @@ export class Engine {
    *
    * @returns {void}
    */
-  public updateCurrentStep(updatedStep: Step, notify?: boolean): void;
+  public setCurrentStep(updatedStep: Step, notify?: boolean): void;
 
   /**
    * Registers a new hook for the given event.
@@ -271,18 +275,13 @@ export class Engine {
   public on(eventName: FormEvent, hook: Hook): void;
 
   /**
-   * Displays a loader right after current step, indicating next step is being generated.
+   * Toggles a loader right after current step, indicating next step is/not being generated.
+   *
+   * @param {boolean} display Whether to display step loader.
    *
    * @returns {void}
    */
-  public displayStepLoader(): void;
-
-  /**
-   * Hides the step loader.
-   *
-   * @returns {void}
-   */
-  public hideStepLoader(): void;
+  public toggleStepLoader(display: boolean): void;
 }
 
 declare module 'gincko' {

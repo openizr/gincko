@@ -20,36 +20,36 @@ describe('plugins/loaderDisplayer', () => {
   });
 
   test('initialization - default options', async () => {
-    expect(engine.hideStepLoader).not.toHaveBeenCalled();
+    expect(engine.toggleStepLoader).not.toHaveBeenCalled();
   });
 
   test('initialization - custom options', () => {
     loaderDisplayer({ enabled: false })(engine);
-    expect(engine.hideStepLoader).toHaveBeenCalledTimes(1);
+    expect(engine.toggleStepLoader).toHaveBeenCalledTimes(1);
+    expect(engine.toggleStepLoader).toHaveBeenCalledWith(false);
   });
 
   test('userAction hook - input on non-submitting step field', async () => {
     await engine.trigger('userAction', { fieldId: 'test', type: 'input' });
-    expect(engine.hideStepLoader).not.toHaveBeenCalled();
-    expect(engine.displayStepLoader).not.toHaveBeenCalled();
+    expect(engine.toggleStepLoader).not.toHaveBeenCalled();
   });
 
   test('userAction hook - input on submitting step field', async () => {
     await engine.trigger('userAction', { fieldId: 'last', type: 'input' });
-    expect(engine.hideStepLoader).not.toHaveBeenCalled();
-    expect(engine.displayStepLoader).toHaveBeenCalledTimes(1);
+    expect(engine.toggleStepLoader).toHaveBeenCalledTimes(1);
+    expect(engine.toggleStepLoader).toHaveBeenCalledWith(true);
   });
 
   test('userAction hook - input on last step field with hooks interruption', async () => {
     await engine.trigger('userAction', { fieldId: 'last', type: 'input' }, null);
-    expect(engine.hideStepLoader).toHaveBeenCalledTimes(1);
-    expect(engine.displayStepLoader).toHaveBeenCalledTimes(1);
+    expect(engine.toggleStepLoader).toHaveBeenCalledTimes(2);
+    expect(engine.toggleStepLoader).toHaveBeenCalledWith(true);
+    expect(engine.toggleStepLoader).toHaveBeenCalledWith(false);
   });
 
   test('userAction hook - null user action', async () => {
     await engine.trigger('userAction', null);
-    expect(engine.hideStepLoader).not.toHaveBeenCalled();
-    expect(engine.displayStepLoader).not.toHaveBeenCalled();
+    expect(engine.toggleStepLoader).not.toHaveBeenCalled();
   });
 
   test('loadNextStep hook - normal behaviour', async () => {
@@ -59,8 +59,7 @@ describe('plugins/loaderDisplayer', () => {
     await new Promise((resolve) => setImmediate(resolve));
     jest.runAllTimers();
     await result;
-    expect(engine.hideStepLoader).not.toHaveBeenCalled();
-    expect(engine.displayStepLoader).not.toHaveBeenCalled();
+    expect(engine.toggleStepLoader).not.toHaveBeenCalled();
   });
 
   test('loadNextStep hook - hook interruption', async () => {
@@ -70,21 +69,24 @@ describe('plugins/loaderDisplayer', () => {
     await new Promise((resolve) => setImmediate(resolve));
     jest.runAllTimers();
     await result;
-    expect(engine.displayStepLoader).toHaveBeenCalledTimes(1);
-    expect(engine.hideStepLoader).toHaveBeenCalledTimes(1);
+    expect(engine.toggleStepLoader).toHaveBeenCalledTimes(2);
+    expect(engine.toggleStepLoader).toHaveBeenCalledWith(true);
+    expect(engine.toggleStepLoader).toHaveBeenCalledWith(false);
   });
 
   test('loadedNextStep hook - loader still displayed', async () => {
     await engine.trigger('userAction', { fieldId: 'last', type: 'input' });
     await engine.trigger('loadedNextStep', {});
-    expect(engine.displayStepLoader).toHaveBeenCalledTimes(1);
-    expect(engine.hideStepLoader).toHaveBeenCalledTimes(1);
+    expect(engine.toggleStepLoader).toHaveBeenCalledTimes(2);
+    expect(engine.toggleStepLoader).toHaveBeenCalledWith(true);
+    expect(engine.toggleStepLoader).toHaveBeenCalledWith(false);
   });
 
   test('loadedNextStep hook - loader not displayed', async () => {
     await engine.trigger('userAction', { fieldId: 'last', type: 'input' }, null);
     await engine.trigger('loadedNextStep', {});
-    expect(engine.displayStepLoader).toHaveBeenCalledTimes(1);
-    expect(engine.hideStepLoader).toHaveBeenCalledTimes(1);
+    expect(engine.toggleStepLoader).toHaveBeenCalledTimes(2);
+    expect(engine.toggleStepLoader).toHaveBeenCalledWith(true);
+    expect(engine.toggleStepLoader).toHaveBeenCalledWith(false);
   });
 });

@@ -32,7 +32,7 @@ export default function valuesUpdater(): Plugin {
         currentStep.fields[fieldIndex].status = 'initial';
         currentStep.fields[fieldIndex].message = null;
         currentStep.fields[fieldIndex].value = transform(value);
-        engine.updateCurrentStep(currentStep);
+        engine.setCurrentStep(currentStep);
       }
       return next(userAction);
     });

@@ -20,20 +20,20 @@ describe('plugins/valuesUpdater', () => {
   test('userAction hook - null user action', async () => {
     valuesUpdater()(engine);
     await engine.trigger('userAction', null);
-    expect(engine.updateCurrentStep).not.toHaveBeenCalled();
+    expect(engine.setCurrentStep).not.toHaveBeenCalled();
   });
 
   test('userAction hook - non-input user action', async () => {
     valuesUpdater()(engine);
     await engine.trigger('userAction', { type: 'click' });
-    expect(engine.updateCurrentStep).not.toHaveBeenCalled();
+    expect(engine.setCurrentStep).not.toHaveBeenCalled();
   });
 
   test('userAction hook - normal user action on transformable field', async () => {
     valuesUpdater()(engine);
     await engine.trigger('userAction', { fieldId: 'test', type: 'input' });
-    expect(engine.updateCurrentStep).toHaveBeenCalledTimes(1);
-    expect(engine.updateCurrentStep).toHaveBeenCalledWith({
+    expect(engine.setCurrentStep).toHaveBeenCalledTimes(1);
+    expect(engine.setCurrentStep).toHaveBeenCalledWith({
       fields: [
         {
           id: 'test', message: null, status: 'initial', type: 'Message', value: 'transformedValue',
@@ -50,7 +50,7 @@ describe('plugins/valuesUpdater', () => {
     valuesUpdater()(engine);
     process.env.LAST_FIELD = 'true';
     await engine.trigger('userAction', { fieldId: 'last', type: 'input', value: 'initialValue' });
-    expect(engine.updateCurrentStep).toHaveBeenCalledWith({
+    expect(engine.setCurrentStep).toHaveBeenCalledWith({
       fields: [
         { id: 'test', type: 'Message', value: [] },
         { id: 'new', type: 'Message', value: 'ok' },

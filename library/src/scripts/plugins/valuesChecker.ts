@@ -80,7 +80,7 @@ export default function valuesChecker(options: Options): Plugin {
         }
       }
 
-      engine.updateCurrentStep(currentStep);
+      engine.setCurrentStep(currentStep);
       return next((currentStep.status === 'error') ? null : userAction);
     });
   };

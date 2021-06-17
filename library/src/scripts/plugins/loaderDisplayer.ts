@@ -45,14 +45,14 @@ export default function loaderDisplayer(options: Options): Plugin {
             || (fieldId === currentStep.fields.slice(-1)[0].id);
           if (shouldLoadNextStep && type === 'input') {
             loading = true;
-            engine.displayStepLoader();
+            engine.toggleStepLoader(true);
             startTimestamp = Date.now();
           }
         }
         return next(userAction).then((updatedUserAction) => {
           if (loading === true && updatedUserAction === null) {
             loading = false;
-            engine.hideStepLoader();
+            engine.toggleStepLoader(false);
           }
           return Promise.resolve(updatedUserAction);
         });
@@ -66,7 +66,7 @@ export default function loaderDisplayer(options: Options): Plugin {
         })).then((updatedNextStep) => {
           if (loading === true && updatedNextStep === null) {
             loading = false;
-            engine.hideStepLoader();
+            engine.toggleStepLoader(false);
           }
           return Promise.resolve(updatedNextStep);
         })
@@ -76,12 +76,12 @@ export default function loaderDisplayer(options: Options): Plugin {
       engine.on('loadedNextStep', (nextStep, next) => {
         if (loading === true) {
           loading = false;
-          engine.hideStepLoader();
+          engine.toggleStepLoader(false);
         }
         return next(nextStep);
       });
     } else {
-      engine.hideStepLoader();
+      engine.toggleStepLoader(false);
     }
   };
 }
