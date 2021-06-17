@@ -56,10 +56,6 @@ export default {
       //     }, 50);
       //   }).then(() => next(us));
       // });
-      engine.on('submit', (fv, next) => next(fv).then((ufv) => {
-        console.log(ufv);
-        return Promise.resolve(ufv);
-      }));
     },
   ],
 };
