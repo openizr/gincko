@@ -24,6 +24,7 @@ import errorHandler from 'scripts/plugins/errorHandler';
 import valuesChecker from 'scripts/plugins/valuesChecker';
 import valuesUpdater from 'scripts/plugins/valuesUpdater';
 import loaderDisplayer from 'scripts/plugins/loaderDisplayer';
+import reCaptchaHandler from 'scripts/plugins/reCaptchaHandler';
 
 /**
  * Form engine.
@@ -205,6 +206,7 @@ export default class Engine {
     // Be careful: plugins' order matters!
     (configuration.plugins || []).concat([
       errorHandler(),
+      reCaptchaHandler(configuration.reCaptchaHandlerOptions || {} as Json),
       loaderDisplayer(configuration.loaderDisplayerOptions || {} as Json),
       valuesUpdater(),
       valuesChecker(configuration.valuesCheckerOptions || {} as Json),
