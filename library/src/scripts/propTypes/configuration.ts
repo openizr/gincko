@@ -18,6 +18,10 @@ export default {
     enabled: PropTypes.bool,
     timeout: PropTypes.number,
   }),
+  reCaptchaHandlerOptions: PropTypes.shape({
+    enabled: PropTypes.bool,
+    siteKey: PropTypes.string,
+  }),
   valuesCheckerOptions: PropTypes.shape({
     onSubmit: PropTypes.bool,
   }),

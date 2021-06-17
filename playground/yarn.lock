@@ -2232,7 +2232,7 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
-basx@^1.3.1:
+basx@^1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/basx/-/basx-1.3.4.tgz#accf4e866acffb350d2d184232a8f42cb12a8e46"
   integrity sha512-4xab/cV8rcEVZg4cZoTZqDp9QwkBJ1gkYUk2XsRQwiuNI+1ao7OnzKzDxvc7FovcHv1IPLybgHkYYktX95rwkA==
@@ -4048,11 +4048,11 @@ getpass@^0.1.1:
     assert-plus "^1.0.0"
 
 "gincko@file:../../../library/dist":
-  version "3.9.3"
+  version "9.2.5"
   dependencies:
-    basx "^1.3.1"
+    basx "^1.3.4"
     diox "^4.0.1"
-    sonar-ui "^0.0.35"
+    sonar-ui "^0.0.36"
 
 glob-parent@^5.0.0, glob-parent@^5.1.0, glob-parent@~5.1.0:
   version "5.1.2"
@@ -7292,10 +7292,10 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-sonar-ui@^0.0.35:
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/sonar-ui/-/sonar-ui-0.0.35.tgz#549476aca98c0b9f5c9c8f29db413d41054ee1e0"
-  integrity sha512-sj+Z7vyZvzzwaorAa7ukS2x6B94Uknj1T/L3cSLT6wqv9cqvQcWP+ck1FGFoyIuYarRyeiWnAw1rjr5WAljlLA==
+sonar-ui@^0.0.36:
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/sonar-ui/-/sonar-ui-0.0.36.tgz#7e98c874530cc67e004ffde537b8967532ba41dc"
+  integrity sha512-F7I6xwrhRAKESGFpzYi4rV3QilVM5/FJ83H3V8s7kEVA5pGtY8JCuTk1iJE5TA24pzjCiZZ/4kVautc62AFzNg==
 
 sort-css-media-queries@1.5.4:
   version "1.5.4"
