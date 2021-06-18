@@ -14,13 +14,11 @@ import PropTypes from 'prop-types';
 export default {
   type: PropTypes.string.isRequired,
   required: PropTypes.bool,
-  validation: PropTypes.func,
-  transform: PropTypes.func,
   label: PropTypes.string,
   messages: PropTypes.shape({
     success: PropTypes.string,
     required: PropTypes.string,
-    validation: PropTypes.string,
+    validation: PropTypes.func,
   }),
   value: PropTypes.any,
   options: PropTypes.any,

@@ -51,8 +51,9 @@ export default function valuesChecker(options: Options): Plugin {
           // we only want to check all fields once, before loading next step.
           if ((field.id === fieldId && onSubmit === false) || shouldLoadNextStep === true) {
             const fieldIsEmpty = isEmpty(field.value);
-            const validation = configuration.fields[field.id].validation || ((): boolean => true);
             const messages = configuration.fields[field.id].messages || {};
+            const validation = messages.validation || ((): undefined => undefined);
+            const validationMessage = fieldIsEmpty ? null : validation(field.value) || null;
             if (fieldIsEmpty && !fieldIsRequired) {
               // Checking non required fields...
               field.status = 'initial';
@@ -61,11 +62,11 @@ export default function valuesChecker(options: Options): Plugin {
               currentStep.status = 'error';
               field.status = 'error';
               field.message = messages.required;
-            } else if (!fieldIsEmpty && validation(field.value) === false) {
+            } else if (validationMessage !== null) {
               // Checking validation rules...
               currentStep.status = 'error';
               field.status = 'error';
-              field.message = messages.validation;
+              field.message = validationMessage;
             } else {
               field.status = 'success';
               field.message = messages.success;

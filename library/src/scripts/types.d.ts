@@ -77,13 +77,11 @@ export type Configuration = PropTypes.InferProps<{
       type: PropTypes.Validator<string>;
       required: PropTypes.Requireable<boolean>;
       loadNextStep: PropTypes.Requireable<boolean>;
-      validation: PropTypes.Requireable<(...args: Json[]) => boolean>;
-      transform: PropTypes.Requireable<(...args: Json[]) => Json>;
       label: PropTypes.Requireable<string>;
       messages: PropTypes.Requireable<PropTypes.InferProps<{
         success: PropTypes.Requireable<string>;
         required: PropTypes.Requireable<string>;
-        validation: PropTypes.Requireable<string>;
+        validation: PropTypes.Requireable<(...args: Json[]) => string | null | undefined>;
       }>>;
       value: PropTypes.Requireable<Json>;
       options: PropTypes.Requireable<Json>;

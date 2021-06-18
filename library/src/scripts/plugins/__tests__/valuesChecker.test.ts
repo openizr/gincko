@@ -48,7 +48,7 @@ describe('plugins/valuesChecker', () => {
           id: 'test', type: 'Message', value: [], status: 'initial',
         },
         {
-          id: 'new', type: 'Message', value: 'ok', status: 'error', message: undefined,
+          id: 'new', type: 'Message', value: 'ok', status: 'error', message: 'invalid',
         },
         {
           id: 'other', type: 'Message', status: 'error', message: undefined,
