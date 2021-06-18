@@ -17,7 +17,7 @@ services:
       - .env
     ports:
       - "127.0.0.1:${PLAYGROUND_PORT}:${PLAYGROUND_PORT}"
-    command: sh -c "dsync /library/dist/ node_modules/gincko/ & yarn && yarn run dev"
+    command: sh -c "tail -f /dev/null"
     volumes:
       - ./playground:/var/www/html
       - ./library:/library
