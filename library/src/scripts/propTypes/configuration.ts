@@ -27,6 +27,7 @@ export default {
   }),
   valuesLoaderOptions: PropTypes.shape({
     enabled: PropTypes.bool,
+    cacheId: PropTypes.string,
     autoSubmit: PropTypes.bool,
     injectValuesTo: PropTypes.arrayOf(PropTypes.string.isRequired),
   }),

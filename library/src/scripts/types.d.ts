@@ -58,6 +58,7 @@ export type Configuration = PropTypes.InferProps<{
     onSubmit: PropTypes.Requireable<boolean>;
   }>>;
   valuesLoaderOptions: PropTypes.Requireable<PropTypes.InferProps<{
+    cacheId: PropTypes.Requireable<string>;
     enabled: PropTypes.Requireable<boolean>;
     autoSubmit: PropTypes.Requireable<boolean>;
     injectValuesTo: PropTypes.Requireable<string[]>;
