@@ -29,24 +29,7 @@ describe('plugins/valuesUpdater', () => {
     expect(engine.setCurrentStep).not.toHaveBeenCalled();
   });
 
-  test('userAction hook - normal user action on transformable field', async () => {
-    valuesUpdater()(engine);
-    await engine.trigger('userAction', { fieldId: 'test', type: 'input' });
-    expect(engine.setCurrentStep).toHaveBeenCalledTimes(1);
-    expect(engine.setCurrentStep).toHaveBeenCalledWith({
-      fields: [
-        {
-          id: 'test', message: null, status: 'initial', type: 'Message', value: 'transformedValue',
-        },
-        { id: 'new', type: 'Message', value: 'ok' },
-        { id: 'other', type: 'Message' },
-        { id: 'last', type: 'Message', value: 'last' },
-      ],
-      status: 'progress',
-    });
-  });
-
-  test('userAction hook - normal user action on non-transformable field', async () => {
+  test('userAction hook - normal user action', async () => {
     valuesUpdater()(engine);
     process.env.LAST_FIELD = 'true';
     await engine.trigger('userAction', { fieldId: 'last', type: 'input', value: 'initialValue' });

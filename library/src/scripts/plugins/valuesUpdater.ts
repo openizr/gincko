@@ -6,7 +6,7 @@
  *
  */
 
-import { Plugin, FormValue } from 'scripts/types';
+import { Plugin } from 'scripts/types';
 
 /**
  * Updates last changed field accordingly with user action.
@@ -15,23 +15,19 @@ import { Plugin, FormValue } from 'scripts/types';
  */
 export default function valuesUpdater(): Plugin {
   return (engine): void => {
-    const configuration = engine.getConfiguration();
-
     engine.on('userAction', (userAction, next) => {
       if (userAction === null) {
         return next(userAction);
       }
       const { fieldId, value, type } = userAction;
-      if (type === 'input') {
-        const currentStep = engine.getCurrentStep();
-        const fieldIndex = engine.getFieldIndex(fieldId);
-        const fieldConfiguration = configuration.fields[fieldId];
-        const transform = fieldConfiguration.transform || ((input: FormValue): FormValue => input);
+      const currentStep = engine.getCurrentStep();
+      const fieldIndex = engine.getFieldIndex(fieldId);
+      if (type === 'input' && fieldIndex >= 0) {
         // We reset current step status to not stay in error state forever.
         currentStep.status = 'progress';
         currentStep.fields[fieldIndex].status = 'initial';
         currentStep.fields[fieldIndex].message = null;
-        currentStep.fields[fieldIndex].value = transform(value);
+        currentStep.fields[fieldIndex].value = value;
         engine.setCurrentStep(currentStep);
       }
       return next(userAction);

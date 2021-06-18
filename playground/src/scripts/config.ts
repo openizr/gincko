@@ -1,7 +1,13 @@
-import { Engine } from 'gincko/react';
+import { Configuration } from 'gincko/react';
 
 export default {
   root: 'start',
+  valuesLoaderOptions: {
+    autoSubmit: true,
+  },
+  loaderDisplayerOptions: {
+    enabled: false,
+  },
   reCaptchaHandlerOptions: {
     enabled: true,
     siteKey: '6LeyjDwbAAAAAMB9r2GmEHa8761Y9b_G7vxWomm-',
@@ -9,15 +15,25 @@ export default {
   steps: {
     start: { fields: ['email', 'next'], nextStep: 'end' },
     mid: { fields: ['azd'], nextStep: 'end' },
-    end: { fields: ['address', 'city', 'next'], submit: true },
+    end: { fields: ['address', 'city', 'submit'], submit: true },
   },
   fields: {
     email: {
       type: 'Textfield',
-      validation: () => false,
-      transform: (value: string) => value.replace(/a/g, 'e'),
       messages: {
-        validation: 'OKOK',
+        validation: (value: string) => {
+          if (value === 'zz') {
+            return 'OKOK';
+          }
+          if (value === 'ee') {
+            return 'KOKO';
+          }
+          return null;
+        },
+      },
+      options: {
+        autocomplete: 'off',
+        // transform: (value: string): string => value.replace(/a/g, 'e'),
       },
     },
     address: {
@@ -31,31 +47,24 @@ export default {
       label: 'Next',
       loadNextStep: true,
     },
+    submit: {
+      type: 'Button',
+      label: 'Submit',
+      loadNextStep: true,
+    },
   },
   plugins: [
-    (engine: Engine): void => {
-      engine.on('loadedNextStep', (nextStep, next) => {
-        const newStep = engine.generateStep('mid');
-        if (newStep !== null) {
-          engine.updateCurrentStep(newStep);
-        }
-        return next(nextStep);
-      });
-      engine.on('error', () => {
-        throw new Error('Test');
-      });
-    },
-    (engine: any) => {
-      // let timeout: any = null;
-      // engine.on('userAction', (us: any, next: any) => {
-      //   window.clearTimeout(timeout as any);
-
-      //   return new Promise<void>((resolve) => {
-      //     timeout = window.setTimeout(() => {
-      //       resolve();
-      //     }, 50);
-      //   }).then(() => next(us));
-      // });
-    },
+    // (engine: Engine): void => {
+    // engine.on('loadedNextStep', (nextStep, next) => {
+    //   const newStep = engine.generateStep('mid');
+    //   if (newStep !== null) {
+    //     engine.updateCurrentStep(newStep);
+    //   }
+    //   return next(nextStep);
+    // });
+    // engine.on('error', () => {
+    //   throw new Error('Test');
+    // });
+    // },
   ],
-};
+} as Configuration;

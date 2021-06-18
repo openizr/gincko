@@ -99,7 +99,7 @@ describe('plugins/valuesLoader', () => {
     await engine.trigger('loadedNextStep', { fields: [{ id: 'test' }, { id: 'last', value: 'value' }] });
     expect(engine.loadValues).toHaveBeenCalledTimes(1);
     expect(engine.loadValues).toHaveBeenNthCalledWith(1, { test: 'value' });
-    process.env.CACHE_NOT_EMPTY = undefined;
+    delete process.env.CACHE_NOT_EMPTY;
   });
 
   test('loadedNextStep hook - autoSubmit is `false`', async () => {
