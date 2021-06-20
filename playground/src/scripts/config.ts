@@ -4,6 +4,7 @@ export default {
   root: 'start',
   valuesLoaderOptions: {
     autoSubmit: true,
+    enabled: false,
   },
   loaderDisplayerOptions: {
     enabled: false,
@@ -20,16 +21,9 @@ export default {
   fields: {
     email: {
       type: 'Textfield',
+      required: true,
       messages: {
-        validation: (value: string) => {
-          if (value === 'zz') {
-            return 'OKOK';
-          }
-          if (value === 'ee') {
-            return 'KOKO';
-          }
-          return null;
-        },
+        validation: (value): string | null => (value.trim() === '' ? 'Please enter a valid email' : null),
       },
       options: {
         autocomplete: 'off',
