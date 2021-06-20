@@ -40,6 +40,9 @@ jest.mock('scripts/plugins/valuesLoader', jest.fn(() => (options: Json): () => v
 describe('core/Engine', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.mock('scripts/plugins/errorHandler', jest.fn(() => (options: Json): () => void => (): void => {
+      consolelog('errorHandler', options);
+    }));
   });
 
   test('constructor - default plugins values and a custom plugin', async () => {
@@ -169,6 +172,7 @@ describe('core/Engine', () => {
   test('handleUserAction - non-null value, submitting step field, `submit` is `true`', async () => {
     const engine = new Engine({
       root: 'test',
+      reCaptchaHandlerOptions: { enabled: false },
       steps: { test: { fields: ['test'], submit: true } },
       fields: { test: { type: 'Test' } },
       plugins: [((api): void => {
@@ -322,6 +326,28 @@ describe('core/Engine', () => {
     });
   });
 
+  test('triggerHooks - hook throws an error in an error hook', async () => {
+    const engine = new Engine({
+      root: 'test',
+      steps: { test: { fields: ['test'] } },
+      fields: { test: { type: 'Test' } },
+      plugins: [((api): void => {
+        api.on('error', () => {
+          throw new Error('test');
+        });
+        api.on('error', (error: Error, next: (error: Error) => Promise<void>) => {
+          consolelog(error);
+          return next(error);
+        });
+        api.on('loadNextStep', () => Promise.resolve().then(() => {
+          consolelog(engine);
+        }));
+      })],
+    });
+    await flushPromises();
+    expect(consolelog).toHaveBeenCalledWith(new Error('test'));
+  });
+
   test('getConfiguration', () => {
     const configuration = {
       root: 'test',
@@ -333,14 +359,14 @@ describe('core/Engine', () => {
     expect(engine.getConfiguration()).not.toBe(configuration);
   });
 
-  test('generateField - field exists, non-interactive', () => {
+  test('createField - field exists, non-interactive', () => {
     const configuration = {
       root: 'test',
       steps: { test: { fields: ['test'] } },
       fields: { test: { type: 'Message' } },
     };
     const engine = new Engine(configuration);
-    expect(engine.generateField('test')).toEqual({
+    expect(engine.createField('test')).toEqual({
       id: 'test',
       label: undefined,
       message: null,
@@ -351,14 +377,14 @@ describe('core/Engine', () => {
     });
   });
 
-  test('generateField - field exists, interactive', () => {
+  test('createField - field exists, interactive', () => {
     const configuration = {
       root: 'test',
       steps: { test: { fields: ['test'] } },
       fields: { test: { type: 'Test' } },
     };
     const engine = new Engine(configuration);
-    expect(engine.generateField('test')).toEqual({
+    expect(engine.createField('test')).toEqual({
       id: 'test',
       label: undefined,
       message: null,
@@ -369,22 +395,22 @@ describe('core/Engine', () => {
     });
   });
 
-  test('generateField - field does not exist', () => {
+  test('createField - field does not exist', () => {
     const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'] } },
       fields: { test: { type: 'Test' } },
     });
-    expect(() => engine.generateField('other')).toThrow(new Error('Field "other" does not exist.'));
+    expect(() => engine.createField('other')).toThrow(new Error('Field "other" does not exist.'));
   });
 
-  test('generateStep - step exists', () => {
+  test('createStep - step exists', () => {
     const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'] } },
       fields: { test: { type: 'Test' } },
     });
-    expect(engine.generateStep('test')).toEqual({
+    expect(engine.createStep('test')).toEqual({
       id: 'test',
       status: 'initial',
       fields: [{
@@ -399,13 +425,13 @@ describe('core/Engine', () => {
     });
   });
 
-  test('generateStep - step does not exist', () => {
+  test('createStep - step does not exist', () => {
     const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'] } },
       fields: { test: { type: 'Test' } },
     });
-    expect(() => engine.generateStep('other')).toThrow(new Error('Step "other" does not exist.'));
+    expect(() => engine.createStep('other')).toThrow(new Error('Step "other" does not exist.'));
   });
 
   test('getValues', async () => {
@@ -478,7 +504,7 @@ describe('core/Engine', () => {
     expect(engine.getCurrentStep()).not.toBe((engine as Json).generatedSteps[0]);
   });
 
-  test('updateCurrentStep - no notification', async () => {
+  test('setCurrentStep - no notification', async () => {
     const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test', 'last'] } },
@@ -486,7 +512,7 @@ describe('core/Engine', () => {
     });
     await flushPromises();
     jest.clearAllMocks();
-    engine.updateCurrentStep({
+    engine.setCurrentStep({
       id: 'test',
       status: 'initial',
       fields: [],
@@ -497,6 +523,7 @@ describe('core/Engine', () => {
   test('on', () => {
     const engine = new Engine({
       root: 'test',
+      reCaptchaHandlerOptions: { enabled: false },
       steps: { test: { fields: ['test', 'last'] } },
       fields: { test: { type: 'Test' }, last: { type: 'Test' } },
     });
@@ -510,25 +537,14 @@ describe('core/Engine', () => {
     });
   });
 
-  test('displayStepLoader', () => {
+  test('toggleStepLoader', () => {
     const engine = new Engine({
       root: 'test',
       steps: { test: { fields: ['test'] } },
       fields: { test: { type: 'Test' } },
     });
-    engine.displayStepLoader();
+    engine.toggleStepLoader(true);
     expect((engine as Json).store.mutate).toHaveBeenCalledTimes(1);
     expect((engine as Json).store.mutate).toHaveBeenCalledWith('steps', 'SET_LOADER', { loadingNextStep: true });
-  });
-
-  test('hideStepLoader', () => {
-    const engine = new Engine({
-      root: 'test',
-      steps: { test: { fields: ['test'] } },
-      fields: { test: { type: 'Test' } },
-    });
-    engine.hideStepLoader();
-    expect((engine as Json).store.mutate).toHaveBeenCalledTimes(1);
-    expect((engine as Json).store.mutate).toHaveBeenCalledWith('steps', 'SET_LOADER', { loadingNextStep: false });
   });
 });

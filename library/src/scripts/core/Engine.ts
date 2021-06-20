@@ -24,6 +24,7 @@ import errorHandler from 'scripts/plugins/errorHandler';
 import valuesChecker from 'scripts/plugins/valuesChecker';
 import valuesUpdater from 'scripts/plugins/valuesUpdater';
 import loaderDisplayer from 'scripts/plugins/loaderDisplayer';
+import reCaptchaHandler from 'scripts/plugins/reCaptchaHandler';
 
 /**
  * Form engine.
@@ -78,8 +79,11 @@ export default class Engine {
         }
         return updatedData;
       })
-      .catch((error) => this.triggerHooks('error', error).then(() => null))
-      .finally(() => this.updateCurrentStep(this.getCurrentStep(), true));
+      // This safety mechanism prevents infinite loops when throwing errors from "error" hooks.
+      .catch((error) => ((eventName === 'error')
+        ? this.hooks.error.slice(-1)[0](error, () => Promise.resolve(null))
+        : this.triggerHooks('error', error).then(() => null)))
+      .finally(() => this.setCurrentStep(this.getCurrentStep(), true));
   }
 
   /**
@@ -103,7 +107,7 @@ export default class Engine {
       const nextStep = newSteps[newSteps.length - 1];
       this.triggerHooks('loadedNextStep', nextStep).then((updatedNextStep: Step) => {
         if (updatedNextStep !== null) {
-          this.updateCurrentStep(updatedNextStep);
+          this.setCurrentStep(updatedNextStep);
         }
       });
     } else {
@@ -119,7 +123,7 @@ export default class Engine {
    * @returns {void}
    */
   private loadNextStep(nextStepId?: string | null): void {
-    const nextStep = this.generateStep(nextStepId || null);
+    const nextStep = this.createStep(nextStepId || null);
     this.triggerHooks('loadNextStep', nextStep).then((updatedNextStep: Step) => {
       if (updatedNextStep !== null) {
         const currentStepIndex = this.generatedSteps.length - 1;
@@ -202,6 +206,7 @@ export default class Engine {
     // Be careful: plugins' order matters!
     (configuration.plugins || []).concat([
       errorHandler(),
+      reCaptchaHandler(configuration.reCaptchaHandlerOptions || {} as Json),
       loaderDisplayer(configuration.loaderDisplayerOptions || {} as Json),
       valuesUpdater(),
       valuesChecker(configuration.valuesCheckerOptions || {} as Json),
@@ -213,13 +218,12 @@ export default class Engine {
         getValues: this.getValues.bind(this),
         loadValues: this.loadValues.bind(this),
         getConfiguration: this.getConfiguration.bind(this),
-        hideStepLoader: this.hideStepLoader.bind(this),
-        displayStepLoader: this.displayStepLoader.bind(this),
+        toggleStepLoader: this.toggleStepLoader.bind(this),
         getFieldIndex: this.getFieldIndex.bind(this),
         getCurrentStep: this.getCurrentStep.bind(this),
-        updateCurrentStep: this.updateCurrentStep.bind(this),
-        generateField: this.generateField.bind(this),
-        generateStep: this.generateStep.bind(this),
+        setCurrentStep: this.setCurrentStep.bind(this),
+        createField: this.createField.bind(this),
+        createStep: this.createStep.bind(this),
       });
     });
 
@@ -250,7 +254,7 @@ export default class Engine {
    *
    * @throws {Error} If the field does not exist.
    */
-  public generateField(fieldId: string): Field {
+  public createField(fieldId: string): Field {
     const field = this.configuration.fields[fieldId];
     const nonInteractiveFields = this.configuration.nonInteractiveFields || ['Message'];
     if (field === undefined) {
@@ -276,7 +280,7 @@ export default class Engine {
    *
    * @throws {Error} If the step does not exist.
    */
-  public generateStep(stepId: string | null): Step | null {
+  public createStep(stepId: string | null): Step | null {
     if (stepId === null) {
       return null;
     }
@@ -287,7 +291,7 @@ export default class Engine {
     return {
       id: stepId,
       status: 'initial',
-      fields: this.configuration.steps[stepId].fields.map(this.generateField.bind(this)),
+      fields: this.configuration.steps[stepId].fields.map(this.createField.bind(this)),
     };
   }
 
@@ -357,7 +361,7 @@ export default class Engine {
    *
    * @returns {void}
    */
-  public updateCurrentStep(updatedStep: Step, notify = false): void {
+  public setCurrentStep(updatedStep: Step, notify = false): void {
     const stepIndex = this.generatedSteps.length - 1;
     this.generatedSteps[stepIndex] = updatedStep;
     if (notify === true && stepIndex >= 0) {
@@ -379,20 +383,13 @@ export default class Engine {
   }
 
   /**
-   * Displays a loader right after current step, indicating next step is being generated.
+   * Toggles a loader right after current step, indicating next step is/not being generated.
+   *
+   * @param {boolean} display Whether to display step loader.
    *
    * @returns {void}
    */
-  public displayStepLoader(): void {
-    this.store.mutate('steps', 'SET_LOADER', { loadingNextStep: true });
-  }
-
-  /**
-   * Hides the step loader.
-   *
-   * @returns {void}
-   */
-  public hideStepLoader(): void {
-    this.store.mutate('steps', 'SET_LOADER', { loadingNextStep: false });
+  public toggleStepLoader(display: boolean): void {
+    this.store.mutate('steps', 'SET_LOADER', { loadingNextStep: display });
   }
 }

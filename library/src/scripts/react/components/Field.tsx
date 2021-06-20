@@ -11,8 +11,6 @@
 import {
   UIRadio,
   UIButton,
-  markdown,
-  buildClass,
   UIDropdown,
   UICheckbox,
   UITextarea,
@@ -20,9 +18,10 @@ import {
   UIFileUploader,
 } from 'sonar-ui/react';
 import * as React from 'react';
-import { Components, FormValue } from 'scripts/types';
 import PropTypes, { InferProps } from 'prop-types';
 import fieldPropType from 'scripts/propTypes/field';
+import { Components, FormValue } from 'scripts/types';
+import Message from 'scripts/react/components/Message';
 
 const propTypes = {
   ...fieldPropType,
@@ -36,21 +35,14 @@ const defaultProps = {};
  * Built-in form components.
  */
 const builtInComponents: Components = {
-  Message: (field) => {
-    // We perform dynamic form values injection into message if necessary.
-    let content = field.label || '';
-    Object.keys(field.options.formValues || {}).forEach((key) => {
-      content = content.replace(new RegExp(`{{${key}}}`, 'g'), field.options.formValues[key]);
-    });
-    return (
-      <section
-        id={field.id}
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: markdown(content, false) }}
-        className={buildClass('ui-message', `${field.status} ${field.options.modifiers || ''}`.split(' '))}
-      />
-    );
-  },
+  Message: (field) => (
+    <Message
+      id={field.id}
+      label={field.label}
+      variables={field.options.formValues}
+      modifiers={`${field.status} ${field.options.modifiers || ''}`}
+    />
+  ),
   Button: (field, onUserAction) => (
     <UIButton
       id={field.id}
@@ -68,22 +60,24 @@ const builtInComponents: Components = {
       name={field.id}
       label={field.label}
       value={field.value}
-      onChange={onUserAction}
       min={field.options.min}
       max={field.options.max}
+      onChange={onUserAction}
       step={field.options.step}
       icon={field.options.icon}
       size={field.options.size}
       type={field.options.type}
       onBlur={field.options.onBlur}
       onFocus={field.options.onFocus}
-      autocomplete={field.options.autocomplete}
-      readonly={field.options.readonly || field.active === false}
       maxlength={field.options.maxlength}
+      transform={field.options.transform}
       placeholder={field.options.placeholder}
       onIconClick={field.options.onIconClick}
+      autocomplete={field.options.autocomplete}
       iconPosition={field.options.iconPosition}
       helper={field.message || field.options.helper}
+      debounceTimeout={field.options.debounceTimeout}
+      readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
   ),
@@ -99,9 +93,11 @@ const builtInComponents: Components = {
       onBlur={field.options.onBlur}
       onFocus={field.options.onFocus}
       maxlength={field.options.maxlength}
+      transform={field.options.transform}
       placeholder={field.options.placeholder}
       autocomplete={field.options.autocomplete}
       helper={field.message || field.options.helper}
+      debounceTimeout={field.options.debounceTimeout}
       readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
