@@ -76,7 +76,7 @@ const builtInComponents: Components = {
       autocomplete={field.options.autocomplete}
       iconPosition={field.options.iconPosition}
       helper={field.message || field.options.helper}
-      debounceTimeout={field.options.debounceTimeout}
+      debounceTimeout={field.options.debounceTimeout || 100}
       readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
@@ -97,7 +97,7 @@ const builtInComponents: Components = {
       placeholder={field.options.placeholder}
       autocomplete={field.options.autocomplete}
       helper={field.message || field.options.helper}
-      debounceTimeout={field.options.debounceTimeout}
+      debounceTimeout={field.options.debounceTimeout || 100}
       readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />

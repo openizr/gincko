@@ -20,6 +20,7 @@ jest.mock('sonar-ui/react', () => {
         onClick={props.onClick}
         onKeyDown={props.onFocus}
         data-readonly={props.readonly}
+        data-debounce-timeout={props.debounceTimeout}
       />
     );
   }
