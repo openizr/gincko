@@ -63,6 +63,7 @@ exports[`react/components/Field Radio 1`] = `
 exports[`react/components/Field Textarea - active step 1`] = `
 <div>
   <div
+    data-debounce-timeout="100"
     data-readonly="false"
     id="Textarea"
   />
@@ -72,6 +73,7 @@ exports[`react/components/Field Textarea - active step 1`] = `
 exports[`react/components/Field Textarea - active step, readonly option is \`true\` 1`] = `
 <div>
   <div
+    data-debounce-timeout="100"
     data-readonly="true"
     id="Textarea"
   />
@@ -81,6 +83,7 @@ exports[`react/components/Field Textarea - active step, readonly option is \`tru
 exports[`react/components/Field Textarea - with no onFocus method 1`] = `
 <div>
   <div
+    data-debounce-timeout="100"
     data-readonly="false"
     id="Textarea"
   />
@@ -90,6 +93,7 @@ exports[`react/components/Field Textarea - with no onFocus method 1`] = `
 exports[`react/components/Field Textarea - with onFocus method, inactive step 1`] = `
 <div>
   <div
+    data-debounce-timeout="100"
     data-readonly="true"
     id="Textarea"
   />
@@ -99,6 +103,7 @@ exports[`react/components/Field Textarea - with onFocus method, inactive step 1`
 exports[`react/components/Field Textarea - with onFocus method, inactive step 2`] = `
 <div>
   <div
+    data-debounce-timeout="100"
     data-readonly="false"
     id="Textarea"
   />
@@ -108,6 +113,7 @@ exports[`react/components/Field Textarea - with onFocus method, inactive step 2`
 exports[`react/components/Field Textfield - active step 1`] = `
 <div>
   <div
+    data-debounce-timeout="100"
     data-readonly="false"
     id="Textfield"
   />
@@ -117,6 +123,7 @@ exports[`react/components/Field Textfield - active step 1`] = `
 exports[`react/components/Field Textfield - active step, readonly option is \`true\` 1`] = `
 <div>
   <div
+    data-debounce-timeout="100"
     data-readonly="true"
     id="Textfield"
   />
@@ -126,6 +133,7 @@ exports[`react/components/Field Textfield - active step, readonly option is \`tr
 exports[`react/components/Field Textfield - with no onFocus method 1`] = `
 <div>
   <div
+    data-debounce-timeout="100"
     data-readonly="false"
     id="Textfield"
   />
@@ -135,6 +143,7 @@ exports[`react/components/Field Textfield - with no onFocus method 1`] = `
 exports[`react/components/Field Textfield - with onFocus method, inactive step 1`] = `
 <div>
   <div
+    data-debounce-timeout="100"
     data-readonly="true"
     id="Textfield"
   />
@@ -144,6 +153,7 @@ exports[`react/components/Field Textfield - with onFocus method, inactive step 1
 exports[`react/components/Field Textfield - with onFocus method, inactive step 2`] = `
 <div>
   <div
+    data-debounce-timeout="100"
     data-readonly="false"
     id="Textfield"
   />

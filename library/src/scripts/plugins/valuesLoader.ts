@@ -65,7 +65,7 @@ export default function valuesLoader(options: Options): Plugin {
     // Loads default values defined in configuration's fields, as well as values already filled.
     engine.on('loadedNextStep', (nextStep, next) => {
       // Retrieving stored values from cache...
-      const cachePromise = (loadedCache === false)
+      const cachePromise = (loadedCache === false && enabled === true)
         ? localforage.getItem(cacheKey)
         : Promise.resolve(null);
 
