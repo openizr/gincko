@@ -61,7 +61,7 @@
 				<a href="#gincko" id="gincko" style="color: inherit; text-decoration: none;">
 					<h1>gincko</h1>
 				</a>
-				<p>Build complex, dynamic forms or inputs-based UIs in seconds.</p>
+				<p>Build complex, smart forms or inputs-based UIs in seconds.</p>
 				<p><a href="https://travis-ci.org/openizr/gincko"><img src="https://travis-ci.org/openizr/gincko.svg?branch=master" alt="Build Status"></a>
 					<a href="https://coveralls.io/github/openizr/gincko"><img src="https://coveralls.io/repos/github/openizr/gincko/badge.svg" alt="Coverage Status"></a>
 					<a href="https://www.npmjs.com/package/gincko"><img src="https://img.shields.io/npm/v/gincko.svg" alt="npm"></a>
@@ -87,6 +87,23 @@
 				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
 					<h2>Features</h2>
 				</a>
+				<p>Building user interfaces containing multiple inputs is very repetitive and low-value process. It always contains the same logic, and doesn&#39;t fundamentally change much accross apps and websites: we need to implement different types of fields, fields validations logic, transitions, manage form submission, and so on. Why should we always go back to that each time we create a new feature?</p>
+				<p>gincko is meant to remove these unecessary, time-consuming parts, by providing a common, generic engine that automatically performs usual checks. Through a simple JSON configuration, you can generate deep, complex UIs, without a line of code, so you can focus on the real value of your project.</p>
+				<p>gincko can be used for a wide variety of use cases, including:</p>
+				<ul>
+					<li>Forms, surveys</li>
+					<li>Profile / settings edition pages, blog post creation, ...</li>
+					<li>Contact or support page with ticket creation</li>
+					<li>And even chatbots or FAQs!</li>
+				</ul>
+				<p>Why choosing gincko to develop your project?</p>
+				<ul>
+					<li>Small learning curve, simple concepts</li>
+					<li>Tiny JSON configuration for basic use cases</li>
+					<li>Completely dynamic form steps generation, based on previous inputs</li>
+					<li>Fully extensible and customizable for most complex use cases, using plugins</li>
+					<li>Supports React and VueJS natively, although you can also provide your own implementation for them or any other frontend framework</li>
+				</ul>
 				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
 					<h2>Documentation</h2>
 				</a>
@@ -125,7 +142,7 @@
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class=" ">
-						<a href="modules.html">Exports</a>
+						<a href="modules.html">Modules</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/core_engine.html">core/<wbr>Engine</a>
@@ -144,6 +161,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/plugins_loaderdisplayer.html">plugins/loader<wbr>Displayer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/plugins_recaptchahandler.html">plugins/re<wbr>Captcha<wbr>Handler</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/plugins_valueschecker.html">plugins/values<wbr>Checker</a>
@@ -174,6 +194,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/react_components_field.html">react/components/<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/react_components_message.html">react/components/<wbr>Message</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/react_components_step.html">react/components/<wbr>Step</a>
