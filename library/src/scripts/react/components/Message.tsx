@@ -14,7 +14,7 @@ const propTypes = {
   label: PropTypes.string,
   modifiers: PropTypes.string,
   id: PropTypes.string.isRequired,
-  variables: PropTypes.objectOf(PropTypes.string.isRequired),
+  variables: PropTypes.objectOf(PropTypes.any.isRequired),
 };
 
 const defaultProps = {

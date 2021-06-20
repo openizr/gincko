@@ -60,22 +60,24 @@ const builtInComponents: Components = {
       name={field.id}
       label={field.label}
       value={field.value}
-      onChange={onUserAction}
       min={field.options.min}
       max={field.options.max}
+      onChange={onUserAction}
       step={field.options.step}
       icon={field.options.icon}
       size={field.options.size}
       type={field.options.type}
       onBlur={field.options.onBlur}
       onFocus={field.options.onFocus}
-      autocomplete={field.options.autocomplete}
-      readonly={field.options.readonly || field.active === false}
       maxlength={field.options.maxlength}
+      transform={field.options.transform}
       placeholder={field.options.placeholder}
       onIconClick={field.options.onIconClick}
+      autocomplete={field.options.autocomplete}
       iconPosition={field.options.iconPosition}
       helper={field.message || field.options.helper}
+      debounceTimeout={field.options.debounceTimeout}
+      readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
   ),
@@ -91,9 +93,11 @@ const builtInComponents: Components = {
       onBlur={field.options.onBlur}
       onFocus={field.options.onFocus}
       maxlength={field.options.maxlength}
+      transform={field.options.transform}
       placeholder={field.options.placeholder}
       autocomplete={field.options.autocomplete}
       helper={field.message || field.options.helper}
+      debounceTimeout={field.options.debounceTimeout}
       readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
