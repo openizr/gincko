@@ -70,7 +70,7 @@ export type Configuration = PropTypes.InferProps<{
     [x: string]: PropTypes.InferProps<{
       fields: PropTypes.Validator<string[]>;
       submit: PropTypes.Requireable<boolean>;
-      nextStep: PropTypes.Requireable<string | ((...args: Json[]) => string)>;
+      nextStep: PropTypes.Requireable<string | ((...args: Json[]) => string | null)>;
     }>;
   }>;
   fields: PropTypes.Validator<{
