@@ -23,16 +23,20 @@ describe('plugins/valuesLoader', () => {
 
   test('initialization - default options', () => {
     valuesLoader({})(engine);
-    expect(engine.on).toHaveBeenCalledTimes(3);
+    expect(engine.on).toHaveBeenCalledTimes(4);
     expect(engine.on).toHaveBeenNthCalledWith(1, 'userAction', expect.any(Function));
     expect(engine.on).toHaveBeenNthCalledWith(2, 'loadNextStep', expect.any(Function));
     expect(engine.on).toHaveBeenNthCalledWith(3, 'loadedNextStep', expect.any(Function));
+    expect(engine.on).toHaveBeenNthCalledWith(4, 'submit', expect.any(Function));
   });
 
   test('initialization - custom options', () => {
     valuesLoader({ enabled: false })(engine);
-    expect(engine.on).toHaveBeenCalledTimes(1);
-    expect(engine.on).toHaveBeenCalledWith('loadedNextStep', expect.any(Function));
+    expect(engine.on).toHaveBeenCalledTimes(4);
+    expect(engine.on).toHaveBeenNthCalledWith(1, 'userAction', expect.any(Function));
+    expect(engine.on).toHaveBeenNthCalledWith(2, 'loadNextStep', expect.any(Function));
+    expect(engine.on).toHaveBeenNthCalledWith(3, 'loadedNextStep', expect.any(Function));
+    expect(engine.on).toHaveBeenNthCalledWith(4, 'submit', expect.any(Function));
   });
 
   test('userAction hook - null user action', async () => {
@@ -115,5 +119,20 @@ describe('plugins/valuesLoader', () => {
     expect(engine.loadValues).toHaveBeenCalledTimes(2);
     expect(engine.loadValues).toHaveBeenNthCalledWith(1, { test: 'first' });
     expect(engine.loadValues).toHaveBeenNthCalledWith(2, { last: undefined });
+  });
+
+  test('submit hook - error in submission', async () => {
+    valuesLoader({})(engine);
+    await engine.trigger('submit', {}, null);
+    expect(localforage.removeItem).not.toHaveBeenCalled();
+  });
+
+  test('submit hook - successfully submitted', async () => {
+    valuesLoader({})(engine);
+    await engine.trigger('submit', {}, {});
+    await engine.trigger('userAction', {}, {});
+    expect(localforage.setItem).not.toHaveBeenCalled();
+    expect(localforage.removeItem).toHaveBeenCalledTimes(1);
+    expect(localforage.removeItem).toHaveBeenCalledWith('gincko_cache');
   });
 });

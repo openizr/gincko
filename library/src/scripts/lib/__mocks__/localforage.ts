@@ -14,4 +14,5 @@ export default {
     ? '{"test": "value"}'
     : null)),
   setItem: jest.fn(() => Promise.resolve()),
+  removeItem: jest.fn(() => Promise.resolve()),
 };
