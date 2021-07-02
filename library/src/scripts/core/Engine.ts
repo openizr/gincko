@@ -83,7 +83,10 @@ export default class Engine {
       .catch((error) => ((eventName === 'error')
         ? this.hooks.error.slice(-1)[0](error, () => Promise.resolve(null))
         : this.triggerHooks('error', error).then(() => null)))
-      .finally(() => this.setCurrentStep(this.getCurrentStep(), true));
+      .finally(() => {
+        const currentStep = this.generatedSteps[this.generatedSteps.length - 1] || null;
+        this.setCurrentStep(currentStep, true);
+      });
   }
 
   /**
@@ -98,14 +101,14 @@ export default class Engine {
   private updateGeneratedSteps(stepIndex: number, step: Step): void {
     // We always remove further steps as logic may have changed depending on last user inputs.
     const newSteps = this.generatedSteps.slice(0, stepIndex).concat([step]);
+    // console.error('updateGeneratedSteps');
     this.store.mutate('steps', 'SET', { steps: newSteps });
 
     // We trigger related hooks if we just loaded a new step.
     // Do not change this `if...else` structure as we must compare lengths before updating steps!
     if (this.generatedSteps.length < newSteps.length) {
       this.generatedSteps = newSteps;
-      const nextStep = newSteps[newSteps.length - 1];
-      this.triggerHooks('loadedNextStep', nextStep).then((updatedNextStep: Step) => {
+      this.triggerHooks('loadedNextStep', newSteps[newSteps.length - 1]).then((updatedNextStep) => {
         if (updatedNextStep !== null) {
           this.setCurrentStep(updatedNextStep);
         }
@@ -135,28 +138,32 @@ export default class Engine {
   /**
    * Handles form submission and next step computation.
    *
-   * @param {UserAction} userAction Last user action.
+   * @param {UserAction | null} userAction Last user action.
    *
    * @returns {void}
    */
-  private handleSubmit(userAction: UserAction): void {
-    this.formValues[userAction.fieldId] = userAction.value;
-    const currentStep = this.getCurrentStep();
-    const stepConfiguration = this.configuration.steps[currentStep.id];
-    const shouldLoadNextStep = this.configuration.fields[userAction.fieldId].loadNextStep === true
-      || this.configuration.steps[currentStep.id].fields.slice(-1)[0] === userAction.fieldId;
-    if (userAction.type === 'input' && shouldLoadNextStep) {
-      const submitPromise = (stepConfiguration.submit === true)
-        ? this.triggerHooks('submit', this.formValues)
-        : Promise.resolve(this.formValues);
-      submitPromise.then((updatedFormValues) => {
-        if (updatedFormValues !== null) {
-          this.formValues = updatedFormValues;
-          this.loadNextStep((typeof stepConfiguration.nextStep === 'function')
-            ? stepConfiguration.nextStep(updatedFormValues)
-            : stepConfiguration.nextStep);
-        }
-      });
+  private handleSubmit(userAction: UserAction | null): void {
+    if (userAction !== null && userAction.type === 'input') {
+      const currentStep = this.generatedSteps[this.generatedSteps.length - 1];
+      const stepConfiguration = this.configuration.steps[currentStep.id];
+      const fieldConfiguration = this.configuration.fields[userAction.fieldId];
+      const shouldLoadNextStep = (
+        fieldConfiguration.loadNextStep === true
+        || currentStep.fields[currentStep.fields.length - 1].id === userAction.fieldId
+      );
+      if (shouldLoadNextStep) {
+        const submitPromise = (stepConfiguration.submit === true)
+          ? this.triggerHooks('submit', this.formValues)
+          : Promise.resolve(this.formValues);
+        submitPromise.then((updatedFormValues) => {
+          if (updatedFormValues !== null) {
+            this.formValues = updatedFormValues;
+            this.loadNextStep((typeof stepConfiguration.nextStep === 'function')
+              ? stepConfiguration.nextStep(updatedFormValues)
+              : stepConfiguration.nextStep);
+          }
+        });
+      }
     }
   }
 
@@ -168,16 +175,13 @@ export default class Engine {
    * @returns {void}
    */
   private handleUserAction(userAction: UserAction | null): void {
-    if (userAction !== null) {
-      // If user changes a field in a previous step, it may have an impact on next steps to display.
-      // Thus, it is not necessary to keep any more step than the one containing last user action.
+    // If user changes a field in a previous step, it may have an impact on next steps to display.
+    // Thus, it is not necessary to keep any more step than the one containing last user action.
+    if (userAction !== null && userAction.type === 'input') {
+      this.formValues[userAction.fieldId] = userAction.value;
       this.generatedSteps = this.generatedSteps.slice(0, userAction.stepIndex + 1);
-      this.triggerHooks('userAction', userAction).then((updatedUserAction) => {
-        if (updatedUserAction !== null) {
-          this.handleSubmit(updatedUserAction);
-        }
-      });
     }
+    this.triggerHooks('userAction', userAction).then(this.handleSubmit.bind(this));
   }
 
   /**
@@ -316,6 +320,7 @@ export default class Engine {
     const currentStep = this.generatedSteps[stepIndex];
     currentStep.fields.forEach((field) => {
       if (values[field.id] !== undefined) {
+        // TODO type value
         const userAction = { type: 'input', value: values[field.id], fieldId: field.id };
         this.store.mutate('userActions', 'ADD', { stepIndex, ...userAction });
       }
