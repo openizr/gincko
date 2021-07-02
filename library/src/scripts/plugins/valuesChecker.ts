@@ -49,6 +49,7 @@ export default function valuesChecker(options: Options): Plugin {
           // If we are about to load next step, we check must all fields to ensure they are all
           // valid. Otherwise, we just check current one. If `onSubmit` option is set to `true`,
           // we only want to check all fields once, before loading next step.
+          // TODO condition is not good, always true whereas it shouldn't
           if ((field.id === fieldId && onSubmit === false) || shouldLoadNextStep === true) {
             const fieldIsEmpty = isEmpty(field.value);
             const messages = configuration.fields[field.id].messages || {};
