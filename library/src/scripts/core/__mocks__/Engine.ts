@@ -6,12 +6,12 @@
  *
  */
 
-import { Configuration } from 'scripts/types';
+import { Configuration } from 'scripts/core/Engine';
 
 /**
  * Engine mock.
  */
-export default jest.fn((): Json => {
+export default jest.fn((configuration = {}) => {
   const hooks: { [key: string]: Json[] } = {
     error: [],
     submit: [],
@@ -32,15 +32,19 @@ export default jest.fn((): Json => {
       unsubscribe: jest.fn(),
       mutate: jest.fn(),
     })),
-    loadValues: jest.fn(),
+    setValues: jest.fn(),
+    userAction: jest.fn(),
     loadNextStep: jest.fn(),
     handleSubmit: jest.fn(),
     triggerHooks: jest.fn(),
-    createStep: jest.fn(),
+    createStep: jest.fn((stepId) => ((stepId === 'invalid')
+      ? null
+      : { id: stepId, fields: [] })),
     createField: jest.fn(),
     getConfiguration: jest.fn(() => ({
       root: '',
       steps: {},
+      autoFill: configuration.autoFill !== false,
       fields: {
         test: {
           type: 'Test',
@@ -48,6 +52,7 @@ export default jest.fn((): Json => {
         },
         new: {
           type: 'Test',
+          loadNextStep: true,
           messages: {
             validation: (value: string) => ((value !== 'new') ? 'invalid' : null),
           },
@@ -72,17 +77,24 @@ export default jest.fn((): Json => {
     toggleStepLoader: jest.fn(),
     setCurrentStep: jest.fn(),
     updateGeneratedSteps: jest.fn(),
-    getCurrentStep: jest.fn(() => ((process.env.ALL_FIELDS_VALID === 'true')
-      ? ({
-        fields: [
-          {
-            id: 'test',
-            type: 'Message',
-            value: 'test',
-          },
-        ],
-      })
-      : ({
+    getCurrentStepIndex: jest.fn(() => 0),
+    getCurrentStep: jest.fn(() => {
+      if (process.env.ALL_FIELDS_VALID === 'true') {
+        return {
+          status: 'success',
+          fields: [
+            {
+              id: 'test',
+              type: 'Message',
+              value: 'test',
+            },
+          ],
+        };
+      }
+      if (process.env.ENGINE_NULL_CURRENT_STEP === 'true') {
+        return null;
+      }
+      return {
         fields: [
           {
             id: 'test',
@@ -102,9 +114,13 @@ export default jest.fn((): Json => {
             id: 'last',
             type: 'Message',
             value: 'last',
+            options: {
+              modifiers: 'test',
+            },
           },
         ],
-      }))),
+      };
+    }),
     on: jest.fn((event: string, callback: Json) => {
       hooks[event].push(callback);
     }),

@@ -6,11 +6,7 @@
  *
  */
 
-import { Plugin, FormValue } from 'scripts/types';
-
-interface Options {
-  onSubmit?: boolean;
-}
+import { Plugin, FormValue } from 'scripts/core/Engine';
 
 const isEmpty = (value: FormValue): boolean => {
   if (Array.isArray(value)) {
@@ -22,15 +18,12 @@ const isEmpty = (value: FormValue): boolean => {
 /**
  * Checks that all necessary fields have correctly been filled-in by user.
  *
- * @param {Options} options Plugin's options.
- *
  * @returns {Plugin} The actual plugin.
  */
-export default function valuesChecker(options: Options): Plugin {
-  const onSubmit = options.onSubmit || false;
-
+export default function valuesChecker(): Plugin {
   return (engine): void => {
     const configuration = engine.getConfiguration();
+    const onSubmit = configuration.checkValuesOnSubmit === true;
 
     engine.on('userAction', (userAction, next) => {
       if (userAction === null) {
@@ -44,7 +37,7 @@ export default function valuesChecker(options: Options): Plugin {
         for (let index = 0; index < currentStep.fields.length; index += 1) {
           const field = currentStep.fields[index];
           const fieldIsRequired = configuration.fields[field.id].required === true;
-          const shouldLoadNextStep = configuration.fields[field.id].loadNextStep === true
+          const shouldLoadNextStep = configuration.fields[fieldId].loadNextStep === true
             || (fieldId === currentStep.fields.slice(-1)[0].id);
           // If we are about to load next step, we check must all fields to ensure they are all
           // valid. Otherwise, we just check current one. If `onSubmit` option is set to `true`,

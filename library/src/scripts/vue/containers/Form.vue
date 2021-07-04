@@ -34,17 +34,16 @@
  *
  */
 
-import {
-  Json,
+import Vue from 'vue';
+import Engine, {
   Field,
-  Generic,
   FormValue,
   UserAction,
   Configuration,
-} from 'scripts/types';
-import Vue from 'vue';
-import Engine from 'scripts/core/Engine';
+} from 'scripts/core/Engine';
 import Step from 'scripts/vue/components/Step.vue';
+
+type Generic = Record<string, Json>;
 
 interface Props {
   activeStep: string;

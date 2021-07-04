@@ -6,20 +6,17 @@
  *
  */
 
-import Engine from 'scripts/core/__mocks__/Engine';
+import Engine from 'scripts/core/Engine';
+import MockedEngine from 'scripts/core/__mocks__/Engine';
 import reCaptchaHandler from 'scripts/plugins/reCaptchaHandler';
 
-let engine = Engine();
-
 describe('plugins/reCaptchaHandler', () => {
+  let engine = MockedEngine();
+
   beforeEach(() => {
     jest.clearAllMocks();
-    engine = Engine();
-  });
-
-  test('initialization - custom options', () => {
-    reCaptchaHandler({ enabled: false })(engine);
-    expect(engine.on).not.toHaveBeenCalled();
+    engine = MockedEngine();
+    reCaptchaHandler({ siteKey: 'testKey' })(engine as unknown as Engine);
   });
 
   test('submit hook - reCAPTCHA client not loaded', async () => {
@@ -30,7 +27,6 @@ describe('plugins/reCaptchaHandler', () => {
     (document as Json).getElementsByTagName = jest.fn(() => [{
       appendChild: jest.fn(),
     }]);
-    reCaptchaHandler({})(engine);
     const promise = engine.trigger('submit', {}, { reCaptchaToken: 'test_token' });
     (window as Json).grecaptcha = {
       ready: jest.fn((callback) => callback()),
@@ -45,7 +41,6 @@ describe('plugins/reCaptchaHandler', () => {
   });
 
   test('submit hook - reCAPTCHA client already loaded', async () => {
-    reCaptchaHandler({})(engine);
     (window as Json).grecaptcha = {
       ready: jest.fn((callback) => callback()),
       execute: jest.fn(() => Promise.resolve('test_token')),

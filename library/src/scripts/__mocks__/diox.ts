@@ -9,12 +9,10 @@
 /**
  * diox mock.
  */
-class Store {
-  public register = jest.fn();
+const store = {
+  register: jest.fn(),
+  mutate: jest.fn(),
+  subscribe: jest.fn(),
+};
 
-  public mutate = jest.fn();
-
-  public subscribe = jest.fn();
-}
-
-export default Store;
+export default jest.fn(() => store);

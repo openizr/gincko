@@ -9,9 +9,9 @@
 import * as React from 'react';
 import { InferProps } from 'prop-types';
 import { buildClass } from 'sonar-ui/react';
+import { UserAction } from 'scripts/core/Engine';
 import stepPropType from 'scripts/propTypes/step';
-import Field from 'scripts/react/components/Field';
-import { UserAction, Components } from 'scripts/types';
+import Field, { Components } from 'scripts/react/components/Field';
 
 const defaultProps = {};
 
@@ -22,8 +22,9 @@ export default function Step(props: InferProps<typeof stepPropType>): JSX.Elemen
   // eslint-disable-next-line object-curly-newline
   const { id, status, index, fields, customComponents, isActive } = props;
 
-  const onUserAction = (fieldId: string, userAction: UserAction): void => {
-    (props.onUserAction as Json)(index, fieldId, userAction);
+  const onUserAction = (userAction: UserAction): void => {
+    const fullUserAction: UserAction = { ...userAction, stepIndex: index as number, stepId: id };
+    (props.onUserAction as (userAction: UserAction) => void)(fullUserAction);
   };
 
   return (
