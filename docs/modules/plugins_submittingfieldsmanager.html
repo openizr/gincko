@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>plugins/valuesLoader | gincko</title>
+	<title>plugins/submittingFieldsManager | gincko</title>
 	<meta name="description" content="Documentation for gincko">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">gincko</a>
 				</li>
 				<li>
-					<a href="plugins_valuesloader.html">plugins/valuesLoader</a>
+					<a href="plugins_submittingfieldsmanager.html">plugins/submittingFieldsManager</a>
 				</li>
 			</ul>
-			<h1>Module plugins/valuesLoader</h1>
+			<h1>Module plugins/submittingFieldsManager</h1>
 		</div>
 	</div>
 </header>
@@ -72,7 +72,7 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="plugins_valuesloader.html#default" class="tsd-kind-icon">default</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="plugins_submittingfieldsmanager.html#default" class="tsd-kind-icon">default</a></li>
 							</ul>
 						</section>
 					</div>
@@ -84,31 +84,22 @@
 					<a name="default" class="tsd-anchor"></a>
 					<h3>default</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">default<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="types._scripts_types_.html#plugin" class="tsd-signature-type" data-tsd-kind="Type alias">Plugin</a></li>
+						<li class="tsd-signature tsd-kind-icon">default<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="core_engine.html#plugin" class="tsd-signature-type" data-tsd-kind="Type alias">Plugin</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/openizr/gincko/blob/b7a32f5/library/src/scripts/plugins/valuesLoader.ts#L26">src/scripts/plugins/valuesLoader.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/openizr/gincko/blob/9e7ca37/library/src/scripts/plugins/submittingFieldsManager.ts#L13">src/scripts/plugins/submittingFieldsManager.ts:13</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Auto-loads values already filled by user when reloading next steps or page, for better UX.</p>
+									<p>Handles steps&#39; submitting fields states (disabled, loading, ...) depending on its status.</p>
 								</div>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>options: <span class="tsd-signature-type">Options</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Plugin&#39;s options.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="types._scripts_types_.html#plugin" class="tsd-signature-type" data-tsd-kind="Type alias">Plugin</a></h4>
-							<p>The actual plugin.</p>
+							<h4 class="tsd-returns-title">Returns <a href="core_engine.html#plugin" class="tsd-signature-type" data-tsd-kind="Type alias">Plugin</a></h4>
+							<p>The actual gincko plugin.</p>
 						</li>
 					</ul>
 				</section>
@@ -124,16 +115,31 @@
 						<a href="core_engine.html">core/<wbr>Engine</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="core_errorhandler.html">core/error<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="core_steps.html">core/steps</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="core_useractions.html">core/user<wbr>Actions</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="core_valueschecker.html">core/values<wbr>Checker</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="core_valuesloader.html">core/values<wbr>Loader</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="core_valuesupdater.html">core/values<wbr>Updater</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="main.html">main</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="plugins_errorhandler.html">plugins/error<wbr>Handler</a>
+						<a href="plugins.html">plugins</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="plugins_errorstepdisplayer.html">plugins/error<wbr>Step<wbr>Displayer</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="plugins_loaderdisplayer.html">plugins/loader<wbr>Displayer</a>
@@ -141,14 +147,8 @@
 					<li class=" tsd-kind-module">
 						<a href="plugins_recaptchahandler.html">plugins/re<wbr>Captcha<wbr>Handler</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="plugins_valueschecker.html">plugins/values<wbr>Checker</a>
-					</li>
 					<li class="current tsd-kind-module">
-						<a href="plugins_valuesloader.html">plugins/values<wbr>Loader</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="plugins_valuesupdater.html">plugins/values<wbr>Updater</a>
+						<a href="plugins_submittingfieldsmanager.html">plugins/submitting<wbr>Fields<wbr>Manager</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="proptypes_configuration.html">prop<wbr>Types/configuration</a>
@@ -191,7 +191,7 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="plugins_valuesloader.html#default" class="tsd-kind-icon">default</a>
+						<a href="plugins_submittingfieldsmanager.html#default" class="tsd-kind-icon">default</a>
 					</li>
 				</ul>
 			</nav>
@@ -205,6 +205,11 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
