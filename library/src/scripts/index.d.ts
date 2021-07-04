@@ -6,8 +6,8 @@
  *
  */
 
-/* istanbul ignore file */
+declare module '*.vue' {
+  import Vue from 'vue';
 
-import Form from 'scripts/vue/containers/Form.vue';
-
-export default Form;
+  export default Vue;
+}

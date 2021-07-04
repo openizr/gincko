@@ -23,7 +23,7 @@ interface Options {
  *
  * @returns {Plugin} The actual plugin.
  */
-export default function reCaptcha(options: Options): Plugin {
+export default function reCaptchaHandler(options: Options): Plugin {
   return (engine): void => {
     const { grecaptcha } = (window as Json);
     engine.on('submit', (formValues, next) => new Promise((resolve) => {

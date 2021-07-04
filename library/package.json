@@ -68,7 +68,7 @@
   "scripts": {
     "init": "node_modules/typescript-dev-kit/scripts/init.sh",
     "dev": "cd node_modules/typescript-dev-kit/ && node scripts/dev",
-    "build": "cd node_modules/typescript-dev-kit/ && node scripts/build && cp ../../src/scripts/types.d.ts ../../dist && cp ../../src/scripts/types.d.ts ../../dist/react.d.ts && cp ../../src/scripts/types.d.ts ../../dist/vue.d.ts",
+    "build": "cd node_modules/typescript-dev-kit/ && node scripts/build && cp ../../src/scripts/types.d.ts ../../dist && cp ../../src/scripts/types.d.ts ../../dist/react.d.ts && cp ../../src/scripts/types.d.ts ../../dist/vue.d.ts && cp ../../src/scripts/types.d.ts ../../dist/plugins.d.ts",
     "test": "cd node_modules/typescript-dev-kit/ && node scripts/test",
     "doc": "node_modules/.bin/typedoc --out ../docs/ --exclude \"**/*.js\" --exclude \"**/__+(tests|mocks)__/**\" src/",
     "postinstall": "rm -f node_modules/.eslintcache && test -n \"$POSTINSTALLED\" || POSTINSTALLED=1 yarn add --peer react react-dom vue prop-types"

@@ -37,9 +37,9 @@ import Vue from 'vue';
 import { ExtendedVue } from 'vue/types/vue.d';
 import { Field, FormValue } from 'scripts/core/Engine';
 
-type Generic = Record<string, Json>;
+type Generic = Record<string, FormValue>;
 type Components = { [type: string]: Component; };
-type Component = (field: Field, onUserAction: (newValue: FormValue) => void) => Json;
+type Component = (field: Field, onUserAction: (newValue: FormValue) => void) => FormValue;
 
 interface Props {
   id: string;
@@ -48,13 +48,13 @@ interface Props {
   status: string;
   message: string;
   value: FormValue;
-  options: Json;
+  options: FormValue;
   active: boolean;
   customComponents: {
     [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
       name: string;
-      props: Json;
-      events: Json;
+      props: FormValue;
+      events: FormValue;
     };
   };
 }

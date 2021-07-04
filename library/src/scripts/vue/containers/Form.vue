@@ -43,7 +43,7 @@ import Engine, {
 } from 'scripts/core/Engine';
 import Step from 'scripts/vue/components/Step.vue';
 
-type Generic = Record<string, Json>;
+type Generic = Record<string, FormValue>;
 
 interface Props {
   activeStep: string;
@@ -51,8 +51,8 @@ interface Props {
   customComponents: {
     [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
       name: string;
-      props: Json;
-      events: Json;
+      props: FormValue;
+      events: FormValue;
     };
   };
 }
@@ -89,7 +89,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   mounted() {
     const engine = new Engine(this.configuration);
     this.$store = engine.getStore();
-    this.$subscription = this.$store.subscribe('steps', (newState: Json) => {
+    this.$subscription = this.$store.subscribe('steps', (newState: FormValue) => {
       this.steps = newState.steps;
       this.loadingNextStep = newState.loadingNextStep;
     });
@@ -99,8 +99,8 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   },
   methods: {
     onUserAction(stepIndex: number, fieldId: string, userAction: UserAction): void {
-      (this as Json).$store.mutate('userActions', 'ADD', { ...userAction, stepIndex, fieldId });
+      (this as FormValue).$store.mutate('userActions', 'ADD', { ...userAction, stepIndex, fieldId });
     },
   },
-} as Json);
+} as FormValue);
 </script>
