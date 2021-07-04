@@ -10,9 +10,38 @@
  * localforage mock.
  */
 export default {
-  getItem: jest.fn(() => Promise.resolve((process.env.CACHE_NOT_EMPTY === 'true')
-    ? '{"test": "value"}'
-    : null)),
+  getItem: jest.fn(() => {
+    if (process.env.CACHE_EXISTING_FORM === 'true') {
+      return Promise.resolve(JSON.stringify({
+        formValues: { test: 'value' },
+        steps: [{
+          fields: [
+            {
+              id: 'test',
+              label: undefined,
+              message: null,
+              options: {},
+              status: 'initial',
+              type: 'Test',
+              value: undefined,
+            },
+            {
+              id: 'last',
+              label: undefined,
+              message: null,
+              options: {},
+              status: 'initial',
+              type: 'Test',
+              value: undefined,
+            },
+          ],
+          id: 'test',
+          status: 'initial',
+        }],
+      }));
+    }
+    return Promise.resolve(null);
+  }),
   setItem: jest.fn(() => Promise.resolve()),
   removeItem: jest.fn(() => Promise.resolve()),
 };

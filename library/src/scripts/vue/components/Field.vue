@@ -23,12 +23,6 @@
 /* eslint-disable vue/one-component-per-file */
 
 import {
-  Json,
-  Field,
-  Generic,
-  FormValue,
-} from 'scripts/types';
-import {
   UIRadio,
   UIButton,
   markdown,
@@ -41,7 +35,9 @@ import {
 } from 'sonar-ui/vue';
 import Vue from 'vue';
 import { ExtendedVue } from 'vue/types/vue.d';
+import { Field, FormValue } from 'scripts/core/Engine';
 
+type Generic = Record<string, Json>;
 type Components = { [type: string]: Component; };
 type Component = (field: Field, onUserAction: (newValue: FormValue) => void) => Json;
 
@@ -134,7 +130,7 @@ const builtInComponents: Components = {
       iconPosition: field.options.iconPosition,
     },
     events: {
-      click: (): void => onUserAction(field.id),
+      click: (): void => onUserAction(true),
     },
   }),
   Textfield: (field, onUserAction) => ({
@@ -349,7 +345,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   },
   methods: {
     onUserAction(newValue: FormValue): void {
-      this.$emit('userAction', this.id, { type: 'input', value: newValue });
+      this.$emit('userAction', { fieldId: this.id, type: 'input', value: newValue });
     },
     focusField(focusedValue: FormValue): void {
       this.isActive = true;

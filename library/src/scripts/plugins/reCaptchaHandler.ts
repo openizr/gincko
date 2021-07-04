@@ -6,11 +6,14 @@
  *
  */
 
-import { Plugin } from 'scripts/types';
+import { Plugin } from 'scripts/core/Engine';
 
+/**
+ * Plugin options.
+ */
 interface Options {
-  enabled?: boolean;
-  siteKey?: string;
+  /** Google's reCAPTCHA v3 site key. */
+  siteKey: string;
 }
 
 /**
@@ -22,26 +25,24 @@ interface Options {
  */
 export default function reCaptcha(options: Options): Plugin {
   return (engine): void => {
-    if (options.enabled !== false) {
-      const { grecaptcha } = (window as Json);
-      engine.on('submit', (formValues, next) => new Promise((resolve) => {
-        const submit = (client: Json): void => {
-          client.ready(() => {
-            client.execute(options.siteKey, { action: 'submit' }).then((token: string) => {
-              resolve(token);
-            });
+    const { grecaptcha } = (window as Json);
+    engine.on('submit', (formValues, next) => new Promise((resolve) => {
+      const submit = (client: Json): void => {
+        client.ready(() => {
+          client.execute(options.siteKey, { action: 'submit' }).then((token: string) => {
+            resolve(token);
           });
-        };
-        if (grecaptcha === undefined) {
-          const script = document.createElement('script');
-          script.onload = (): void => { submit((window as Json).grecaptcha); };
-          script.type = 'text/javascript';
-          script.src = `https://www.google.com/recaptcha/api.js?render=${options.siteKey}`;
-          document.getElementsByTagName('head')[0].appendChild(script);
-        } else {
-          submit(grecaptcha);
-        }
-      }).then((reCaptchaToken) => next({ ...formValues, reCaptchaToken })));
-    }
+        });
+      };
+      if (grecaptcha === undefined) {
+        const script = document.createElement('script');
+        script.onload = (): void => { submit((window as Json).grecaptcha); };
+        script.type = 'text/javascript';
+        script.src = `https://www.google.com/recaptcha/api.js?render=${options.siteKey}`;
+        document.getElementsByTagName('head')[0].appendChild(script);
+      } else {
+        submit(grecaptcha);
+      }
+    }).then((reCaptchaToken) => next({ ...formValues, reCaptchaToken })));
   };
 }

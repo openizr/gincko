@@ -20,8 +20,14 @@ import {
 import * as React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import fieldPropType from 'scripts/propTypes/field';
-import { Components, FormValue } from 'scripts/types';
 import Message from 'scripts/react/components/Message';
+import { Field as FormField, FormValue } from 'scripts/core/Engine';
+
+export type Component = (field: FormField, onUserAction: (newValue: Json) => void) => JSX.Element;
+
+export type Components = {
+  [type: string]: Component;
+};
 
 const propTypes = {
   ...fieldPropType,
@@ -50,7 +56,7 @@ const builtInComponents: Components = {
       icon={field.options.icon}
       type={field.options.type}
       iconPosition={field.options.iconPosition}
-      onClick={(): void => onUserAction(field.id)}
+      onClick={(): void => onUserAction(true)}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
   ),
@@ -184,7 +190,7 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
   };
 
   const onUserAction = (newValue: FormValue): void => {
-    props.onUserAction(id, { type: 'input', value: newValue });
+    props.onUserAction({ type: 'input', value: newValue, fieldId: id });
   };
 
   // Unknown field type...

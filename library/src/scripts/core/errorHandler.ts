@@ -6,7 +6,7 @@
  *
  */
 
-import { Plugin } from 'scripts/types';
+import { Plugin } from 'scripts/core/Engine';
 
 /**
  * Displays hooks errors in console.

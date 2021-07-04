@@ -52,7 +52,8 @@
     "entry": {
       "vue": "./scripts/vue.ts",
       "main": "./scripts/main.ts",
-      "react": "./scripts/react.ts"
+      "react": "./scripts/react.ts",
+      "plugins": "./scripts/plugins.ts"
     },
     "runInDev": false,
     "splitChunks": false,

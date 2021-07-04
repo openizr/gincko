@@ -6,27 +6,19 @@
  *
  */
 
-import Engine from 'scripts/core/__mocks__/Engine';
+import Engine from 'scripts/core/Engine';
+import MockedEngine from 'scripts/core/__mocks__/Engine';
 import loaderDisplayer from 'scripts/plugins/loaderDisplayer';
 
 jest.useFakeTimers();
+
 describe('plugins/loaderDisplayer', () => {
-  let engine = Engine();
+  let engine = MockedEngine();
 
   beforeEach(() => {
     jest.clearAllMocks();
-    engine = Engine();
-    loaderDisplayer({})(engine);
-  });
-
-  test('initialization - default options', async () => {
-    expect(engine.toggleStepLoader).not.toHaveBeenCalled();
-  });
-
-  test('initialization - custom options', () => {
-    loaderDisplayer({ enabled: false })(engine);
-    expect(engine.toggleStepLoader).toHaveBeenCalledTimes(1);
-    expect(engine.toggleStepLoader).toHaveBeenCalledWith(false);
+    engine = MockedEngine();
+    loaderDisplayer()(engine as unknown as Engine);
   });
 
   test('userAction hook - input on non-submitting step field', async () => {

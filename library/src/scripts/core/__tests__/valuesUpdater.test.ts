@@ -6,31 +6,30 @@
  *
  */
 
-import Engine from 'scripts/core/__mocks__/Engine';
-import valuesUpdater from 'scripts/plugins/valuesUpdater';
+import Engine from 'scripts/core/Engine';
+import valuesUpdater from 'scripts/core/valuesUpdater';
+import MockedEngine from 'scripts/core/__mocks__/Engine';
 
-let engine = Engine();
+describe('core/valuesUpdater', () => {
+  let engine = MockedEngine();
 
-describe('plugins/valuesUpdater', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    engine = Engine();
+    engine = MockedEngine();
+    valuesUpdater()(engine as unknown as Engine);
   });
 
   test('userAction hook - null user action', async () => {
-    valuesUpdater()(engine);
     await engine.trigger('userAction', null);
     expect(engine.setCurrentStep).not.toHaveBeenCalled();
   });
 
   test('userAction hook - non-input user action', async () => {
-    valuesUpdater()(engine);
     await engine.trigger('userAction', { type: 'click' });
     expect(engine.setCurrentStep).not.toHaveBeenCalled();
   });
 
   test('userAction hook - normal user action', async () => {
-    valuesUpdater()(engine);
     process.env.LAST_FIELD = 'true';
     await engine.trigger('userAction', { fieldId: 'last', type: 'input', value: 'initialValue' });
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
@@ -39,7 +38,14 @@ describe('plugins/valuesUpdater', () => {
         { id: 'new', type: 'Message', value: 'ok' },
         { id: 'other', type: 'Message' },
         {
-          id: 'last', message: null, status: 'initial', type: 'Message', value: 'initialValue',
+          id: 'last',
+          message: null,
+          status: 'initial',
+          type: 'Message',
+          value: 'initialValue',
+          options: {
+            modifiers: 'test',
+          },
         },
       ],
       status: 'progress',

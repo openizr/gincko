@@ -7,7 +7,7 @@
  */
 
 import { Module } from 'diox';
-import { UserAction } from 'scripts/types';
+import { UserAction } from 'scripts/core/Engine';
 
 /**
  * Handles all user actions in form.

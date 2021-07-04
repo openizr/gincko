@@ -30,16 +30,12 @@
  *
  */
 
-import {
-  Json,
-  Generic,
-  FormValue,
-  UserAction,
-  Field as FormField,
-} from 'scripts/types';
 import Vue from 'vue';
 import { buildClass } from 'sonar-ui/vue';
 import Field from 'scripts/vue/components/Field.vue';
+import { FormValue, UserAction, Field as FormField } from 'scripts/core/Engine';
+
+type Generic = Record<string, Json>;
 
 interface Props {
   id: string;
@@ -91,8 +87,8 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
   },
   methods: {
-    onUserAction(fieldId: string, userAction: UserAction): void {
-      this.$emit('userAction', this.index, fieldId, userAction);
+    onUserAction(userAction: UserAction): void {
+      this.$emit('userAction', { ...userAction, stepIndex: this.index, stepId: this.id });
     },
     buildClass(baseClass: string, modifiers: string[]) {
       return buildClass(baseClass, modifiers);

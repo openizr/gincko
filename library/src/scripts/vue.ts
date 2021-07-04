@@ -8,6 +8,14 @@
 
 /* istanbul ignore file */
 
-import Form from 'scripts/vue/containers/Form.vue';
+declare module '*.vue' {
+  import Vue from 'vue';
 
-export default Form;
+  export default Vue;
+}
+
+declare module 'scripts/vue' {
+  import Form from 'scripts/vue/containers/Form.vue';
+
+  export default Form;
+}

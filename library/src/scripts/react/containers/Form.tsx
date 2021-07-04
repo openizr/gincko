@@ -7,12 +7,12 @@
  */
 
 import * as React from 'react';
-import Engine from 'scripts/core/Engine';
 import useStore from 'diox/connectors/react';
 import Step from 'scripts/react/components/Step';
 import stepPropType from 'scripts/propTypes/step';
 import PropTypes, { InferProps } from 'prop-types';
-import { Components, UserAction } from 'scripts/types';
+import Engine, { UserAction } from 'scripts/core/Engine';
+import { Components } from 'scripts/react/components/Field';
 import configurationPropType from 'scripts/propTypes/configuration';
 
 const propTypes = {
@@ -35,8 +35,8 @@ export default function Form(props: InferProps<typeof propTypes>): JSX.Element {
   const [useCombiner, mutate] = useStore(engine.getStore());
   const [state] = useCombiner('steps');
 
-  const onUserAction = (stepIndex: number, fieldId: string, userAction: UserAction): void => {
-    mutate('userActions', 'ADD', { ...userAction, stepIndex, fieldId });
+  const onUserAction = (userAction: UserAction): void => {
+    mutate('userActions', 'ADD', userAction);
   };
 
   return (

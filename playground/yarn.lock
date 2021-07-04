@@ -3817,12 +3817,12 @@ get-value@^2.0.3, get-value@^2.0.6:
   integrity sha1-3BXKHGcjh8p2vTesCjlbogQqLCg=
 
 "gincko@file:../../../library/dist":
-  version "5.7.5"
+  version "9.3.9"
   dependencies:
     basx "^1.3.4"
     diox "^4.0.1"
     localforage "^1.9.0"
-    sonar-ui "^0.0.37"
+    sonar-ui "^0.0.38"
 
 glob-parent@^5.1.0, glob-parent@^5.1.2, glob-parent@~5.1.2:
   version "5.1.2"
@@ -6887,10 +6887,10 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-sonar-ui@^0.0.37:
-  version "0.0.37"
-  resolved "https://registry.yarnpkg.com/sonar-ui/-/sonar-ui-0.0.37.tgz#ce6140f929626ec29500f3ba7ab2b0fd027fe2be"
-  integrity sha512-10LBtgVPLfmdvjon5pds+aI8RagZT6PSZvRZrvQdrfmoLG8fENjA47o4WHw3ynqDB4W9kGMFsAJVxHzOaPup+g==
+sonar-ui@^0.0.38:
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/sonar-ui/-/sonar-ui-0.0.38.tgz#22808af17d339be81bef373efe595ec548197da8"
+  integrity sha512-ue0Wvp7nYzMONnZS/kZikgD/oXYfVH1wNLyua3IiyP81mN3dltL9MbVRYWge/KSRlRZ9D25EpIBI/dVbOmHNgQ==
 
 sort-css-media-queries@1.5.4:
   version "1.5.4"

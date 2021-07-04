@@ -15,28 +15,8 @@ type Generic = Record<string, any>; // eslint-disable-line @typescript-eslint/no
 
 export type FormValue = Json;
 export type Plugin = (engine: Engine) => void;
-export type Step = PropTypes.InferProps<{
-  index: PropTypes.Requireable<number>;
-  isActive: PropTypes.Requireable<boolean>;
-  onUserAction: PropTypes.Requireable<(...args: Json[]) => Promise<Json>>;
-  id: PropTypes.Validator<string>;
-  status: PropTypes.Validator<string>;
-  customComponents: PropTypes.Requireable<{
-    [x: string]: (...args: Json[]) => Json;
-  }>;
-  fields: PropTypes.Validator<PropTypes.InferProps<{
-    value: PropTypes.Requireable<Json>;
-    active: PropTypes.Requireable<boolean>;
-    label: PropTypes.Requireable<string>;
-    message: PropTypes.Requireable<string>;
-    id: PropTypes.Validator<string>;
-    type: PropTypes.Validator<string>;
-    status: PropTypes.Validator<string>;
-    options: PropTypes.Validator<Json>;
-  }>[]>;
-}>;
 export type Field = PropTypes.InferProps<{
-  value: PropTypes.Requireable<Json>;
+  value: PropTypes.Requireable<FormValue>;
   active: PropTypes.Requireable<boolean>;
   label: PropTypes.Requireable<string>;
   message: PropTypes.Requireable<string>;
@@ -45,55 +25,101 @@ export type Field = PropTypes.InferProps<{
   status: PropTypes.Validator<string>;
   options: PropTypes.Validator<Json>;
 }>;
+export type Step = PropTypes.InferProps<{
+  index: PropTypes.Requireable<number>;
+  isActive: PropTypes.Requireable<boolean>;
+  onUserAction: PropTypes.Requireable<(...args: FormValue[]) => Promise<FormValue>>;
+  id: PropTypes.Validator<string>;
+  status: PropTypes.Validator<string>;
+  customComponents: PropTypes.Requireable<{
+    [x: string]: (...args: Json[]) => Json;
+  }>;
+  fields: PropTypes.Validator<Field[]>;
+}>;
+
 export type Configuration = PropTypes.InferProps<{
-  loaderDisplayerOptions: PropTypes.Requireable<PropTypes.InferProps<{
-    enabled: PropTypes.Requireable<boolean>;
-    timeout: PropTypes.Requireable<number>;
-  }>>;
-  reCaptchaHandlerOptions: PropTypes.Requireable<PropTypes.InferProps<{
-    enabled: PropTypes.Requireable<boolean>;
-    siteKey: PropTypes.Requireable<string>;
-  }>>;
-  valuesCheckerOptions: PropTypes.Requireable<PropTypes.InferProps<{
-    onSubmit: PropTypes.Requireable<boolean>;
-  }>>;
-  valuesLoaderOptions: PropTypes.Requireable<PropTypes.InferProps<{
-    cacheId: PropTypes.Requireable<string>;
-    enabled: PropTypes.Requireable<boolean>;
-    autoSubmit: PropTypes.Requireable<boolean>;
-    injectValuesTo: PropTypes.Requireable<string[]>;
-  }>>;
+  /** Form id, used to name cache key. */
+  id: PropTypes.Requireable<string>;
+
+  /** Whether to enable cache. */
+  cache: PropTypes.Requireable<boolean>;
+
+  /** Whether to enable fields autofill with existing values. */
+  autoFill: PropTypes.Requireable<boolean>;
+
+  /** Whether to restart form from the beginning on page reload. */
+  restartOnReload: PropTypes.Requireable<boolean>;
+
+  /** Root step, from which to start the form. */
   root: PropTypes.Validator<string>;
+
+  /** Whether to check fields values only on step submit. */
+  checkValuesOnSubmit: PropTypes.Requireable<boolean>;
+
+  /** Custom plugins registrations. */
   plugins: PropTypes.Requireable<((...args: Json[]) => void)[]>;
+
+  /** List of fields types in which to inject form values in options. */
+  injectValuesTo: PropTypes.Requireable<string[]>;
+
+  /** List of non-interactive fields types (message, ...) that will always pass to success state. */
   nonInteractiveFields: PropTypes.Requireable<string[]>;
+
+  /** List of form steps. */
   steps: PropTypes.Validator<{
     [x: string]: PropTypes.InferProps<{
+      /** List of step's fields ids. */
       fields: PropTypes.Validator<string[]>;
+
+      /** Whether to submit form when step is complete. */
       submit: PropTypes.Requireable<boolean>;
-      nextStep: PropTypes.Requireable<string | ((...args: Json[]) => string | null)>;
+
+      /** Determines which step to load next. */
+      nextStep: PropTypes.Requireable<string | ((...args: FormValue[]) => string | null)>;
     }>;
   }>;
+
+  /** List of form fields. */
   fields: PropTypes.Validator<{
     [x: string]: PropTypes.InferProps<{
+      /** Field's type. */
       type: PropTypes.Validator<string>;
+
+      /** Whether field is required. */
       required: PropTypes.Requireable<boolean>;
-      loadNextStep: PropTypes.Requireable<boolean>;
+
+      /** Field's label. */
       label: PropTypes.Requireable<string>;
+
+      /** Field's status-specific messages. */
       messages: PropTypes.Requireable<PropTypes.InferProps<{
+        /** Message passed to the field when status is "success". */
         success: PropTypes.Requireable<string>;
+
+        /** Message passed to the field when it is empty but required. */
         required: PropTypes.Requireable<string>;
-        validation: PropTypes.Requireable<(...args: Json[]) => string | null | undefined>;
+
+        /** Returns a different message depending on validation rule. */
+        validation: PropTypes.Requireable<(...args: FormValue[]) => string | null | undefined>;
       }>>;
-      value: PropTypes.Requireable<Json>;
+
+      /** Field's default value. */
+      value: PropTypes.Requireable<FormValue>;
+
+      /** Field's options. */
       options: PropTypes.Requireable<Json>;
+
+      /** Whether to load next step when performing a user action on this field. */
+      loadNextStep: PropTypes.Requireable<boolean>;
     }>;
   }>;
 }>;
 
-export type Hook = (data: Json, next: (data?: Json) => Promise<Json>) => Promise<Json>;
+export type Hook<Type> = (data: Type, next: (data?: Type) => Promise<Type>) => Promise<Type>;
 export type FormEvent = 'loadNextStep' | 'loadedNextStep' | 'userAction' | 'submit' | 'error';
 
 export interface UserAction {
+  stepId: string;
   fieldId: string;
   stepIndex: number;
   type: 'input' | 'click';
@@ -111,11 +137,17 @@ export class Engine {
   /** Diox store instance. */
   private store: Store;
 
+  /** Cache name key. */
+  private cacheKey: string;
+
+  /** Timeout after which to refresh cache. */
+  private cacheTimeout: number | null;
+
   /** Form engine configuration. Contains steps, elements, ... */
   private configuration: Configuration;
 
   /** Contains all events hooks to trigger when events are fired. */
-  private hooks: { [eventName: string]: Hook[]; };
+  private hooks: { [eventName: string]: Hook<Json>[]; };
 
   /** Contains the actual form steps, as they are currently displayed to end-user. */
   private generatedSteps: Step[];
@@ -134,7 +166,15 @@ export class Engine {
    *
    * @throws {Error} If any event hook does not return a Promise.
    */
-  private triggerHooks(eventName: FormEvent, data?: Json): Promise<Json>;
+  private triggerHooks(eventName: 'submit', data: FormValues | null): Promise<FormValues | null>;
+
+  private triggerHooks(eventName: 'loadNextStep', data: Step | null): Promise<Step | null>;
+
+  private triggerHooks(eventName: 'loadedNextStep', data: Step | null): Promise<Step | null>;
+
+  private triggerHooks(eventName: 'userAction', data: UserAction | null): Promise<UserAction | null>;
+
+  private triggerHooks(eventName: 'error', data: Error | null): Promise<Error | null>;
 
   /**
    * Updates list of generated steps.
@@ -220,13 +260,13 @@ export class Engine {
   public getValues(): FormValues;
 
   /**
-   * Loads the given form fields values into current step.
+   * Adds or overrides the given form values.
    *
-   * @param {FormValues} values Form values to load in form.
+   * @param {FormValues} values Form values to add.
    *
    * @returns {void}
    */
-  public loadValues(values: FormValues): void;
+  public setValues(values: FormValues): void;
 
   /**
    * Returns current store instance.
@@ -252,6 +292,13 @@ export class Engine {
   public getCurrentStep(): Step;
 
   /**
+   * Returns current generated step index.
+   *
+   * @returns {number} Current generated step index.
+   */
+  public getCurrentStepIndex(): number;
+
+  /**
    * Updates current generated step with given info.
    *
    * @param {Step} updatedStep Updated info to set in current generated step.
@@ -267,11 +314,19 @@ export class Engine {
    *
    * @param {FormEvent} eventName Name of the event to register hook for.
    *
-   * @param {Hook} hook Hook to register.
+   * @param {Hook<Json>} hook Hook to register.
    *
    * @returns {void}
    */
-  public on(eventName: FormEvent, hook: Hook): void;
+  public on(eventName: 'userAction', hook: Hook<UserAction | null>): void;
+
+  public on(eventName: 'loadNextStep', hook: Hook<Step | null>): void;
+
+  public on(eventName: 'loadedNextStep', hook: Hook<Step | null>): void;
+
+  public on(eventName: 'error', hook: Hook<Error | null>): void;
+
+  public on(eventName: 'submit', hook: Hook<FormValues | null>): void;
 
   /**
    * Toggles a loader right after current step, indicating next step is/not being generated.
@@ -281,6 +336,15 @@ export class Engine {
    * @returns {void}
    */
   public toggleStepLoader(display: boolean): void;
+
+  /**
+   * Triggers the given user action.
+   *
+   * @param {UserAction} userAction User action to trigger.
+   *
+   * @returns {void}
+   */
+  public userAction(userAction: UserAction): void
 }
 
 declare module 'gincko' {

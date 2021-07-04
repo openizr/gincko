@@ -6,25 +6,25 @@
  *
  */
 
-import Engine from 'scripts/core/__mocks__/Engine';
-import valuesChecker from 'scripts/plugins/valuesChecker';
+import Engine from 'scripts/core/Engine';
+import valuesChecker from 'scripts/core/valuesChecker';
+import MockedEngine from 'scripts/core/__mocks__/Engine';
 
-let engine = Engine();
+describe('core/valuesChecker', () => {
+  let engine = MockedEngine();
 
-describe('plugins/valuesChecker', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    engine = Engine();
+    engine = MockedEngine();
+    valuesChecker()(engine as unknown as Engine);
   });
 
   test('userAction hook - null user action', async () => {
-    valuesChecker({})(engine);
     await engine.trigger('userAction', null);
     expect(engine.setCurrentStep).not.toHaveBeenCalled();
   });
 
   test('userAction hook - non input user action', async () => {
-    valuesChecker({})(engine);
     await engine.trigger('userAction', { type: 'click' });
     expect(engine.setCurrentStep).toHaveBeenCalledTimes(1);
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
@@ -32,13 +32,19 @@ describe('plugins/valuesChecker', () => {
         { id: 'test', type: 'Message', value: [] },
         { id: 'new', type: 'Message', value: 'ok' },
         { id: 'other', type: 'Message' },
-        { id: 'last', type: 'Message', value: 'last' },
+        {
+          id: 'last',
+          type: 'Message',
+          value: 'last',
+          options: {
+            modifiers: 'test',
+          },
+        },
       ],
     });
   });
 
   test('userAction hook - invalid input on field without validation', async () => {
-    valuesChecker({})(engine);
     await engine.trigger('userAction', { type: 'input', fieldId: 'last' });
     expect(engine.setCurrentStep).toHaveBeenCalledTimes(1);
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
@@ -54,37 +60,52 @@ describe('plugins/valuesChecker', () => {
           id: 'other', type: 'Message', status: 'error', message: undefined,
         },
         {
-          id: 'last', type: 'Message', value: 'last', message: undefined, status: 'success',
+          id: 'last',
+          type: 'Message',
+          value: 'last',
+          message: undefined,
+          status: 'success',
+          options: {
+            modifiers: 'test',
+          },
         },
       ],
     });
   });
 
   test('userAction hook - invalid input on field, onSubmit is `true`', async () => {
-    valuesChecker({ onSubmit: true })(engine);
     await engine.trigger('userAction', { type: 'input', fieldId: 'other' });
     expect(engine.setCurrentStep).toHaveBeenCalledTimes(1);
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
       fields: [
         { id: 'test', type: 'Message', value: [] },
         { id: 'new', type: 'Message', value: 'ok' },
-        { id: 'other', type: 'Message' },
-        { id: 'last', type: 'Message', value: 'last' },
+        {
+          id: 'other', type: 'Message', message: undefined, status: 'error',
+        },
+        {
+          id: 'last',
+          type: 'Message',
+          value: 'last',
+          options: {
+            modifiers: 'test',
+          },
+        },
       ],
+      status: 'error',
     });
   });
 
   test('userAction hook - all fields are valid', async () => {
-    valuesChecker({})(engine);
     process.env.ALL_FIELDS_VALID = 'true';
     await engine.trigger('userAction', { type: 'input', fieldId: 'test' });
     expect(engine.setCurrentStep).toHaveBeenCalledTimes(1);
-    delete process.env.ALL_FIELDS_VALID;
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
       status: 'success',
       fields: [{
         id: 'test', type: 'Message', value: 'test', status: 'success',
       }],
     });
+    delete process.env.ALL_FIELDS_VALID;
   });
 });

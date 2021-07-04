@@ -14,26 +14,36 @@ import normalizedFieldPropType from 'scripts/propTypes/normalizedField';
  * Configuration propType.
  */
 export default {
-  loaderDisplayerOptions: PropTypes.shape({
-    enabled: PropTypes.bool,
-    timeout: PropTypes.number,
-  }),
-  reCaptchaHandlerOptions: PropTypes.shape({
-    enabled: PropTypes.bool,
-    siteKey: PropTypes.string,
-  }),
-  valuesCheckerOptions: PropTypes.shape({
-    onSubmit: PropTypes.bool,
-  }),
-  valuesLoaderOptions: PropTypes.shape({
-    enabled: PropTypes.bool,
-    cacheId: PropTypes.string,
-    autoSubmit: PropTypes.bool,
-    injectValuesTo: PropTypes.arrayOf(PropTypes.string.isRequired),
-  }),
+  /** Form id, used to name cache key. */
+  id: PropTypes.string,
+
+  /** Whether to enable cache. */
+  cache: PropTypes.bool,
+
+  /** Whether to enable fields autofill with existing values. */
+  autoFill: PropTypes.bool,
+
+  /** Whether to restart form from the beginning on page reload. */
+  restartOnReload: PropTypes.bool,
+
+  /** Root step, from which to start the form. */
   root: PropTypes.string.isRequired,
+
+  /** Whether to check fields values only on step submit. */
+  checkValuesOnSubmit: PropTypes.bool,
+
+  /** Custom plugins registrations. */
   plugins: PropTypes.arrayOf(PropTypes.func.isRequired),
+
+  /** List of fields types in which to inject form values in options. */
+  injectValuesTo: PropTypes.arrayOf(PropTypes.string.isRequired),
+
+  /** List of non-interactive fields types (message, ...) that will always pass to success state. */
   nonInteractiveFields: PropTypes.arrayOf(PropTypes.string.isRequired),
+
+  /** List of form steps. */
   steps: PropTypes.objectOf(PropTypes.shape(normalizedStepPropType).isRequired).isRequired,
+
+  /** List of form fields. */
   fields: PropTypes.objectOf(PropTypes.shape(normalizedFieldPropType).isRequired).isRequired,
 };
