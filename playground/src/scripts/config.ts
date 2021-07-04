@@ -46,30 +46,6 @@ export default <Configuration>{
     },
   },
   plugins: [
-    (engine: Engine): void => {
-      engine.on('userAction', (userAction, next) => {
-        console.log('US', userAction);
-        return next(userAction);
-      });
-      engine.on('loadedNextStep', (nextStep, next) => next(nextStep).then(() => {
-        console.log('OKOK');
-        setTimeout(() => {
-          // if (nextStep.id === 'start') {
-          //   console.log('US', engine.userAction({
-          //     type: 'input', value: 'TEST', fieldId: 'email', stepIndex: 0,
-          //   }));
-          // }
-          engine.setValues({ test: 'zokazfok' });
-        }, 1000);
-        setTimeout(() => {
-          console.log(engine.getValues());
-        }, 2000);
-        return Promise.resolve(nextStep);
-      }));
-      // setTimeout(() => {
-      //   engine.loadValues({ test: 'ok', email: 'zjfdzo' });
-      //   engine.getValues();
-      // }, 2000);
-    },
+
   ],
 } as Configuration;
