@@ -6,25 +6,39 @@
  *
  */
 
-import {
-  Step,
-  Hook,
-  Field,
-  FormEvent,
-  UserAction,
-  FormValues,
-  Configuration,
-} from 'scripts/types';
 import Store from 'diox';
 import { deepCopy } from 'basx';
+import localforage from 'localforage';
 import steps from 'scripts/core/steps';
 import userActions from 'scripts/core/userActions';
-import valuesLoader from 'scripts/plugins/valuesLoader';
-import errorHandler from 'scripts/plugins/errorHandler';
-import valuesChecker from 'scripts/plugins/valuesChecker';
-import valuesUpdater from 'scripts/plugins/valuesUpdater';
-import loaderDisplayer from 'scripts/plugins/loaderDisplayer';
-import reCaptchaHandler from 'scripts/plugins/reCaptchaHandler';
+import valuesLoader from 'scripts/core/valuesLoader';
+import errorHandler from 'scripts/core/errorHandler';
+import valuesChecker from 'scripts/core/valuesChecker';
+import valuesUpdater from 'scripts/core/valuesUpdater';
+import { InferProps } from 'prop-types';
+import stepPropTypes from 'scripts/propTypes/step';
+import fieldPropTypes from 'scripts/propTypes/field';
+import configurationPropTypes from 'scripts/propTypes/configuration';
+
+export type FormValue = Json;
+export type Plugin = (engine: Engine) => void;
+export type Step = InferProps<typeof stepPropTypes>;
+export type Field = InferProps<typeof fieldPropTypes>;
+export type Configuration = InferProps<typeof configurationPropTypes>;
+export type FormEvent = 'loadNextStep' | 'loadedNextStep' | 'userAction' | 'submit' | 'error';
+export type Hook<Type> = (data: Type, next: (data?: Type) => Promise<Type>) => Promise<Type>;
+
+export interface UserAction {
+  stepId: string;
+  fieldId: string;
+  stepIndex: number;
+  type: 'input' | 'click';
+  value: FormValue;
+}
+
+export interface FormValues {
+  [fieldId: string]: FormValue;
+}
 
 /**
  * Form engine.
@@ -33,11 +47,17 @@ export default class Engine {
   /** Diox store instance. */
   private store: Store;
 
+  /** Cache name key. */
+  private cacheKey: string;
+
+  /** Timeout after which to refresh cache. */
+  private cacheTimeout: number | null;
+
   /** Form engine configuration. Contains steps, elements, ... */
   private configuration: Configuration;
 
   /** Contains all events hooks to trigger when events are fired. */
-  private hooks: { [eventName: string]: Hook[]; };
+  private hooks: { [eventName: string]: Hook<Json>[]; };
 
   /** Contains the actual form steps, as they are currently displayed to end-user. */
   private generatedSteps: Step[];
@@ -56,16 +76,26 @@ export default class Engine {
    *
    * @throws {Error} If any event hook does not return a Promise.
    */
+  private triggerHooks(eventName: 'submit', data: FormValues | null): Promise<FormValues | null>;
+
+  private triggerHooks(eventName: 'loadNextStep', data: Step | null): Promise<Step | null>;
+
+  private triggerHooks(eventName: 'loadedNextStep', data: Step | null): Promise<Step | null>;
+
+  private triggerHooks(eventName: 'userAction', data: UserAction | null): Promise<UserAction | null>;
+
+  private triggerHooks(eventName: 'error', data: Error | null): Promise<Error | null>;
+
   private triggerHooks(eventName: FormEvent, data?: Json): Promise<Json> {
     const hooksChain = this.hooks[eventName].concat([]).reverse().reduce((chain, hook) => (
-      (updatedData: Json): Promise<Json> => {
+      (updatedData): Promise<Json> => {
         const hookResult = hook(updatedData, chain as (data: Json) => Promise<Json>);
         if (!(hookResult && typeof hookResult.then === 'function')) {
           throw new Error(`Event "${eventName}": all your hooks must return a Promise.`);
         }
         return hookResult;
       }
-    ), (updatedData: Json) => Promise.resolve(updatedData));
+    ), (updatedData) => Promise.resolve(updatedData));
     // Hooks chain must first be wrapped in a Promise to catch all errors with proper error hooks.
     return Promise.resolve()
       .then(() => (hooksChain as (data: Json) => Promise<Json>)(data))
@@ -84,8 +114,21 @@ export default class Engine {
         ? this.hooks.error.slice(-1)[0](error, () => Promise.resolve(null))
         : this.triggerHooks('error', error).then(() => null)))
       .finally(() => {
-        const currentStep = this.generatedSteps[this.generatedSteps.length - 1] || null;
+        const currentStep = this.generatedSteps[this.getCurrentStepIndex()] || null;
         this.setCurrentStep(currentStep, true);
+        window.clearTimeout(this.cacheTimeout as number);
+        // If cache is enabled, we store current form state, except on form submission, when
+        // cache must be completely cleared.
+        if (this.configuration.cache !== false && eventName !== 'submit') {
+          this.cacheTimeout = window.setTimeout(() => {
+            localforage.setItem(this.cacheKey, JSON.stringify({
+              steps: this.generatedSteps,
+              formValues: this.formValues,
+            }));
+          }, 500);
+        } else {
+          localforage.removeItem(this.cacheKey);
+        }
       });
   }
 
@@ -101,7 +144,6 @@ export default class Engine {
   private updateGeneratedSteps(stepIndex: number, step: Step): void {
     // We always remove further steps as logic may have changed depending on last user inputs.
     const newSteps = this.generatedSteps.slice(0, stepIndex).concat([step]);
-    // console.error('updateGeneratedSteps');
     this.store.mutate('steps', 'SET', { steps: newSteps });
 
     // We trigger related hooks if we just loaded a new step.
@@ -127,10 +169,9 @@ export default class Engine {
    */
   private loadNextStep(nextStepId?: string | null): void {
     const nextStep = this.createStep(nextStepId || null);
-    this.triggerHooks('loadNextStep', nextStep).then((updatedNextStep: Step) => {
+    this.triggerHooks('loadNextStep', nextStep).then((updatedNextStep) => {
       if (updatedNextStep !== null) {
-        const currentStepIndex = this.generatedSteps.length - 1;
-        this.updateGeneratedSteps(currentStepIndex + 1, updatedNextStep);
+        this.updateGeneratedSteps(this.getCurrentStepIndex() + 1, updatedNextStep);
       }
     });
   }
@@ -144,7 +185,7 @@ export default class Engine {
    */
   private handleSubmit(userAction: UserAction | null): void {
     if (userAction !== null && userAction.type === 'input') {
-      const currentStep = this.generatedSteps[this.generatedSteps.length - 1];
+      const currentStep = this.generatedSteps[this.getCurrentStepIndex()];
       const stepConfiguration = this.configuration.steps[currentStep.id];
       const fieldConfiguration = this.configuration.fields[userAction.fieldId];
       const shouldLoadNextStep = (
@@ -152,12 +193,13 @@ export default class Engine {
         || currentStep.fields[currentStep.fields.length - 1].id === userAction.fieldId
       );
       if (shouldLoadNextStep) {
+        const formValues = this.getValues();
         const submitPromise = (stepConfiguration.submit === true)
-          ? this.triggerHooks('submit', this.formValues)
-          : Promise.resolve(this.formValues);
+          ? this.triggerHooks('submit', formValues)
+          : Promise.resolve(formValues);
         submitPromise.then((updatedFormValues) => {
           if (updatedFormValues !== null) {
-            this.formValues = updatedFormValues;
+            this.setValues(updatedFormValues);
             this.loadNextStep((typeof stepConfiguration.nextStep === 'function')
               ? stepConfiguration.nextStep(updatedFormValues)
               : stepConfiguration.nextStep);
@@ -196,9 +238,11 @@ export default class Engine {
     store.register('steps', steps);
     store.register('userActions', userActions);
     this.store = store;
-    this.configuration = configuration;
-    this.generatedSteps = [];
     this.formValues = {};
+    this.cacheTimeout = null;
+    this.generatedSteps = [];
+    this.configuration = configuration;
+    this.cacheKey = `gincko_${configuration.id || 'cache'}`;
     this.hooks = {
       error: [],
       submit: [],
@@ -210,21 +254,21 @@ export default class Engine {
     // Be careful: plugins' order matters!
     (configuration.plugins || []).concat([
       errorHandler(),
-      reCaptchaHandler(configuration.reCaptchaHandlerOptions || {} as Json),
-      loaderDisplayer(configuration.loaderDisplayerOptions || {} as Json),
       valuesUpdater(),
-      valuesChecker(configuration.valuesCheckerOptions || {} as Json),
-      valuesLoader(configuration.valuesLoaderOptions || {} as Json),
+      valuesChecker(),
+      valuesLoader(),
     ]).forEach((adapter) => {
       adapter({
         on: this.on.bind(this),
         getStore: this.getStore.bind(this),
         getValues: this.getValues.bind(this),
-        loadValues: this.loadValues.bind(this),
+        setValues: this.setValues.bind(this),
+        userAction: this.userAction.bind(this),
         getConfiguration: this.getConfiguration.bind(this),
         toggleStepLoader: this.toggleStepLoader.bind(this),
         getFieldIndex: this.getFieldIndex.bind(this),
         getCurrentStep: this.getCurrentStep.bind(this),
+        getCurrentStepIndex: this.getCurrentStepIndex.bind(this),
         setCurrentStep: this.setCurrentStep.bind(this),
         createField: this.createField.bind(this),
         createStep: this.createStep.bind(this),
@@ -237,7 +281,23 @@ export default class Engine {
     // `generatedSteps` MUST stay the single source of truth, and `steps` module must be only used
     // for unidirectional notification to the view.
     this.store.subscribe('userActions', this.handleUserAction.bind(this));
-    this.loadNextStep(configuration.root);
+
+    // Depending on the configuration, we want either to load the complete form from cache, or just
+    // its filled values and restart journey from the beginning.
+    localforage.getItem(this.cacheKey).then((data) => {
+      const parsedData = JSON.parse(data as string || '{"formValues":{}}');
+      if (this.configuration.autoFill !== false) {
+        this.formValues = parsedData.formValues;
+      }
+      if (data !== null && this.configuration.restartOnReload !== true) {
+        const lastStepIndex = parsedData.steps.length - 1;
+        const lastStep = parsedData.steps[lastStepIndex];
+        this.generatedSteps = parsedData.steps.slice(0, lastStepIndex);
+        this.updateGeneratedSteps(lastStepIndex, lastStep);
+      } else {
+        this.loadNextStep(configuration.root);
+      }
+    });
   }
 
   /**
@@ -246,7 +306,7 @@ export default class Engine {
    * @returns {Configuration} Form's configuration.
    */
   public getConfiguration(): Configuration {
-    return deepCopy(this.configuration);
+    return this.configuration;
   }
 
   /**
@@ -300,7 +360,7 @@ export default class Engine {
   }
 
   /**
-   * Retrieves form fields values that have been filled.
+   * Retrieves current form fields values.
    *
    * @returns {FormValues} Form values.
    */
@@ -309,22 +369,14 @@ export default class Engine {
   }
 
   /**
-   * Loads the given form fields values into current step.
+   * Adds or overrides the given form values.
    *
-   * @param {FormValues} values Form values to load in form.
+   * @param {FormValues} values Form values to add.
    *
    * @returns {void}
    */
-  public loadValues(values: FormValues): void {
-    const stepIndex = this.generatedSteps.length - 1;
-    const currentStep = this.generatedSteps[stepIndex];
-    currentStep.fields.forEach((field) => {
-      if (values[field.id] !== undefined) {
-        // TODO type value
-        const userAction = { type: 'input', value: values[field.id], fieldId: field.id };
-        this.store.mutate('userActions', 'ADD', { stepIndex, ...userAction });
-      }
-    });
+  public setValues(values: FormValues): void {
+    Object.assign(this.formValues, deepCopy(values));
   }
 
   /**
@@ -344,7 +396,7 @@ export default class Engine {
    * @returns {number} Field's index in current step.
    */
   public getFieldIndex(fieldId: string): number {
-    const currentStep = this.generatedSteps[this.generatedSteps.length - 1] || { fields: [] };
+    const currentStep = this.generatedSteps[this.getCurrentStepIndex()] || { fields: [] };
     return currentStep.fields.findIndex((field) => field.id === fieldId);
   }
 
@@ -354,7 +406,16 @@ export default class Engine {
    * @returns {Step} Current generated step.
    */
   public getCurrentStep(): Step {
-    return deepCopy(this.generatedSteps[this.generatedSteps.length - 1]) || null;
+    return deepCopy(this.generatedSteps[this.getCurrentStepIndex()]) || null;
+  }
+
+  /**
+   * Returns current generated step index.
+   *
+   * @returns {number} Current generated step index.
+   */
+  public getCurrentStepIndex(): number {
+    return this.generatedSteps.length - 1;
   }
 
   /**
@@ -367,7 +428,7 @@ export default class Engine {
    * @returns {void}
    */
   public setCurrentStep(updatedStep: Step, notify = false): void {
-    const stepIndex = this.generatedSteps.length - 1;
+    const stepIndex = this.getCurrentStepIndex();
     this.generatedSteps[stepIndex] = updatedStep;
     if (notify === true && stepIndex >= 0) {
       this.updateGeneratedSteps(stepIndex, updatedStep);
@@ -379,11 +440,21 @@ export default class Engine {
    *
    * @param {FormEvent} eventName Name of the event to register hook for.
    *
-   * @param {Hook} hook Hook to register.
+   * @param {Hook<Json>} hook Hook to register.
    *
    * @returns {void}
    */
-  public on(eventName: FormEvent, hook: Hook): void {
+  public on(eventName: 'userAction', hook: Hook<UserAction | null>): void;
+
+  public on(eventName: 'loadNextStep', hook: Hook<Step | null>): void;
+
+  public on(eventName: 'loadedNextStep', hook: Hook<Step | null>): void;
+
+  public on(eventName: 'error', hook: Hook<Error | null>): void;
+
+  public on(eventName: 'submit', hook: Hook<FormValues | null>): void;
+
+  public on(eventName: FormEvent, hook: Hook<Json>): void {
     this.hooks[eventName].push(hook);
   }
 
@@ -396,5 +467,16 @@ export default class Engine {
    */
   public toggleStepLoader(display: boolean): void {
     this.store.mutate('steps', 'SET_LOADER', { loadingNextStep: display });
+  }
+
+  /**
+   * Triggers the given user action.
+   *
+   * @param {UserAction} userAction User action to trigger.
+   *
+   * @returns {void}
+   */
+  public userAction(userAction: UserAction): void {
+    this.store.mutate('userActions', 'ADD', userAction);
   }
 }
