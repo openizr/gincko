@@ -1,4 +1,4 @@
-import { Configuration, Engine } from 'gincko/react';
+import { Configuration } from 'gincko/react';
 
 export default <Configuration>{
   root: 'start',
