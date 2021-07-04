@@ -384,3 +384,66 @@ declare module 'gincko/vue' {
   }>;
   export default Form;
 }
+
+declare module 'gincko/plugins' {
+  /**
+   * errorStepDisplayer plugin options.
+   */
+  interface ErrorStepDisplayerOptions {
+    /** Id of the error step in the configuration. */
+    stepId: string;
+
+    /** Callback used to set active form step to the error step. */
+    setActiveStep: (stepId: string) => void;
+  }
+
+  /**
+   * Gracefully handles errors by displaying a generic error step.
+   *
+   * @param {ErrorStepDisplayerOptions} options Plugin options.
+   *
+   * @returns {Plugin} The actual gincko plugin.
+   */
+  export function errorStepDisplayer(options: ErrorStepDisplayerOptions): Plugin;
+
+  /**
+   * loaderDisplayer plugin options.
+   */
+  interface LoaderDisplayerOptions {
+    /** Minimum time during which loader should be displayed. */
+    timeout?: number;
+  }
+
+  /**
+   * Displays a loader each time a new step is being loaded, for better UX.
+   *
+   * @param {LoaderDisplayerOptions} [options = {}] Plugin's options.
+   *
+   * @returns {Plugin} The actual plugin.
+   */
+  export function loaderDisplayer(options?: LoaderDisplayerOptions): Plugin;
+
+  /**
+   * reCaptchaHandler plugin options.
+   */
+  interface ReCaptchaHandlerOptions {
+    /** Google's reCAPTCHA v3 site key. */
+    siteKey: string;
+  }
+
+  /**
+   * Automatically handles a reCAPTCHA challenge for current form.
+   *
+   * @param {ReCaptchaHandlerOptions} options Plugin's options.
+   *
+   * @returns {Plugin} The actual plugin.
+   */
+  export function reCaptchaHandler(options: ReCaptchaHandlerOptions): Plugin;
+
+  /**
+   * Handles steps' submitting fields states (disabled, loading, ...) depending on its status.
+   *
+   * @returns {Plugin} The actual gincko plugin.
+   */
+  export function submittingFieldsManager(): Plugin;
+}

@@ -35,7 +35,7 @@ import { buildClass } from 'sonar-ui/vue';
 import Field from 'scripts/vue/components/Field.vue';
 import { FormValue, UserAction, Field as FormField } from 'scripts/core/Engine';
 
-type Generic = Record<string, Json>;
+type Generic = Record<string, FormValue>;
 
 interface Props {
   id: string;
@@ -46,8 +46,8 @@ interface Props {
   customComponents: {
     [type: string]: (field: FormField, onUserAction: (newValue: FormValue) => void) => {
       name: string;
-      props: Json;
-      events: Json;
+      props: FormValue;
+      events: FormValue;
     };
   };
 }
