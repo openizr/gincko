@@ -35,8 +35,10 @@ describe('vue/containers/Form', () => {
     jest.clearAllMocks();
   });
 
-  test('loading next step', () => {
+  test('loading next step', async () => {
     process.env.LOADING = 'true';
+    const preventDefault = jest.fn();
+    Event.prototype.preventDefault = preventDefault;
     const wrapper = mount(Form, {
       propsData: {
         configuration: {
@@ -54,7 +56,10 @@ describe('vue/containers/Form', () => {
         userAction: onUserAction,
       },
     });
+    const form = wrapper.find('form');
+    form.trigger('submit');
     delete process.env.LOADING;
+    expect(preventDefault).toHaveBeenCalled();
     expect(wrapper.html()).toMatchSnapshot();
   });
 

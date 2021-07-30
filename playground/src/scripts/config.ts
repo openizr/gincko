@@ -38,6 +38,9 @@ export default <Configuration>{
       type: 'Button',
       label: 'Next',
       loadNextStep: true,
+      options: {
+        modifiers: 'disabled',
+      },
     },
     submit: {
       type: 'Button',
@@ -48,4 +51,4 @@ export default <Configuration>{
   plugins: [
 
   ],
-} as Configuration;
+};

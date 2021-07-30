@@ -1,5 +1,8 @@
 <template>
-  <form class="form">
+  <form
+    class="form"
+    @submit="preventSubmit"
+  >
     <div class="form__steps">
       <!-- Steps. -->
       <Step
@@ -98,6 +101,9 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     this.$store.unsubscribe('steps', this.$subscription);
   },
   methods: {
+    preventSubmit(event: Event): void {
+      event.preventDefault();
+    },
     onUserAction(stepIndex: number, fieldId: string, userAction: UserAction): void {
       (this as FormValue).$store.mutate('userActions', 'ADD', { ...userAction, stepIndex, fieldId });
     },

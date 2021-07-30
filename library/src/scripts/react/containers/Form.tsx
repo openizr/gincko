@@ -39,8 +39,12 @@ export default function Form(props: InferProps<typeof propTypes>): JSX.Element {
     mutate('userActions', 'ADD', userAction);
   };
 
+  const preventSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+  };
+
   return (
-    <form className="form">
+    <form className="form" onSubmit={preventSubmit}>
       <div className="form__steps">
 
         {/* Steps. */}

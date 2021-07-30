@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { act } from 'react-dom/test-utils';
+import { act, Simulate } from 'react-dom/test-utils';
 import Form from 'scripts/react/containers/Form';
 import { render, unmountComponentAtNode } from 'react-dom';
 
@@ -43,6 +43,7 @@ describe('containers/Form', () => {
 
   test('loading next step', () => {
     process.env.LOADING = 'true';
+    const preventDefault = jest.fn();
     act(() => {
       render(<Form
         configuration={{
@@ -57,7 +58,11 @@ describe('containers/Form', () => {
         customComponents={customComponents}
       />, container);
     });
+    act(() => {
+      Simulate.submit(document.querySelector('form') as HTMLFormElement, { preventDefault });
+    });
     delete process.env.LOADING;
+    expect(preventDefault).toHaveBeenCalled();
     expect(container).toMatchSnapshot();
   });
 
