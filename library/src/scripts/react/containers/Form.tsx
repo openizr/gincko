@@ -9,6 +9,7 @@
 import * as React from 'react';
 import useStore from 'diox/connectors/react';
 import Step from 'scripts/react/components/Step';
+import { generateRandomId } from 'sonar-ui/react';
 import stepPropType from 'scripts/propTypes/step';
 import PropTypes, { InferProps } from 'prop-types';
 import Engine, { UserAction } from 'scripts/core/Engine';
@@ -27,9 +28,9 @@ const defaultProps = {
 };
 
 /**
- * Dynamic form.
+ * Sub-component that will actually render the form.
  */
-export default function Form(props: InferProps<typeof propTypes>): JSX.Element {
+const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
   const { configuration, customComponents, activeStep } = props;
   const [engine] = React.useState(() => new Engine(configuration));
   const [useCombiner, mutate] = useStore(engine.getStore());
@@ -74,6 +75,29 @@ export default function Form(props: InferProps<typeof propTypes>): JSX.Element {
       </div>
     </form>
   );
+};
+
+/**
+ * Dynamic form.
+ */
+export default function Form(props: InferProps<typeof propTypes>): JSX.Element | null {
+  const { configuration, customComponents, activeStep } = props;
+  const [formElement, setFormElement] = React.useState<JSX.Element | null>(null);
+
+  // Each time configuration changes, we want to generate a new Form component
+  // to take those changes in account.
+  React.useEffect(() => {
+    setFormElement(
+      <ActualForm
+        activeStep={activeStep}
+        key={generateRandomId()}
+        configuration={configuration}
+        customComponents={customComponents}
+      />,
+    );
+  }, [configuration]);
+
+  return formElement;
 }
 
 Form.propTypes = propTypes;

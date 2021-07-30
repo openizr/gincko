@@ -17,6 +17,7 @@ jest.mock('scripts/react/components/Step', () => ({ onUserAction }: Json): JSX.E
   return <div id="Step" />;
 });
 jest.mock('sonar-ui/react', () => ({
+  generateRandomId: (): string => '_abcde',
   markdown: (value: string): string => value,
   buildClass: (...values: string[]): string => values.join(' '),
 }));

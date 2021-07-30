@@ -7,6 +7,7 @@
  */
 
 import { mount } from '@vue/test-utils';
+import { generateRandomId } from 'sonar-ui/vue';
 import Form from 'scripts/vue/containers/Form.vue';
 
 jest.mock('scripts/core/Engine');
@@ -23,6 +24,7 @@ jest.mock('scripts/vue/components/Step', () => ({
   },
 }));
 jest.mock('sonar-ui/vue', () => ({
+  generateRandomId: jest.fn(() => '_abcde'),
   markdown: (value: string): string => value,
   buildClass: (...values: string[]): string => values.join(' '),
 }));
@@ -61,6 +63,10 @@ describe('vue/containers/Form', () => {
     delete process.env.LOADING;
     expect(preventDefault).toHaveBeenCalled();
     expect(wrapper.html()).toMatchSnapshot();
+    // Reflects configuration change.
+    wrapper.setProps({ configuration: {} });
+    await wrapper.vm.$nextTick();
+    expect(generateRandomId).toHaveBeenCalledTimes(2);
   });
 
   test('with active step', async () => {

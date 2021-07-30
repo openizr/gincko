@@ -1,31 +1,10 @@
 <template>
-  <form
-    class="form"
-    @submit="preventSubmit"
-  >
-    <div class="form__steps">
-      <!-- Steps. -->
-      <Step
-        v-for="(step, index) in steps"
-        :id="step.id"
-        :key="`${index}_${step.id}`"
-        :index="index"
-        :is-active="(activeStep !== null)
-          ? activeStep === step.id
-          : index === steps.length - 1"
-        :fields="step.fields"
-        :status="step.status"
-        :custom-components="customComponents"
-        @userAction="onUserAction"
-      />
-
-      <!-- Step loader. -->
-      <div
-        v-if="loadingNextStep === true"
-        class="ui-loader"
-      />
-    </div>
-  </form>
+  <ActualForm
+    :key="key"
+    :active-step="activeStep"
+    :configuration="configuration"
+    :custom-components="customComponents"
+  />
 </template>
 
 <script lang="ts">
@@ -38,13 +17,13 @@
  */
 
 import Vue from 'vue';
-import Engine, {
+import {
   Field,
   FormValue,
-  UserAction,
   Configuration,
 } from 'scripts/core/Engine';
-import Step from 'scripts/vue/components/Step.vue';
+import { generateRandomId } from 'sonar-ui/vue';
+import ActualForm from 'scripts/vue/containers/ActualForm.vue';
 
 type Generic = Record<string, FormValue>;
 
@@ -64,9 +43,7 @@ interface Props {
  * Dynamic form.
  */
 export default Vue.extend<Generic, Generic, Generic, Props>({
-  $store: null,
-  $subscription: null,
-  components: { Step },
+  components: { ActualForm },
   props: {
     activeStep: {
       type: String,
@@ -85,28 +62,13 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   },
   data() {
     return {
-      steps: [],
-      loadingNextStep: true,
+      key: generateRandomId(),
     };
   },
-  mounted() {
-    const engine = new Engine(this.configuration);
-    this.$store = engine.getStore();
-    this.$subscription = this.$store.subscribe('steps', (newState: FormValue) => {
-      this.steps = newState.steps;
-      this.loadingNextStep = newState.loadingNextStep;
-    });
-  },
-  beforeDestroy(): void {
-    this.$store.unsubscribe('steps', this.$subscription);
-  },
-  methods: {
-    preventSubmit(event: Event): void {
-      event.preventDefault();
-    },
-    onUserAction(stepIndex: number, fieldId: string, userAction: UserAction): void {
-      (this as FormValue).$store.mutate('userActions', 'ADD', { ...userAction, stepIndex, fieldId });
+  watch: {
+    configuration() {
+      this.key = generateRandomId();
     },
   },
-} as FormValue);
+});
 </script>
