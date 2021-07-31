@@ -124,10 +124,10 @@ export default class Engine {
         // cache must be completely cleared.
         if (this.useCache && eventName !== 'submit') {
           this.cacheTimeout = window.setTimeout(() => {
-            localforage.setItem(this.cacheKey, JSON.stringify({
+            localforage.setItem(this.cacheKey, {
               steps: this.generatedSteps,
               formValues: this.formValues,
-            }));
+            });
           }, 500);
         } else if (eventName === 'submit' && this.configuration.clearCacheOnSubmit !== false) {
           this.useCache = false;
@@ -290,8 +290,8 @@ export default class Engine {
 
     // Depending on the configuration, we want either to load the complete form from cache, or just
     // its filled values and restart journey from the beginning.
-    localforage.getItem(this.cacheKey).then((data) => {
-      const parsedData = JSON.parse(data as string || '{"formValues":{}}');
+    localforage.getItem(this.cacheKey).then((data: Json) => {
+      const parsedData = data || { formValues: {} };
       if (this.useCache && this.configuration.autoFill !== false) {
         this.formValues = parsedData.formValues;
       }

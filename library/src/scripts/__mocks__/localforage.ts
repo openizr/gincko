@@ -12,7 +12,7 @@
 export default {
   getItem: jest.fn(() => {
     if (process.env.CACHE_EXISTING_FORM === 'true') {
-      return Promise.resolve(JSON.stringify({
+      return Promise.resolve({
         formValues: { test: 'value' },
         steps: [{
           fields: [
@@ -38,7 +38,7 @@ export default {
           id: 'test',
           status: 'initial',
         }],
-      }));
+      });
     }
     return Promise.resolve(null);
   }),
