@@ -50,6 +50,9 @@ export default class Engine {
   /** Cache name key. */
   private cacheKey: string;
 
+  /** Whether form should store its state in cache. */
+  private useCache: boolean;
+
   /** Timeout after which to refresh cache. */
   private cacheTimeout: number | null;
 
@@ -117,17 +120,18 @@ export default class Engine {
         const currentStep = this.generatedSteps[this.getCurrentStepIndex()] || null;
         this.setCurrentStep(currentStep, true);
         window.clearTimeout(this.cacheTimeout as number);
-        // If cache is enabled, we store current form state, except on form submission, when
+        // If cache is enabled, we store current form state, except after submission, when
         // cache must be completely cleared.
-        if (this.configuration.cache !== false && eventName !== 'submit') {
+        if (this.useCache && eventName !== 'submit') {
           this.cacheTimeout = window.setTimeout(() => {
             localforage.setItem(this.cacheKey, JSON.stringify({
               steps: this.generatedSteps,
               formValues: this.formValues,
             }));
           }, 500);
-        } else {
-          localforage.removeItem(this.cacheKey);
+        } else if (eventName === 'submit' && this.configuration.clearCacheOnSubmit !== false) {
+          this.useCache = false;
+          this.clearCache();
         }
       });
   }
@@ -242,6 +246,7 @@ export default class Engine {
     this.cacheTimeout = null;
     this.generatedSteps = [];
     this.configuration = configuration;
+    this.useCache = this.configuration.cache !== false;
     this.cacheKey = `gincko_${configuration.id || 'cache'}`;
     this.hooks = {
       error: [],
@@ -272,6 +277,7 @@ export default class Engine {
         setCurrentStep: this.setCurrentStep.bind(this),
         createField: this.createField.bind(this),
         createStep: this.createStep.bind(this),
+        clearCache: this.clearCache.bind(this),
       });
     });
 
@@ -286,10 +292,10 @@ export default class Engine {
     // its filled values and restart journey from the beginning.
     localforage.getItem(this.cacheKey).then((data) => {
       const parsedData = JSON.parse(data as string || '{"formValues":{}}');
-      if (this.configuration.autoFill !== false) {
+      if (this.useCache && this.configuration.autoFill !== false) {
         this.formValues = parsedData.formValues;
       }
-      if (data !== null && this.configuration.restartOnReload !== true) {
+      if (data !== null && this.useCache && this.configuration.restartOnReload !== true) {
         const lastStepIndex = parsedData.steps.length - 1;
         const lastStep = parsedData.steps[lastStepIndex];
         this.generatedSteps = parsedData.steps.slice(0, lastStepIndex);
@@ -478,5 +484,14 @@ export default class Engine {
    */
   public userAction(userAction: UserAction): void {
     this.store.mutate('userActions', 'ADD', userAction);
+  }
+
+  /**
+   * Clears current form cache.
+   *
+   * @returns {Promise<void>}
+   */
+  public async clearCache(): Promise<void> {
+    return localforage.removeItem(this.cacheKey);
   }
 }

@@ -50,6 +50,9 @@ export type Configuration = PropTypes.InferProps<{
   /** Whether to restart form from the beginning on page reload. */
   restartOnReload: PropTypes.Requireable<boolean>;
 
+  /** Whether to clear cache on form submit. */
+  clearCacheOnSubmit: PropTypes.Requireable<boolean>,
+
   /** Root step, from which to start the form. */
   root: PropTypes.Validator<string>;
 
@@ -139,6 +142,9 @@ export class Engine {
 
   /** Cache name key. */
   private cacheKey: string;
+
+  /** Whether form should store its state in cache. */
+  private useCache: boolean;
 
   /** Timeout after which to refresh cache. */
   private cacheTimeout: number | null;
@@ -344,7 +350,14 @@ export class Engine {
    *
    * @returns {void}
    */
-  public userAction(userAction: UserAction): void
+  public userAction(userAction: UserAction): void;
+
+  /**
+   * Clears current form cache.
+   *
+   * @returns {Promise<void>}
+   */
+  public async clearCache(): Promise<void>;
 }
 
 declare module 'gincko' {

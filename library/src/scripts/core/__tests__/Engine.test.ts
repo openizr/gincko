@@ -409,6 +409,17 @@ describe('core/Engine', () => {
     expect(call).toHaveBeenCalledWith(new Error('test'));
   });
 
+  test('triggerHooks - submit form with clearCacheOnSubmit set to `false`', async () => {
+    await createEngine({
+      root: 'test',
+      clearCacheOnSubmit: false,
+      steps: { test: { fields: ['last'] } },
+      fields: { last: { type: 'Radio' } },
+    });
+    await (engine as Json).triggerHooks('submit');
+    expect(localforage.removeItem).not.toHaveBeenCalled();
+  });
+
   test('getConfiguration', async () => {
     const configuration = { root: 'test', steps: { test: { fields: [] } }, fields: {} };
     await createEngine(configuration);

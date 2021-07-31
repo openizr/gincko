@@ -45,10 +45,6 @@ export default <Configuration>{
     submit: {
       type: 'Button',
       label: 'Submit',
-      loadNextStep: true,
     },
   },
-  plugins: [
-
-  ],
 };

@@ -3826,7 +3826,7 @@ get-value@^2.0.3, get-value@^2.0.6:
   integrity sha1-3BXKHGcjh8p2vTesCjlbogQqLCg=
 
 "gincko@file:../../../library/dist":
-  version "0.5.7"
+  version "6.8.6"
   dependencies:
     basx "^1.3.4"
     diox "^4.0.1"

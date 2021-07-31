@@ -26,6 +26,9 @@ export default {
   /** Whether to restart form from the beginning on page reload. */
   restartOnReload: PropTypes.bool,
 
+  /** Whether to clear cache on form submit. */
+  clearCacheOnSubmit: PropTypes.bool,
+
   /** Root step, from which to start the form. */
   root: PropTypes.string.isRequired,
 
