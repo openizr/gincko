@@ -81,7 +81,7 @@ const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
               status={step.status}
               onUserAction={onUserAction}
               customComponents={customComponents as Components}
-              i18n={i18n as (label: string, values: Record<string, string>) => string}
+              i18n={i18n as (label: string, values?: Record<string, string>) => string}
             />
           );
         })}

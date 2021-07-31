@@ -24,7 +24,7 @@ import Message from 'scripts/react/components/Message';
 import { Field as FormField, FormValue } from 'scripts/core/Engine';
 
 type OUA = (newValue: Json) => void;
-type I18n = (label: string, values: Record<string, string>) => string;
+type I18n = (label: string, values?: Record<string, string>) => string;
 
 export type Component = (field: FormField & { i18n: I18n; }, onUserAction: OUA) => JSX.Element;
 

@@ -24,6 +24,7 @@ export type Field = PropTypes.InferProps<{
   type: PropTypes.Validator<string>;
   status: PropTypes.Validator<string>;
   options: PropTypes.Validator<Json>;
+  i18n: PropTypes.Requireable<(label: string, values?: Record<string, string>) => string>;
 }>;
 export type Step = PropTypes.InferProps<{
   index: PropTypes.Requireable<number>;
@@ -35,6 +36,7 @@ export type Step = PropTypes.InferProps<{
     [x: string]: (...args: Json[]) => Json;
   }>;
   fields: PropTypes.Validator<Field[]>;
+  i18n: PropTypes.Requireable<(label: string, values?: Record<string, string>) => string>;
 }>;
 
 export type Configuration = PropTypes.InferProps<{
@@ -376,7 +378,7 @@ declare module 'gincko/react' {
     configuration: Configuration;
 
     /** Internationalization function, used to translate form labels into different languages. */
-    i18n: PropTypes.Requireable<(label: string, values: Record<string, string>) => string>;
+    i18n: PropTypes.Requireable<(label: string, values?: Record<string, string>) => string>;
 
     /** List of form's custom components. */
     customComponents: PropTypes.Requireable<{
@@ -398,6 +400,9 @@ declare module 'gincko/vue' {
 
     /** Form's configuration. */
     configuration: Configuration;
+
+    /** Internationalization function, used to translate form labels into different languages. */
+    i18n: (label: string, values?: Record<string, string>) => string;
 
     /** List of form's custom components. */
     customComponents: {
