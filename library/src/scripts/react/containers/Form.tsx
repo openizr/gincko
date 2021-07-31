@@ -17,20 +17,36 @@ import { Components } from 'scripts/react/components/Field';
 import configurationPropType from 'scripts/propTypes/configuration';
 
 const propTypes = {
+  /** Form's active step's id. */
   activeStep: PropTypes.string,
+
+  /** Form's configuration. */
   configuration: PropTypes.shape(configurationPropType).isRequired,
+
+  /** Internationalization function, used to translate form labels into different languages. */
+  i18n: PropTypes.func,
+
+  /** List of form's custom components. */
   customComponents: PropTypes.objectOf(PropTypes.func.isRequired),
 };
 
 const defaultProps = {
   activeStep: null,
   customComponents: {},
+  i18n: (label: string, values: Record<string, string> = {}): string => {
+    let newLabel = label;
+    Object.keys(values).forEach((key) => {
+      newLabel = newLabel.replace(new RegExp(`{{${key}}}`, 'g'), values[key]);
+    });
+    return newLabel;
+  },
 };
 
 /**
  * Sub-component that will actually render the form.
  */
 const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
+  const { i18n } = props;
   const { configuration, customComponents, activeStep } = props;
   const [engine] = React.useState(() => new Engine(configuration));
   const [useCombiner, mutate] = useStore(engine.getStore());
@@ -65,6 +81,7 @@ const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
               status={step.status}
               onUserAction={onUserAction}
               customComponents={customComponents as Components}
+              i18n={i18n as (label: string, values: Record<string, string>) => string}
             />
           );
         })}
@@ -81,6 +98,7 @@ const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
  * Dynamic form.
  */
 export default function Form(props: InferProps<typeof propTypes>): JSX.Element | null {
+  const { i18n } = props;
   const { configuration, customComponents, activeStep } = props;
   const [formElement, setFormElement] = React.useState<JSX.Element | null>(null);
 
@@ -89,6 +107,7 @@ export default function Form(props: InferProps<typeof propTypes>): JSX.Element |
   React.useEffect(() => {
     setFormElement(
       <ActualForm
+        i18n={i18n}
         activeStep={activeStep}
         key={generateRandomId()}
         configuration={configuration}

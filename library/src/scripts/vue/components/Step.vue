@@ -7,6 +7,7 @@
         v-for="field in fields"
         :id="field.id"
         :key="field.id"
+        :i18n="i18n"
         :active="isActive"
         :type="field.type"
         :label="field.label"
@@ -43,6 +44,7 @@ interface Props {
   status: string;
   fields: FormField[];
   isActive: boolean;
+  i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
     [type: string]: (field: FormField, onUserAction: (newValue: FormValue) => void) => {
       name: string;
@@ -62,6 +64,10 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   props: {
     id: {
       type: String,
+      required: true,
+    },
+    i18n: {
+      type: Function,
       required: true,
     },
     index: {

@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
  */
 export default {
   value: PropTypes.any,
+  i18n: PropTypes.func,
   active: PropTypes.bool,
   label: PropTypes.string,
   message: PropTypes.string,

@@ -12,7 +12,9 @@ import Form from 'scripts/react/containers/Form';
 import { render, unmountComponentAtNode } from 'react-dom';
 
 jest.mock('scripts/core/Engine');
-jest.mock('scripts/react/components/Step', () => ({ onUserAction }: Json): JSX.Element => {
+jest.mock('scripts/react/components/Step', () => ({ onUserAction, i18n }: Json): JSX.Element => {
+  i18n('test');
+  i18n('test', { test: 'test' });
   onUserAction();
   return <div id="Step" />;
 });

@@ -9,6 +9,7 @@
         v-for="(step, index) in steps"
         :id="step.id"
         :key="`${index}_${step.id}`"
+        :i18n="i18n"
         :index="index"
         :is-active="(activeStep !== null)
           ? activeStep === step.id
@@ -51,6 +52,7 @@ type Generic = Record<string, FormValue>;
 interface Props {
   activeStep: string;
   configuration: Configuration;
+  i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
     [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
       name: string;
@@ -81,6 +83,10 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       type: Object,
       required: true,
     },
+    i18n: {
+      type: Function,
+      required: true,
+    },
   },
   data() {
     return {
@@ -103,8 +109,8 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     preventSubmit(event: Event): void {
       event.preventDefault();
     },
-    onUserAction(stepIndex: number, fieldId: string, userAction: UserAction): void {
-      (this as FormValue).$store.mutate('userActions', 'ADD', { ...userAction, stepIndex, fieldId });
+    onUserAction(userAction: UserAction): void {
+      (this as FormValue).$store.mutate('userActions', 'ADD', userAction);
     },
   },
 } as FormValue);

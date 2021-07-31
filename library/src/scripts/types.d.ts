@@ -369,8 +369,16 @@ declare module 'gincko/react' {
    * Dynamic form.
    */
   export default function Form(props: PropTypes.InferProps<{
+    /** Form's active step's id. */
     activeStep: PropTypes.Requireable<string>;
+
+    /** Form's configuration. */
     configuration: Configuration;
+
+    /** Internationalization function, used to translate form labels into different languages. */
+    i18n: PropTypes.Requireable<(label: string, values: Record<string, string>) => string>;
+
+    /** List of form's custom components. */
     customComponents: PropTypes.Requireable<{
       [x: string]: (...args: Json[]) => Json;
     }>;
@@ -385,8 +393,13 @@ declare module 'gincko/vue' {
    * Dynamic form.
    */
   const Form: ExtendedVue<Vue, Generic, Generic, Generic, {
+    /** Form's active step's id. */
     activeStep: string;
+
+    /** Form's configuration. */
     configuration: Configuration;
+
+    /** List of form's custom components. */
     customComponents: {
       [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
         component: Vue.Component;

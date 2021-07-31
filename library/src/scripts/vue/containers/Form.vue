@@ -1,6 +1,7 @@
 <template>
   <ActualForm
     :key="key"
+    :i18n="i18n"
     :active-step="activeStep"
     :configuration="configuration"
     :custom-components="customComponents"
@@ -30,6 +31,7 @@ type Generic = Record<string, FormValue>;
 interface Props {
   activeStep: string;
   configuration: Configuration;
+  i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
     [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
       name: string;
@@ -58,6 +60,17 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       type: Object,
       required: false,
       default: () => ({}),
+    },
+    i18n: {
+      type: Function,
+      required: false,
+      default: (label: string, values: Record<string, string> = {}): string => {
+        let newLabel = label;
+        Object.keys(values).forEach((key) => {
+          newLabel = newLabel.replace(new RegExp(`{{${key}}}`, 'g'), values[key]);
+        });
+        return newLabel;
+      },
     },
   },
   data() {

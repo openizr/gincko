@@ -23,7 +23,10 @@ import fieldPropType from 'scripts/propTypes/field';
 import Message from 'scripts/react/components/Message';
 import { Field as FormField, FormValue } from 'scripts/core/Engine';
 
-export type Component = (field: FormField, onUserAction: (newValue: Json) => void) => JSX.Element;
+type OUA = (newValue: Json) => void;
+type I18n = (label: string, values: Record<string, string>) => string;
+
+export type Component = (field: FormField & { i18n: I18n; }, onUserAction: OUA) => JSX.Element;
 
 export type Components = {
   [type: string]: Component;
@@ -45,7 +48,6 @@ const builtInComponents: Components = {
     <Message
       id={field.id}
       label={field.label}
-      variables={field.options.formValues}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
   ),
@@ -64,8 +66,9 @@ const builtInComponents: Components = {
     <UITextfield
       id={field.id}
       name={field.id}
-      label={field.label}
       value={field.value}
+      label={field.label}
+      helper={field.message}
       min={field.options.min}
       max={field.options.max}
       onChange={onUserAction}
@@ -77,22 +80,24 @@ const builtInComponents: Components = {
       onFocus={field.options.onFocus}
       maxlength={field.options.maxlength}
       transform={field.options.transform}
-      placeholder={field.options.placeholder}
       onIconClick={field.options.onIconClick}
       autocomplete={field.options.autocomplete}
       iconPosition={field.options.iconPosition}
-      helper={field.message || field.options.helper}
       debounceTimeout={field.options.debounceTimeout || 100}
       readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
+      placeholder={(field.options.placeholder !== undefined && field.options.placeholder !== null)
+        ? field.i18n(field.options.placeholder, field.options.formValues)
+        : null}
     />
   ),
   Textarea: (field, onUserAction) => (
     <UITextarea
       id={field.id}
       name={field.id}
-      label={field.label}
       value={field.value}
+      label={field.label}
+      helper={field.message}
       onChange={onUserAction}
       cols={field.options.cols}
       rows={field.options.rows}
@@ -100,12 +105,13 @@ const builtInComponents: Components = {
       onFocus={field.options.onFocus}
       maxlength={field.options.maxlength}
       transform={field.options.transform}
-      placeholder={field.options.placeholder}
       autocomplete={field.options.autocomplete}
-      helper={field.message || field.options.helper}
       debounceTimeout={field.options.debounceTimeout || 100}
       readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
+      placeholder={(field.options.placeholder !== undefined && field.options.placeholder !== null)
+        ? field.i18n(field.options.placeholder, field.options.formValues)
+        : null}
     />
   ),
   FileUploader: (field, onUserAction) => (
@@ -113,14 +119,16 @@ const builtInComponents: Components = {
       id={field.id}
       name={field.id}
       label={field.label}
+      helper={field.message}
       onChange={onUserAction}
       icon={field.options.icon}
       onFocus={field.options.onFocus}
       multiple={field.options.multiple}
-      placeholder={field.options.placeholder}
       iconPosition={field.options.iconPosition}
-      helper={field.message || field.options.helper}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
+      placeholder={(field.options.placeholder !== undefined && field.options.placeholder !== null)
+        ? field.i18n(field.options.placeholder, field.options.formValues)
+        : null}
     />
   ),
   Dropdown: (field, onUserAction) => (
@@ -129,12 +137,14 @@ const builtInComponents: Components = {
       name={field.id}
       label={field.label}
       value={field.value}
+      helper={field.message}
       onChange={onUserAction}
       icon={field.options.icon}
       onFocus={field.options.onFocus}
-      options={field.options.options}
+      options={field.options.options.map((option: Json) => ((option.type === 'option')
+        ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
+        : option))}
       multiple={field.options.multiple}
-      helper={field.message || field.options.helper}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
   ),
@@ -144,10 +154,12 @@ const builtInComponents: Components = {
       name={field.id}
       label={field.label}
       value={field.value}
+      helper={field.message}
       onChange={onUserAction}
       onFocus={field.options.onFocus}
-      options={field.options.options}
-      helper={field.message || field.options.helper}
+      options={field.options.options.map((option: Json) => ((option.type === 'option')
+        ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
+        : option))}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
   ),
@@ -157,10 +169,12 @@ const builtInComponents: Components = {
       name={field.id}
       label={field.label}
       value={field.value}
+      helper={field.message}
       onChange={onUserAction}
       onFocus={field.options.onFocus}
-      options={field.options.options}
-      helper={field.message || field.options.helper}
+      options={field.options.options.map((option: Json) => ((option.type === 'option')
+        ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
+        : option))}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
   ),
@@ -170,9 +184,20 @@ const builtInComponents: Components = {
  * Form field.
  */
 export default function Field(props: InferProps<typeof propTypes>): JSX.Element | null {
-  // eslint-disable-next-line object-curly-newline
-  const { label, active, value, status, options, message, id, type, customComponents } = props;
+  const i18n = props.i18n as I18n;
+  const { active } = props;
+  const { value, status, options } = props;
+  const { id, type, customComponents } = props;
   const allComponents: Components = { ...builtInComponents, ...customComponents };
+  const label = React.useMemo(() => ((props.label !== undefined && props.label !== null)
+    ? i18n(props.label, options.formValues)
+    : null), [props.label]);
+  const message = React.useMemo(() => {
+    const helper = props.message || options.helper;
+    return (helper !== undefined && helper !== null)
+      ? i18n(helper, options.formValues)
+      : null;
+  }, [props.message, options.helper]);
 
   // The following lines prevent browsers auto-fill system from changing fields
   // located in other steps, resetting previous steps and breaking overall UX.
@@ -200,12 +225,13 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
   // Registered field type...
   return allComponents[type]({
     id,
-    label,
     type,
-    options: { ...options, onFocus: focusField },
+    label,
     message,
     active: isActive,
+    i18n: i18n as I18n,
     value: value as FormValue,
+    options: { ...options, onFocus: focusField },
     status: status as 'success' | 'error' | 'initial',
   }, onUserAction);
 }

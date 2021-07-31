@@ -13,6 +13,7 @@ import fieldPropType from 'scripts/propTypes/field';
  * Form step propType.
  */
 export default {
+  i18n: PropTypes.func,
   index: PropTypes.number,
   isActive: PropTypes.bool,
   onUserAction: PropTypes.func,

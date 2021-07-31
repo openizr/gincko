@@ -50,6 +50,7 @@ interface Props {
   value: FormValue;
   options: FormValue;
   active: boolean;
+  i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
     [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
       name: string;
@@ -81,12 +82,7 @@ Vue.component('Message', {
   },
   computed: {
     content(): string {
-      // We perform dynamic form values injection into message if necessary.
-      let content = this.label || '';
-      Object.keys(this.options.formValues || {}).forEach((key) => {
-        content = content.replace(new RegExp(`{{${key}}}`, 'g'), this.options.formValues[key]);
-      });
-      return markdown(content, false);
+      return markdown(this.label || '', false);
     },
     className() {
       return buildClass('ui-message', `${this.status} ${this.options.modifiers || ''}`.split(' '));
@@ -140,6 +136,7 @@ const builtInComponents: Components = {
       name: field.id,
       label: field.label,
       value: field.value,
+      helper: field.message,
       min: field.options.min,
       max: field.options.max,
       step: field.options.step,
@@ -149,9 +146,10 @@ const builtInComponents: Components = {
       readonly: field.options.readonly || field.active === false,
       transform: field.options.transform,
       maxlength: field.options.maxlength,
-      placeholder: field.options.placeholder,
+      placeholder: (field.options.placeholder !== undefined && field.options.placeholder !== null)
+        ? (field.i18n as FormValue)(field.options.placeholder, field.options.formValues)
+        : null,
       iconPosition: field.options.iconPosition,
-      helper: field.message || field.options.helper,
       debounceTimeout: field.options.debounceTimeout || 100,
       modifiers: `${field.status} ${field.options.modifiers || ''} `,
     },
@@ -169,13 +167,15 @@ const builtInComponents: Components = {
       name: field.id,
       label: field.label,
       value: field.value,
+      helper: field.message,
       cols: field.options.cols,
       rows: field.options.rows,
       transform: field.options.transform,
       maxlength: field.options.maxlength,
-      placeholder: field.options.placeholder,
+      placeholder: (field.options.placeholder !== undefined && field.options.placeholder !== null)
+        ? (field.i18n as FormValue)(field.options.placeholder, field.options.formValues)
+        : null,
       autocomplete: field.options.autocomplete,
-      helper: field.message || field.options.helper,
       debounceTimeout: field.options.debounceTimeout || 100,
       readonly: field.options.readonly || field.active === false,
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
@@ -193,10 +193,12 @@ const builtInComponents: Components = {
       name: field.id,
       label: field.label,
       value: field.value,
+      helper: field.message,
       icon: field.options.icon,
-      placeholder: field.options.placeholder,
+      placeholder: (field.options.placeholder !== undefined && field.options.placeholder !== null)
+        ? (field.i18n as FormValue)(field.options.placeholder, field.options.formValues)
+        : null,
       iconPosition: field.options.iconPosition,
-      helper: field.message || field.options.helper,
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
@@ -211,10 +213,12 @@ const builtInComponents: Components = {
       name: field.id,
       label: field.label,
       value: field.value,
+      helper: field.message,
       icon: field.options.icon,
-      options: field.options.options,
+      options: field.options.options.map((option: FormValue) => ((option.type === 'option')
+        ? ({ ...option, label: (field.i18n as FormValue)(option.label, field.options.formValues) })
+        : option)),
       multiple: field.options.multiple,
-      helper: field.message || field.options.helper,
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
@@ -229,8 +233,10 @@ const builtInComponents: Components = {
       name: field.id,
       label: field.label,
       value: field.value,
-      options: field.options.options,
-      helper: field.message || field.options.helper,
+      helper: field.message,
+      options: field.options.options.map((option: FormValue) => ((option.type === 'option')
+        ? ({ ...option, label: (field.i18n as FormValue)(option.label, field.options.formValues) })
+        : option)),
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
@@ -245,8 +251,10 @@ const builtInComponents: Components = {
       name: field.id,
       label: field.label,
       value: field.value,
-      options: field.options.options,
-      helper: field.message || field.options.helper,
+      helper: field.message,
+      options: field.options.options.map((option: FormValue) => ((option.type === 'option')
+        ? ({ ...option, label: (field.i18n as FormValue)(option.label, field.options.formValues) })
+        : option)),
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
@@ -274,6 +282,10 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       type: String,
       required: true,
     },
+    i18n: {
+      type: Function,
+      required: true,
+    },
     type: {
       type: String,
       required: true,
@@ -281,7 +293,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     label: {
       type: String,
       required: false,
-      default: '',
+      default: undefined,
     },
     status: {
       type: String,
@@ -290,7 +302,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     message: {
       type: String,
       required: false,
-      default: '',
+      default: undefined,
     },
     value: { // eslint-disable-line vue/require-prop-types
       required: false,
@@ -320,6 +332,17 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     allComponents() {
       return { ...builtInComponents, ...this.customComponents };
     },
+    translatedLabel() {
+      return (this.label !== undefined && this.label !== null)
+        ? this.i18n(this.label, this.options.formValues)
+        : null;
+    },
+    translatedMessage() {
+      const helper = this.message || this.options.helper;
+      return (helper !== undefined && helper !== null)
+        ? this.i18n(helper, this.options.formValues)
+        : null;
+    },
     component() {
       // Unknown field type...
       if (this.allComponents[this.type] === undefined) {
@@ -328,10 +351,11 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       // Registered field type...
       return this.allComponents[this.type]({
         id: this.id,
-        label: this.label,
+        i18n: this.i18n,
+        label: this.translatedLabel,
         type: this.type,
         options: { ...this.options, onFocus: this.focusField },
-        message: this.message,
+        message: this.translatedMessage,
         active: this.isActive,
         value: this.value,
         status: this.status,

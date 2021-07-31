@@ -19,8 +19,9 @@ const defaultProps = {};
  * Form step.
  */
 export default function Step(props: InferProps<typeof stepPropType>): JSX.Element {
-  // eslint-disable-next-line object-curly-newline
-  const { id, status, index, fields, customComponents, isActive } = props;
+  const { i18n } = props;
+  const { index, id, status } = props;
+  const { fields, customComponents, isActive } = props;
 
   const onUserAction = (userAction: UserAction): void => {
     const fullUserAction: UserAction = { ...userAction, stepIndex: index as number, stepId: id };
@@ -34,6 +35,7 @@ export default function Step(props: InferProps<typeof stepPropType>): JSX.Elemen
         reset when user changes his journey in previous steps. */}
         {fields.map((field) => (
           <Field
+            i18n={i18n}
             id={field.id}
             active={isActive}
             key={`${id}_${field.id}`}

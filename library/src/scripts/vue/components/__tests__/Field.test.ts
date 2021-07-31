@@ -55,6 +55,7 @@ jest.mock('sonar-ui/vue', () => {
 });
 
 describe('vue/components/Field', () => {
+  const i18n = (): string => 'Test';
   const onUserAction = jest.fn();
   const customComponents = {};
 
@@ -65,6 +66,7 @@ describe('vue/components/Field', () => {
   test('unknown field type', () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Message',
         type: 'Unknown',
         status: 'initial',
@@ -81,6 +83,7 @@ describe('vue/components/Field', () => {
   test('Message with empty label', () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Message',
         type: 'Message',
         status: 'initial',
@@ -100,6 +103,7 @@ describe('vue/components/Field', () => {
         type: 'Message',
         status: 'initial',
         label: 'Test {{value}}',
+        i18n: (): string => 'Test test',
         options: { formValues: { value: 'test' } },
         customComponents,
       },
@@ -113,6 +117,7 @@ describe('vue/components/Field', () => {
   test('Button', async () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Button',
         active: true,
         type: 'Button',
@@ -133,6 +138,7 @@ describe('vue/components/Field', () => {
   test('Textfield - active then inactive step', async () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Textfield',
         active: true,
         type: 'Textfield',
@@ -154,6 +160,7 @@ describe('vue/components/Field', () => {
   test('Textfield - active step, readonly option is `true`', () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Textfield',
         active: true,
         type: 'Textfield',
@@ -173,6 +180,7 @@ describe('vue/components/Field', () => {
     const onFocus = jest.fn();
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Textfield',
         active: false,
         type: 'Textfield',
@@ -196,6 +204,7 @@ describe('vue/components/Field', () => {
   test('Textfield - with no onFocus method', async () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Textfield',
         active: false,
         type: 'Textfield',
@@ -216,6 +225,7 @@ describe('vue/components/Field', () => {
   test('Textarea - active then inactive step', async () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Textarea',
         active: true,
         type: 'Textarea',
@@ -237,6 +247,7 @@ describe('vue/components/Field', () => {
   test('Textarea - active step, readonly option is `true`', () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Textarea',
         active: true,
         type: 'Textarea',
@@ -256,6 +267,7 @@ describe('vue/components/Field', () => {
     const onFocus = jest.fn();
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Textarea',
         active: false,
         type: 'Textarea',
@@ -279,6 +291,7 @@ describe('vue/components/Field', () => {
   test('Textarea - with no onFocus method', async () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Textarea',
         active: false,
         type: 'Textarea',
@@ -299,6 +312,7 @@ describe('vue/components/Field', () => {
   test('FileUploader', () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'FileUploader',
         active: true,
         type: 'FileUploader',
@@ -317,12 +331,18 @@ describe('vue/components/Field', () => {
   test('Dropdown', () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Dropdown',
         active: true,
         type: 'Dropdown',
         status: 'initial',
         label: 'Test',
-        options: {},
+        options: {
+          options: [
+            { type: 'option', label: 'Test' },
+            { type: 'divider' },
+          ],
+        },
         customComponents,
       },
       listeners: {
@@ -335,12 +355,18 @@ describe('vue/components/Field', () => {
   test('Checkbox', () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Checkbox',
         active: true,
         type: 'Checkbox',
         status: 'initial',
         label: 'Test',
-        options: {},
+        options: {
+          options: [
+            { type: 'option', label: 'Test' },
+            { type: 'divider' },
+          ],
+        },
         customComponents,
       },
       listeners: {
@@ -353,12 +379,18 @@ describe('vue/components/Field', () => {
   test('Radio', () => {
     const wrapper = mount(Field, {
       propsData: {
+        i18n,
         id: 'Radio',
         active: true,
         type: 'Radio',
         status: 'initial',
         label: 'Test',
-        options: {},
+        options: {
+          options: [
+            { type: 'option', label: 'Test' },
+            { type: 'divider' },
+          ],
+        },
         customComponents,
       },
       listeners: {

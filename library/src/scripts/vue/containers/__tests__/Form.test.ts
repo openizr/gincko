@@ -11,7 +11,7 @@ import { generateRandomId } from 'sonar-ui/vue';
 import Form from 'scripts/vue/containers/Form.vue';
 
 jest.mock('scripts/core/Engine');
-jest.mock('scripts/vue/components/Step', () => ({
+jest.mock('scripts/vue/components/Step.vue', () => ({
   render(createElement: Json): Json {
     return createElement('div', {
       attrs: {
@@ -65,6 +65,8 @@ describe('vue/containers/Form', () => {
     expect(wrapper.html()).toMatchSnapshot();
     // Reflects configuration change.
     wrapper.setProps({ configuration: {} });
+    (wrapper.vm.$props as Json).i18n('test');
+    (wrapper.vm.$props as Json).i18n('test', { test: 'test' });
     await wrapper.vm.$nextTick();
     expect(generateRandomId).toHaveBeenCalledTimes(2);
   });

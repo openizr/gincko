@@ -50,6 +50,7 @@ jest.mock('sonar-ui/react', () => {
 });
 
 describe('react/components/Field', () => {
+  const i18n = jest.fn((label) => label);
   let container = document.createElement('div');
   const onUserAction = jest.fn();
   const customComponents = {};
@@ -70,6 +71,7 @@ describe('react/components/Field', () => {
     act(() => {
       render(<Field
         active
+        i18n={i18n}
         id="Message"
         type="Unknown"
         status="initial"
@@ -81,10 +83,11 @@ describe('react/components/Field', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('Message with empty label', () => {
+  test('Message with no label', () => {
     act(() => {
       render(<Field
         active
+        i18n={i18n}
         id="Message"
         type="Message"
         status="initial"
@@ -104,6 +107,7 @@ describe('react/components/Field', () => {
         type="Message"
         status="initial"
         label="Test {{value}}"
+        i18n={(): string => 'Test test'}
         options={{ formValues: { value: 'test' } }}
         onUserAction={onUserAction}
         customComponents={customComponents}
@@ -116,6 +120,7 @@ describe('react/components/Field', () => {
     act(() => {
       render(<Field
         active
+        i18n={i18n}
         id="Button"
         type="Button"
         status="initial"
@@ -142,6 +147,7 @@ describe('react/components/Field', () => {
         label="Test"
         options={{}}
         active
+        i18n={i18n}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -156,7 +162,8 @@ describe('react/components/Field', () => {
         type="Textfield"
         status="initial"
         label="Test"
-        options={{ readonly: true }}
+        i18n={i18n}
+        options={{ readonly: true, placeholder: 'Test' }}
         active
         onUserAction={onUserAction}
         customComponents={customComponents}
@@ -173,6 +180,7 @@ describe('react/components/Field', () => {
         type="Textfield"
         status="initial"
         label="Test"
+        i18n={i18n}
         options={{ onFocus }}
         active={false}
         onUserAction={onUserAction}
@@ -196,6 +204,7 @@ describe('react/components/Field', () => {
         type="Textfield"
         status="initial"
         label="Test"
+        i18n={i18n}
         options={{}}
         active={false}
         onUserAction={onUserAction}
@@ -217,6 +226,7 @@ describe('react/components/Field', () => {
         status="initial"
         label="Test"
         options={{}}
+        i18n={i18n}
         active
         onUserAction={onUserAction}
         customComponents={customComponents}
@@ -232,7 +242,8 @@ describe('react/components/Field', () => {
         type="Textarea"
         status="initial"
         label="Test"
-        options={{ readonly: true }}
+        options={{ readonly: true, placeholder: 'Test' }}
+        i18n={i18n}
         active
         onUserAction={onUserAction}
         customComponents={customComponents}
@@ -249,6 +260,7 @@ describe('react/components/Field', () => {
         type="Textarea"
         status="initial"
         label="Test"
+        i18n={i18n}
         options={{ onFocus }}
         active={false}
         onUserAction={onUserAction}
@@ -272,6 +284,7 @@ describe('react/components/Field', () => {
         type="Textarea"
         status="initial"
         label="Test"
+        i18n={i18n}
         options={{}}
         active={false}
         onUserAction={onUserAction}
@@ -293,7 +306,25 @@ describe('react/components/Field', () => {
         type="FileUploader"
         status="initial"
         label="Test"
-        options={{}}
+        i18n={i18n}
+        options={{ helper: 'Test' }}
+        onUserAction={onUserAction}
+        customComponents={customComponents}
+      />, container);
+    });
+    expect(container).toMatchSnapshot();
+  });
+
+  test('FileUploader - with placeholder', () => {
+    act(() => {
+      render(<Field
+        active
+        id="FileUploader"
+        type="FileUploader"
+        status="initial"
+        label="Test"
+        i18n={i18n}
+        options={{ helper: 'Test', placeholder: 'Test' }}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -309,7 +340,13 @@ describe('react/components/Field', () => {
         type="Dropdown"
         status="initial"
         label="Test"
-        options={{}}
+        i18n={i18n}
+        options={{
+          options: [
+            { type: 'option', label: 'Test' },
+            { type: 'divider' },
+          ],
+        }}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -325,7 +362,13 @@ describe('react/components/Field', () => {
         type="Checkbox"
         status="initial"
         label="Test"
-        options={{}}
+        options={{
+          options: [
+            { type: 'option', label: 'Test' },
+            { type: 'divider' },
+          ],
+        }}
+        i18n={i18n}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -341,7 +384,13 @@ describe('react/components/Field', () => {
         type="Radio"
         status="initial"
         label="Test"
-        options={{}}
+        i18n={i18n}
+        options={{
+          options: [
+            { type: 'option', label: 'Test' },
+            { type: 'divider' },
+          ],
+        }}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);

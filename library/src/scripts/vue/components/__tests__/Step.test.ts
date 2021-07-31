@@ -29,6 +29,7 @@ jest.mock('sonar-ui/vue', () => ({
 describe('vue/components/Step', () => {
   const onUserAction = jest.fn();
   const customComponents = {};
+  const i18n = (): string => 'Test';
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -37,6 +38,7 @@ describe('vue/components/Step', () => {
   test('active step', () => {
     const wrapper = mount(Step, {
       propsData: {
+        i18n,
         id: 'step',
         status: 'success',
         isActive: true,
@@ -59,6 +61,7 @@ describe('vue/components/Step', () => {
   test('inactive step', () => {
     const wrapper = mount(Step, {
       propsData: {
+        i18n,
         id: 'step',
         status: 'success',
         isActive: false,
