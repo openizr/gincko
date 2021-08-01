@@ -14,7 +14,7 @@ import Form from 'scripts/vue/containers/Form.vue';
 type I18n = (label: string, values?: Record<string, string>) => string;
 type ComponentApi = {
   attrs: {
-    id?: string;
+    id: string;
   };
 };
 
@@ -23,9 +23,15 @@ jest.mock('scripts/vue/components/Step.vue', () => ({
   render(createElement: (tag: string, api: ComponentApi) => Component): Component {
     return createElement('div', {
       attrs: {
-        id: 'Step',
+        id: 'test',
       },
     });
+  },
+  props: {
+    i18n: {
+      type: Function,
+      required: false,
+    },
   },
   mounted(): void {
     (this as unknown as { $emit: (eventName: string) => void; }).$emit('userAction');

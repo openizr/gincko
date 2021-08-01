@@ -11,68 +11,8 @@ exports[`vue/containers/Form loading next step 1`] = `
 exports[`vue/containers/Form with active step 1`] = `
 "<form class=\\"form\\">
   <div class=\\"form__steps\\">
-    <div id=\\"start\\" i18n=\\"function _default(label) {
-          /* istanbul ignore next */
-          cov_4psgx0f5r().f[3]++;
-          var values =
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().s[9]++,
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().b[3][0]++, arguments.length > 1) &amp;&amp;
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().b[3][1]++, arguments[1] !== undefined) ?
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().b[2][0]++, arguments[1]) :
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().b[2][1]++, {}));
-          var newLabel =
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().s[10]++, label);
-
-          /* istanbul ignore next */
-          cov_4psgx0f5r().s[11]++;
-          Object.keys(values).forEach(function (key) {
-            /* istanbul ignore next */
-            cov_4psgx0f5r().f[4]++;
-            cov_4psgx0f5r().s[12]++;
-            newLabel = newLabel.replace(new RegExp(&quot;{{&quot;.concat(key, &quot;}}&quot;), 'g'), values[key]);
-          });
-
-          /* istanbul ignore next */
-          cov_4psgx0f5r().s[13]++;
-          return newLabel;
-        }\\" index=\\"0\\" is-active=\\"true\\" custom-components=\\"[object Object]\\"></div>
-    <div id=\\"end\\" i18n=\\"function _default(label) {
-          /* istanbul ignore next */
-          cov_4psgx0f5r().f[3]++;
-          var values =
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().s[9]++,
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().b[3][0]++, arguments.length > 1) &amp;&amp;
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().b[3][1]++, arguments[1] !== undefined) ?
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().b[2][0]++, arguments[1]) :
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().b[2][1]++, {}));
-          var newLabel =
-          /* istanbul ignore next */
-          (cov_4psgx0f5r().s[10]++, label);
-
-          /* istanbul ignore next */
-          cov_4psgx0f5r().s[11]++;
-          Object.keys(values).forEach(function (key) {
-            /* istanbul ignore next */
-            cov_4psgx0f5r().f[4]++;
-            cov_4psgx0f5r().s[12]++;
-            newLabel = newLabel.replace(new RegExp(&quot;{{&quot;.concat(key, &quot;}}&quot;), 'g'), values[key]);
-          });
-
-          /* istanbul ignore next */
-          cov_4psgx0f5r().s[13]++;
-          return newLabel;
-        }\\" index=\\"1\\" custom-components=\\"[object Object]\\"></div>
+    <div id=\\"start\\" index=\\"0\\" is-active=\\"true\\" custom-components=\\"[object Object]\\"></div>
+    <div id=\\"end\\" index=\\"1\\" custom-components=\\"[object Object]\\"></div>
     <!---->
   </div>
 </form>"
