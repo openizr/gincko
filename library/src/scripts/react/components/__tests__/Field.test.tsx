@@ -11,9 +11,11 @@ import { act } from 'react-dom/test-utils';
 import Field from 'scripts/react/components/Field';
 import { render, unmountComponentAtNode } from 'react-dom';
 
+type Any = any; // eslint-disable-line @typescript-eslint/no-explicit-any
+
 jest.mock('sonar-ui/react', () => {
   /* eslint-disable react/destructuring-assignment, jsx-a11y/no-static-element-interactions */
-  function Component(props: Json): JSX.Element {
+  function Component(props: Any): JSX.Element {
     return (
       <div
         id={props.id}

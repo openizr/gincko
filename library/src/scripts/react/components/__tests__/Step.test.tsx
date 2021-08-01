@@ -11,7 +11,9 @@ import { act } from 'react-dom/test-utils';
 import Step from 'scripts/react/components/Step';
 import { render, unmountComponentAtNode } from 'react-dom';
 
-jest.mock('scripts/react/components/Field', () => ({ onUserAction }: Json): JSX.Element => {
+type Any = any; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+jest.mock('scripts/react/components/Field', () => ({ onUserAction }: Any): JSX.Element => {
   onUserAction();
   return <div id="Field" />;
 });

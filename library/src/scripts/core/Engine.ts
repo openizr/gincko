@@ -10,21 +10,19 @@ import Store from 'diox';
 import { deepCopy } from 'basx';
 import localforage from 'localforage';
 import steps from 'scripts/core/steps';
+import { Step } from 'scripts/propTypes/step';
+import { Field } from 'scripts/propTypes/field';
 import userActions from 'scripts/core/userActions';
 import valuesLoader from 'scripts/core/valuesLoader';
 import errorHandler from 'scripts/core/errorHandler';
 import valuesChecker from 'scripts/core/valuesChecker';
 import valuesUpdater from 'scripts/core/valuesUpdater';
-import { InferProps } from 'prop-types';
-import stepPropTypes from 'scripts/propTypes/step';
-import fieldPropTypes from 'scripts/propTypes/field';
-import configurationPropTypes from 'scripts/propTypes/configuration';
+import { Configuration } from 'scripts/propTypes/configuration';
 
-export type FormValue = Json;
+type HookData = FormValues | Error | Step | UserAction | null;
+
 export type Plugin = (engine: Engine) => void;
-export type Step = InferProps<typeof stepPropTypes>;
-export type Field = InferProps<typeof fieldPropTypes>;
-export type Configuration = InferProps<typeof configurationPropTypes>;
+export type FormValue = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 export type FormEvent = 'loadNextStep' | 'loadedNextStep' | 'userAction' | 'submit' | 'error';
 export type Hook<Type> = (data: Type, next: (data?: Type) => Promise<Type>) => Promise<Type>;
 
@@ -60,7 +58,7 @@ export default class Engine {
   private configuration: Configuration;
 
   /** Contains all events hooks to trigger when events are fired. */
-  private hooks: { [eventName: string]: Hook<Json>[]; };
+  private hooks: { [eventName: string]: Hook<FormValues | Error | Step | UserAction | null>[]; };
 
   /** Contains the actual form steps, as they are currently displayed to end-user. */
   private generatedSteps: Step[];
@@ -73,26 +71,17 @@ export default class Engine {
    *
    * @param {FormEvent} eventName Event's name.
    *
-   * @param {Json} [data = undefined] Additional data to pass to the hooks chain.
+   * @param {FormValues | Error | Step | UserAction | null} [data = undefined] Additional data
+   * to pass to the hooks chain.
    *
-   * @returns {Promise} Pending hooks chain.
+   * @returns {Promise<FormValues | Error | Step | UserAction | null>} Pending hooks chain.
    *
    * @throws {Error} If any event hook does not return a Promise.
    */
-  private triggerHooks(eventName: 'submit', data: FormValues | null): Promise<FormValues | null>;
-
-  private triggerHooks(eventName: 'loadNextStep', data: Step | null): Promise<Step | null>;
-
-  private triggerHooks(eventName: 'loadedNextStep', data: Step | null): Promise<Step | null>;
-
-  private triggerHooks(eventName: 'userAction', data: UserAction | null): Promise<UserAction | null>;
-
-  private triggerHooks(eventName: 'error', data: Error | null): Promise<Error | null>;
-
-  private triggerHooks(eventName: FormEvent, data?: Json): Promise<Json> {
+  private triggerHooks(eventName: FormEvent, data?: HookData): Promise<HookData> {
     const hooksChain = this.hooks[eventName].concat([]).reverse().reduce((chain, hook) => (
-      (updatedData): Promise<Json> => {
-        const hookResult = hook(updatedData, chain as (data: Json) => Promise<Json>);
+      (updatedData): Promise<HookData> => {
+        const hookResult = hook(updatedData, chain as (data?: HookData) => Promise<HookData>);
         if (!(hookResult && typeof hookResult.then === 'function')) {
           throw new Error(`Event "${eventName}": all your hooks must return a Promise.`);
         }
@@ -101,7 +90,7 @@ export default class Engine {
     ), (updatedData) => Promise.resolve(updatedData));
     // Hooks chain must first be wrapped in a Promise to catch all errors with proper error hooks.
     return Promise.resolve()
-      .then(() => (hooksChain as (data: Json) => Promise<Json>)(data))
+      .then(() => (hooksChain as (data?: HookData) => Promise<HookData>)(data))
       .then((updatedData) => {
         if (updatedData === undefined) {
           throw new Error(
@@ -156,7 +145,7 @@ export default class Engine {
       this.generatedSteps = newSteps;
       this.triggerHooks('loadedNextStep', newSteps[newSteps.length - 1]).then((updatedNextStep) => {
         if (updatedNextStep !== null) {
-          this.setCurrentStep(updatedNextStep);
+          this.setCurrentStep(<Step>updatedNextStep);
         }
       });
     } else {
@@ -175,7 +164,7 @@ export default class Engine {
     const nextStep = this.createStep(nextStepId || null);
     this.triggerHooks('loadNextStep', nextStep).then((updatedNextStep) => {
       if (updatedNextStep !== null) {
-        this.updateGeneratedSteps(this.getCurrentStepIndex() + 1, updatedNextStep);
+        this.updateGeneratedSteps(this.getCurrentStepIndex() + 1, <Step>updatedNextStep);
       }
     });
   }
@@ -227,7 +216,9 @@ export default class Engine {
       this.formValues[userAction.fieldId] = userAction.value;
       this.generatedSteps = this.generatedSteps.slice(0, userAction.stepIndex + 1);
     }
-    this.triggerHooks('userAction', userAction).then(this.handleSubmit.bind(this));
+    this.triggerHooks('userAction', userAction).then((updatedUserAction) => (
+      this.handleSubmit.bind(this)(<UserAction | null>updatedUserAction)
+    ));
   }
 
   /**
@@ -290,8 +281,8 @@ export default class Engine {
 
     // Depending on the configuration, we want either to load the complete form from cache, or just
     // its filled values and restart journey from the beginning.
-    localforage.getItem(this.cacheKey).then((data: Json) => {
-      const parsedData = data || { formValues: {} };
+    localforage.getItem<{ formValues: FormValues; steps: Step[]; }>(this.cacheKey).then((data) => {
+      const parsedData = data || { formValues: {}, steps: [] };
       if (this.useCache && this.configuration.autoFill !== false) {
         this.formValues = parsedData.formValues;
       }
@@ -446,21 +437,11 @@ export default class Engine {
    *
    * @param {FormEvent} eventName Name of the event to register hook for.
    *
-   * @param {Hook<Json>} hook Hook to register.
+   * @param {Hook<FormValues | Error | Step | UserAction | null>} hook Hook to register.
    *
    * @returns {void}
    */
-  public on(eventName: 'userAction', hook: Hook<UserAction | null>): void;
-
-  public on(eventName: 'loadNextStep', hook: Hook<Step | null>): void;
-
-  public on(eventName: 'loadedNextStep', hook: Hook<Step | null>): void;
-
-  public on(eventName: 'error', hook: Hook<Error | null>): void;
-
-  public on(eventName: 'submit', hook: Hook<FormValues | null>): void;
-
-  public on(eventName: FormEvent, hook: Hook<Json>): void {
+  public on(eventName: FormEvent, hook: Hook<FormValues | Error | Step | UserAction | null>): void {
     this.hooks[eventName].push(hook);
   }
 

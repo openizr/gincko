@@ -6,14 +6,22 @@
  *
  */
 
-import Vue from 'vue';
+import Vue, { VNodeChildren } from 'vue';
 import { mount } from '@vue/test-utils';
 import Field from 'scripts/vue/components/Field.vue';
 
+type ComponentApi = {
+  id?: string;
+  readonly?: boolean;
+  on: Record<string, () => void>;
+  $emit?: (eventName: string) => void;
+  attrs: Record<string, string | boolean | undefined>;
+};
+
 jest.mock('sonar-ui/vue', () => {
   const Component = {
-    render(createElement: Json): Json {
-      const self = this as Json;
+    render(createElement: (tag: string, api: ComponentApi) => VNodeChildren): VNodeChildren {
+      const self = (this as unknown as ComponentApi & { $emit: (eventName: string) => void; });
       return createElement('div', {
         attrs: {
           id: self.id,
@@ -33,13 +41,13 @@ jest.mock('sonar-ui/vue', () => {
 
   const markdown = (value: string): string => value;
   const buildClass = (...values: string[]): string => values.join(' ');
-  const UIRadio = Vue.extend(Component);
-  const UIButton = Vue.extend(Component);
-  const UIDropdown = Vue.extend(Component);
-  const UICheckbox = Vue.extend(Component);
-  const UITextarea = Vue.extend(Component);
-  const UITextfield = Vue.extend(Component);
-  const UIFileUploader = Vue.extend(Component);
+  const UIRadio = Vue.extend(Component as unknown as undefined);
+  const UIButton = Vue.extend(Component as unknown as undefined);
+  const UIDropdown = Vue.extend(Component as unknown as undefined);
+  const UICheckbox = Vue.extend(Component as unknown as undefined);
+  const UITextarea = Vue.extend(Component as unknown as undefined);
+  const UITextfield = Vue.extend(Component as unknown as undefined);
+  const UIFileUploader = Vue.extend(Component as unknown as undefined);
 
   return {
     markdown,

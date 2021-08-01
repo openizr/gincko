@@ -23,15 +23,19 @@ describe('plugins/reCaptchaHandler', () => {
     const element = { onload: jest.fn() };
     const unmockedCreateElement = document.createElement;
     const unmockedGetElementsByTagName = document.getElementsByTagName;
-    (document as Json).createElement = jest.fn(() => element);
-    (document as Json).getElementsByTagName = jest.fn(() => [{
-      appendChild: jest.fn(),
-    }]);
+    Object.assign(document, { createElement: jest.fn(() => element) });
+    Object.assign(document, {
+      getElementsByTagName: jest.fn(() => [{
+        appendChild: jest.fn(),
+      }]),
+    });
     const promise = engine.trigger('submit', {}, { reCaptchaToken: 'test_token' });
-    (window as Json).grecaptcha = {
-      ready: jest.fn((callback) => callback()),
-      execute: jest.fn(() => Promise.resolve('test_token')),
-    };
+    Object.assign(window, {
+      grecaptcha: {
+        ready: jest.fn((callback) => callback()),
+        execute: jest.fn(() => Promise.resolve('test_token')),
+      },
+    });
     element.onload();
     const result = await promise;
     expect(document.createElement).toHaveBeenCalled();
@@ -41,10 +45,12 @@ describe('plugins/reCaptchaHandler', () => {
   });
 
   test('submit hook - reCAPTCHA client already loaded', async () => {
-    (window as Json).grecaptcha = {
-      ready: jest.fn((callback) => callback()),
-      execute: jest.fn(() => Promise.resolve('test_token')),
-    };
+    Object.assign(window, {
+      grecaptcha: {
+        ready: jest.fn((callback) => callback()),
+        execute: jest.fn(() => Promise.resolve('test_token')),
+      },
+    });
     const promise = engine.trigger('submit', {}, { reCaptchaToken: 'test_token' });
     const result = await promise;
     expect(result[0]).toEqual({ reCaptchaToken: 'test_token' });

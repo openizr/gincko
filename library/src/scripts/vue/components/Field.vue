@@ -35,7 +35,8 @@ import {
 } from 'sonar-ui/vue';
 import Vue from 'vue';
 import { ExtendedVue } from 'vue/types/vue.d';
-import { Field, FormValue } from 'scripts/core/Engine';
+import { Field } from 'scripts/propTypes/field';
+import { FormValue } from 'scripts/core/Engine';
 
 type Generic = Record<string, FormValue>;
 type Components = { [type: string]: Component; };

@@ -12,11 +12,11 @@ import { UserAction } from 'scripts/core/Engine';
 /**
  * Handles all user actions in form.
  */
-export default {
-  state: null as UserAction | null,
+export default <Module<UserAction | null>>{
+  state: null,
   mutations: {
-    ADD(_api, mutation): UserAction[] {
+    ADD(_api, mutation) {
       return mutation;
     },
   },
-} as Module;
+};

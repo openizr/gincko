@@ -8,28 +8,29 @@
 
 import { Module } from 'diox';
 import { deepMerge } from 'basx';
+import { Step } from 'scripts/propTypes/step';
 
-interface State {
-  steps: string[];
+export interface State {
+  steps: Step[];
   loadingNextStep: boolean;
 }
 
 /**
  * Handles steps lifecycle in form.
  */
-export default {
+export default <Module<State>>{
   state: {
     steps: [],
     loadingNextStep: true,
   },
   mutations: {
-    SET({ state }, mutation): State {
-      return deepMerge(state, { steps: mutation.steps }) as State;
+    SET({ state }, mutation) {
+      return deepMerge(state, { steps: mutation.steps });
     },
-    SET_LOADER({ state }, mutation): State {
+    SET_LOADER({ state }, mutation) {
       return deepMerge(state, {
         loadingNextStep: mutation.loadingNextStep,
-      }) as State;
+      });
     },
   },
-} as Module;
+};

@@ -11,9 +11,9 @@ import errorHandler from 'scripts/core/errorHandler';
 import MockedEngine from 'scripts/core/__mocks__/Engine';
 
 jest.mock('scripts/core/Engine');
-console.error = jest.fn(); // eslint-disable-line no-console
 
 describe('core/errorHandler', () => {
+  Object.assign(console, { error: jest.fn() });
   let engine = MockedEngine();
 
   beforeEach(() => {

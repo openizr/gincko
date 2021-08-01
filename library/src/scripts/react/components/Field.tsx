@@ -18,13 +18,14 @@ import {
   UIFileUploader,
 } from 'sonar-ui/react';
 import * as React from 'react';
+import { FormValue } from 'scripts/core/Engine';
 import PropTypes, { InferProps } from 'prop-types';
-import fieldPropType from 'scripts/propTypes/field';
 import Message from 'scripts/react/components/Message';
-import { Field as FormField, FormValue } from 'scripts/core/Engine';
+import fieldPropType, { Field as FormField } from 'scripts/propTypes/field';
 
-type OUA = (newValue: Json) => void;
+type OUA = (newValue: FormValue) => void;
 type I18n = (label: string, values?: Record<string, string>) => string;
+type Option = { value?: string; label?: string; type?: string; disabled?: boolean; };
 
 export type Component = (field: FormField & { i18n: I18n; }, onUserAction: OUA) => JSX.Element;
 
@@ -77,7 +78,9 @@ const builtInComponents: Components = {
       size={field.options.size}
       type={field.options.type}
       onBlur={field.options.onBlur}
+      onPaste={field.options.onPaste}
       onFocus={field.options.onFocus}
+      onKeyDown={field.options.onKeyDown}
       maxlength={field.options.maxlength}
       transform={field.options.transform}
       onIconClick={field.options.onIconClick}
@@ -102,7 +105,9 @@ const builtInComponents: Components = {
       cols={field.options.cols}
       rows={field.options.rows}
       onBlur={field.options.onBlur}
+      onPaste={field.options.onPaste}
       onFocus={field.options.onFocus}
+      onKeyDown={field.options.onKeyDown}
       maxlength={field.options.maxlength}
       transform={field.options.transform}
       autocomplete={field.options.autocomplete}
@@ -119,9 +124,11 @@ const builtInComponents: Components = {
       id={field.id}
       name={field.id}
       label={field.label}
+      value={field.value}
       helper={field.message}
       onChange={onUserAction}
       icon={field.options.icon}
+      accept={field.options.accept}
       onFocus={field.options.onFocus}
       multiple={field.options.multiple}
       iconPosition={field.options.iconPosition}
@@ -141,7 +148,7 @@ const builtInComponents: Components = {
       onChange={onUserAction}
       icon={field.options.icon}
       onFocus={field.options.onFocus}
-      options={field.options.options.map((option: Json) => ((option.type === 'option')
+      options={field.options.options.map((option: Option) => ((option.type === 'option')
         ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
         : option))}
       multiple={field.options.multiple}
@@ -157,7 +164,7 @@ const builtInComponents: Components = {
       helper={field.message}
       onChange={onUserAction}
       onFocus={field.options.onFocus}
-      options={field.options.options.map((option: Json) => ((option.type === 'option')
+      options={field.options.options.map((option: Option) => ((option.type === 'option')
         ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
         : option))}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
@@ -172,7 +179,7 @@ const builtInComponents: Components = {
       helper={field.message}
       onChange={onUserAction}
       onFocus={field.options.onFocus}
-      options={field.options.options.map((option: Json) => ((option.type === 'option')
+      options={field.options.options.map((option: Option) => ((option.type === 'option')
         ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
         : option))}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}

@@ -39,13 +39,10 @@
  */
 
 import Vue from 'vue';
-import Engine, {
-  Field,
-  FormValue,
-  UserAction,
-  Configuration,
-} from 'scripts/core/Engine';
+import { Field } from 'scripts/propTypes/field';
 import Step from 'scripts/vue/components/Step.vue';
+import { Configuration } from 'scripts/propTypes/configuration';
+import Engine, { FormValue, UserAction } from 'scripts/core/Engine';
 
 type Generic = Record<string, FormValue>;
 

@@ -9,11 +9,9 @@
 import Store from 'diox';
 import * as PropTypes from 'prop-types';
 
-/** Any valid JavaScript primitive. */
-type Json = any; // eslint-disable-line @typescript-eslint/no-explicit-any
-type Generic = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export type FormValue = Json;
+export type FormValue = any;
 export type Plugin = (engine: Engine) => void;
 export type Field = PropTypes.InferProps<{
   value: PropTypes.Requireable<FormValue>;
@@ -23,7 +21,7 @@ export type Field = PropTypes.InferProps<{
   id: PropTypes.Validator<string>;
   type: PropTypes.Validator<string>;
   status: PropTypes.Validator<string>;
-  options: PropTypes.Validator<Json>;
+  options: PropTypes.Validator<Record<string, any>>;
   i18n: PropTypes.Requireable<(label: string, values?: Record<string, string>) => string>;
 }>;
 export type Step = PropTypes.InferProps<{
@@ -33,7 +31,7 @@ export type Step = PropTypes.InferProps<{
   id: PropTypes.Validator<string>;
   status: PropTypes.Validator<string>;
   customComponents: PropTypes.Requireable<{
-    [x: string]: (...args: Json[]) => Json;
+    [x: string]: (...args: any[]) => any;
   }>;
   fields: PropTypes.Validator<Field[]>;
   i18n: PropTypes.Requireable<(label: string, values?: Record<string, string>) => string>;
@@ -62,7 +60,7 @@ export type Configuration = PropTypes.InferProps<{
   checkValuesOnSubmit: PropTypes.Requireable<boolean>;
 
   /** Custom plugins registrations. */
-  plugins: PropTypes.Requireable<((...args: Json[]) => void)[]>;
+  plugins: PropTypes.Requireable<((...args: any[]) => void)[]>;
 
   /** List of fields types in which to inject form values in options. */
   injectValuesTo: PropTypes.Requireable<string[]>;
@@ -112,7 +110,7 @@ export type Configuration = PropTypes.InferProps<{
       value: PropTypes.Requireable<FormValue>;
 
       /** Field's options. */
-      options: PropTypes.Requireable<Json>;
+      options: PropTypes.Requireable<Record<string, any>>;
 
       /** Whether to load next step when performing a user action on this field. */
       loadNextStep: PropTypes.Requireable<boolean>;
@@ -155,7 +153,7 @@ export class Engine {
   private configuration: Configuration;
 
   /** Contains all events hooks to trigger when events are fired. */
-  private hooks: { [eventName: string]: Hook<Json>[]; };
+  private hooks: { [eventName: string]: Hook<FormValues | Error | Step | UserAction | null>[]; };
 
   /** Contains the actual form steps, as they are currently displayed to end-user. */
   private generatedSteps: Step[];
@@ -168,9 +166,10 @@ export class Engine {
    *
    * @param {FormEvent} eventName Event's name.
    *
-   * @param {Json} [data = undefined] Additional data to pass to the hooks chain.
+   * @param {FormValues | Error | Step | UserAction | null} [data = undefined] Additional data
+   * to pass to the hooks chain.
    *
-   * @returns {Promise} Pending hooks chain.
+   * @returns {Promise<FormValues | Error | Step | UserAction | null>} Pending hooks chain.
    *
    * @throws {Error} If any event hook does not return a Promise.
    */
@@ -322,7 +321,7 @@ export class Engine {
    *
    * @param {FormEvent} eventName Name of the event to register hook for.
    *
-   * @param {Hook<Json>} hook Hook to register.
+   * @param {Hook<FormValues | Error | Step | UserAction | null>} hook Hook to register.
    *
    * @returns {void}
    */
@@ -367,6 +366,14 @@ declare module 'gincko' {
 }
 
 declare module 'gincko/react' {
+  type OUA = (newValue: FormValue) => void;
+
+  /** Custom React component. */
+  export type Component = (field: Field & { i18n: I18n; }, onUserAction: OUA) => JSX.Element;
+
+  /** Custom React components. */
+  export type Components = { [type: string]: Component; };
+
   /**
    * Dynamic form.
    */
@@ -382,7 +389,7 @@ declare module 'gincko/react' {
 
     /** List of form's custom components. */
     customComponents: PropTypes.Requireable<{
-      [x: string]: (...args: Json[]) => Json;
+      [x: string]: Component;
     }>;
   }>): JSX.Element;
 }
@@ -394,7 +401,7 @@ declare module 'gincko/vue' {
   /**
    * Dynamic form.
    */
-  const Form: ExtendedVue<Vue, Generic, Generic, Generic, {
+  const Form: ExtendedVue<Vue, any, any, any, {
     /** Form's active step's id. */
     activeStep: string;
 
@@ -408,8 +415,8 @@ declare module 'gincko/vue' {
     customComponents: {
       [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
         component: Vue.Component;
-        props: Json;
-        events: Json;
+        props: any;
+        events: any;
       };
     };
   }>;

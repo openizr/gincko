@@ -15,7 +15,7 @@ describe('core/userActions', () => {
 
   test('ADD mutation', () => {
     expect(userActions.mutations.ADD({
-      state: {},
+      state: null,
       mutate: jest.fn(),
       hash: 'steps',
     }, {

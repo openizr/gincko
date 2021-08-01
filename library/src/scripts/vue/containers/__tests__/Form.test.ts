@@ -6,13 +6,21 @@
  *
  */
 
+import { Component } from 'vue';
 import { mount } from '@vue/test-utils';
 import { generateRandomId } from 'sonar-ui/vue';
 import Form from 'scripts/vue/containers/Form.vue';
 
+type I18n = (label: string, values?: Record<string, string>) => string;
+type ComponentApi = {
+  attrs: {
+    id?: string;
+  };
+};
+
 jest.mock('scripts/core/Engine');
 jest.mock('scripts/vue/components/Step.vue', () => ({
-  render(createElement: Json): Json {
+  render(createElement: (tag: string, api: ComponentApi) => Component): Component {
     return createElement('div', {
       attrs: {
         id: 'Step',
@@ -20,7 +28,7 @@ jest.mock('scripts/vue/components/Step.vue', () => ({
     });
   },
   mounted(): void {
-    (this as Json).$emit('userAction');
+    (this as unknown as { $emit: (eventName: string) => void; }).$emit('userAction');
   },
 }));
 jest.mock('sonar-ui/vue', () => ({
@@ -65,8 +73,8 @@ describe('vue/containers/Form', () => {
     expect(wrapper.html()).toMatchSnapshot();
     // Reflects configuration change.
     wrapper.setProps({ configuration: {} });
-    (wrapper.vm.$props as Json).i18n('test');
-    (wrapper.vm.$props as Json).i18n('test', { test: 'test' });
+    (wrapper.vm.$props as unknown as { i18n: I18n; }).i18n('test');
+    (wrapper.vm.$props as unknown as { i18n: I18n; }).i18n('test', { test: 'test' });
     await wrapper.vm.$nextTick();
     expect(generateRandomId).toHaveBeenCalledTimes(2);
   });

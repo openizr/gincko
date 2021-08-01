@@ -11,8 +11,10 @@ import { act, Simulate } from 'react-dom/test-utils';
 import Form from 'scripts/react/containers/Form';
 import { render, unmountComponentAtNode } from 'react-dom';
 
+type Any = any; // eslint-disable-line @typescript-eslint/no-explicit-any
+
 jest.mock('scripts/core/Engine');
-jest.mock('scripts/react/components/Step', () => ({ onUserAction, i18n }: Json): JSX.Element => {
+jest.mock('scripts/react/components/Step', () => ({ onUserAction, i18n }: Any): JSX.Element => {
   i18n('test');
   i18n('test', { test: 'test' });
   onUserAction();

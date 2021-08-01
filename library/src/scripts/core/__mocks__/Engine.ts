@@ -6,13 +6,15 @@
  *
  */
 
-import { Configuration } from 'scripts/core/Engine';
+import { Configuration } from 'scripts/propTypes/configuration';
+
+type Any = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 /**
  * Engine mock.
  */
 export default jest.fn((configuration = {}) => {
-  const hooks: { [key: string]: Json[] } = {
+  const hooks: { [eventName: string]: ((...args: Any[]) => Any)[]; } = {
     error: [],
     submit: [],
     userAction: [],
@@ -121,11 +123,11 @@ export default jest.fn((configuration = {}) => {
         ],
       };
     }),
-    on: jest.fn((event: string, callback: Json) => {
+    on: jest.fn((event: string, callback: () => Any) => {
       hooks[event].push(callback);
     }),
-    trigger: (event: string, data: Json, nextData?: Json): Json => (
-      Promise.all(hooks[event].map((hook) => hook(data, (updatedData: Json) => {
+    trigger: (event: string, data: Any, nextData?: Any): Any => (
+      Promise.all(hooks[event].map((hook) => hook(data, (updatedData: Any) => {
         next(updatedData);
         return Promise.resolve(nextData);
       })))

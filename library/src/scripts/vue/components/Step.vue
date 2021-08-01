@@ -34,7 +34,8 @@
 import Vue from 'vue';
 import { buildClass } from 'sonar-ui/vue';
 import Field from 'scripts/vue/components/Field.vue';
-import { FormValue, UserAction, Field as FormField } from 'scripts/core/Engine';
+import { FormValue, UserAction } from 'scripts/core/Engine';
+import { Field as FormField } from 'scripts/propTypes/field';
 
 type Generic = Record<string, FormValue>;
 

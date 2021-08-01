@@ -6,13 +6,13 @@
  *
  */
 
-import PropTypes from 'prop-types';
+import PropTypes, { InferProps } from 'prop-types';
 import fieldPropType from 'scripts/propTypes/field';
 
 /**
  * Form step propType.
  */
-export default {
+const stepPropTypes = {
   i18n: PropTypes.func,
   index: PropTypes.number,
   isActive: PropTypes.bool,
@@ -22,3 +22,6 @@ export default {
   customComponents: PropTypes.objectOf(PropTypes.func.isRequired),
   fields: PropTypes.arrayOf(PropTypes.shape(fieldPropType).isRequired).isRequired,
 };
+
+export default stepPropTypes;
+export type Step = InferProps<typeof stepPropTypes>;

@@ -7,6 +7,7 @@
  */
 
 import * as React from 'react';
+import { State } from 'scripts/core/steps';
 import useStore from 'diox/connectors/react';
 import Step from 'scripts/react/components/Step';
 import { generateRandomId } from 'sonar-ui/react';
@@ -50,7 +51,7 @@ const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
   const { configuration, customComponents, activeStep } = props;
   const [engine] = React.useState(() => new Engine(configuration));
   const [useCombiner, mutate] = useStore(engine.getStore());
-  const [state] = useCombiner('steps');
+  const [state] = useCombiner<State>('steps');
 
   const onUserAction = (userAction: UserAction): void => {
     mutate('userActions', 'ADD', userAction);

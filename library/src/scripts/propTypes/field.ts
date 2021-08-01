@@ -6,12 +6,12 @@
  *
  */
 
-import PropTypes from 'prop-types';
+import PropTypes, { InferProps } from 'prop-types';
 
 /**
  * Form field propType.
  */
-export default {
+const fieldPropTypes = {
   value: PropTypes.any,
   i18n: PropTypes.func,
   active: PropTypes.bool,
@@ -22,3 +22,6 @@ export default {
   status: PropTypes.oneOf(['initial', 'error', 'success']).isRequired,
   options: PropTypes.any.isRequired,
 };
+
+export default fieldPropTypes;
+export type Field = InferProps<typeof fieldPropTypes>;

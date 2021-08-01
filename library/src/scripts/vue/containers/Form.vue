@@ -18,12 +18,10 @@
  */
 
 import Vue from 'vue';
-import {
-  Field,
-  FormValue,
-  Configuration,
-} from 'scripts/core/Engine';
+import { Field } from 'scripts/propTypes/field';
 import { generateRandomId } from 'sonar-ui/vue';
+import { FormValue } from 'scripts/core/Engine';
+import { Configuration } from 'scripts/propTypes/configuration';
 import ActualForm from 'scripts/vue/containers/ActualForm.vue';
 
 type Generic = Record<string, FormValue>;

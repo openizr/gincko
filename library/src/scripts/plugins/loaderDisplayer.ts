@@ -6,7 +6,7 @@
  *
  */
 
-import { Plugin } from 'scripts/core/Engine';
+import { Plugin, UserAction } from 'scripts/core/Engine';
 
 /**
  * Plugin options.
@@ -40,8 +40,8 @@ export default function loaderDisplayer(options: Options = {}): Plugin {
     // Displays loader when next step must be loaded, hides loader if an error occurs in any hook.
     engine.on('userAction', (userAction, next) => {
       if (userAction !== null) {
-        const { type, fieldId } = userAction;
         const currentStep = engine.getCurrentStep();
+        const { type, fieldId } = <UserAction>userAction;
         const shouldLoadNextStep = configuration.fields[fieldId].loadNextStep === true
           || (fieldId === currentStep.fields.slice(-1)[0].id);
         if (shouldLoadNextStep && type === 'input') {

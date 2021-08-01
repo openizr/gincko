@@ -6,14 +6,14 @@
  *
  */
 
-import PropTypes from 'prop-types';
+import PropTypes, { InferProps } from 'prop-types';
 import normalizedStepPropType from 'scripts/propTypes/normalizedStep';
 import normalizedFieldPropType from 'scripts/propTypes/normalizedField';
 
 /**
  * Configuration propType.
  */
-export default {
+const configurationPropTypes = {
   /** Form id, used to name cache key. */
   id: PropTypes.string,
 
@@ -50,3 +50,6 @@ export default {
   /** List of form fields. */
   fields: PropTypes.objectOf(PropTypes.shape(normalizedFieldPropType).isRequired).isRequired,
 };
+
+export default configurationPropTypes;
+export type Configuration = InferProps<typeof configurationPropTypes>;
