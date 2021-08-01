@@ -8,8 +8,6 @@ interface ExtendedNodeModule extends NodeModule {
   hot: { accept: () => void };
 }
 
-// const en = new Engine({} as Configuration);
-
 function main(): void {
   ReactDOM.render(<Form
     configuration={configuration}

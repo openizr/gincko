@@ -24,7 +24,7 @@ exports[`react/components/Field Dropdown 1`] = `
 </div>
 `;
 
-exports[`react/components/Field FileUploader 1`] = `
+exports[`react/components/Field FileUploader - with placeholder 1`] = `
 <div>
   <div
     id="FileUploader"
@@ -32,11 +32,10 @@ exports[`react/components/Field FileUploader 1`] = `
 </div>
 `;
 
-exports[`react/components/Field Message with empty label 1`] = `
+exports[`react/components/Field FileUploader 1`] = `
 <div>
-  <section
-    class="ui-message initial,"
-    id="Message"
+  <div
+    id="FileUploader"
   />
 </div>
 `;
@@ -49,6 +48,15 @@ exports[`react/components/Field Message with label 1`] = `
   >
     Test test
   </section>
+</div>
+`;
+
+exports[`react/components/Field Message with no label 1`] = `
+<div>
+  <section
+    class="ui-message initial,"
+    id="Message"
+  />
 </div>
 `;
 

@@ -6,23 +6,39 @@
  *
  */
 
+import { Component } from 'vue';
 import { mount } from '@vue/test-utils';
+import { generateRandomId } from 'sonar-ui/vue';
 import Form from 'scripts/vue/containers/Form.vue';
 
+type I18n = (label: string, values?: Record<string, string>) => string;
+type ComponentApi = {
+  attrs: {
+    id: string;
+  };
+};
+
 jest.mock('scripts/core/Engine');
-jest.mock('scripts/vue/components/Step', () => ({
-  render(createElement: Json): Json {
+jest.mock('scripts/vue/components/Step.vue', () => ({
+  render(createElement: (tag: string, api: ComponentApi) => Component): Component {
     return createElement('div', {
       attrs: {
-        id: 'Step',
+        id: 'test',
       },
     });
   },
+  props: {
+    i18n: {
+      type: Function,
+      required: false,
+    },
+  },
   mounted(): void {
-    (this as Json).$emit('userAction');
+    (this as unknown as { $emit: (eventName: string) => void; }).$emit('userAction');
   },
 }));
 jest.mock('sonar-ui/vue', () => ({
+  generateRandomId: jest.fn(() => '_abcde'),
   markdown: (value: string): string => value,
   buildClass: (...values: string[]): string => values.join(' '),
 }));
@@ -35,8 +51,10 @@ describe('vue/containers/Form', () => {
     jest.clearAllMocks();
   });
 
-  test('loading next step', () => {
+  test('loading next step', async () => {
     process.env.LOADING = 'true';
+    const preventDefault = jest.fn();
+    Event.prototype.preventDefault = preventDefault;
     const wrapper = mount(Form, {
       propsData: {
         configuration: {
@@ -54,8 +72,17 @@ describe('vue/containers/Form', () => {
         userAction: onUserAction,
       },
     });
+    const form = wrapper.find('form');
+    form.trigger('submit');
     delete process.env.LOADING;
+    expect(preventDefault).toHaveBeenCalled();
     expect(wrapper.html()).toMatchSnapshot();
+    // Reflects configuration change.
+    wrapper.setProps({ configuration: {} });
+    (wrapper.vm.$props as unknown as { i18n: I18n; }).i18n('test');
+    (wrapper.vm.$props as unknown as { i18n: I18n; }).i18n('test', { test: 'test' });
+    await wrapper.vm.$nextTick();
+    expect(generateRandomId).toHaveBeenCalledTimes(2);
   });
 
   test('with active step', async () => {

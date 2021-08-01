@@ -8,6 +8,12 @@
 
 import { Plugin } from 'scripts/core/Engine';
 
+type GreCaptcha = { grecaptcha: Client; };
+type Client = {
+  ready: (callback: () => void) => void;
+  execute: (...args: (string | Record<string, string>)[]) => Promise<string>;
+};
+
 /**
  * Plugin options.
  */
@@ -25,18 +31,18 @@ interface Options {
  */
 export default function reCaptchaHandler(options: Options): Plugin {
   return (engine): void => {
-    const { grecaptcha } = (window as Json);
+    const { grecaptcha } = <Window & { grecaptcha?: Client; }>window;
     engine.on('submit', (formValues, next) => new Promise((resolve) => {
-      const submit = (client: Json): void => {
+      const submit = (client: Client): void => {
         client.ready(() => {
-          client.execute(options.siteKey, { action: 'submit' }).then((token: string) => {
+          client.execute(options.siteKey, { action: 'submit' }).then((token) => {
             resolve(token);
           });
         });
       };
       if (grecaptcha === undefined) {
         const script = document.createElement('script');
-        script.onload = (): void => { submit((window as Json).grecaptcha); };
+        script.onload = (): void => { submit((window as unknown as GreCaptcha).grecaptcha); };
         script.type = 'text/javascript';
         script.src = `https://www.google.com/recaptcha/api.js?render=${options.siteKey}`;
         document.getElementsByTagName('head')[0].appendChild(script);

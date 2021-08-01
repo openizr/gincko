@@ -7,16 +7,21 @@
  */
 
 import React from 'react';
-import { act } from 'react-dom/test-utils';
+import { act, Simulate } from 'react-dom/test-utils';
 import Form from 'scripts/react/containers/Form';
 import { render, unmountComponentAtNode } from 'react-dom';
 
+type Any = any; // eslint-disable-line @typescript-eslint/no-explicit-any
+
 jest.mock('scripts/core/Engine');
-jest.mock('scripts/react/components/Step', () => ({ onUserAction }: Json): JSX.Element => {
+jest.mock('scripts/react/components/Step', () => ({ onUserAction, i18n }: Any): JSX.Element => {
+  i18n('test');
+  i18n('test', { test: 'test' });
   onUserAction();
   return <div id="Step" />;
 });
 jest.mock('sonar-ui/react', () => ({
+  generateRandomId: (): string => '_abcde',
   markdown: (value: string): string => value,
   buildClass: (...values: string[]): string => values.join(' '),
 }));
@@ -43,6 +48,7 @@ describe('containers/Form', () => {
 
   test('loading next step', () => {
     process.env.LOADING = 'true';
+    const preventDefault = jest.fn();
     act(() => {
       render(<Form
         configuration={{
@@ -57,7 +63,11 @@ describe('containers/Form', () => {
         customComponents={customComponents}
       />, container);
     });
+    act(() => {
+      Simulate.submit(document.querySelector('form') as HTMLFormElement, { preventDefault });
+    });
     delete process.env.LOADING;
+    expect(preventDefault).toHaveBeenCalled();
     expect(container).toMatchSnapshot();
   });
 

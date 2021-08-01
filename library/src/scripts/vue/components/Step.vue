@@ -7,6 +7,7 @@
         v-for="field in fields"
         :id="field.id"
         :key="field.id"
+        :i18n="i18n"
         :active="isActive"
         :type="field.type"
         :label="field.label"
@@ -33,7 +34,8 @@
 import Vue from 'vue';
 import { buildClass } from 'sonar-ui/vue';
 import Field from 'scripts/vue/components/Field.vue';
-import { FormValue, UserAction, Field as FormField } from 'scripts/core/Engine';
+import { FormValue, UserAction } from 'scripts/core/Engine';
+import { Field as FormField } from 'scripts/propTypes/field';
 
 type Generic = Record<string, FormValue>;
 
@@ -43,6 +45,7 @@ interface Props {
   status: string;
   fields: FormField[];
   isActive: boolean;
+  i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
     [type: string]: (field: FormField, onUserAction: (newValue: FormValue) => void) => {
       name: string;
@@ -62,6 +65,10 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   props: {
     id: {
       type: String,
+      required: true,
+    },
+    i18n: {
+      type: Function,
       required: true,
     },
     index: {

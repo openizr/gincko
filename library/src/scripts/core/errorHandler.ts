@@ -15,9 +15,10 @@ import { Plugin } from 'scripts/core/Engine';
  */
 export default function errorHandler(): Plugin {
   return (engine): void => {
-    engine.on('error', (error, next) => {
-      console.error(error); // eslint-disable-line no-console
-      return next(error);
+    engine.on('error', (newError, next) => {
+      const { error } = console;
+      error(newError);
+      return next(newError);
     });
   };
 }

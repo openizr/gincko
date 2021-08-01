@@ -8,7 +8,13 @@
 
 import Store from 'diox';
 import localforage from 'localforage';
-import Engine, { Configuration, Plugin, UserAction } from 'scripts/core/Engine';
+import { Configuration } from 'scripts/propTypes/configuration';
+import Engine, { Plugin, UserAction } from 'scripts/core/Engine';
+
+type EngineApi = {
+  handleUserAction: (arg: UserAction | null) => void;
+  triggerHooks: (name: string, data?: Record<string, string>) => void;
+};
 
 jest.mock('diox');
 jest.mock('basx');
@@ -43,7 +49,7 @@ describe('core/Engine', () => {
     stepIndex: 0,
   };
 
-  function flushPromises(): Promise<Json> {
+  function flushPromises(): Promise<void> {
     return new Promise((resolve) => setImmediate(resolve));
   }
 
@@ -146,7 +152,7 @@ describe('core/Engine', () => {
       steps: { test: { fields: [] } },
       fields: {},
     });
-    (engine as Json).handleUserAction(null);
+    (engine as unknown as EngineApi).handleUserAction(null);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(1);
   });
@@ -160,7 +166,7 @@ describe('core/Engine', () => {
         api.on('userAction', (_userAction, next) => next(null));
       })],
     });
-    (engine as Json).handleUserAction(userAction);
+    (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(1);
   });
@@ -178,7 +184,7 @@ describe('core/Engine', () => {
         },
       },
     });
-    (engine as Json).handleUserAction(userAction);
+    (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     jest.runAllTimers();
     expect(localforage.setItem).toHaveBeenCalled();
@@ -191,7 +197,7 @@ describe('core/Engine', () => {
       steps: { test: { fields: ['test', 'last'], nextStep: 'last' }, last: { fields: [] } },
       fields: { test: { type: 'Test', loadNextStep: true }, last: { type: 'Test' } },
     });
-    (engine as Json).handleUserAction(userAction);
+    (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(4);
     expect(store.mutate).toHaveBeenNthCalledWith(2, 'steps', 'SET', {
@@ -231,7 +237,7 @@ describe('core/Engine', () => {
         api.on('submit', (_data, next) => next(null));
       }) as Plugin],
     });
-    (engine as Json).handleUserAction(userAction);
+    (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(2);
     expect(store.mutate).toHaveBeenCalledWith('steps', 'SET', {
@@ -260,7 +266,7 @@ describe('core/Engine', () => {
         api.on('submit', (_data, next) => next(null));
       }) as Plugin],
     });
-    (engine as Json).handleUserAction(userAction);
+    (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(2);
     expect(store.mutate).toHaveBeenCalledWith('steps', 'SET', {
@@ -289,7 +295,7 @@ describe('core/Engine', () => {
         api.on('loadedNextStep', (_data, next) => next(null));
       })],
     });
-    (engine as Json).handleUserAction(userAction);
+    (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(2);
     expect(store.mutate).toHaveBeenCalledWith('steps', 'SET', {
@@ -318,7 +324,7 @@ describe('core/Engine', () => {
         api.on('submit', (_data, next) => next(null));
       })],
     });
-    (engine as Json).handleUserAction(userAction);
+    (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(2);
     expect(store.mutate).toHaveBeenCalledWith('steps', 'SET', {
@@ -404,9 +410,20 @@ describe('core/Engine', () => {
         });
       })],
     });
-    (engine as Json).handleUserAction(null);
+    (engine as unknown as EngineApi).handleUserAction(null);
     await flushPromises();
     expect(call).toHaveBeenCalledWith(new Error('test'));
+  });
+
+  test('triggerHooks - submit form with clearCacheOnSubmit set to `false`', async () => {
+    await createEngine({
+      root: 'test',
+      clearCacheOnSubmit: false,
+      steps: { test: { fields: ['last'] } },
+      fields: { last: { type: 'Radio' } },
+    });
+    await (engine as unknown as EngineApi).triggerHooks('submit');
+    expect(localforage.removeItem).not.toHaveBeenCalled();
   });
 
   test('getConfiguration', async () => {
@@ -539,7 +556,7 @@ describe('core/Engine', () => {
     const hook = jest.fn((data, next) => next(data));
     await createEngine({ root: 'test', steps: { test: { fields: [] } }, fields: {} });
     engine.on('submit', hook);
-    await (engine as Json).triggerHooks('submit', { test: 'value' });
+    await (engine as unknown as EngineApi).triggerHooks('submit', { test: 'value' });
     expect(hook).toHaveBeenCalledTimes(1);
     expect(hook).toHaveBeenCalledWith({ test: 'value' }, expect.any(Function));
   });

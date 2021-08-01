@@ -38,14 +38,13 @@ export default <Configuration>{
       type: 'Button',
       label: 'Next',
       loadNextStep: true,
+      options: {
+        modifiers: 'disabled',
+      },
     },
     submit: {
       type: 'Button',
       label: 'Submit',
-      loadNextStep: true,
     },
   },
-  plugins: [
-
-  ],
-} as Configuration;
+};

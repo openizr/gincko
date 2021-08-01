@@ -6,11 +6,18 @@
  *
  */
 
+import { Component } from 'vue';
 import { mount } from '@vue/test-utils';
 import Step from 'scripts/vue/components/Step.vue';
 
+type ComponentApi = {
+  attrs: {
+    id?: string;
+  };
+};
+
 jest.mock('scripts/vue/components/Field', () => ({
-  render(createElement: Json): Json {
+  render(createElement: (tag: string, api: ComponentApi) => Component): Component {
     return createElement('div', {
       attrs: {
         id: 'Field',
@@ -18,7 +25,7 @@ jest.mock('scripts/vue/components/Field', () => ({
     });
   },
   mounted(): void {
-    (this as Json).$emit('userAction');
+    (this as unknown as { $emit: (eventName: string) => void; }).$emit('userAction');
   },
 }));
 jest.mock('sonar-ui/vue', () => ({
@@ -29,6 +36,7 @@ jest.mock('sonar-ui/vue', () => ({
 describe('vue/components/Step', () => {
   const onUserAction = jest.fn();
   const customComponents = {};
+  const i18n = (): string => 'Test';
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -37,6 +45,7 @@ describe('vue/components/Step', () => {
   test('active step', () => {
     const wrapper = mount(Step, {
       propsData: {
+        i18n,
         id: 'step',
         status: 'success',
         isActive: true,
@@ -59,6 +68,7 @@ describe('vue/components/Step', () => {
   test('inactive step', () => {
     const wrapper = mount(Step, {
       propsData: {
+        i18n,
         id: 'step',
         status: 'success',
         isActive: false,

@@ -6,7 +6,7 @@
  *
  */
 
-import { Plugin } from 'scripts/core/Engine';
+import { Plugin, UserAction } from 'scripts/core/Engine';
 
 /**
  * Updates last changed field accordingly with user action.
@@ -19,7 +19,7 @@ export default function valuesUpdater(): Plugin {
       if (userAction === null) {
         return next(userAction);
       }
-      const { fieldId, value, type } = userAction;
+      const { fieldId, value, type } = <UserAction>userAction;
       const currentStep = engine.getCurrentStep();
       const fieldIndex = engine.getFieldIndex(fieldId);
       if (type === 'input' && fieldIndex >= 0) {

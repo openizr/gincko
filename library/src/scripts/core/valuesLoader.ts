@@ -7,6 +7,7 @@
  */
 
 import { Plugin } from 'scripts/core/Engine';
+import { Step } from 'scripts/propTypes/step';
 
 /**
  * Auto-loads values already filled by user when reloading next steps or page, for better UX.
@@ -25,7 +26,7 @@ export default function valuesLoader(): Plugin {
       if (nextStep === null) {
         return next(nextStep);
       }
-      const updatedNextStep = { ...nextStep };
+      const updatedNextStep = <Step>{ ...nextStep };
       const formValues = engine.getValues();
       updatedNextStep.fields.forEach((field, index) => {
         if (injectValuesTo.includes(field.type)) {
@@ -40,11 +41,11 @@ export default function valuesLoader(): Plugin {
     engine.on('loadedNextStep', (nextStep, next) => {
       if (nextStep !== null) {
         const values = engine.getValues();
-        const lastIndex = nextStep.fields.length - 1;
+        const lastIndex = (<Step>nextStep).fields.length - 1;
         const stepIndex = engine.getCurrentStepIndex();
-        nextStep.fields.forEach((field) => {
+        (<Step>nextStep).fields.forEach((field) => {
           const shouldLoadNextStep = configuration.fields[field.id].loadNextStep === true
-            || nextStep.fields[lastIndex] === field;
+            || (<Step>nextStep).fields[lastIndex] === field;
           if (!shouldLoadNextStep && autoFill === true && values[field.id] !== undefined) {
             engine.userAction({
               type: 'input',
