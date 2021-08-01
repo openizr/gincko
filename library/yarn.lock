@@ -2976,10 +2976,10 @@ diff-sequences@^26.6.2:
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-26.6.2.tgz#48ba99157de1923412eed41db6b6d4aa9ca7c0b1"
   integrity sha512-Mv/TDa3nZ9sbc5soK+OoA74BsS3mL37yixCvUAQkiuA4Wz6YtwP/K47n2rv2ovzHZvoiQeA5FTQOschKkEwB0Q==
 
-diox@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/diox/-/diox-4.0.3.tgz#c7297614ff98bbf2aba001c5810f04a60b731ba7"
-  integrity sha512-NltE/ZZL1zM5jB/qxJrcNKmsOBo3v0XwwMaq6O42At4IlVOidt83mORgNUg3s+YKG9rrHxc3K2Ds41XsB8OzIw==
+diox@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/diox/-/diox-4.0.4.tgz#76f3391c6ca00e2d439e93fd8ea568b4ae391c54"
+  integrity sha512-KS0jWag/2QHw2FCAu6wbfpTnJdICsV58aGJI9qVWLk7zhgty7LBAyNULfRdiCIlHWYUAhFSI13u2/gUfq22ASw==
   dependencies:
     path-to-regexp "^6.2.0"
 
