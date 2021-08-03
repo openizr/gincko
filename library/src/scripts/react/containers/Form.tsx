@@ -101,23 +101,23 @@ const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
 export default function Form(props: InferProps<typeof propTypes>): JSX.Element | null {
   const { i18n } = props;
   const { configuration, customComponents, activeStep } = props;
-  const [formElement, setFormElement] = React.useState<JSX.Element | null>(null);
+  const [key, setKey] = React.useState(generateRandomId);
 
   // Each time configuration changes, we want to generate a new Form component
   // to take those changes in account.
   React.useEffect(() => {
-    setFormElement(
-      <ActualForm
-        i18n={i18n}
-        activeStep={activeStep}
-        key={generateRandomId()}
-        configuration={configuration}
-        customComponents={customComponents}
-      />,
-    );
+    setKey(generateRandomId());
   }, [configuration]);
 
-  return formElement;
+  return (
+    <ActualForm
+      key={key}
+      i18n={i18n}
+      activeStep={activeStep}
+      configuration={configuration}
+      customComponents={customComponents}
+    />
+  );
 }
 
 Form.propTypes = propTypes;
