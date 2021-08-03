@@ -8,10 +8,44 @@ interface ExtendedNodeModule extends NodeModule {
   hot: { accept: () => void };
 }
 
+const App = (): JSX.Element => {
+  const [conf, setConf] = React.useState(configuration);
+  const [activeStep, setActiveStep] = React.useState('start');
+  React.useEffect(() => {
+    setTimeout(() => {
+      setConf({
+        root: 'start',
+        id: 'test',
+        steps: {
+          start: { fields: ['mess', 'submit'] },
+        },
+        fields: {
+          mess: {
+            type: 'Message',
+            label: '{{email}} - {{test}}',
+          },
+          submit: {
+            type: 'Button',
+            label: 'Submit',
+          },
+        },
+      });
+    }, 5000);
+    setTimeout(() => {
+      setActiveStep('end');
+    }, 3000);
+  }, []);
+
+  return (
+    <Form
+      activeStep={activeStep}
+      configuration={conf}
+    />
+  );
+};
+
 function main(): void {
-  ReactDOM.render(<Form
-    configuration={configuration}
-  />, document.querySelector('#root'));
+  ReactDOM.render(<App />, document.querySelector('#root'));
 }
 
 // Ensures DOM is fully loaded before running app's main logic.
