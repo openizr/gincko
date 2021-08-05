@@ -1,9 +1,10 @@
 <template>
   <form
-    class="form"
+    :id="configuration.id"
+    class="gincko"
     @submit="preventSubmit"
   >
-    <div class="form__steps">
+    <div class="gincko__steps">
       <!-- Steps. -->
       <Step
         v-for="(step, index) in steps"

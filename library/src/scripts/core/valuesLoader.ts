@@ -50,7 +50,7 @@ export default function valuesLoader(): Plugin {
             engine.userAction({
               type: 'input',
               stepIndex,
-              stepId: 'test',
+              stepId: (<Step>nextStep).id,
               fieldId: field.id,
               value: values[field.id],
             });
@@ -58,7 +58,7 @@ export default function valuesLoader(): Plugin {
             engine.userAction({
               type: 'input',
               stepIndex,
-              stepId: 'test',
+              stepId: (<Step>nextStep).id,
               fieldId: field.id,
               value: field.value,
             });

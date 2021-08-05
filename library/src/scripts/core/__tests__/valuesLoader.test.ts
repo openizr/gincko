@@ -48,7 +48,7 @@ describe('core/valuesLoader', () => {
     jest.clearAllMocks();
     engine = MockedEngine({ autoFill: false });
     valuesLoader()(engine as unknown as Engine);
-    await engine.trigger('loadedNextStep', { fields: [{ id: 'test' }, { id: 'last', value: 'value' }] });
+    await engine.trigger('loadedNextStep', { id: 'test', fields: [{ id: 'test' }, { id: 'last', value: 'value' }] });
     expect(engine.userAction).toHaveBeenCalledTimes(1);
     expect(engine.userAction).toHaveBeenNthCalledWith(1, {
       fieldId: 'last',
@@ -60,7 +60,7 @@ describe('core/valuesLoader', () => {
   });
 
   test('loadedNextStep hook - autoFill is `true`', async () => {
-    await engine.trigger('loadedNextStep', { fields: [{ id: 'test' }, { id: 'last' }] });
+    await engine.trigger('loadedNextStep', { id: 'test', fields: [{ id: 'test' }, { id: 'last' }] });
     expect(engine.userAction).toHaveBeenCalledTimes(1);
     expect(engine.userAction).toHaveBeenNthCalledWith(1, {
       fieldId: 'test',

@@ -29,8 +29,8 @@ export default function Step(props: InferProps<typeof stepPropType>): JSX.Elemen
   };
 
   return (
-    <div className={buildClass('form-step', [status, id, isActive ? 'active' : ''])}>
-      <div className="form-step__fields">
+    <div className={buildClass('gincko__step', [status, id, isActive ? 'active' : ''])}>
+      <div className="gincko__step__fields">
         {/* Key is composed of both step and field ids, in order to ensure each field is correctly
         reset when user changes his journey in previous steps. */}
         {fields.map((field) => (

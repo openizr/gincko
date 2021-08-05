@@ -69,6 +69,9 @@ export default class Engine {
   /**
    * Triggers hooks chain for the given event.
    *
+   * @TODO Throwing an error in a hook should block execution of the .then statement after
+   * `triggerHook` call => put .then promise as argument of `triggerHook`?
+   *
    * @param {FormEvent} eventName Event's name.
    *
    * @param {FormValues | Error | Step | UserAction | null} [data = undefined] Additional data
@@ -102,20 +105,35 @@ export default class Engine {
         return updatedData;
       })
       // This safety mechanism prevents infinite loops when throwing errors from "error" hooks.
-      .catch((error) => ((eventName === 'error')
-        ? this.hooks.error.slice(-1)[0](error, () => Promise.resolve(null))
-        : this.triggerHooks('error', error).then(() => null)))
+      .catch((error) => {
+        // Disabling cache on error prevents the form to be stucked in error step forever.
+        this.useCache = false;
+        return (eventName === 'error')
+          ? this.hooks.error.slice(-1)[0](error, () => Promise.resolve(null))
+          : this.triggerHooks('error', error).then(() => null);
+      })
       .finally(() => {
-        const currentStep = this.generatedSteps[this.getCurrentStepIndex()] || null;
-        this.setCurrentStep(currentStep, true);
+        this.setCurrentStep(this.generatedSteps[this.getCurrentStepIndex()] || null, true);
         window.clearTimeout(this.cacheTimeout as number);
         // If cache is enabled, we store current form state, except after submission, when
         // cache must be completely cleared.
         if (this.useCache && eventName !== 'submit') {
           this.cacheTimeout = window.setTimeout(() => {
             localforage.setItem(this.cacheKey, {
-              steps: this.generatedSteps,
               formValues: this.formValues,
+              // We remove all functions from fields' options as they can't be stored in IndexedDB.
+              steps: this.generatedSteps.map((step) => ({
+                ...step,
+                fields: step.fields.map((field) => ({
+                  ...field,
+                  options: Object.keys(field.options).reduce((options, key) => {
+                    if (typeof field.options[key] !== 'function') {
+                      Object.assign(options, { [key]: field.options[key] });
+                    }
+                    return options;
+                  }, {}),
+                })),
+              })),
             });
           }, 500);
         } else if (eventName === 'submit' && this.configuration.clearCacheOnSubmit !== false) {
@@ -172,33 +190,27 @@ export default class Engine {
   /**
    * Handles form submission and next step computation.
    *
-   * @param {UserAction | null} userAction Last user action.
+   * @param {UserAction} userAction Last user action.
    *
    * @returns {void}
    */
-  private handleSubmit(userAction: UserAction | null): void {
-    if (userAction !== null && userAction.type === 'input') {
-      const currentStep = this.generatedSteps[this.getCurrentStepIndex()];
-      const stepConfiguration = this.configuration.steps[currentStep.id];
-      const fieldConfiguration = this.configuration.fields[userAction.fieldId];
-      const shouldLoadNextStep = (
-        fieldConfiguration.loadNextStep === true
-        || currentStep.fields[currentStep.fields.length - 1].id === userAction.fieldId
-      );
-      if (shouldLoadNextStep) {
-        const formValues = this.getValues();
-        const submitPromise = (stepConfiguration.submit === true)
-          ? this.triggerHooks('submit', formValues)
-          : Promise.resolve(formValues);
-        submitPromise.then((updatedFormValues) => {
-          if (updatedFormValues !== null) {
-            this.setValues(updatedFormValues);
-            this.loadNextStep((typeof stepConfiguration.nextStep === 'function')
-              ? stepConfiguration.nextStep(updatedFormValues)
-              : stepConfiguration.nextStep);
-          }
-        });
-      }
+  private handleSubmit(userAction: UserAction): void {
+    const { fieldId } = userAction;
+    const { id, fields } = this.generatedSteps[this.getCurrentStepIndex()];
+    const { submit, nextStep } = this.configuration.steps[id];
+    const { loadNextStep } = this.configuration.fields[fieldId];
+    const shouldLoadNextStep = (loadNextStep || fields[fields.length - 1].id === fieldId);
+    if (shouldLoadNextStep) {
+      const formValues = this.getValues();
+      const submitPromise = (submit === true)
+        ? this.triggerHooks('submit', formValues)
+        : Promise.resolve(formValues);
+      submitPromise.then((updatedFormValues) => {
+        if (updatedFormValues !== null) {
+          this.setValues(updatedFormValues);
+          this.loadNextStep((typeof nextStep === 'function') ? nextStep(updatedFormValues) : nextStep);
+        }
+      });
     }
   }
 
@@ -210,15 +222,22 @@ export default class Engine {
    * @returns {void}
    */
   private handleUserAction(userAction: UserAction | null): void {
-    // If user changes a field in a previous step, it may have an impact on next steps to display.
-    // Thus, it is not necessary to keep any more step than the one containing last user action.
-    if (userAction !== null && userAction.type === 'input') {
-      this.formValues[userAction.fieldId] = userAction.value;
-      this.generatedSteps = this.generatedSteps.slice(0, userAction.stepIndex + 1);
+    if (userAction !== null) {
+      // If user changes a field in a previous step, it may have an impact on next steps to display.
+      // Thus, it is not necessary to keep any more step than the one containing last user action.
+      if (userAction.type === 'input') {
+        this.generatedSteps = this.generatedSteps.slice(0, userAction.stepIndex + 1);
+      }
+      this.triggerHooks('userAction', userAction).then((updatedUserAction) => {
+        if (updatedUserAction !== null) {
+          const { type, value, fieldId } = <UserAction>updatedUserAction;
+          if (type === 'input') {
+            this.formValues[fieldId] = value;
+            this.handleSubmit.bind(this)(<UserAction>updatedUserAction);
+          }
+        }
+      });
     }
-    this.triggerHooks('userAction', userAction).then((updatedUserAction) => (
-      this.handleSubmit.bind(this)(<UserAction | null>updatedUserAction)
-    ));
   }
 
   /**
@@ -253,8 +272,8 @@ export default class Engine {
       valuesUpdater(),
       valuesChecker(),
       valuesLoader(),
-    ]).forEach((adapter) => {
-      adapter({
+    ]).forEach((hook) => {
+      hook({
         on: this.on.bind(this),
         getStore: this.getStore.bind(this),
         getValues: this.getValues.bind(this),
@@ -289,6 +308,16 @@ export default class Engine {
       if (data !== null && this.useCache && this.configuration.restartOnReload !== true) {
         const lastStepIndex = parsedData.steps.length - 1;
         const lastStep = parsedData.steps[lastStepIndex];
+        // As we removed function-typed options from fields before storing data in cache,
+        // we must re-inject them on form loading to keep a consistent behaviour.
+        parsedData.steps.forEach((step, stepIndex) => {
+          step.fields.forEach((field, fieldIndex) => {
+            parsedData.steps[stepIndex].fields[fieldIndex].options = {
+              ...configuration.fields[field.id].options,
+              ...field.options,
+            };
+          });
+        });
         this.generatedSteps = parsedData.steps.slice(0, lastStepIndex);
         this.updateGeneratedSteps(lastStepIndex, lastStep);
       } else {
