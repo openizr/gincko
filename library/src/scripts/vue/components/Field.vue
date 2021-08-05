@@ -217,7 +217,7 @@ const builtInComponents: Components = {
       helper: field.message,
       icon: field.options.icon,
       options: field.options.options.map((option: FormValue) => ((option.label !== undefined)
-        ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
+        ? ({ ...option, label: (field.i18n as FormValue)(option.label, field.options.formValues) })
         : option)),
       multiple: field.options.multiple,
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
@@ -236,7 +236,7 @@ const builtInComponents: Components = {
       value: field.value,
       helper: field.message,
       options: field.options.options.map((option: FormValue) => ((option.label !== undefined)
-        ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
+        ? ({ ...option, label: (field.i18n as FormValue)(option.label, field.options.formValues) })
         : option)),
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
@@ -254,7 +254,7 @@ const builtInComponents: Components = {
       value: field.value,
       helper: field.message,
       options: field.options.options.map((option: FormValue) => ((option.label !== undefined)
-        ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
+        ? ({ ...option, label: (field.i18n as FormValue)(option.label, field.options.formValues) })
         : option)),
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
