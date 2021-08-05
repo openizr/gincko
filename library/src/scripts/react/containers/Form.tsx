@@ -62,8 +62,8 @@ const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
   };
 
   return (
-    <form className="form" onSubmit={preventSubmit}>
-      <div className="form__steps">
+    <form id={configuration.id as string} className="gincko" onSubmit={preventSubmit}>
+      <div className="gincko__steps">
 
         {/* Steps. */}
         {state.steps.map((step: InferProps<typeof stepPropType>, index: number) => {
@@ -99,9 +99,9 @@ const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
  * Dynamic form.
  */
 export default function Form(props: InferProps<typeof propTypes>): JSX.Element | null {
-  const { i18n } = props;
-  const { configuration, customComponents, activeStep } = props;
-  const [key, setKey] = React.useState(generateRandomId);
+  const { i18n, customComponents } = props;
+  const { configuration, activeStep } = props;
+  const [key, setKey] = React.useState<string | null>(null);
 
   // Each time configuration changes, we want to generate a new Form component
   // to take those changes in account.
@@ -109,7 +109,7 @@ export default function Form(props: InferProps<typeof propTypes>): JSX.Element |
     setKey(generateRandomId());
   }, [configuration]);
 
-  return (
+  return (key === null) ? null : (
     <ActualForm
       key={key}
       i18n={i18n}

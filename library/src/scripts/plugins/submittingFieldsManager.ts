@@ -15,27 +15,29 @@ export default function submittingFieldsManager(): Plugin {
     const configuration = engine.getConfiguration();
 
     // Adds or remove disabled state depending on step status.
-    engine.on('userAction', (userAction, next) => next(userAction).then((updatedUserAction) => {
+    engine.on('userAction', (userAction, next) => {
       if (userAction === null) {
         return next(userAction);
       }
-      const currentStep = engine.getCurrentStep();
-      const numberOfFields = currentStep.fields.length;
-      const isSuccess = (currentStep.status === 'success');
-      for (let i = 0; i < numberOfFields; i += 1) {
-        const field = currentStep.fields[i];
-        if (configuration.fields[field.id].loadNextStep === true || i === numberOfFields - 1) {
-          const currentModifiers = (field.options?.modifiers || '').replace(/\s?disabled/g, '');
-          if (isSuccess) {
-            field.options = { ...field.options, modifiers: currentModifiers };
-          } else {
-            field.options = { ...field.options, modifiers: `${currentModifiers} disabled` };
+      return next(userAction).then((updatedUserAction) => {
+        const currentStep = engine.getCurrentStep();
+        const numberOfFields = currentStep.fields.length;
+        const isSuccess = (currentStep.status === 'success');
+        for (let i = 0; i < numberOfFields; i += 1) {
+          const field = currentStep.fields[i];
+          if (configuration.fields[field.id].loadNextStep === true || i === numberOfFields - 1) {
+            const currentModifiers = (field.options?.modifiers || '').replace(/\s?disabled/g, '');
+            if (isSuccess) {
+              field.options = { ...field.options, modifiers: currentModifiers };
+            } else {
+              field.options = { ...field.options, modifiers: `${currentModifiers} disabled` };
+            }
           }
         }
-      }
-      engine.setCurrentStep(currentStep);
-      return Promise.resolve(updatedUserAction);
-    }));
+        engine.setCurrentStep(currentStep);
+        return Promise.resolve(updatedUserAction);
+      });
+    });
 
     // Adds/removes loading state on next step loading.
     engine.on('loadNextStep', (nextStep, next) => {

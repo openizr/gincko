@@ -148,7 +148,7 @@ const builtInComponents: Components = {
       onChange={onUserAction}
       icon={field.options.icon}
       onFocus={field.options.onFocus}
-      options={field.options.options.map((option: Option) => ((option.type === 'option')
+      options={field.options.options.map((option: Option) => ((option.label !== undefined)
         ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
         : option))}
       multiple={field.options.multiple}
@@ -164,7 +164,7 @@ const builtInComponents: Components = {
       helper={field.message}
       onChange={onUserAction}
       onFocus={field.options.onFocus}
-      options={field.options.options.map((option: Option) => ((option.type === 'option')
+      options={field.options.options.map((option: Option) => ((option.label !== undefined)
         ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
         : option))}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
@@ -179,7 +179,7 @@ const builtInComponents: Components = {
       helper={field.message}
       onChange={onUserAction}
       onFocus={field.options.onFocus}
-      options={field.options.options.map((option: Option) => ((option.type === 'option')
+      options={field.options.options.map((option: Option) => ((option.label !== undefined)
         ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
         : option))}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
@@ -198,13 +198,13 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
   const allComponents: Components = { ...builtInComponents, ...customComponents };
   const label = React.useMemo(() => ((props.label !== undefined && props.label !== null)
     ? i18n(props.label, options.formValues)
-    : null), [props.label]);
+    : null), [props.label, options.formValues]);
   const message = React.useMemo(() => {
     const helper = props.message || options.helper;
     return (helper !== undefined && helper !== null)
       ? i18n(helper, options.formValues)
       : null;
-  }, [props.message, options.helper]);
+  }, [props.message, options.helper, options.formValues]);
 
   // The following lines prevent browsers auto-fill system from changing fields
   // located in other steps, resetting previous steps and breaking overall UX.

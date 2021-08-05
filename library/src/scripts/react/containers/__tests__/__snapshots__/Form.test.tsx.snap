@@ -3,10 +3,11 @@
 exports[`containers/Form loading next step 1`] = `
 <div>
   <form
-    class="form"
+    class="gincko"
+    id="test"
   >
     <div
-      class="form__steps"
+      class="gincko__steps"
     >
       <div
         id="Step"
@@ -25,10 +26,10 @@ exports[`containers/Form loading next step 1`] = `
 exports[`containers/Form not loading next step 1`] = `
 <div>
   <form
-    class="form"
+    class="gincko"
   >
     <div
-      class="form__steps"
+      class="gincko__steps"
     >
       <div
         id="Step"
@@ -44,10 +45,10 @@ exports[`containers/Form not loading next step 1`] = `
 exports[`containers/Form with active step 1`] = `
 <div>
   <form
-    class="form"
+    class="gincko"
   >
     <div
-      class="form__steps"
+      class="gincko__steps"
     >
       <div
         id="Step"

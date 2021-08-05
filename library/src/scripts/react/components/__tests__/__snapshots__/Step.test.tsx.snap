@@ -3,10 +3,10 @@
 exports[`react/components/Step active step 1`] = `
 <div>
   <div
-    class="form-step success,step,active"
+    class="gincko__step success,step,active"
   >
     <div
-      class="form-step__fields"
+      class="gincko__step__fields"
     >
       <div
         id="Field"
@@ -19,10 +19,10 @@ exports[`react/components/Step active step 1`] = `
 exports[`react/components/Step inactive step 1`] = `
 <div>
   <div
-    class="form-step success,step,"
+    class="gincko__step success,step,"
   >
     <div
-      class="form-step__fields"
+      class="gincko__step__fields"
     >
       <div
         id="Field"

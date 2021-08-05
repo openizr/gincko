@@ -52,6 +52,7 @@ describe('containers/Form', () => {
     act(() => {
       render(<Form
         configuration={{
+          id: 'test',
           root: 'start',
           steps: {
             start: {

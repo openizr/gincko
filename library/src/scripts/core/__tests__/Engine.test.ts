@@ -107,7 +107,10 @@ describe('core/Engine', () => {
       root: 'test',
       autoFill: false,
       steps: { test: { fields: [] } },
-      fields: {},
+      fields: {
+        test: { type: 'Test' },
+        last: { type: 'Test' },
+      },
       checkValuesOnSubmit: true,
     });
     await flushPromises();
@@ -154,7 +157,23 @@ describe('core/Engine', () => {
     });
     (engine as unknown as EngineApi).handleUserAction(null);
     await flushPromises();
+    expect(store.mutate).not.toHaveBeenCalled();
+  });
+
+  test('handleUserAction - non-input action', async () => {
+    await createEngine({
+      root: 'test',
+      steps: { test: { fields: [] } },
+      fields: {},
+    });
+    (engine as unknown as EngineApi).handleUserAction({
+      type: 'click', stepId: '', fieldId: '', stepIndex: 0, value: '',
+    });
+    await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(1);
+    expect(store.mutate).toHaveBeenCalledWith('steps', 'SET', {
+      steps: [{ fields: [], id: 'test', status: 'initial' }],
+    });
   });
 
   test('handleUserAction - `null` value from plugins', async () => {
@@ -178,6 +197,10 @@ describe('core/Engine', () => {
       fields: {
         test: {
           type: 'Test',
+          options: {
+            prop: 3,
+            callback: () => null,
+          },
         },
         last: {
           type: 'Test',
@@ -188,6 +211,30 @@ describe('core/Engine', () => {
     await flushPromises();
     jest.runAllTimers();
     expect(localforage.setItem).toHaveBeenCalled();
+    expect(localforage.setItem).toHaveBeenCalledWith('gincko_cache', {
+      formValues: { test: 'test' },
+      steps: [{
+        fields: [{
+          id: 'test',
+          label: undefined,
+          message: null,
+          options: { prop: 3 },
+          status: 'initial',
+          type: 'Test',
+          value: undefined,
+        }, {
+          id: 'last',
+          label: undefined,
+          message: null,
+          options: {},
+          status: 'initial',
+          type: 'Test',
+          value: undefined,
+        }],
+        id: 'test',
+        status: 'initial',
+      }],
+    });
     expect(store.mutate).toHaveBeenCalledTimes(1);
   });
 
@@ -410,7 +457,9 @@ describe('core/Engine', () => {
         });
       })],
     });
-    (engine as unknown as EngineApi).handleUserAction(null);
+    (engine as unknown as EngineApi).handleUserAction({
+      fieldId: '', stepId: '', stepIndex: 0, type: 'click', value: '',
+    });
     await flushPromises();
     expect(call).toHaveBeenCalledWith(new Error('test'));
   });

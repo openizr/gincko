@@ -1,6 +1,6 @@
 <template>
-  <div :class="buildClass('form-step', [status, id, isActive ? 'active': ''])">
-    <div class="form-step__fields">
+  <div :class="buildClass('gincko__step', [status, id, isActive ? 'active': ''])">
+    <div class="gincko__step__fields">
       <!-- Key is composed of both step and field ids, in order to ensure each field is correctly
       reset when user changes his journey in previous steps.  -->
       <Field
