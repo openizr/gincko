@@ -429,9 +429,9 @@ export default class Engine {
   /**
    * Returns current generated step.
    *
-   * @returns {Step} Current generated step.
+   * @returns {Step | null} Current generated step.
    */
-  public getCurrentStep(): Step {
+  public getCurrentStep(): Step | null {
     return deepCopy(this.generatedSteps[this.getCurrentStepIndex()]) || null;
   }
 

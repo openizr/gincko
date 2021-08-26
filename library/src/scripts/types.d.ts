@@ -294,9 +294,9 @@ export class Engine {
   /**
    * Returns current generated step.
    *
-   * @returns {Step} Current generated step.
+   * @returns {Step | null} Current generated step.
    */
-  public getCurrentStep(): Step;
+  public getCurrentStep(): Step | null;
 
   /**
    * Returns current generated step index.
