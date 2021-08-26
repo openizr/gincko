@@ -119,7 +119,7 @@ export type Configuration = PropTypes.InferProps<{
 }>;
 
 export type Hook<Type> = (data: Type, next: (data?: Type) => Promise<Type>) => Promise<Type>;
-export type FormEvent = 'loadNextStep' | 'loadedNextStep' | 'userAction' | 'submit' | 'error';
+export type FormEvent = 'start' | 'loadNextStep' | 'loadedNextStep' | 'userAction' | 'submit' | 'error';
 
 export interface UserAction {
   stepId: string;
@@ -173,6 +173,8 @@ export class Engine {
    *
    * @throws {Error} If any event hook does not return a Promise.
    */
+  private triggerHooks(eventName: 'start', data: undefined | null): Promise<undefined | null>;
+
   private triggerHooks(eventName: 'submit', data: FormValues | null): Promise<FormValues | null>;
 
   private triggerHooks(eventName: 'loadNextStep', data: Step | null): Promise<Step | null>;

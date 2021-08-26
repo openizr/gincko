@@ -80,6 +80,40 @@ describe('core/Engine', () => {
     expect(call).toHaveBeenNthCalledWith(5, 'valuesLoader');
   });
 
+  test('constructor - start hook returns correct value', async () => {
+    const callback = jest.fn();
+    engine = new Engine({
+      root: 'test',
+      steps: { test: { fields: [] } },
+      fields: {},
+      plugins: [
+        ((api) => {
+          api.on('start', (data, next) => {
+            callback(data);
+            return next(data);
+          });
+        }) as Plugin,
+      ],
+    });
+    await flushPromises();
+    expect(callback).toHaveBeenCalledWith(undefined);
+  });
+
+  test('constructor - start hook returns null', async () => {
+    engine = new Engine({
+      root: 'test',
+      steps: { test: { fields: [] } },
+      fields: {},
+      plugins: [
+        ((api) => {
+          api.on('start', (_data, next) => next(null));
+        }) as Plugin,
+      ],
+    });
+    await flushPromises();
+    expect(store.mutate).not.toHaveBeenCalled();
+  });
+
   test('constructor - `restartOnReload` is true', async () => {
     process.env.CACHE_EXISTING_FORM = 'true';
     engine = new Engine({
