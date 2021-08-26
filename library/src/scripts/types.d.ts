@@ -323,10 +323,12 @@ export class Engine {
    *
    * @param {FormEvent} eventName Name of the event to register hook for.
    *
-   * @param {Hook<FormValues | Error | Step | UserAction | null>} hook Hook to register.
+   * @param {Hook<FormValues | Error | Step | UserAction | undefined | null>} hook Hook to register.
    *
    * @returns {void}
    */
+  public on(eventName: 'start', hook: Hook<undefined | null>): void;
+
   public on(eventName: 'userAction', hook: Hook<UserAction | null>): void;
 
   public on(eventName: 'loadNextStep', hook: Hook<Step | null>): void;
