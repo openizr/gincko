@@ -15,6 +15,7 @@ type Any = any; // eslint-disable-line @typescript-eslint/no-explicit-any
  */
 export default jest.fn((configuration = {}) => {
   const hooks: { [eventName: string]: ((...args: Any[]) => Any)[]; } = {
+    start: [],
     error: [],
     submit: [],
     userAction: [],

@@ -23,8 +23,8 @@ type HookData = FormValues | Error | Step | UserAction | null;
 
 export type Plugin = (engine: Engine) => void;
 export type FormValue = any; // eslint-disable-line @typescript-eslint/no-explicit-any
-export type FormEvent = 'loadNextStep' | 'loadedNextStep' | 'userAction' | 'submit' | 'error';
 export type Hook<Type> = (data: Type, next: (data?: Type) => Promise<Type>) => Promise<Type>;
+export type FormEvent = 'start' | 'loadNextStep' | 'loadedNextStep' | 'userAction' | 'submit' | 'error';
 
 export interface UserAction {
   stepId: string;
@@ -95,7 +95,7 @@ export default class Engine {
     return Promise.resolve()
       .then(() => (hooksChain as (data?: HookData) => Promise<HookData>)(data))
       .then((updatedData) => {
-        if (updatedData === undefined) {
+        if (updatedData === undefined && eventName !== 'start') {
           throw new Error(
             `Event "${eventName}": data passed to the next hook is "undefined".`
             + ' This usually means that you did not correctly resolved your hook\'s Promise with'
@@ -179,12 +179,16 @@ export default class Engine {
    * @returns {void}
    */
   private loadNextStep(nextStepId?: string | null): void {
-    const nextStep = this.createStep(nextStepId || null);
-    this.triggerHooks('loadNextStep', nextStep).then((updatedNextStep) => {
-      if (updatedNextStep !== null) {
-        this.updateGeneratedSteps(this.getCurrentStepIndex() + 1, <Step>updatedNextStep);
-      }
-    });
+    try {
+      const nextStep = this.createStep(nextStepId || null);
+      this.triggerHooks('loadNextStep', nextStep).then((updatedNextStep) => {
+        if (updatedNextStep !== null) {
+          this.updateGeneratedSteps(this.getCurrentStepIndex() + 1, <Step>updatedNextStep);
+        }
+      });
+    } catch (error) {
+      this.triggerHooks('error', error);
+    }
   }
 
   /**
@@ -259,6 +263,7 @@ export default class Engine {
     this.useCache = this.configuration.cache !== false;
     this.cacheKey = `gincko_${configuration.id || 'cache'}`;
     this.hooks = {
+      start: [],
       error: [],
       submit: [],
       userAction: [],
@@ -305,6 +310,7 @@ export default class Engine {
       if (this.useCache && this.configuration.autoFill !== false) {
         this.formValues = parsedData.formValues;
       }
+      let callback = (): void => { this.loadNextStep(configuration.root); };
       if (data !== null && this.useCache && this.configuration.restartOnReload !== true) {
         const lastStepIndex = parsedData.steps.length - 1;
         const lastStep = parsedData.steps[lastStepIndex];
@@ -319,10 +325,13 @@ export default class Engine {
           });
         });
         this.generatedSteps = parsedData.steps.slice(0, lastStepIndex);
-        this.updateGeneratedSteps(lastStepIndex, lastStep);
-      } else {
-        this.loadNextStep(configuration.root);
+        callback = (): void => { this.updateGeneratedSteps(lastStepIndex, lastStep); };
       }
+      this.triggerHooks('start').then((status) => {
+        if (status !== null) {
+          callback();
+        }
+      });
     });
   }
 
@@ -429,9 +438,9 @@ export default class Engine {
   /**
    * Returns current generated step.
    *
-   * @returns {Step} Current generated step.
+   * @returns {Step | null} Current generated step.
    */
-  public getCurrentStep(): Step {
+  public getCurrentStep(): Step | null {
     return deepCopy(this.generatedSteps[this.getCurrentStepIndex()]) || null;
   }
 
