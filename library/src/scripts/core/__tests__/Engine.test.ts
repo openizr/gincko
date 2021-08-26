@@ -114,6 +114,25 @@ describe('core/Engine', () => {
     expect(store.mutate).not.toHaveBeenCalled();
   });
 
+  test('constructor - root step does not exist', async () => {
+    const callback = jest.fn();
+    engine = new Engine({
+      root: 'test',
+      steps: {},
+      fields: {},
+      plugins: [
+        ((api) => {
+          api.on('error', (error, next) => {
+            callback(error);
+            return next(error);
+          });
+        }) as Plugin,
+      ],
+    });
+    await flushPromises();
+    expect(callback).toHaveBeenCalledWith(new Error('Step "test" does not exist.'));
+  });
+
   test('constructor - `restartOnReload` is true', async () => {
     process.env.CACHE_EXISTING_FORM = 'true';
     engine = new Engine({
