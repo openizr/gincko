@@ -4,6 +4,7 @@
  */
 
 import { Plugin } from 'scripts/core/Engine';
+import { Step } from 'scripts/propTypes/step';
 
 /**
  * Handles steps' submitting fields states (disabled, loading, ...) depending on its status.
@@ -20,7 +21,7 @@ export default function submittingFieldsManager(): Plugin {
         return next(userAction);
       }
       return next(userAction).then((updatedUserAction) => {
-        const currentStep = engine.getCurrentStep();
+        const currentStep = <Step>engine.getCurrentStep();
         const numberOfFields = currentStep.fields.length;
         const isSuccess = (currentStep.status === 'success');
         for (let i = 0; i < numberOfFields; i += 1) {
@@ -53,7 +54,7 @@ export default function submittingFieldsManager(): Plugin {
         }
         engine.setCurrentStep(currentStep, true);
         return next(nextStep).then((updatedNextStep) => {
-          currentStep = engine.getCurrentStep();
+          currentStep = <Step>engine.getCurrentStep();
           for (let i = 0; i < numberOfFields; i += 1) {
             const field = currentStep.fields[i];
             if (configuration.fields[field.id].loadNextStep === true || i === numberOfFields - 1) {
@@ -70,7 +71,7 @@ export default function submittingFieldsManager(): Plugin {
 
     // Removes disabled/loading state in case of submission error.
     engine.on('submit', (formValues, next) => {
-      let currentStep = engine.getCurrentStep();
+      let currentStep = <Step>engine.getCurrentStep();
       const numberOfFields = currentStep.fields.length;
       for (let i = 0; i < numberOfFields; i += 1) {
         const field = currentStep.fields[i];
@@ -82,7 +83,7 @@ export default function submittingFieldsManager(): Plugin {
       engine.setCurrentStep(currentStep, true);
       return next(formValues).then((updatedFormValues) => {
         if (updatedFormValues === null) {
-          currentStep = engine.getCurrentStep();
+          currentStep = <Step>engine.getCurrentStep();
           for (let i = 0; i < numberOfFields; i += 1) {
             const field = currentStep.fields[i];
             if (configuration.fields[field.id].loadNextStep === true || i === numberOfFields - 1) {

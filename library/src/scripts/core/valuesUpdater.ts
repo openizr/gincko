@@ -6,6 +6,7 @@
  *
  */
 
+import { Step } from 'scripts/propTypes/step';
 import { Plugin, UserAction } from 'scripts/core/Engine';
 
 /**
@@ -20,7 +21,7 @@ export default function valuesUpdater(): Plugin {
         return next(userAction);
       }
       const { fieldId, value, type } = <UserAction>userAction;
-      const currentStep = engine.getCurrentStep();
+      const currentStep = <Step>engine.getCurrentStep();
       const fieldIndex = engine.getFieldIndex(fieldId);
       if (type === 'input' && fieldIndex >= 0) {
         // We reset current step status to not stay in error state forever.
