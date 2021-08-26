@@ -39,8 +39,8 @@ export default function loaderDisplayer(options: Options = {}): Plugin {
 
     // Displays loader when next step must be loaded, hides loader if an error occurs in any hook.
     engine.on('userAction', (userAction, next) => {
-      if (userAction !== null) {
-        const currentStep = engine.getCurrentStep();
+      const currentStep = engine.getCurrentStep();
+      if (userAction !== null && currentStep !== null) {
         const { type, fieldId } = <UserAction>userAction;
         const shouldLoadNextStep = configuration.fields[fieldId].loadNextStep === true
           || (fieldId === currentStep.fields.slice(-1)[0].id);

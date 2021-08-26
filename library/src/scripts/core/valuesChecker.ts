@@ -6,6 +6,7 @@
  *
  */
 
+import { Step } from 'scripts/propTypes/step';
 import { Plugin, FormValue, UserAction } from 'scripts/core/Engine';
 
 const isEmpty = (value: FormValue): boolean => {
@@ -30,7 +31,7 @@ export default function valuesChecker(): Plugin {
         return next(userAction);
       }
       const { fieldId, type } = <UserAction>userAction;
-      const currentStep = engine.getCurrentStep();
+      const currentStep = <Step>engine.getCurrentStep();
       if (type === 'input') {
         // Allows to switch step status to "success" when all fields are in "success" status.
         let allFieldsSucceeded = true;
