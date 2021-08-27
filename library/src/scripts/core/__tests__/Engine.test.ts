@@ -593,9 +593,31 @@ describe('core/Engine', () => {
   });
 
   test('getValues & setValues', async () => {
-    await createEngine({ root: 'test', steps: { test: { fields: [] } }, fields: {} });
+    await createEngine({
+      root: 'test',
+      steps: { test: { fields: ['test'] } },
+      fields: {
+        test: { type: 'Message', options: { handler: () => null, test: 'ok' } },
+      },
+    });
     engine.setValues({ test: 'test', other: 'other' });
     expect(engine.getValues()).toEqual({ test: 'test', other: 'other' });
+    expect(localforage.setItem).toHaveBeenCalledWith('gincko_cache', {
+      formValues: { other: 'other', test: 'test' },
+      steps: [{
+        fields: [{
+          id: 'test',
+          label: undefined,
+          message: null,
+          options: { test: 'ok' },
+          status: 'success',
+          type: 'Message',
+          value: undefined,
+        }],
+        id: 'test',
+        status: 'initial',
+      }],
+    });
   });
 
   test('getStore', async () => {
