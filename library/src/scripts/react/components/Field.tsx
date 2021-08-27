@@ -23,7 +23,7 @@ import PropTypes, { InferProps } from 'prop-types';
 import Message from 'scripts/react/components/Message';
 import fieldPropType, { Field as FormField } from 'scripts/propTypes/field';
 
-type OUA = (newValue: FormValue) => void;
+type OUA = (type: 'click' | 'input', newValue: FormValue) => void;
 type I18n = (label: string, values?: Record<string, string>) => string;
 type Option = { value?: string; label?: string; type?: string; disabled?: boolean; };
 
@@ -59,7 +59,7 @@ const builtInComponents: Components = {
       icon={field.options.icon}
       type={field.options.type}
       iconPosition={field.options.iconPosition}
-      onClick={(): void => onUserAction(true)}
+      onClick={(): void => onUserAction('input', true)}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
   ),
@@ -72,7 +72,6 @@ const builtInComponents: Components = {
       helper={field.message}
       min={field.options.min}
       max={field.options.max}
-      onChange={onUserAction}
       step={field.options.step}
       icon={field.options.icon}
       size={field.options.size}
@@ -87,6 +86,7 @@ const builtInComponents: Components = {
       autocomplete={field.options.autocomplete}
       iconPosition={field.options.iconPosition}
       debounceTimeout={field.options.debounceTimeout || 100}
+      onChange={(value): void => onUserAction('input', value)}
       readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
       placeholder={(field.options.placeholder !== undefined && field.options.placeholder !== null)
@@ -101,7 +101,6 @@ const builtInComponents: Components = {
       value={field.value}
       label={field.label}
       helper={field.message}
-      onChange={onUserAction}
       cols={field.options.cols}
       rows={field.options.rows}
       onBlur={field.options.onBlur}
@@ -112,6 +111,7 @@ const builtInComponents: Components = {
       transform={field.options.transform}
       autocomplete={field.options.autocomplete}
       debounceTimeout={field.options.debounceTimeout || 100}
+      onChange={(value): void => onUserAction('input', value)}
       readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
       placeholder={(field.options.placeholder !== undefined && field.options.placeholder !== null)
@@ -126,12 +126,12 @@ const builtInComponents: Components = {
       label={field.label}
       value={field.value}
       helper={field.message}
-      onChange={onUserAction}
       icon={field.options.icon}
       accept={field.options.accept}
       onFocus={field.options.onFocus}
       multiple={field.options.multiple}
       iconPosition={field.options.iconPosition}
+      onChange={(value): void => onUserAction('input', value)}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
       placeholder={(field.options.placeholder !== undefined && field.options.placeholder !== null)
         ? field.i18n(field.options.placeholder, field.options.formValues)
@@ -145,9 +145,9 @@ const builtInComponents: Components = {
       label={field.label}
       value={field.value}
       helper={field.message}
-      onChange={onUserAction}
       icon={field.options.icon}
       onFocus={field.options.onFocus}
+      onChange={(value): void => onUserAction('input', value)}
       options={field.options.options.map((option: Option) => ((option.label !== undefined)
         ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
         : option))}
@@ -162,8 +162,8 @@ const builtInComponents: Components = {
       label={field.label}
       value={field.value}
       helper={field.message}
-      onChange={onUserAction}
       onFocus={field.options.onFocus}
+      onChange={(value): void => onUserAction('input', value)}
       options={field.options.options.map((option: Option) => ((option.label !== undefined)
         ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
         : option))}
@@ -177,8 +177,8 @@ const builtInComponents: Components = {
       label={field.label}
       value={field.value}
       helper={field.message}
-      onChange={onUserAction}
       onFocus={field.options.onFocus}
+      onChange={(value): void => onUserAction('input', value)}
       options={field.options.options.map((option: Option) => ((option.label !== undefined)
         ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
         : option))}
@@ -221,8 +221,8 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
     }
   };
 
-  const onUserAction = (newValue: FormValue): void => {
-    props.onUserAction({ type: 'input', value: newValue, fieldId: id });
+  const onUserAction: OUA = (actionType, newValue) => {
+    props.onUserAction({ type: actionType, value: newValue, fieldId: id });
   };
 
   // Unknown field type...

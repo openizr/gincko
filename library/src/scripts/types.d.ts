@@ -370,7 +370,7 @@ declare module 'gincko' {
 }
 
 declare module 'gincko/react' {
-  type OUA = (newValue: FormValue) => void;
+  type OUA = (type: 'click' | 'input', newValue: FormValue) => void;
 
   /** Custom React component. */
   export type Component = (field: Field & { i18n: I18n; }, onUserAction: OUA) => JSX.Element;
@@ -402,6 +402,8 @@ declare module 'gincko/vue' {
   import Vue from 'vue';
   import { ExtendedVue } from 'vue/types/vue.d';
 
+  type OUA = (type: 'click' | 'input', newValue: FormValue) => void;
+
   /**
    * Dynamic form.
    */
@@ -417,7 +419,7 @@ declare module 'gincko/vue' {
 
     /** List of form's custom components. */
     customComponents: {
-      [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
+      [type: string]: (field: Field, onUserAction: OUA) => {
         component: Vue.Component;
         props: any;
         events: any;

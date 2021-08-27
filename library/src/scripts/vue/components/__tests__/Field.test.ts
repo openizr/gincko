@@ -31,6 +31,9 @@ jest.mock('sonar-ui/vue', () => {
           click(): void {
             self.$emit('click');
           },
+          change(): void {
+            self.$emit('change');
+          },
           keyDown(): void {
             self.$emit('focus');
           },
@@ -225,6 +228,7 @@ describe('vue/components/Field', () => {
         userAction: onUserAction,
       },
     });
+    await wrapper.trigger('change');
     await wrapper.trigger('keyDown');
     await wrapper.vm.$nextTick();
     expect(wrapper.html()).toMatchSnapshot();
@@ -290,6 +294,7 @@ describe('vue/components/Field', () => {
     });
     expect(wrapper.html()).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(0);
+    await wrapper.trigger('change');
     await wrapper.trigger('keyDown');
     await wrapper.vm.$nextTick();
     expect(wrapper.html()).toMatchSnapshot();
@@ -317,7 +322,7 @@ describe('vue/components/Field', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  test('FileUploader', () => {
+  test('FileUploader', async () => {
     const wrapper = mount(Field, {
       propsData: {
         i18n,
@@ -333,10 +338,11 @@ describe('vue/components/Field', () => {
         userAction: onUserAction,
       },
     });
+    await wrapper.trigger('change');
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  test('Dropdown', () => {
+  test('Dropdown', async () => {
     const wrapper = mount(Field, {
       propsData: {
         i18n,
@@ -357,10 +363,11 @@ describe('vue/components/Field', () => {
         userAction: onUserAction,
       },
     });
+    await wrapper.trigger('change');
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  test('Checkbox', () => {
+  test('Checkbox', async () => {
     const wrapper = mount(Field, {
       propsData: {
         i18n,
@@ -381,10 +388,11 @@ describe('vue/components/Field', () => {
         userAction: onUserAction,
       },
     });
+    await wrapper.trigger('change');
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  test('Radio', () => {
+  test('Radio', async () => {
     const wrapper = mount(Field, {
       propsData: {
         i18n,
@@ -405,6 +413,7 @@ describe('vue/components/Field', () => {
         userAction: onUserAction,
       },
     });
+    await wrapper.trigger('change');
     expect(wrapper.html()).toMatchSnapshot();
   });
 });
