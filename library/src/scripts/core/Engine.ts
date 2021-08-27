@@ -71,6 +71,8 @@ export default class Engine {
    *
    * @TODO Throwing an error in a hook should block execution of the .then statement after
    * `triggerHook` call => put .then promise as argument of `triggerHook`?
+   * @TODO Update cache only when calling setValues or setCurrentStep with notify = true or
+   * toggleLoader and remove cache timeout for more reliability.
    *
    * @param {FormEvent} eventName Event's name.
    *
@@ -412,6 +414,22 @@ export default class Engine {
    */
   public setValues(values: FormValues): void {
     Object.assign(this.formValues, deepCopy(values));
+    localforage.setItem(this.cacheKey, {
+      formValues: this.formValues,
+      // We remove all functions from fields' options as they can't be stored in IndexedDB.
+      steps: this.generatedSteps.map((step) => ({
+        ...step,
+        fields: step.fields.map((field) => ({
+          ...field,
+          options: Object.keys(field.options).reduce((options, key) => {
+            if (typeof field.options[key] !== 'function') {
+              Object.assign(options, { [key]: field.options[key] });
+            }
+            return options;
+          }, {}),
+        })),
+      })),
+    });
   }
 
   /**
