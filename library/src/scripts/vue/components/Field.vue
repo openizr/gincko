@@ -158,7 +158,7 @@ const builtInComponents: Components = {
       blur: field.options.onBlur,
       focus: field.options.onFocus,
       iconClick: field.options.onIconClick,
-      change: (value): void => onUserAction('input', value),
+      change: (value: FormValue): void => onUserAction('input', value),
     },
   }),
   Textarea: (field, onUserAction) => ({
@@ -184,7 +184,7 @@ const builtInComponents: Components = {
     events: {
       blur: field.options.onBlur,
       focus: field.options.onFocus,
-      change: (value): void => onUserAction('input', value),
+      change: (value: FormValue): void => onUserAction('input', value),
     },
   }),
   FileUploader: (field, onUserAction) => ({
@@ -204,7 +204,7 @@ const builtInComponents: Components = {
     },
     events: {
       focus: field.options.onFocus,
-      change: (value): void => onUserAction('input', value),
+      change: (value: FormValue): void => onUserAction('input', value),
     },
   }),
   Dropdown: (field, onUserAction) => ({
@@ -224,7 +224,7 @@ const builtInComponents: Components = {
     },
     events: {
       focus: field.options.onFocus,
-      change: (value): void => onUserAction('input', value),
+      change: (value: FormValue): void => onUserAction('input', value),
     },
   }),
   Checkbox: (field, onUserAction) => ({
@@ -242,7 +242,7 @@ const builtInComponents: Components = {
     },
     events: {
       focus: field.options.onFocus,
-      change: (value): void => onUserAction('input', value),
+      change: (value: FormValue): void => onUserAction('input', value),
     },
   }),
   Radio: (field, onUserAction) => ({
@@ -260,7 +260,7 @@ const builtInComponents: Components = {
     },
     events: {
       focus: field.options.onFocus,
-      change: (value): void => onUserAction('input', value),
+      change: (value: FormValue): void => onUserAction('input', value),
     },
   }),
 };
