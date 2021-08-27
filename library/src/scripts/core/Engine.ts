@@ -414,22 +414,24 @@ export default class Engine {
    */
   public setValues(values: FormValues): void {
     Object.assign(this.formValues, deepCopy(values));
-    localforage.setItem(this.cacheKey, {
-      formValues: this.formValues,
-      // We remove all functions from fields' options as they can't be stored in IndexedDB.
-      steps: this.generatedSteps.map((step) => ({
-        ...step,
-        fields: step.fields.map((field) => ({
-          ...field,
-          options: Object.keys(field.options).reduce((options, key) => {
-            if (typeof field.options[key] !== 'function') {
-              Object.assign(options, { [key]: field.options[key] });
-            }
-            return options;
-          }, {}),
+    if (this.useCache) {
+      localforage.setItem(this.cacheKey, {
+        formValues: this.formValues,
+        // We remove all functions from fields' options as they can't be stored in IndexedDB.
+        steps: this.generatedSteps.map((step) => ({
+          ...step,
+          fields: step.fields.map((field) => ({
+            ...field,
+            options: Object.keys(field.options).reduce((options, key) => {
+              if (typeof field.options[key] !== 'function') {
+                Object.assign(options, { [key]: field.options[key] });
+              }
+              return options;
+            }, {}),
+          })),
         })),
-      })),
-    });
+      });
+    }
   }
 
   /**

@@ -592,7 +592,7 @@ describe('core/Engine', () => {
     expect(() => engine.createStep('other')).toThrow(new Error('Step "other" does not exist.'));
   });
 
-  test('getValues & setValues', async () => {
+  test('getValues & setValues - cache enabled', async () => {
     await createEngine({
       root: 'test',
       steps: { test: { fields: ['test'] } },
@@ -618,6 +618,18 @@ describe('core/Engine', () => {
         status: 'initial',
       }],
     });
+  });
+
+  test('setValues - cache disabled', async () => {
+    await createEngine({
+      root: 'test',
+      cache: false,
+      steps: { test: { fields: [] } },
+      fields: {},
+    });
+    engine.setValues({ test: 'test', other: 'other' });
+    expect(engine.getValues()).toEqual({ test: 'test', other: 'other' });
+    expect(localforage.setItem).not.toHaveBeenCalled();
   });
 
   test('getStore', async () => {
