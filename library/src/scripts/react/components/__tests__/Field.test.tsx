@@ -16,6 +16,9 @@ type Any = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 jest.mock('sonar-ui/react', () => {
   /* eslint-disable react/destructuring-assignment, jsx-a11y/no-static-element-interactions */
   function Component(props: Any): JSX.Element {
+    if (props.onChange !== undefined) {
+      props.onChange();
+    }
     return (
       <div
         id={props.id}

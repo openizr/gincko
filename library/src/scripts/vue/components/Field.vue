@@ -40,7 +40,7 @@ import { FormValue } from 'scripts/core/Engine';
 
 type Generic = Record<string, FormValue>;
 type Components = { [type: string]: Component; };
-type Component = (field: Field, onUserAction: (newValue: FormValue) => void) => FormValue;
+type Component = (field: Field, onUserAction: (type: 'click' | 'input', newValue: FormValue) => void) => FormValue;
 
 interface Props {
   id: string;
@@ -127,7 +127,7 @@ const builtInComponents: Components = {
       iconPosition: field.options.iconPosition,
     },
     events: {
-      click: (): void => onUserAction(true),
+      click: (): void => onUserAction('input', true),
     },
   }),
   Textfield: (field, onUserAction) => ({
@@ -155,10 +155,10 @@ const builtInComponents: Components = {
       modifiers: `${field.status} ${field.options.modifiers || ''} `,
     },
     events: {
-      change: onUserAction,
-      focus: field.options.onFocus,
       blur: field.options.onBlur,
+      focus: field.options.onFocus,
       iconClick: field.options.onIconClick,
+      change: (value): void => onUserAction('input', value),
     },
   }),
   Textarea: (field, onUserAction) => ({
@@ -182,9 +182,9 @@ const builtInComponents: Components = {
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
-      change: onUserAction,
-      focus: field.options.onFocus,
       blur: field.options.onBlur,
+      focus: field.options.onFocus,
+      change: (value): void => onUserAction('input', value),
     },
   }),
   FileUploader: (field, onUserAction) => ({
@@ -203,8 +203,8 @@ const builtInComponents: Components = {
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
-      change: onUserAction,
       focus: field.options.onFocus,
+      change: (value): void => onUserAction('input', value),
     },
   }),
   Dropdown: (field, onUserAction) => ({
@@ -223,8 +223,8 @@ const builtInComponents: Components = {
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
-      change: onUserAction,
       focus: field.options.onFocus,
+      change: (value): void => onUserAction('input', value),
     },
   }),
   Checkbox: (field, onUserAction) => ({
@@ -241,8 +241,8 @@ const builtInComponents: Components = {
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
-      change: onUserAction,
       focus: field.options.onFocus,
+      change: (value): void => onUserAction('input', value),
     },
   }),
   Radio: (field, onUserAction) => ({
@@ -259,8 +259,8 @@ const builtInComponents: Components = {
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
-      change: onUserAction,
       focus: field.options.onFocus,
+      change: (value): void => onUserAction('input', value),
     },
   }),
 };
@@ -369,8 +369,8 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
   },
   methods: {
-    onUserAction(newValue: FormValue): void {
-      this.$emit('userAction', { fieldId: this.id, type: 'input', value: newValue });
+    onUserAction(type: 'click' | 'input', newValue: FormValue): void {
+      this.$emit('userAction', { fieldId: this.id, type, value: newValue });
     },
     focusField(focusedValue: FormValue): void {
       this.isActive = true;
