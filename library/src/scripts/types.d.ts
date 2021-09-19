@@ -147,7 +147,7 @@ export class Engine {
   private useCache: boolean;
 
   /** Timeout after which to refresh cache. */
-  private cacheTimeout: number | null;
+  private cacheTimeout: NodeJS.Timeout | null;
 
   /** Form engine configuration. Contains steps, elements, ... */
   private configuration: Configuration;

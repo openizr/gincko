@@ -21,7 +21,6 @@ jest.mock('basx');
 jest.mock('localforage');
 jest.mock('scripts/core/steps');
 jest.mock('scripts/core/userActions');
-jest.useFakeTimers();
 
 // This trick allows to check the calling order of the different plugins.
 const call = jest.fn();
@@ -49,8 +48,9 @@ describe('core/Engine', () => {
     stepIndex: 0,
   };
 
-  function flushPromises(): Promise<void> {
-    return new Promise((resolve) => setImmediate(resolve));
+  async function flushPromises(): Promise<void> {
+    const promise = new Promise<void>((resolve) => setTimeout(resolve, 50));
+    return promise;
   }
 
   async function createEngine(configuration: Configuration): Promise<void> {
@@ -261,8 +261,7 @@ describe('core/Engine', () => {
       },
     });
     (engine as unknown as EngineApi).handleUserAction(userAction);
-    await flushPromises();
-    jest.runAllTimers();
+    await new Promise<void>((resolve) => setTimeout(resolve, 1000));
     expect(localforage.setItem).toHaveBeenCalled();
     expect(localforage.setItem).toHaveBeenCalledWith('gincko_cache', {
       formValues: { test: 'test' },

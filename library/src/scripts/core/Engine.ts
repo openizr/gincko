@@ -52,7 +52,7 @@ export default class Engine {
   private useCache: boolean;
 
   /** Timeout after which to refresh cache. */
-  private cacheTimeout: number | null;
+  private cacheTimeout: NodeJS.Timeout | null;
 
   /** Form engine configuration. Contains steps, elements, ... */
   private configuration: Configuration;
@@ -116,11 +116,11 @@ export default class Engine {
       })
       .finally(() => {
         this.setCurrentStep(this.generatedSteps[this.getCurrentStepIndex()] || null, true);
-        window.clearTimeout(this.cacheTimeout as number);
+        clearTimeout(this.cacheTimeout as NodeJS.Timeout);
         // If cache is enabled, we store current form state, except after submission, when
         // cache must be completely cleared.
         if (this.useCache && eventName !== 'submit') {
-          this.cacheTimeout = window.setTimeout(() => {
+          this.cacheTimeout = setTimeout(() => {
             localforage.setItem(this.cacheKey, {
               formValues: this.formValues,
               // We remove all functions from fields' options as they can't be stored in IndexedDB.
@@ -189,7 +189,7 @@ export default class Engine {
         }
       });
     } catch (error) {
-      this.triggerHooks('error', error);
+      this.triggerHooks('error', <Error>error);
     }
   }
 
