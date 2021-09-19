@@ -2,7 +2,7 @@ import { errorStepDisplayer } from 'gincko/plugins';
 import { Configuration, Plugin } from 'gincko/react';
 
 export default <Configuration>{
-  root: 'start',
+  root: 'unknown',
   steps: {
     start: { fields: ['email', 'mess', 'next'], nextStep: 'end' },
     mid: { fields: ['azd'], nextStep: 'end' },
@@ -58,8 +58,8 @@ export default <Configuration>{
         if (userAction?.fieldId === 'city') {
           throw new Error('ok');
         }
-        if (userAction !== null) {
-          const currentStep = engine.getCurrentStep();
+        const currentStep = engine.getCurrentStep();
+        if (userAction !== null && currentStep !== null) {
           currentStep.fields[1].options.formValues = {
             ...engine.getValues(),
             [userAction.fieldId]: userAction.value,
