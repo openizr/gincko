@@ -129,7 +129,7 @@ export interface UserAction {
   value: FormValue;
 }
 
-export interface FormValues {
+export interface AnyValues {
   [fieldId: string]: FormValue;
 }
 
@@ -153,29 +153,32 @@ export class Engine {
   private configuration: Configuration;
 
   /** Contains all events hooks to trigger when events are fired. */
-  private hooks: { [eventName: string]: Hook<FormValues | Error | Step | UserAction | null>[]; };
+  private hooks: { [eventName: string]: Hook<AnyValues | Error | Step | UserAction | null>[]; };
 
   /** Contains the actual form steps, as they are currently displayed to end-user. */
   private generatedSteps: Step[];
 
   /** Contains last value of each form field. */
-  private formValues: FormValues;
+  private values: AnyValues;
+
+  /** Contains user-defined variables, accessible anywhere, anytime in the form. */
+  private variables: AnyValues;
 
   /**
    * Triggers hooks chain for the given event.
    *
    * @param {FormEvent} eventName Event's name.
    *
-   * @param {FormValues | Error | Step | UserAction | null} [data = undefined] Additional data
+   * @param {AnyValues | Error | Step | UserAction | null} [data = undefined] Additional data
    * to pass to the hooks chain.
    *
-   * @returns {Promise<FormValues | Error | Step | UserAction | null>} Pending hooks chain.
+   * @returns {Promise<AnyValues | Error | Step | UserAction | null>} Pending hooks chain.
    *
    * @throws {Error} If any event hook does not return a Promise.
    */
   private triggerHooks(eventName: 'start', data: undefined | null): Promise<undefined | null>;
 
-  private triggerHooks(eventName: 'submit', data: FormValues | null): Promise<FormValues | null>;
+  private triggerHooks(eventName: 'submit', data: AnyValues | null): Promise<AnyValues | null>;
 
   private triggerHooks(eventName: 'loadNextStep', data: Step | null): Promise<Step | null>;
 
@@ -195,6 +198,13 @@ export class Engine {
    * @returns {void}
    */
   private updateGeneratedSteps(stepIndex: number, step: Step): void;
+
+  /**
+   * Updates form's cached data.
+   *
+   * @returns {Promise<void>}
+   */
+  private async updateCache(): Promise<void>;
 
   /**
    * Loads the next step with given id.
@@ -262,22 +272,6 @@ export class Engine {
   public createStep(stepId: string | null): Step | null;
 
   /**
-   * Retrieves form fields values that have been filled.
-   *
-   * @returns {FormValues} Form values.
-   */
-  public getValues(): FormValues;
-
-  /**
-   * Adds or overrides the given form values.
-   *
-   * @param {FormValues} values Form values to add.
-   *
-   * @returns {void}
-   */
-  public setValues(values: FormValues): void;
-
-  /**
    * Returns current store instance.
    *
    * @returns {Store} Current store instance.
@@ -323,7 +317,7 @@ export class Engine {
    *
    * @param {FormEvent} eventName Name of the event to register hook for.
    *
-   * @param {Hook<FormValues | Error | Step | UserAction | undefined | null>} hook Hook to register.
+   * @param {Hook<AnyValues | Error | Step | UserAction | undefined | null>} hook Hook to register.
    *
    * @returns {void}
    */
@@ -337,7 +331,7 @@ export class Engine {
 
   public on(eventName: 'error', hook: Hook<Error | null>): void;
 
-  public on(eventName: 'submit', hook: Hook<FormValues | null>): void;
+  public on(eventName: 'submit', hook: Hook<AnyValues | null>): void;
 
   /**
    * Toggles a loader right after current step, indicating next step is/not being generated.
@@ -358,11 +352,34 @@ export class Engine {
   public userAction(userAction: UserAction): void;
 
   /**
+   * Retrieves current form fields values.
+   *
+   * @returns {AnyValues} Form values.
+   */
+  public getValues(): AnyValues;
+
+  /**
    * Clears current form cache.
    *
    * @returns {Promise<void>}
    */
   public async clearCache(): Promise<void>;
+
+  /**
+   * Retrieves current form variables.
+   *
+   * @returns {AnyValues} Form variables.
+   */
+  public getVariables(): AnyValues;
+
+  /**
+   * Adds or overrides the given form variables.
+   *
+   * @param {AnyValues} variables Form variables to add or override.
+   *
+   * @returns {void}
+   */
+  public setVariables(variables: AnyValues): void;
 }
 
 declare module 'gincko' {

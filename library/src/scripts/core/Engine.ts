@@ -19,10 +19,10 @@ import valuesChecker from 'scripts/core/valuesChecker';
 import valuesUpdater from 'scripts/core/valuesUpdater';
 import { Configuration } from 'scripts/propTypes/configuration';
 
-type HookData = FormValues | Error | Step | UserAction | null;
+type HookData = AnyValues | Error | Step | UserAction | null;
 
 export type Plugin = (engine: Engine) => void;
-export type FormValue = any; // eslint-disable-line @typescript-eslint/no-explicit-any
+export type AnyValue = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 export type Hook<Type> = (data: Type, next: (data?: Type) => Promise<Type>) => Promise<Type>;
 export type FormEvent = 'start' | 'loadNextStep' | 'loadedNextStep' | 'userAction' | 'submit' | 'error';
 
@@ -31,11 +31,11 @@ export interface UserAction {
   fieldId: string;
   stepIndex: number;
   type: 'input' | 'click';
-  value: FormValue;
+  value: AnyValue;
 }
 
-export interface FormValues {
-  [fieldId: string]: FormValue;
+export interface AnyValues {
+  [fieldId: string]: AnyValue;
 }
 
 /**
@@ -58,13 +58,16 @@ export default class Engine {
   private configuration: Configuration;
 
   /** Contains all events hooks to trigger when events are fired. */
-  private hooks: { [eventName: string]: Hook<FormValues | Error | Step | UserAction | null>[]; };
+  private hooks: { [eventName: string]: Hook<AnyValues | Error | Step | UserAction | null>[]; };
 
   /** Contains the actual form steps, as they are currently displayed to end-user. */
   private generatedSteps: Step[];
 
   /** Contains last value of each form field. */
-  private formValues: FormValues;
+  private values: AnyValues;
+
+  /** Contains user-defined variables, accessible anywhere, anytime in the form. */
+  private variables: AnyValues;
 
   /**
    * Triggers hooks chain for the given event.
@@ -76,10 +79,10 @@ export default class Engine {
    *
    * @param {FormEvent} eventName Event's name.
    *
-   * @param {FormValues | Error | Step | UserAction | null} [data = undefined] Additional data
+   * @param {AnyValues | Error | Step | UserAction | null} [data = undefined] Additional data
    * to pass to the hooks chain.
    *
-   * @returns {Promise<FormValues | Error | Step | UserAction | null>} Pending hooks chain.
+   * @returns {Promise<AnyValues | Error | Step | UserAction | null>} Pending hooks chain.
    *
    * @throws {Error} If any event hook does not return a Promise.
    */
@@ -120,26 +123,9 @@ export default class Engine {
         }
         clearTimeout(this.cacheTimeout as NodeJS.Timeout);
         // If cache is enabled, we store current form state, except after submission, when
-        // cache must be completely cleared.
-        if (this.useCache && eventName !== 'submit') {
-          this.cacheTimeout = setTimeout(() => {
-            localforage.setItem(this.cacheKey, {
-              formValues: this.formValues,
-              // We remove all functions from fields' options as they can't be stored in IndexedDB.
-              steps: this.generatedSteps.map((step) => ({
-                ...step,
-                fields: step.fields.map((field) => ({
-                  ...field,
-                  options: Object.keys(field.options).reduce((options, key) => {
-                    if (typeof field.options[key] !== 'function') {
-                      Object.assign(options, { [key]: field.options[key] });
-                    }
-                    return options;
-                  }, {}),
-                })),
-              })),
-            });
-          }, 500);
+        // cache must be completely wiped out.
+        if (eventName !== 'submit') {
+          this.cacheTimeout = setTimeout(this.updateCache, 500);
         } else if (eventName === 'submit' && this.configuration.clearCacheOnSubmit !== false) {
           this.useCache = false;
           this.clearCache();
@@ -172,6 +158,32 @@ export default class Engine {
       });
     } else {
       this.generatedSteps = newSteps;
+    }
+  }
+
+  /**
+   * Updates form's cached data.
+   *
+   * @returns {Promise<void>}
+   */
+  private async updateCache(): Promise<void> {
+    if (this.useCache) {
+      await localforage.setItem(this.cacheKey, {
+        values: this.values,
+        variables: this.variables,
+        // We remove all functions from fields' options as they can't be stored in IndexedDB.
+        steps: this.generatedSteps.map((step) => ({
+          ...step,
+          fields: step.fields.map((field) => ({
+            ...field,
+            options: Object.keys(field.options).reduce((options, key) => (
+              (typeof field.options[key] !== 'function')
+                ? Object.assign(options, { [key]: field.options[key] })
+                : options
+            ), {}),
+          })),
+        })),
+      });
     }
   }
 
@@ -209,15 +221,10 @@ export default class Engine {
     const { loadNextStep } = this.configuration.fields[fieldId];
     const shouldLoadNextStep = (loadNextStep || fields[fields.length - 1].id === fieldId);
     if (shouldLoadNextStep) {
-      const formValues = this.getValues();
-      const submitPromise = (submit === true)
-        ? this.triggerHooks('submit', formValues)
-        : Promise.resolve(formValues);
-      submitPromise.then((updatedFormValues) => {
-        if (updatedFormValues !== null) {
-          this.setValues(updatedFormValues);
-          this.loadNextStep((typeof nextStep === 'function') ? nextStep(updatedFormValues) : nextStep);
-        }
+      const values = this.getValues();
+      const submitPromise = (submit === true) ? this.triggerHooks('submit', values) : Promise.resolve();
+      submitPromise.then(() => {
+        this.loadNextStep((typeof nextStep === 'function') ? nextStep(values) : nextStep);
       });
     }
   }
@@ -240,7 +247,7 @@ export default class Engine {
         if (updatedUserAction !== null) {
           const { type, value, fieldId } = <UserAction>updatedUserAction;
           if (type === 'input') {
-            this.formValues[fieldId] = value;
+            this.values[fieldId] = value;
             this.handleSubmit.bind(this)(<UserAction>updatedUserAction);
           }
         }
@@ -260,7 +267,8 @@ export default class Engine {
     store.register('steps', steps);
     store.register('userActions', userActions);
     this.store = store;
-    this.formValues = {};
+    this.values = {};
+    this.variables = {};
     this.cacheTimeout = null;
     this.generatedSteps = [];
     this.configuration = configuration;
@@ -286,7 +294,8 @@ export default class Engine {
         on: this.on.bind(this),
         getStore: this.getStore.bind(this),
         getValues: this.getValues.bind(this),
-        setValues: this.setValues.bind(this),
+        setVariables: this.setVariables.bind(this),
+        getVariables: this.getVariables.bind(this),
         userAction: this.userAction.bind(this),
         getConfiguration: this.getConfiguration.bind(this),
         toggleStepLoader: this.toggleStepLoader.bind(this),
@@ -309,10 +318,10 @@ export default class Engine {
 
     // Depending on the configuration, we want either to load the complete form from cache, or just
     // its filled values and restart journey from the beginning.
-    localforage.getItem<{ formValues: FormValues; steps: Step[]; }>(this.cacheKey).then((data) => {
-      const parsedData = data || { formValues: {}, steps: [] };
+    localforage.getItem<{ values: AnyValues; steps: Step[]; }>(this.cacheKey).then((data) => {
+      const parsedData = data || { values: {}, steps: [] };
       if (this.useCache && this.configuration.autoFill !== false) {
-        this.formValues = parsedData.formValues;
+        this.values = parsedData.values;
       }
       let callback = (): void => { this.loadNextStep(configuration.root); };
       if (data !== null && this.useCache && this.configuration.restartOnReload !== true) {
@@ -399,44 +408,6 @@ export default class Engine {
   }
 
   /**
-   * Retrieves current form fields values.
-   *
-   * @returns {FormValues} Form values.
-   */
-  public getValues(): FormValues {
-    return deepCopy(this.formValues);
-  }
-
-  /**
-   * Adds or overrides the given form values.
-   *
-   * @param {FormValues} values Form values to add.
-   *
-   * @returns {void}
-   */
-  public setValues(values: FormValues): void {
-    Object.assign(this.formValues, deepCopy(values));
-    if (this.useCache) {
-      localforage.setItem(this.cacheKey, {
-        formValues: this.formValues,
-        // We remove all functions from fields' options as they can't be stored in IndexedDB.
-        steps: this.generatedSteps.map((step) => ({
-          ...step,
-          fields: step.fields.map((field) => ({
-            ...field,
-            options: Object.keys(field.options).reduce((options, key) => {
-              if (typeof field.options[key] !== 'function') {
-                Object.assign(options, { [key]: field.options[key] });
-              }
-              return options;
-            }, {}),
-          })),
-        })),
-      });
-    }
-  }
-
-  /**
    * Returns current store instance.
    *
    * @returns {Store} Current store instance.
@@ -458,21 +429,21 @@ export default class Engine {
   }
 
   /**
-   * Returns current generated step.
-   *
-   * @returns {Step | null} Current generated step.
-   */
-  public getCurrentStep(): Step | null {
-    return deepCopy(this.generatedSteps[this.getCurrentStepIndex()]) || null;
-  }
-
-  /**
    * Returns current generated step index.
    *
    * @returns {number} Current generated step index.
    */
   public getCurrentStepIndex(): number {
     return Math.max(0, this.generatedSteps.length - 1);
+  }
+
+  /**
+   * Returns current generated step.
+   *
+   * @returns {Step | null} Current generated step.
+   */
+  public getCurrentStep(): Step | null {
+    return deepCopy(this.generatedSteps[this.getCurrentStepIndex()]) || null;
   }
 
   /**
@@ -497,11 +468,11 @@ export default class Engine {
    *
    * @param {FormEvent} eventName Name of the event to register hook for.
    *
-   * @param {Hook<FormValues | Error | Step | UserAction | null>} hook Hook to register.
+   * @param {Hook<AnyValues | Error | Step | UserAction | null>} hook Hook to register.
    *
    * @returns {void}
    */
-  public on(eventName: FormEvent, hook: Hook<FormValues | Error | Step | UserAction | null>): void {
+  public on(eventName: FormEvent, hook: Hook<AnyValues | Error | Step | UserAction | null>): void {
     this.hooks[eventName].push(hook);
   }
 
@@ -528,11 +499,41 @@ export default class Engine {
   }
 
   /**
+   * Retrieves current form fields values.
+   *
+   * @returns {AnyValues} Form values.
+   */
+  public getValues(): AnyValues {
+    return deepCopy(this.values);
+  }
+
+  /**
    * Clears current form cache.
    *
    * @returns {Promise<void>}
    */
   public async clearCache(): Promise<void> {
     return localforage.removeItem(this.cacheKey);
+  }
+
+  /**
+   * Retrieves current form variables.
+   *
+   * @returns {AnyValues} Form variables.
+   */
+  public getVariables(): AnyValues {
+    return deepCopy(this.variables);
+  }
+
+  /**
+   * Adds or overrides the given form variables.
+   *
+   * @param {AnyValues} variables Form variables to add or override.
+   *
+   * @returns {void}
+   */
+  public setVariables(variables: AnyValues): void {
+    Object.assign(this.variables, deepCopy(variables));
+    this.updateCache();
   }
 }
