@@ -115,7 +115,9 @@ export default class Engine {
           : this.triggerHooks('error', error).then(() => null);
       })
       .finally(() => {
-        this.setCurrentStep(this.generatedSteps[this.getCurrentStepIndex()] || null, true);
+        if (this.generatedSteps[this.getCurrentStepIndex()]) {
+          this.setCurrentStep(this.generatedSteps[this.getCurrentStepIndex()], true);
+        }
         clearTimeout(this.cacheTimeout as NodeJS.Timeout);
         // If cache is enabled, we store current form state, except after submission, when
         // cache must be completely cleared.
@@ -470,7 +472,7 @@ export default class Engine {
    * @returns {number} Current generated step index.
    */
   public getCurrentStepIndex(): number {
-    return this.generatedSteps.length - 1;
+    return Math.max(0, this.generatedSteps.length - 1);
   }
 
   /**
@@ -485,7 +487,7 @@ export default class Engine {
   public setCurrentStep(updatedStep: Step, notify = false): void {
     const stepIndex = this.getCurrentStepIndex();
     this.generatedSteps[stepIndex] = updatedStep;
-    if (notify === true && stepIndex >= 0) {
+    if (notify === true) {
       this.updateGeneratedSteps(stepIndex, updatedStep);
     }
   }
