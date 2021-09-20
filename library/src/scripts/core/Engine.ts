@@ -207,6 +207,8 @@ export default class Engine {
         }
       });
     } catch (error) {
+      // Disabling cache on error prevents the form to be stucked in error step forever.
+      this.useCache = false;
       this.triggerHooks('error', <Error>error);
     }
   }
@@ -254,6 +256,9 @@ export default class Engine {
           const { type, value, fieldId } = <UserAction>updatedUserAction;
           if (type === 'input') {
             this.values[fieldId] = value;
+            if (this.generatedSteps[this.getCurrentStepIndex()]) {
+              this.setCurrentStep(this.generatedSteps[this.getCurrentStepIndex()], true);
+            }
             this.handleSubmit.bind(this)(<UserAction>updatedUserAction);
           }
         }

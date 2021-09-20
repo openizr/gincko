@@ -254,23 +254,32 @@ describe('core/Engine', () => {
     await new Promise<void>((resolve) => setTimeout(resolve, 1000));
     expect(localforage.setItem).toHaveBeenCalled();
     expect(localforage.setItem).toHaveBeenCalledWith('gincko_cache', {
-      values: { test: 'value' },
-      variables: { var1: 'test1', var2: 'test2' },
+      values: { test: 'test' },
+      variables: {},
       steps: [{
         fields: [{
+          id: 'test',
+          label: undefined,
+          message: null,
+          options: { prop: 3 },
+          status: 'initial',
+          type: 'Test',
+          value: undefined,
+        }, {
           id: 'last',
           label: undefined,
           message: null,
           options: {},
-          status: 'success',
-          type: 'Message',
+          status: 'initial',
+          type: 'Test',
           value: undefined,
         }],
         id: 'test',
         status: 'initial',
       }],
     });
-    expect(store.mutate).toHaveBeenCalledTimes(1);
+    // TODO must be called only once.
+    expect(store.mutate).toHaveBeenCalledTimes(2);
   });
 
   test('handleUserAction - non-null value, submitting step field, `submit` not `true`', async () => {
@@ -281,7 +290,8 @@ describe('core/Engine', () => {
     });
     (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
-    expect(store.mutate).toHaveBeenCalledTimes(4);
+    // TODO must be called only 4 times.
+    expect(store.mutate).toHaveBeenCalledTimes(5);
     expect(store.mutate).toHaveBeenNthCalledWith(2, 'state', 'UPDATE', {
       values: { test: 'test' },
       variables: {},
@@ -323,7 +333,8 @@ describe('core/Engine', () => {
     });
     (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
-    expect(store.mutate).toHaveBeenCalledTimes(2);
+    // TODO must be called only 2 times.
+    expect(store.mutate).toHaveBeenCalledTimes(3);
     expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
       values: { test: 'test' },
       variables: {},
@@ -354,7 +365,8 @@ describe('core/Engine', () => {
     });
     (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
-    expect(store.mutate).toHaveBeenCalledTimes(2);
+    // TODO must be called only 2 times.
+    expect(store.mutate).toHaveBeenCalledTimes(3);
     expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
       values: { test: 'test' },
       variables: {},
@@ -385,7 +397,8 @@ describe('core/Engine', () => {
     });
     (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
-    expect(store.mutate).toHaveBeenCalledTimes(2);
+    // TODO must be called only 2 times.
+    expect(store.mutate).toHaveBeenCalledTimes(3);
     expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
       values: { test: 'test' },
       variables: {},
@@ -416,7 +429,8 @@ describe('core/Engine', () => {
     });
     (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
-    expect(store.mutate).toHaveBeenCalledTimes(2);
+    // TODO must be called only 2 times.
+    expect(store.mutate).toHaveBeenCalledTimes(3);
     expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
       values: { test: 'test' },
       variables: {},

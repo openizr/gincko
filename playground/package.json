@@ -28,7 +28,7 @@
     "html": {
       "template": "./html/index.html",
       "entries": [
-        "vue"
+        "react"
       ]
     },
     "splitChunks": false,
