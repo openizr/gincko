@@ -204,7 +204,7 @@ describe('core/Engine', () => {
     expect(store.mutate).toHaveBeenCalledTimes(1);
     expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
       values: {},
-      variables: { var1: 'test1', var2: 'test2' },
+      variables: {},
       steps: [{
         fields: [{
           id: 'last',
@@ -627,7 +627,7 @@ describe('core/Engine', () => {
     expect(store.mutate).toHaveBeenCalledTimes(1);
     expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
       values: {},
-      variables: { var1: 'test1', var2: 'test2' },
+      variables: {},
       steps: [step],
     });
   });
@@ -676,6 +676,7 @@ describe('core/Engine', () => {
   });
 
   test('setVariables and getVariables', async () => {
+    process.env.CACHE_EXISTING_FORM = 'true';
     const engine = await createEngine();
     engine.setVariables({ var1: 'test2', var3: 'test3' });
     expect(engine.getVariables()).toEqual({ var1: 'test2', var2: 'test2', var3: 'test3' });

@@ -14,6 +14,7 @@ export default {
     if (process.env.CACHE_EXISTING_FORM === 'true') {
       return Promise.resolve({
         values: { test: 'value' },
+        variables: { var1: 'test1', var2: 'test2' },
         steps: [{
           fields: [
             {
