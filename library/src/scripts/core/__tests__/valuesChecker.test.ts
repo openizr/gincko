@@ -28,6 +28,7 @@ describe('core/valuesChecker', () => {
     await engine.trigger('userAction', { type: 'click' });
     expect(engine.setCurrentStep).toHaveBeenCalledTimes(1);
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
+      id: 'test',
       fields: [
         { id: 'test', type: 'Message', value: [] },
         { id: 'new', type: 'Message', value: 'ok' },
@@ -49,6 +50,7 @@ describe('core/valuesChecker', () => {
     expect(engine.setCurrentStep).toHaveBeenCalledTimes(1);
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
       status: 'error',
+      id: 'test',
       fields: [
         {
           id: 'test', type: 'Message', value: [], status: 'initial',
@@ -77,6 +79,7 @@ describe('core/valuesChecker', () => {
     await engine.trigger('userAction', { type: 'input', fieldId: 'other' });
     expect(engine.setCurrentStep).toHaveBeenCalledTimes(1);
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
+      id: 'test',
       fields: [
         { id: 'test', type: 'Message', value: [] },
         { id: 'new', type: 'Message', value: 'ok' },

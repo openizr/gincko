@@ -13,6 +13,7 @@ import state from 'scripts/core/state';
 import { Step } from 'scripts/propTypes/step';
 import { Field } from 'scripts/propTypes/field';
 import userActions from 'scripts/core/userActions';
+import fieldsFilter from 'scripts/core/fieldsFilter';
 import valuesLoader from 'scripts/core/valuesLoader';
 import errorHandler from 'scripts/core/errorHandler';
 import valuesChecker from 'scripts/core/valuesChecker';
@@ -256,9 +257,7 @@ export default class Engine {
           const { type, value, fieldId } = <UserAction>updatedUserAction;
           if (type === 'input') {
             this.values[fieldId] = value;
-            if (this.generatedSteps[this.getCurrentStepIndex()]) {
-              this.setCurrentStep(this.generatedSteps[this.getCurrentStepIndex()], true);
-            }
+            this.setCurrentStep(this.generatedSteps[this.getCurrentStepIndex()], true);
             this.handleSubmit.bind(this)(<UserAction>updatedUserAction);
           }
         }
@@ -300,6 +299,7 @@ export default class Engine {
       valuesUpdater(),
       valuesChecker(),
       valuesLoader(),
+      fieldsFilter(),
     ]).forEach((hook) => {
       hook({
         on: this.on.bind(this),

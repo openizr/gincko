@@ -11,10 +11,10 @@ import * as PropTypes from 'prop-types';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export type FormValue = any;
+export type AnyValue = any;
 export type Plugin = (engine: Engine) => void;
 export type Field = PropTypes.InferProps<{
-  value: PropTypes.Requireable<FormValue>;
+  value: PropTypes.Requireable<AnyValue>;
   active: PropTypes.Requireable<boolean>;
   label: PropTypes.Requireable<string>;
   message: PropTypes.Requireable<string>;
@@ -28,7 +28,7 @@ export type Field = PropTypes.InferProps<{
 export type Step = PropTypes.InferProps<{
   index: PropTypes.Requireable<number>;
   isActive: PropTypes.Requireable<boolean>;
-  onUserAction: PropTypes.Requireable<(...args: FormValue[]) => Promise<FormValue>>;
+  onUserAction: PropTypes.Requireable<(...args: AnyValue[]) => Promise<AnyValue>>;
   id: PropTypes.Validator<string>;
   status: PropTypes.Validator<string>;
   customComponents: PropTypes.Requireable<{
@@ -80,7 +80,7 @@ export type Configuration = PropTypes.InferProps<{
       submit: PropTypes.Requireable<boolean>;
 
       /** Determines which step to load next. */
-      nextStep: PropTypes.Requireable<string | ((...args: FormValue[]) => string | null)>;
+      nextStep: PropTypes.Requireable<string | ((...args: AnyValue[]) => string | null)>;
     }>;
   }>;
 
@@ -105,17 +105,20 @@ export type Configuration = PropTypes.InferProps<{
         required: PropTypes.Requireable<string>;
 
         /** Returns a different message depending on validation rule. */
-        validation: PropTypes.Requireable<(...args: FormValue[]) => string | null | undefined>;
+        validation: PropTypes.Requireable<(...args: AnyValue[]) => string | null | undefined>;
       }>>;
 
       /** Field's default value. */
-      value: PropTypes.Requireable<FormValue>;
+      value: PropTypes.Requireable<AnyValue>;
 
       /** Field's options. */
       options: PropTypes.Requireable<Record<string, any>>;
 
       /** Whether to load next step when performing a user action on this field. */
       loadNextStep: PropTypes.Requireable<boolean>;
+
+      /** Create and display this field only if the given condition is met. */
+      displayIf: PropTypes.Requireable<(values: AnyValues) => boolean>;
     }>;
   }>;
 }>;
@@ -128,11 +131,11 @@ export interface UserAction {
   fieldId: string;
   stepIndex: number;
   type: 'input' | 'click';
-  value: FormValue;
+  value: AnyValue;
 }
 
 export interface AnyValues {
-  [fieldId: string]: FormValue;
+  [fieldId: string]: AnyValue;
 }
 
 /**
@@ -389,7 +392,7 @@ declare module 'gincko' {
 }
 
 declare module 'gincko/react' {
-  type OUA = (type: 'click' | 'input', newValue: FormValue) => void;
+  type OUA = (type: 'click' | 'input', newValue: AnyValue) => void;
 
   /** Custom React component. */
   export type Component = (field: Field & { i18n: I18n; }, onUserAction: OUA) => JSX.Element;
@@ -421,7 +424,7 @@ declare module 'gincko/vue' {
   import Vue from 'vue';
   import { ExtendedVue } from 'vue/types/vue.d';
 
-  type OUA = (type: 'click' | 'input', newValue: FormValue) => void;
+  type OUA = (type: 'click' | 'input', newValue: AnyValue) => void;
 
   /**
    * Dynamic form.

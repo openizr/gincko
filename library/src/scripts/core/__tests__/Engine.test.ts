@@ -37,6 +37,9 @@ jest.mock('scripts/core/valuesUpdater', jest.fn(() => () => (): void => {
 jest.mock('scripts/core/valuesLoader', jest.fn(() => () => (): void => {
   call('valuesLoader');
 }));
+jest.mock('scripts/core/fieldsFilter', jest.fn(() => () => (): void => {
+  call('fieldsFilter');
+}));
 
 describe('core/Engine', () => {
   const store = new Store();
@@ -85,6 +88,7 @@ describe('core/Engine', () => {
     expect(call).toHaveBeenNthCalledWith(3, 'valuesUpdater');
     expect(call).toHaveBeenNthCalledWith(4, 'valuesChecker');
     expect(call).toHaveBeenNthCalledWith(5, 'valuesLoader');
+    expect(call).toHaveBeenNthCalledWith(6, 'fieldsFilter');
   });
 
   test('constructor - start hook returns correct value', async () => {
