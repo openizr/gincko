@@ -56,6 +56,9 @@ export type Configuration = PropTypes.InferProps<{
   /** Root step, from which to start the form. */
   root: PropTypes.Validator<string>;
 
+  /** List of initial form variables. */
+  variables: PropTypes.Requireable<any>,
+
   /** Whether to check fields values only on step submit. */
   checkValuesOnSubmit: PropTypes.Requireable<boolean>;
 

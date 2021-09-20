@@ -145,7 +145,7 @@ export default class Engine {
   private updateGeneratedSteps(stepIndex: number, step: Step): void {
     // We always remove further steps as logic may have changed depending on last user inputs.
     const newSteps = this.generatedSteps.slice(0, stepIndex).concat([step]);
-    this.store.mutate('steps', 'SET', { steps: newSteps });
+    this.store.mutate('steps', 'UPDATE', { steps: newSteps });
 
     // We trigger related hooks if we just loaded a new step.
     // Do not change this `if...else` structure as we must compare lengths before updating steps!
@@ -270,10 +270,10 @@ export default class Engine {
     store.register('userActions', userActions);
     this.store = store;
     this.values = {};
-    this.variables = {};
     this.cacheTimeout = null;
     this.generatedSteps = [];
     this.configuration = configuration;
+    this.variables = configuration.variables || {};
     this.useCache = this.configuration.cache !== false;
     this.cacheKey = `gincko_${configuration.id || 'cache'}`;
     this.hooks = {

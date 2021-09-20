@@ -35,6 +35,9 @@ const configurationPropTypes = {
   /** Whether to check fields values only on step submit. */
   checkValuesOnSubmit: PropTypes.bool,
 
+  /** List of initial form variables. */
+  variables: PropTypes.any,
+
   /** Custom plugins registrations. */
   plugins: PropTypes.arrayOf(PropTypes.func.isRequired),
 

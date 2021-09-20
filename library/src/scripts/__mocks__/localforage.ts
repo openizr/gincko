@@ -17,15 +17,6 @@ export default {
         steps: [{
           fields: [
             {
-              id: 'test',
-              label: undefined,
-              message: null,
-              options: {},
-              status: 'initial',
-              type: 'Test',
-              value: undefined,
-            },
-            {
               id: 'last',
               label: undefined,
               message: null,

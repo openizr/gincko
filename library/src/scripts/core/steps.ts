@@ -9,9 +9,12 @@
 import { Module } from 'diox';
 import { deepMerge } from 'basx';
 import { Step } from 'scripts/propTypes/step';
+import { AnyValues } from 'scripts/core/Engine';
 
 export interface State {
   steps: Step[];
+  values: AnyValues;
+  variables: AnyValues;
   loadingNextStep: boolean;
 }
 
@@ -21,11 +24,17 @@ export interface State {
 export default <Module<State>>{
   state: {
     steps: [],
+    values: {},
+    variables: {},
     loadingNextStep: true,
   },
   mutations: {
-    SET({ state }, mutation) {
-      return deepMerge(state, { steps: mutation.steps });
+    UPDATE({ state }, mutation) {
+      return deepMerge(state, {
+        steps: mutation.steps,
+        values: mutation.values,
+        variables: mutation.variables,
+      });
     },
     SET_LOADER({ state }, mutation) {
       return deepMerge(state, {
