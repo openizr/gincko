@@ -34,10 +34,10 @@
 import Vue from 'vue';
 import { buildClass } from 'sonar-ui/vue';
 import Field from 'scripts/vue/components/Field.vue';
-import { FormValue, UserAction } from 'scripts/core/Engine';
+import { AnyValue, UserAction } from 'scripts/core/Engine';
 import { Field as FormField } from 'scripts/propTypes/field';
 
-type Generic = Record<string, FormValue>;
+type Generic = Record<string, AnyValue>;
 
 interface Props {
   id: string;
@@ -47,10 +47,10 @@ interface Props {
   isActive: boolean;
   i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
-    [type: string]: (field: FormField, onUserAction: (newValue: FormValue) => void) => {
+    [type: string]: (field: FormField, onUserAction: (newValue: AnyValue) => void) => {
       name: string;
-      props: FormValue;
-      events: FormValue;
+      props: AnyValue;
+      events: AnyValue;
     };
   };
 }

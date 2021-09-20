@@ -20,21 +20,21 @@
 import Vue from 'vue';
 import { Field } from 'scripts/propTypes/field';
 import { generateRandomId } from 'sonar-ui/vue';
-import { FormValue } from 'scripts/core/Engine';
+import { AnyValue } from 'scripts/core/Engine';
 import { Configuration } from 'scripts/propTypes/configuration';
 import ActualForm from 'scripts/vue/containers/ActualForm.vue';
 
-type Generic = Record<string, FormValue>;
+type Generic = Record<string, AnyValue>;
 
 interface Props {
   activeStep: string;
   configuration: Configuration;
   i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
-    [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
+    [type: string]: (field: Field, onUserAction: (newValue: AnyValue) => void) => {
       name: string;
-      props: FormValue;
-      events: FormValue;
+      props: AnyValue;
+      events: AnyValue;
     };
   };
 }

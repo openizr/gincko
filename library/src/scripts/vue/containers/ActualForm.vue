@@ -43,19 +43,19 @@ import Vue from 'vue';
 import { Field } from 'scripts/propTypes/field';
 import Step from 'scripts/vue/components/Step.vue';
 import { Configuration } from 'scripts/propTypes/configuration';
-import Engine, { FormValue, UserAction } from 'scripts/core/Engine';
+import Engine, { AnyValue, UserAction } from 'scripts/core/Engine';
 
-type Generic = Record<string, FormValue>;
+type Generic = Record<string, AnyValue>;
 
 interface Props {
   activeStep: string;
   configuration: Configuration;
   i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
-    [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
+    [type: string]: (field: Field, onUserAction: (newValue: AnyValue) => void) => {
       name: string;
-      props: FormValue;
-      events: FormValue;
+      props: AnyValue;
+      events: AnyValue;
     };
   };
 }
@@ -95,7 +95,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   mounted() {
     const engine = new Engine(this.configuration);
     this.$store = engine.getStore();
-    this.$subscription = this.$store.subscribe('steps', (newState: FormValue) => {
+    this.$subscription = this.$store.subscribe('steps', (newState: AnyValue) => {
       this.steps = newState.steps;
       this.loadingNextStep = newState.loadingNextStep;
     });
@@ -108,8 +108,8 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       event.preventDefault();
     },
     onUserAction(userAction: UserAction): void {
-      (this as FormValue).$store.mutate('userActions', 'ADD', userAction);
+      (this as AnyValue).$store.mutate('userActions', 'ADD', userAction);
     },
   },
-} as FormValue);
+} as AnyValue);
 </script>

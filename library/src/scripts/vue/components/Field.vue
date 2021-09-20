@@ -36,11 +36,11 @@ import {
 import Vue from 'vue';
 import { ExtendedVue } from 'vue/types/vue.d';
 import { Field } from 'scripts/propTypes/field';
-import { FormValue } from 'scripts/core/Engine';
+import { AnyValue } from 'scripts/core/Engine';
 
-type Generic = Record<string, FormValue>;
+type Generic = Record<string, AnyValue>;
 type Components = { [type: string]: Component; };
-type Component = (field: Field, onUserAction: (type: 'click' | 'input', newValue: FormValue) => void) => FormValue;
+type Component = (field: Field, onUserAction: (type: 'click' | 'input', newValue: AnyValue) => void) => AnyValue;
 
 interface Props {
   id: string;
@@ -48,15 +48,15 @@ interface Props {
   label: string;
   status: string;
   message: string;
-  value: FormValue;
-  options: FormValue;
+  value: AnyValue;
+  options: AnyValue;
   active: boolean;
   i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
-    [type: string]: (field: Field, onUserAction: (newValue: FormValue) => void) => {
+    [type: string]: (field: Field, onUserAction: (newValue: AnyValue) => void) => {
       name: string;
-      props: FormValue;
-      events: FormValue;
+      props: AnyValue;
+      events: AnyValue;
     };
   };
 }
@@ -148,7 +148,7 @@ const builtInComponents: Components = {
       transform: field.options.transform,
       maxlength: field.options.maxlength,
       placeholder: (field.options.placeholder !== undefined && field.options.placeholder !== null)
-        ? (field.i18n as FormValue)(field.options.placeholder, field.options.formValues)
+        ? (field.i18n as AnyValue)(field.options.placeholder, field.options.formValues)
         : null,
       iconPosition: field.options.iconPosition,
       debounceTimeout: field.options.debounceTimeout || 100,
@@ -158,7 +158,7 @@ const builtInComponents: Components = {
       blur: field.options.onBlur,
       focus: field.options.onFocus,
       iconClick: field.options.onIconClick,
-      change: (value: FormValue): void => onUserAction('input', value),
+      change: (value: AnyValue): void => onUserAction('input', value),
     },
   }),
   Textarea: (field, onUserAction) => ({
@@ -174,7 +174,7 @@ const builtInComponents: Components = {
       transform: field.options.transform,
       maxlength: field.options.maxlength,
       placeholder: (field.options.placeholder !== undefined && field.options.placeholder !== null)
-        ? (field.i18n as FormValue)(field.options.placeholder, field.options.formValues)
+        ? (field.i18n as AnyValue)(field.options.placeholder, field.options.formValues)
         : null,
       autocomplete: field.options.autocomplete,
       debounceTimeout: field.options.debounceTimeout || 100,
@@ -184,7 +184,7 @@ const builtInComponents: Components = {
     events: {
       blur: field.options.onBlur,
       focus: field.options.onFocus,
-      change: (value: FormValue): void => onUserAction('input', value),
+      change: (value: AnyValue): void => onUserAction('input', value),
     },
   }),
   FileUploader: (field, onUserAction) => ({
@@ -197,14 +197,14 @@ const builtInComponents: Components = {
       helper: field.message,
       icon: field.options.icon,
       placeholder: (field.options.placeholder !== undefined && field.options.placeholder !== null)
-        ? (field.i18n as FormValue)(field.options.placeholder, field.options.formValues)
+        ? (field.i18n as AnyValue)(field.options.placeholder, field.options.formValues)
         : null,
       iconPosition: field.options.iconPosition,
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
       focus: field.options.onFocus,
-      change: (value: FormValue): void => onUserAction('input', value),
+      change: (value: AnyValue): void => onUserAction('input', value),
     },
   }),
   Dropdown: (field, onUserAction) => ({
@@ -216,15 +216,15 @@ const builtInComponents: Components = {
       value: field.value,
       helper: field.message,
       icon: field.options.icon,
-      options: field.options.options.map((option: FormValue) => ((option.label !== undefined)
-        ? ({ ...option, label: (field.i18n as FormValue)(option.label, field.options.formValues) })
+      options: field.options.options.map((option: AnyValue) => ((option.label !== undefined)
+        ? ({ ...option, label: (field.i18n as AnyValue)(option.label, field.options.formValues) })
         : option)),
       multiple: field.options.multiple,
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
       focus: field.options.onFocus,
-      change: (value: FormValue): void => onUserAction('input', value),
+      change: (value: AnyValue): void => onUserAction('input', value),
     },
   }),
   Checkbox: (field, onUserAction) => ({
@@ -235,14 +235,14 @@ const builtInComponents: Components = {
       label: field.label,
       value: field.value,
       helper: field.message,
-      options: field.options.options.map((option: FormValue) => ((option.label !== undefined)
-        ? ({ ...option, label: (field.i18n as FormValue)(option.label, field.options.formValues) })
+      options: field.options.options.map((option: AnyValue) => ((option.label !== undefined)
+        ? ({ ...option, label: (field.i18n as AnyValue)(option.label, field.options.formValues) })
         : option)),
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
       focus: field.options.onFocus,
-      change: (value: FormValue): void => onUserAction('input', value),
+      change: (value: AnyValue): void => onUserAction('input', value),
     },
   }),
   Radio: (field, onUserAction) => ({
@@ -253,14 +253,14 @@ const builtInComponents: Components = {
       label: field.label,
       value: field.value,
       helper: field.message,
-      options: field.options.options.map((option: FormValue) => ((option.label !== undefined)
-        ? ({ ...option, label: (field.i18n as FormValue)(option.label, field.options.formValues) })
+      options: field.options.options.map((option: AnyValue) => ((option.label !== undefined)
+        ? ({ ...option, label: (field.i18n as AnyValue)(option.label, field.options.formValues) })
         : option)),
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
     events: {
       focus: field.options.onFocus,
-      change: (value: FormValue): void => onUserAction('input', value),
+      change: (value: AnyValue): void => onUserAction('input', value),
     },
   }),
 };
@@ -369,10 +369,10 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
   },
   methods: {
-    onUserAction(type: 'click' | 'input', newValue: FormValue): void {
+    onUserAction(type: 'click' | 'input', newValue: AnyValue): void {
       this.$emit('userAction', { fieldId: this.id, type, value: newValue });
     },
-    focusField(focusedValue: FormValue): void {
+    focusField(focusedValue: AnyValue): void {
       this.isActive = true;
       if (this.options.onFocus !== undefined) {
         this.options.onFocus(focusedValue);

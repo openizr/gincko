@@ -264,7 +264,8 @@ describe('core/Engine', () => {
     await new Promise<void>((resolve) => setTimeout(resolve, 1000));
     expect(localforage.setItem).toHaveBeenCalled();
     expect(localforage.setItem).toHaveBeenCalledWith('gincko_cache', {
-      formValues: { test: 'test' },
+      values: { test: 'test' },
+      variables: {},
       steps: [{
         fields: [{
           id: 'test',
@@ -591,45 +592,45 @@ describe('core/Engine', () => {
     expect(() => engine.createStep('other')).toThrow(new Error('Step "other" does not exist.'));
   });
 
-  test('getValues & setValues - cache enabled', async () => {
-    await createEngine({
-      root: 'test',
-      steps: { test: { fields: ['test'] } },
-      fields: {
-        test: { type: 'Message', options: { handler: () => null, test: 'ok' } },
-      },
-    });
-    engine.setValues({ test: 'test', other: 'other' });
-    expect(engine.getValues()).toEqual({ test: 'test', other: 'other' });
-    expect(localforage.setItem).toHaveBeenCalledWith('gincko_cache', {
-      formValues: { other: 'other', test: 'test' },
-      steps: [{
-        fields: [{
-          id: 'test',
-          label: undefined,
-          message: null,
-          options: { test: 'ok' },
-          status: 'success',
-          type: 'Message',
-          value: undefined,
-        }],
-        id: 'test',
-        status: 'initial',
-      }],
-    });
-  });
+  // test('getValues & setValues - cache enabled', async () => {
+  //   await createEngine({
+  //     root: 'test',
+  //     steps: { test: { fields: ['test'] } },
+  //     fields: {
+  //       test: { type: 'Message', options: { handler: () => null, test: 'ok' } },
+  //     },
+  //   });
+  //   engine.setValues({ test: 'test', other: 'other' });
+  //   expect(engine.getValues()).toEqual({ test: 'test', other: 'other' });
+  //   expect(localforage.setItem).toHaveBeenCalledWith('gincko_cache', {
+  //     formValues: { other: 'other', test: 'test' },
+  //     steps: [{
+  //       fields: [{
+  //         id: 'test',
+  //         label: undefined,
+  //         message: null,
+  //         options: { test: 'ok' },
+  //         status: 'success',
+  //         type: 'Message',
+  //         value: undefined,
+  //       }],
+  //       id: 'test',
+  //       status: 'initial',
+  //     }],
+  //   });
+  // });
 
-  test('setValues - cache disabled', async () => {
-    await createEngine({
-      root: 'test',
-      cache: false,
-      steps: { test: { fields: [] } },
-      fields: {},
-    });
-    engine.setValues({ test: 'test', other: 'other' });
-    expect(engine.getValues()).toEqual({ test: 'test', other: 'other' });
-    expect(localforage.setItem).not.toHaveBeenCalled();
-  });
+  // test('setValues - cache disabled', async () => {
+  //   await createEngine({
+  //     root: 'test',
+  //     cache: false,
+  //     steps: { test: { fields: [] } },
+  //     fields: {},
+  //   });
+  //   engine.setValues({ test: 'test', other: 'other' });
+  //   expect(engine.getValues()).toEqual({ test: 'test', other: 'other' });
+  //   expect(localforage.setItem).not.toHaveBeenCalled();
+  // });
 
   test('getStore', async () => {
     await createEngine({ root: 'test', steps: { test: { fields: [] } }, fields: {} });

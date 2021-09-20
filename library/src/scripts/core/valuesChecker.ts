@@ -7,9 +7,9 @@
  */
 
 import { Step } from 'scripts/propTypes/step';
-import { Plugin, FormValue, UserAction } from 'scripts/core/Engine';
+import { Plugin, AnyValue, UserAction } from 'scripts/core/Engine';
 
-const isEmpty = (value: FormValue): boolean => {
+const isEmpty = (value: AnyValue): boolean => {
   if (Array.isArray(value)) {
     return value.length === 0;
   }

@@ -18,12 +18,12 @@ import {
   UIFileUploader,
 } from 'sonar-ui/react';
 import * as React from 'react';
-import { FormValue } from 'scripts/core/Engine';
+import { AnyValue } from 'scripts/core/Engine';
 import PropTypes, { InferProps } from 'prop-types';
 import Message from 'scripts/react/components/Message';
 import fieldPropType, { Field as FormField } from 'scripts/propTypes/field';
 
-type OUA = (type: 'click' | 'input', newValue: FormValue) => void;
+type OUA = (type: 'click' | 'input', newValue: AnyValue) => void;
 type I18n = (label: string, values?: Record<string, string>) => string;
 type Option = { value?: string; label?: string; type?: string; disabled?: boolean; };
 
@@ -214,7 +214,7 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
     setIsActive(active);
   }, [active]);
 
-  const focusField = (focusedValue: FormValue): void => {
+  const focusField = (focusedValue: AnyValue): void => {
     setIsActive(true);
     if (options.onFocus !== undefined) {
       options.onFocus(focusedValue);
@@ -237,7 +237,7 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
     message,
     active: isActive,
     i18n: i18n as I18n,
-    value: value as FormValue,
+    value: value as AnyValue,
     options: { ...options, onFocus: focusField },
     status: status as 'success' | 'error' | 'initial',
   }, onUserAction);

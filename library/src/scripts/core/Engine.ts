@@ -125,7 +125,7 @@ export default class Engine {
         // If cache is enabled, we store current form state, except after submission, when
         // cache must be completely wiped out.
         if (eventName !== 'submit') {
-          this.cacheTimeout = setTimeout(this.updateCache, 500);
+          this.cacheTimeout = setTimeout(this.updateCache.bind(this), 500);
         } else if (eventName === 'submit' && this.configuration.clearCacheOnSubmit !== false) {
           this.useCache = false;
           this.clearCache();
@@ -223,8 +223,10 @@ export default class Engine {
     if (shouldLoadNextStep) {
       const values = this.getValues();
       const submitPromise = (submit === true) ? this.triggerHooks('submit', values) : Promise.resolve();
-      submitPromise.then(() => {
-        this.loadNextStep((typeof nextStep === 'function') ? nextStep(values) : nextStep);
+      submitPromise.then((updatedValues) => {
+        if (updatedValues !== null) {
+          this.loadNextStep((typeof nextStep === 'function') ? nextStep(updatedValues) : nextStep);
+        }
       });
     }
   }
