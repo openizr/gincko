@@ -18,6 +18,7 @@
         :fields="step.fields"
         :status="step.status"
         :custom-components="customComponents"
+        :all-values="{ ...variables, ...values }"
         @userAction="onUserAction"
       />
 
@@ -89,19 +90,23 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   data() {
     return {
       steps: [],
+      values: {},
+      variables: {},
       loadingNextStep: true,
     };
   },
   mounted() {
     const engine = new Engine(this.configuration);
     this.$store = engine.getStore();
-    this.$subscription = this.$store.subscribe('steps', (newState: AnyValue) => {
+    this.$subscription = this.$store.subscribe('state', (newState: AnyValue) => {
       this.steps = newState.steps;
+      this.values = newState.values;
+      this.variables = newState.variables;
       this.loadingNextStep = newState.loadingNextStep;
     });
   },
   beforeDestroy(): void {
-    this.$store.unsubscribe('steps', this.$subscription);
+    this.$store.unsubscribe('state', this.$subscription);
   },
   methods: {
     preventSubmit(event: Event): void {

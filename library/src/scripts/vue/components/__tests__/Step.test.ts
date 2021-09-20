@@ -57,6 +57,7 @@ describe('vue/components/Step', () => {
           status: 'initial',
           options: {},
         }],
+        allValues: {},
         customComponents,
       },
       listeners: {
@@ -80,6 +81,7 @@ describe('vue/components/Step', () => {
           status: 'initial',
           options: {},
         }],
+        allValues: {},
       },
       listeners: {
         userAction: onUserAction,

@@ -16,6 +16,7 @@
         :options="field.options"
         :message="field.message"
         :custom-components="customComponents"
+        :all-values="allValues"
         @userAction="onUserAction"
       />
     </div>
@@ -45,6 +46,7 @@ interface Props {
   status: string;
   fields: FormField[];
   isActive: boolean;
+  allValues: AnyValue;
   i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
     [type: string]: (field: FormField, onUserAction: (newValue: AnyValue) => void) => {
@@ -91,6 +93,10 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       type: Object,
       required: false,
       default: () => ({}),
+    },
+    allValues: {
+      type: Object,
+      required: true,
     },
   },
   methods: {

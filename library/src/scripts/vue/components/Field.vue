@@ -50,6 +50,7 @@ interface Props {
   message: string;
   value: AnyValue;
   options: AnyValue;
+  allValues: AnyValue;
   active: boolean;
   i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
@@ -148,7 +149,7 @@ const builtInComponents: Components = {
       transform: field.options.transform,
       maxlength: field.options.maxlength,
       placeholder: (field.options.placeholder !== undefined && field.options.placeholder !== null)
-        ? (field.i18n as AnyValue)(field.options.placeholder, field.options.formValues)
+        ? (field.i18n as AnyValue)(field.options.placeholder, field.allValues)
         : null,
       iconPosition: field.options.iconPosition,
       debounceTimeout: field.options.debounceTimeout || 100,
@@ -174,7 +175,7 @@ const builtInComponents: Components = {
       transform: field.options.transform,
       maxlength: field.options.maxlength,
       placeholder: (field.options.placeholder !== undefined && field.options.placeholder !== null)
-        ? (field.i18n as AnyValue)(field.options.placeholder, field.options.formValues)
+        ? (field.i18n as AnyValue)(field.options.placeholder, field.allValues)
         : null,
       autocomplete: field.options.autocomplete,
       debounceTimeout: field.options.debounceTimeout || 100,
@@ -197,7 +198,7 @@ const builtInComponents: Components = {
       helper: field.message,
       icon: field.options.icon,
       placeholder: (field.options.placeholder !== undefined && field.options.placeholder !== null)
-        ? (field.i18n as AnyValue)(field.options.placeholder, field.options.formValues)
+        ? (field.i18n as AnyValue)(field.options.placeholder, field.allValues)
         : null,
       iconPosition: field.options.iconPosition,
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
@@ -217,7 +218,7 @@ const builtInComponents: Components = {
       helper: field.message,
       icon: field.options.icon,
       options: field.options.options.map((option: AnyValue) => ((option.label !== undefined)
-        ? ({ ...option, label: (field.i18n as AnyValue)(option.label, field.options.formValues) })
+        ? ({ ...option, label: (field.i18n as AnyValue)(option.label, field.allValues) })
         : option)),
       multiple: field.options.multiple,
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
@@ -236,7 +237,7 @@ const builtInComponents: Components = {
       value: field.value,
       helper: field.message,
       options: field.options.options.map((option: AnyValue) => ((option.label !== undefined)
-        ? ({ ...option, label: (field.i18n as AnyValue)(option.label, field.options.formValues) })
+        ? ({ ...option, label: (field.i18n as AnyValue)(option.label, field.allValues) })
         : option)),
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
@@ -254,7 +255,7 @@ const builtInComponents: Components = {
       value: field.value,
       helper: field.message,
       options: field.options.options.map((option: AnyValue) => ((option.label !== undefined)
-        ? ({ ...option, label: (field.i18n as AnyValue)(option.label, field.options.formValues) })
+        ? ({ ...option, label: (field.i18n as AnyValue)(option.label, field.allValues) })
         : option)),
       modifiers: `${field.status} ${field.options.modifiers || ''}`,
     },
@@ -323,6 +324,10 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       required: false,
       default: () => ({}),
     },
+    allValues: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
@@ -335,13 +340,13 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
     translatedLabel() {
       return (this.label !== undefined && this.label !== null)
-        ? this.i18n(this.label, this.options.formValues)
+        ? this.i18n(this.label, this.allValues)
         : null;
     },
     translatedMessage() {
       const helper = this.message || this.options.helper;
       return (helper !== undefined && helper !== null)
-        ? this.i18n(helper, this.options.formValues)
+        ? this.i18n(helper, this.allValues)
         : null;
     },
     component() {
@@ -360,6 +365,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
         active: this.isActive,
         value: this.value,
         status: this.status,
+        allValues: this.allValues,
       }, this.onUserAction);
     },
   },

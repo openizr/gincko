@@ -18,23 +18,6 @@ export default function valuesLoader(): Plugin {
   return (engine): void => {
     const configuration = engine.getConfiguration();
     const autoFill = configuration.autoFill !== false;
-    const injectValuesTo = configuration.injectValuesTo || ['Message'];
-
-    // Automatically injects form values in specified fields' options to allow dynamic behaviours
-    // such as using filled values as variables in another step's message field.
-    engine.on('loadNextStep', (nextStep, next) => {
-      if (nextStep === null) {
-        return next(nextStep);
-      }
-      const updatedNextStep = <Step>{ ...nextStep };
-      const formValues = engine.getValues();
-      updatedNextStep.fields.forEach((field, index) => {
-        if (injectValuesTo.includes(field.type)) {
-          updatedNextStep.fields[index].options = { ...field.options, formValues };
-        }
-      });
-      return next(updatedNextStep);
-    });
 
     // Loads default values defined in configuration, as well as values already filled, if autofill
     // is enabled.

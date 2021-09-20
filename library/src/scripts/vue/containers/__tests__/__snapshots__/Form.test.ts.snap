@@ -11,8 +11,8 @@ exports[`vue/containers/Form loading next step 1`] = `
 exports[`vue/containers/Form with active step 1`] = `
 "<form class=\\"gincko\\">
   <div class=\\"gincko__steps\\">
-    <div id=\\"start\\" index=\\"0\\" is-active=\\"true\\" custom-components=\\"[object Object]\\"></div>
-    <div id=\\"end\\" index=\\"1\\" custom-components=\\"[object Object]\\"></div>
+    <div id=\\"start\\" index=\\"0\\" is-active=\\"true\\" custom-components=\\"[object Object]\\" all-values=\\"[object Object]\\"></div>
+    <div id=\\"end\\" index=\\"1\\" custom-components=\\"[object Object]\\" all-values=\\"[object Object]\\"></div>
     <!---->
   </div>
 </form>"

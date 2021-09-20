@@ -7,7 +7,7 @@
  */
 
 import * as React from 'react';
-import { State } from 'scripts/core/steps';
+import { State } from 'scripts/core/state';
 import useStore from 'diox/connectors/react';
 import Step from 'scripts/react/components/Step';
 import { generateRandomId } from 'sonar-ui/react';
@@ -50,7 +50,7 @@ export const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => 
   const { configuration, customComponents, activeStep } = props;
   const [engine] = React.useState(() => new Engine(configuration));
   const [useCombiner, mutate] = useStore(engine.getStore());
-  const [state] = useCombiner<State>('steps');
+  const [state] = useCombiner<State>('state');
 
   const onUserAction = (userAction: UserAction): void => {
     mutate('userActions', 'ADD', userAction);
@@ -82,6 +82,7 @@ export const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => 
               status={step.status}
               onUserAction={onUserAction}
               customComponents={customComponents as Components}
+              allValues={{ ...state.variables, ...state.values }}
             />
           );
         })}

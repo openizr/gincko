@@ -22,6 +22,7 @@ export type Field = PropTypes.InferProps<{
   type: PropTypes.Validator<string>;
   status: PropTypes.Validator<string>;
   options: PropTypes.Validator<Record<string, any>>;
+  allValues: PropTypes.Requireable<Record<string, any>>;
   i18n: PropTypes.Requireable<(label: string, values?: Record<string, string>) => string>;
 }>;
 export type Step = PropTypes.InferProps<{
@@ -34,6 +35,7 @@ export type Step = PropTypes.InferProps<{
     [x: string]: (...args: any[]) => any;
   }>;
   fields: PropTypes.Validator<Field[]>;
+  allValues: PropTypes.Requireable<Record<string, any>>;
   i18n: PropTypes.Requireable<(label: string, values?: Record<string, string>) => string>;
 }>;
 
@@ -64,9 +66,6 @@ export type Configuration = PropTypes.InferProps<{
 
   /** Custom plugins registrations. */
   plugins: PropTypes.Requireable<((...args: any[]) => void)[]>;
-
-  /** List of fields types in which to inject form values in options. */
-  injectValuesTo: PropTypes.Requireable<string[]>;
 
   /** List of non-interactive fields types (message, ...) that will always pass to success state. */
   nonInteractiveFields: PropTypes.Requireable<string[]>;

@@ -20,7 +20,7 @@ type EngineApi = {
 jest.mock('diox');
 jest.mock('basx');
 jest.mock('localforage');
-jest.mock('scripts/core/steps');
+jest.mock('scripts/core/state');
 jest.mock('scripts/core/userActions');
 
 // This trick allows to check the calling order of the different plugins.
@@ -143,7 +143,9 @@ describe('core/Engine', () => {
     }, false);
     await flushPromises();
     expect(engine.getValues()).toEqual({ test: 'value' });
-    expect(store.mutate).toHaveBeenCalledWith('steps', 'UPDATE', {
+    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
+      values: { test: 'value' },
+      variables: { var1: 'test1', var2: 'test2' },
       steps: [{
         fields: [{
           id: 'last',
@@ -165,7 +167,9 @@ describe('core/Engine', () => {
     const engine = new Engine({ ...configuration, autoFill: false });
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(2);
-    expect(store.mutate).toHaveBeenCalledWith('steps', 'UPDATE', {
+    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
+      values: {},
+      variables: { var1: 'test1', var2: 'test2' },
       steps: [{
         fields: [{
           id: 'last',
@@ -198,7 +202,9 @@ describe('core/Engine', () => {
     (engine as unknown as EngineApi).handleUserAction({ ...userAction, type: 'click' });
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(1);
-    expect(store.mutate).toHaveBeenCalledWith('steps', 'UPDATE', {
+    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
+      values: {},
+      variables: { var1: 'test1', var2: 'test2' },
       steps: [{
         fields: [{
           id: 'last',
@@ -248,24 +254,16 @@ describe('core/Engine', () => {
     await new Promise<void>((resolve) => setTimeout(resolve, 1000));
     expect(localforage.setItem).toHaveBeenCalled();
     expect(localforage.setItem).toHaveBeenCalledWith('gincko_cache', {
-      values: { test: 'test' },
+      values: { test: 'value' },
       variables: { var1: 'test1', var2: 'test2' },
       steps: [{
         fields: [{
-          id: 'test',
-          label: undefined,
-          message: null,
-          options: { prop: 3 },
-          status: 'initial',
-          type: 'Test',
-          value: undefined,
-        }, {
           id: 'last',
           label: undefined,
           message: null,
           options: {},
-          status: 'initial',
-          type: 'Test',
+          status: 'success',
+          type: 'Message',
           value: undefined,
         }],
         id: 'test',
@@ -284,7 +282,9 @@ describe('core/Engine', () => {
     (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(4);
-    expect(store.mutate).toHaveBeenNthCalledWith(2, 'steps', 'UPDATE', {
+    expect(store.mutate).toHaveBeenNthCalledWith(2, 'state', 'UPDATE', {
+      values: { test: 'test' },
+      variables: {},
       steps: [{
         fields: [
           {
@@ -324,7 +324,9 @@ describe('core/Engine', () => {
     (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(2);
-    expect(store.mutate).toHaveBeenCalledWith('steps', 'UPDATE', {
+    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
+      values: { test: 'test' },
+      variables: {},
       steps: [{
         fields: [{
           id: 'test',
@@ -353,7 +355,9 @@ describe('core/Engine', () => {
     (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(2);
-    expect(store.mutate).toHaveBeenCalledWith('steps', 'UPDATE', {
+    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
+      values: { test: 'test' },
+      variables: {},
       steps: [{
         fields: [{
           id: 'test',
@@ -382,7 +386,9 @@ describe('core/Engine', () => {
     (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(2);
-    expect(store.mutate).toHaveBeenCalledWith('steps', 'UPDATE', {
+    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
+      values: { test: 'test' },
+      variables: {},
       steps: [{
         fields: [{
           id: 'test',
@@ -411,7 +417,9 @@ describe('core/Engine', () => {
     (engine as unknown as EngineApi).handleUserAction(userAction);
     await flushPromises();
     expect(store.mutate).toHaveBeenCalledTimes(2);
-    expect(store.mutate).toHaveBeenCalledWith('steps', 'UPDATE', {
+    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
+      values: { test: 'test' },
+      variables: {},
       steps: [{
         fields: [{
           id: 'test',
@@ -617,7 +625,11 @@ describe('core/Engine', () => {
     engine.setCurrentStep(step, true);
     expect(engine.getCurrentStep()).toEqual(step);
     expect(store.mutate).toHaveBeenCalledTimes(1);
-    expect(store.mutate).toHaveBeenCalledWith('steps', 'UPDATE', { steps: [step] });
+    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
+      values: {},
+      variables: { var1: 'test1', var2: 'test2' },
+      steps: [step],
+    });
   });
 
   test('setCurrentStep - no notification', async () => {
@@ -641,7 +653,7 @@ describe('core/Engine', () => {
     const engine = await createEngine();
     engine.toggleStepLoader(true);
     expect(store.mutate).toHaveBeenCalledTimes(1);
-    expect(store.mutate).toHaveBeenCalledWith('steps', 'SET_LOADER', { loadingNextStep: true });
+    expect(store.mutate).toHaveBeenCalledWith('state', 'SET_LOADER', { loadingNextStep: true });
   });
 
   test('userAction', async () => {

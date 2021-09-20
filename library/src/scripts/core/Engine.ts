@@ -9,7 +9,7 @@
 import Store from 'diox';
 import { deepCopy } from 'basx';
 import localforage from 'localforage';
-import steps from 'scripts/core/steps';
+import state from 'scripts/core/state';
 import { Step } from 'scripts/propTypes/step';
 import { Field } from 'scripts/propTypes/field';
 import userActions from 'scripts/core/userActions';
@@ -145,7 +145,11 @@ export default class Engine {
   private updateGeneratedSteps(stepIndex: number, step: Step): void {
     // We always remove further steps as logic may have changed depending on last user inputs.
     const newSteps = this.generatedSteps.slice(0, stepIndex).concat([step]);
-    this.store.mutate('steps', 'UPDATE', { steps: newSteps });
+    this.store.mutate('state', 'UPDATE', {
+      steps: newSteps,
+      values: this.values,
+      variables: this.variables,
+    });
 
     // We trigger related hooks if we just loaded a new step.
     // Do not change this `if...else` structure as we must compare lengths before updating steps!
@@ -266,7 +270,7 @@ export default class Engine {
    */
   constructor(configuration: Configuration) {
     const store = new Store();
-    store.register('steps', steps);
+    store.register('state', state);
     store.register('userActions', userActions);
     this.store = store;
     this.values = {};
@@ -320,11 +324,14 @@ export default class Engine {
 
     // Depending on the configuration, we want either to load the complete form from cache, or just
     // its filled values and restart journey from the beginning.
-    localforage.getItem<{ values: AnyValues; steps: Step[]; }>(this.cacheKey).then((data) => {
-      const parsedData = data || { values: {}, steps: [] };
+    localforage.getItem<{
+      values: AnyValues; variables: AnyValues; steps: Step[];
+    }>(this.cacheKey).then((data) => {
+      const parsedData = data || { values: {}, steps: [], variables: {} };
       if (this.useCache && this.configuration.autoFill !== false) {
         this.values = parsedData.values;
       }
+      this.variables = parsedData.variables;
       let callback = (): void => { this.loadNextStep(configuration.root); };
       if (data !== null && this.useCache && this.configuration.restartOnReload !== true) {
         const lastStepIndex = parsedData.steps.length - 1;
@@ -486,7 +493,7 @@ export default class Engine {
    * @returns {void}
    */
   public toggleStepLoader(display: boolean): void {
-    this.store.mutate('steps', 'SET_LOADER', { loadingNextStep: display });
+    this.store.mutate('state', 'SET_LOADER', { loadingNextStep: display });
   }
 
   /**

@@ -19,7 +19,7 @@ export interface State {
 }
 
 /**
- * Handles steps lifecycle in form.
+ * Handles state lifecycle in form.
  */
 export default <Module<State>>{
   state: {

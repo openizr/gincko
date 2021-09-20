@@ -41,9 +41,6 @@ const configurationPropTypes = {
   /** Custom plugins registrations. */
   plugins: PropTypes.arrayOf(PropTypes.func.isRequired),
 
-  /** List of fields types in which to inject form values in options. */
-  injectValuesTo: PropTypes.arrayOf(PropTypes.string.isRequired),
-
   /** List of non-interactive fields types (message, ...) that will always pass to success state. */
   nonInteractiveFields: PropTypes.arrayOf(PropTypes.string.isRequired),
 

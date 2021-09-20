@@ -82,6 +82,7 @@ describe('react/components/Field', () => {
         type="Unknown"
         status="initial"
         options={{}}
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -98,6 +99,7 @@ describe('react/components/Field', () => {
         type="Message"
         status="initial"
         options={{}}
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -113,6 +115,7 @@ describe('react/components/Field', () => {
         type="Message"
         status="initial"
         label="Test {{value}}"
+        allValues={{}}
         i18n={(): string => 'Test test'}
         options={{ formValues: { value: 'test' } }}
         onUserAction={onUserAction}
@@ -132,6 +135,7 @@ describe('react/components/Field', () => {
         status="initial"
         label="Test"
         options={{}}
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -155,6 +159,7 @@ describe('react/components/Field', () => {
         active
         i18n={i18n}
         onUserAction={onUserAction}
+        allValues={{}}
         customComponents={customComponents}
       />, container);
     });
@@ -171,6 +176,7 @@ describe('react/components/Field', () => {
         i18n={i18n}
         options={{ readonly: true, placeholder: 'Test' }}
         active
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -189,6 +195,7 @@ describe('react/components/Field', () => {
         i18n={i18n}
         options={{ onFocus }}
         active={false}
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -213,6 +220,7 @@ describe('react/components/Field', () => {
         i18n={i18n}
         options={{}}
         active={false}
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -234,6 +242,7 @@ describe('react/components/Field', () => {
         options={{}}
         i18n={i18n}
         active
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -251,6 +260,7 @@ describe('react/components/Field', () => {
         options={{ readonly: true, placeholder: 'Test' }}
         i18n={i18n}
         active
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -269,6 +279,7 @@ describe('react/components/Field', () => {
         i18n={i18n}
         options={{ onFocus }}
         active={false}
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -293,6 +304,7 @@ describe('react/components/Field', () => {
         i18n={i18n}
         options={{}}
         active={false}
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -313,6 +325,7 @@ describe('react/components/Field', () => {
         status="initial"
         label="Test"
         i18n={i18n}
+        allValues={{}}
         options={{ helper: 'Test' }}
         onUserAction={onUserAction}
         customComponents={customComponents}
@@ -330,6 +343,7 @@ describe('react/components/Field', () => {
         status="initial"
         label="Test"
         i18n={i18n}
+        allValues={{}}
         options={{ helper: 'Test', placeholder: 'Test' }}
         onUserAction={onUserAction}
         customComponents={customComponents}
@@ -353,6 +367,7 @@ describe('react/components/Field', () => {
             { type: 'divider' },
           ],
         }}
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -375,6 +390,7 @@ describe('react/components/Field', () => {
           ],
         }}
         i18n={i18n}
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);
@@ -397,6 +413,7 @@ describe('react/components/Field', () => {
             { type: 'divider' },
           ],
         }}
+        allValues={{}}
         onUserAction={onUserAction}
         customComponents={customComponents}
       />, container);

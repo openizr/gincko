@@ -6,15 +6,15 @@
  *
  */
 
-import steps from 'scripts/core/steps';
+import state from 'scripts/core/state';
 
-describe('core/steps', () => {
+describe('core/state', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   test('UPDATE mutation', () => {
-    expect(steps.mutations.UPDATE({
+    expect(state.mutations.UPDATE({
       state: {
         steps: [],
         values: {},
@@ -36,7 +36,7 @@ describe('core/steps', () => {
   });
 
   test('SET_LOADER mutation', () => {
-    expect(steps.mutations.SET_LOADER({
+    expect(state.mutations.SET_LOADER({
       state: {
         steps: [],
         values: {},

@@ -55,6 +55,7 @@ describe('react/components/Step', () => {
         }]}
         customComponents={customComponents}
         onUserAction={onUserAction}
+        allValues={{}}
       />, container);
     });
     expect(container).toMatchSnapshot();
@@ -76,6 +77,7 @@ describe('react/components/Step', () => {
         }]}
         customComponents={customComponents}
         onUserAction={onUserAction}
+        allValues={{}}
       />, container);
     });
     expect(container).toMatchSnapshot();
