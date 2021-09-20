@@ -34,22 +34,17 @@
 
 import Vue from 'vue';
 import { buildClass } from 'sonar-ui/vue';
+import { Step } from 'scripts/propTypes/step';
 import Field from 'scripts/vue/components/Field.vue';
 import { AnyValue, UserAction } from 'scripts/core/Engine';
-import { Field as FormField } from 'scripts/propTypes/field';
+import { Field as FieldType } from 'scripts/propTypes/field';
 
 type Generic = Record<string, AnyValue>;
 
-interface Props {
-  id: string;
-  index: number;
-  status: string;
-  fields: FormField[];
-  isActive: boolean;
-  allValues: AnyValue;
+interface Props extends Step {
   i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
-    [type: string]: (field: FormField, onUserAction: (newValue: AnyValue) => void) => {
+    [type: string]: (field: FieldType, onUserAction: (newValue: AnyValue) => void) => {
       name: string;
       props: AnyValue;
       events: AnyValue;

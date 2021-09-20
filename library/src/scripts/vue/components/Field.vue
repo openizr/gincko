@@ -42,16 +42,7 @@ type Generic = Record<string, AnyValue>;
 type Components = { [type: string]: Component; };
 type Component = (field: Field, onUserAction: (type: 'click' | 'input', newValue: AnyValue) => void) => AnyValue;
 
-interface Props {
-  id: string;
-  type: string;
-  label: string;
-  status: string;
-  message: string;
-  value: AnyValue;
-  options: AnyValue;
-  allValues: AnyValue;
-  active: boolean;
+interface Props extends Field {
   i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
     [type: string]: (field: Field, onUserAction: (newValue: AnyValue) => void) => {
