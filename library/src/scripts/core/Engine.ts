@@ -229,7 +229,7 @@ export default class Engine {
     const shouldLoadNextStep = (loadNextStep || fields[fields.length - 1].id === fieldId);
     if (shouldLoadNextStep) {
       const values = this.getValues();
-      const submitPromise = (submit === true) ? this.triggerHooks('submit', values) : Promise.resolve();
+      const submitPromise = (submit === true) ? this.triggerHooks('submit', values) : Promise.resolve(values);
       submitPromise.then((updatedValues) => {
         if (updatedValues !== null) {
           this.loadNextStep((typeof nextStep === 'function') ? nextStep(updatedValues) : nextStep);
