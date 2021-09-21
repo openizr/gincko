@@ -20,7 +20,7 @@
  *
  */
 
-/* eslint-disable vue/one-component-per-file */
+/* eslint-disable vue/one-component-per-file, react/destructuring-assignment */
 
 import {
   UIRadio,
@@ -43,6 +43,7 @@ type Components = { [type: string]: Component; };
 type Component = (field: Field, onUserAction: (type: 'click' | 'input', newValue: AnyValue) => void) => AnyValue;
 
 interface Props extends Field {
+  active: boolean;
   i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
     [type: string]: (field: Field, onUserAction: (newValue: AnyValue) => void) => {
