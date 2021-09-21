@@ -28,6 +28,7 @@ describe('plugins/submittingFieldsManager', () => {
     const userAction = { type: 'input', fieldId: 'test', value: 'test ' };
     await engine.trigger('userAction', userAction);
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
+      id: 'test',
       fields: [
         { id: 'test', type: 'Message', value: [] },
         {
@@ -75,6 +76,7 @@ describe('plugins/submittingFieldsManager', () => {
     await engine.trigger('loadNextStep', null);
     expect(engine.setCurrentStep).toHaveBeenCalledTimes(2);
     expect(engine.setCurrentStep).toHaveBeenNthCalledWith(1, {
+      id: 'test',
       fields: [{ id: 'test', type: 'Message', value: [] }, {
         id: 'new', options: { modifiers: ' disabled loading' }, type: 'Message', value: 'ok',
       }, { id: 'other', type: 'Message' }, {
@@ -82,6 +84,7 @@ describe('plugins/submittingFieldsManager', () => {
       }],
     }, true);
     expect(engine.setCurrentStep).toHaveBeenNthCalledWith(2, {
+      id: 'test',
       fields: [{ id: 'test', type: 'Message', value: [] }, {
         id: 'new', options: { modifiers: '' }, type: 'Message', value: 'ok',
       }, { id: 'other', type: 'Message' }, {
@@ -94,6 +97,7 @@ describe('plugins/submittingFieldsManager', () => {
     await engine.trigger('submit', {}, {});
     expect(engine.setCurrentStep).toHaveBeenCalledTimes(1);
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
+      id: 'test',
       fields: [{ id: 'test', type: 'Message', value: [] }, {
         id: 'new', options: { modifiers: ' disabled loading' }, type: 'Message', value: 'ok',
       }, { id: 'other', type: 'Message' }, {
@@ -106,6 +110,7 @@ describe('plugins/submittingFieldsManager', () => {
     await engine.trigger('submit', {}, null);
     expect(engine.setCurrentStep).toHaveBeenCalledTimes(2);
     expect(engine.setCurrentStep).toHaveBeenNthCalledWith(1, {
+      id: 'test',
       fields: [{ id: 'test', type: 'Message', value: [] }, {
         id: 'new', options: { modifiers: ' disabled loading' }, type: 'Message', value: 'ok',
       }, { id: 'other', type: 'Message' }, {
@@ -113,6 +118,7 @@ describe('plugins/submittingFieldsManager', () => {
       }],
     }, true);
     expect(engine.setCurrentStep).toHaveBeenNthCalledWith(2, {
+      id: 'test',
       fields: [{ id: 'test', type: 'Message', value: [] }, {
         id: 'new', options: { modifiers: '' }, type: 'Message', value: 'ok',
       }, { id: 'other', type: 'Message' }, {

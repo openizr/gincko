@@ -43,15 +43,20 @@ export default jest.fn((configuration = {}) => {
     createStep: jest.fn((stepId) => ((stepId === 'invalid')
       ? null
       : { id: stepId, fields: [] })),
-    createField: jest.fn(),
+    createField: jest.fn((fieldId) => ({ id: fieldId, type: 'Input', value: 'test' })),
     getConfiguration: jest.fn(() => ({
       root: '',
-      steps: {},
+      steps: {
+        test: {
+          fields: ['test', 'last'],
+        },
+      },
       autoFill: configuration.autoFill !== false,
       fields: {
         test: {
           type: 'Test',
           value: 'first',
+          displayIf: (values) => values.var1 === 'test',
         },
         new: {
           type: 'Test',
@@ -75,7 +80,16 @@ export default jest.fn((configuration = {}) => {
       },
     } as Configuration)),
     getValues: jest.fn(() => ({ test: 'value' })),
-    getFieldIndex: jest.fn(() => ((process.env.LAST_FIELD === 'true') ? 3 : 0)),
+    getVariables: jest.fn(() => ({ var1: 'test1' })),
+    getFieldIndex: jest.fn(() => {
+      if (process.env.FIELD_NOT_FOUND === 'true') {
+        return -1;
+      }
+      if (process.env.LAST_FIELD === 'true') {
+        return 3;
+      }
+      return 0;
+    }),
     handleUserAction: jest.fn(),
     toggleStepLoader: jest.fn(),
     setCurrentStep: jest.fn(),
@@ -98,6 +112,7 @@ export default jest.fn((configuration = {}) => {
         return null;
       }
       return {
+        id: 'test',
         fields: [
           {
             id: 'test',

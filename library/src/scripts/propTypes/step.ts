@@ -19,8 +19,10 @@ const stepPropTypes = {
   onUserAction: PropTypes.func,
   id: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
+  allValues: PropTypes.any.isRequired,
   customComponents: PropTypes.objectOf(PropTypes.func.isRequired),
   fields: PropTypes.arrayOf(PropTypes.shape(fieldPropType).isRequired).isRequired,
+
 };
 
 export default stepPropTypes;

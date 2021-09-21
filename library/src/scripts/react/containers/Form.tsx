@@ -7,7 +7,7 @@
  */
 
 import * as React from 'react';
-import { State } from 'scripts/core/steps';
+import { State } from 'scripts/core/state';
 import useStore from 'diox/connectors/react';
 import Step from 'scripts/react/components/Step';
 import { generateRandomId } from 'sonar-ui/react';
@@ -46,12 +46,11 @@ const defaultProps = {
 /**
  * Sub-component that will actually render the form.
  */
-const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
-  const { i18n } = props;
+export const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
   const { configuration, customComponents, activeStep } = props;
   const [engine] = React.useState(() => new Engine(configuration));
   const [useCombiner, mutate] = useStore(engine.getStore());
-  const [state] = useCombiner<State>('steps');
+  const [state] = useCombiner<State>('state');
 
   const onUserAction = (userAction: UserAction): void => {
     mutate('userActions', 'ADD', userAction);
@@ -77,12 +76,13 @@ const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
               key={key}
               id={step.id}
               index={index}
+              i18n={props.i18n}
               isActive={isActive}
               fields={step.fields}
               status={step.status}
               onUserAction={onUserAction}
               customComponents={customComponents as Components}
-              i18n={i18n as (label: string, values?: Record<string, string>) => string}
+              allValues={{ ...state.variables, ...state.values }}
             />
           );
         })}
@@ -94,6 +94,10 @@ const ActualForm = (props: InferProps<typeof propTypes>): JSX.Element => {
     </form>
   );
 };
+
+ActualForm.propTypes = propTypes;
+ActualForm.defaultProps = defaultProps;
+ActualForm.displayName = 'ActualForm';
 
 /**
  * Dynamic form.

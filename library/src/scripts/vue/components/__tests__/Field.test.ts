@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @jest-environment jsdom
  */
 
 import Vue, { VNodeChildren } from 'vue';
@@ -82,6 +83,7 @@ describe('vue/components/Field', () => {
         type: 'Unknown',
         status: 'initial',
         options: {},
+        allValues: {},
         customComponents,
       },
       listeners: {
@@ -99,6 +101,7 @@ describe('vue/components/Field', () => {
         type: 'Message',
         status: 'initial',
         options: {},
+        allValues: {},
       },
       listeners: {
         userAction: onUserAction,
@@ -115,8 +118,9 @@ describe('vue/components/Field', () => {
         status: 'initial',
         label: 'Test {{value}}',
         i18n: (): string => 'Test test',
-        options: { formValues: { value: 'test' } },
+        options: {},
         customComponents,
+        allValues: { value: 'test' },
       },
       listeners: {
         userAction: onUserAction,
@@ -135,6 +139,7 @@ describe('vue/components/Field', () => {
         status: 'initial',
         label: 'Test',
         options: {},
+        allValues: {},
         customComponents,
       },
       listeners: {
@@ -156,6 +161,7 @@ describe('vue/components/Field', () => {
         status: 'initial',
         label: 'Test',
         options: {},
+        allValues: {},
         customComponents,
       },
       listeners: {
@@ -177,6 +183,7 @@ describe('vue/components/Field', () => {
         type: 'Textfield',
         status: 'initial',
         label: 'Test',
+        allValues: {},
         options: { readonly: true },
         customComponents,
       },
@@ -197,6 +204,7 @@ describe('vue/components/Field', () => {
         type: 'Textfield',
         status: 'initial',
         label: 'Test',
+        allValues: {},
         options: { onFocus },
         customComponents,
       },
@@ -222,6 +230,7 @@ describe('vue/components/Field', () => {
         status: 'initial',
         label: 'Test',
         options: {},
+        allValues: {},
         customComponents,
       },
       listeners: {
@@ -244,6 +253,7 @@ describe('vue/components/Field', () => {
         status: 'initial',
         label: 'Test',
         options: {},
+        allValues: {},
         customComponents,
       },
       listeners: {
@@ -265,6 +275,7 @@ describe('vue/components/Field', () => {
         type: 'Textarea',
         status: 'initial',
         label: 'Test',
+        allValues: {},
         options: { readonly: true },
         customComponents,
       },
@@ -285,6 +296,7 @@ describe('vue/components/Field', () => {
         type: 'Textarea',
         status: 'initial',
         label: 'Test',
+        allValues: {},
         options: { onFocus },
         customComponents,
       },
@@ -311,6 +323,7 @@ describe('vue/components/Field', () => {
         status: 'initial',
         label: 'Test',
         options: {},
+        allValues: {},
         customComponents,
       },
       listeners: {
@@ -332,6 +345,7 @@ describe('vue/components/Field', () => {
         status: 'initial',
         label: 'Test',
         options: {},
+        allValues: {},
         customComponents,
       },
       listeners: {
@@ -357,6 +371,7 @@ describe('vue/components/Field', () => {
             { type: 'divider' },
           ],
         },
+        allValues: {},
         customComponents,
       },
       listeners: {
@@ -382,6 +397,7 @@ describe('vue/components/Field', () => {
             { type: 'divider' },
           ],
         },
+        allValues: {},
         customComponents,
       },
       listeners: {
@@ -407,6 +423,7 @@ describe('vue/components/Field', () => {
             { type: 'divider' },
           ],
         },
+        allValues: {},
         customComponents,
       },
       listeners: {

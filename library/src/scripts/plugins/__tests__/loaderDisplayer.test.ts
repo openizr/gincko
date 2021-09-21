@@ -47,8 +47,10 @@ describe('plugins/loaderDisplayer', () => {
   test('loadNextStep hook - normal behaviour', async () => {
     await engine.trigger('userAction', null);
     const result = engine.trigger('loadNextStep', {});
-    // We need the following line as `setTimeout` is called in an intermediary Promise.
-    await new Promise((resolve) => setImmediate(resolve));
+    // We need the following line as a `setTimeout` is called in an intermediary Promise.
+    const immediate = new Promise(setImmediate);
+    jest.runAllTimers();
+    await immediate;
     jest.runAllTimers();
     await result;
     expect(engine.toggleStepLoader).not.toHaveBeenCalled();
@@ -58,7 +60,9 @@ describe('plugins/loaderDisplayer', () => {
     await engine.trigger('userAction', { fieldId: 'last', type: 'input' });
     const result = engine.trigger('loadNextStep', {}, null);
     // We need the following line as `setTimeout` is called in an intermediary Promise.
-    await new Promise((resolve) => setImmediate(resolve));
+    const immediate = new Promise(setImmediate);
+    jest.runAllTimers();
+    await immediate;
     jest.runAllTimers();
     await result;
     expect(engine.toggleStepLoader).toHaveBeenCalledTimes(2);

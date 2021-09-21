@@ -18,12 +18,12 @@ import {
   UIFileUploader,
 } from 'sonar-ui/react';
 import * as React from 'react';
-import { FormValue } from 'scripts/core/Engine';
+import { AnyValue } from 'scripts/core/Engine';
 import PropTypes, { InferProps } from 'prop-types';
 import Message from 'scripts/react/components/Message';
 import fieldPropType, { Field as FormField } from 'scripts/propTypes/field';
 
-type OUA = (type: 'click' | 'input', newValue: FormValue) => void;
+type OUA = (type: 'click' | 'input', newValue: AnyValue) => void;
 type I18n = (label: string, values?: Record<string, string>) => string;
 type Option = { value?: string; label?: string; type?: string; disabled?: boolean; };
 
@@ -90,7 +90,7 @@ const builtInComponents: Components = {
       readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
       placeholder={(field.options.placeholder !== undefined && field.options.placeholder !== null)
-        ? field.i18n(field.options.placeholder, field.options.formValues)
+        ? field.i18n(field.options.placeholder, field.allValues)
         : null}
     />
   ),
@@ -115,7 +115,7 @@ const builtInComponents: Components = {
       readonly={field.options.readonly || field.active === false}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
       placeholder={(field.options.placeholder !== undefined && field.options.placeholder !== null)
-        ? field.i18n(field.options.placeholder, field.options.formValues)
+        ? field.i18n(field.options.placeholder, field.allValues)
         : null}
     />
   ),
@@ -134,7 +134,7 @@ const builtInComponents: Components = {
       onChange={(value): void => onUserAction('input', value)}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
       placeholder={(field.options.placeholder !== undefined && field.options.placeholder !== null)
-        ? field.i18n(field.options.placeholder, field.options.formValues)
+        ? field.i18n(field.options.placeholder, field.allValues)
         : null}
     />
   ),
@@ -149,7 +149,7 @@ const builtInComponents: Components = {
       onFocus={field.options.onFocus}
       onChange={(value): void => onUserAction('input', value)}
       options={field.options.options.map((option: Option) => ((option.label !== undefined)
-        ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
+        ? ({ ...option, label: field.i18n(option.label, field.allValues) })
         : option))}
       multiple={field.options.multiple}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
@@ -165,7 +165,7 @@ const builtInComponents: Components = {
       onFocus={field.options.onFocus}
       onChange={(value): void => onUserAction('input', value)}
       options={field.options.options.map((option: Option) => ((option.label !== undefined)
-        ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
+        ? ({ ...option, label: field.i18n(option.label, field.allValues) })
         : option))}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
@@ -180,7 +180,7 @@ const builtInComponents: Components = {
       onFocus={field.options.onFocus}
       onChange={(value): void => onUserAction('input', value)}
       options={field.options.options.map((option: Option) => ((option.label !== undefined)
-        ? ({ ...option, label: field.i18n(option.label, field.options.formValues) })
+        ? ({ ...option, label: field.i18n(option.label, field.allValues) })
         : option))}
       modifiers={`${field.status} ${field.options.modifiers || ''}`}
     />
@@ -197,14 +197,14 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
   const { id, type, customComponents } = props;
   const allComponents: Components = { ...builtInComponents, ...customComponents };
   const label = React.useMemo(() => ((props.label !== undefined && props.label !== null)
-    ? i18n(props.label, options.formValues)
-    : null), [props.label, options.formValues]);
+    ? i18n(props.label, props.allValues)
+    : null), [props.label, props.allValues]);
   const message = React.useMemo(() => {
     const helper = props.message || options.helper;
     return (helper !== undefined && helper !== null)
-      ? i18n(helper, options.formValues)
+      ? i18n(helper, props.allValues)
       : null;
-  }, [props.message, options.helper, options.formValues]);
+  }, [props.message, options.helper, props.allValues]);
 
   // The following lines prevent browsers auto-fill system from changing fields
   // located in other steps, resetting previous steps and breaking overall UX.
@@ -214,7 +214,7 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
     setIsActive(active);
   }, [active]);
 
-  const focusField = (focusedValue: FormValue): void => {
+  const focusField = (focusedValue: AnyValue): void => {
     setIsActive(true);
     if (options.onFocus !== undefined) {
       options.onFocus(focusedValue);
@@ -237,7 +237,8 @@ export default function Field(props: InferProps<typeof propTypes>): JSX.Element 
     message,
     active: isActive,
     i18n: i18n as I18n,
-    value: value as FormValue,
+    value: value as AnyValue,
+    allValues: props.allValues,
     options: { ...options, onFocus: focusField },
     status: status as 'success' | 'error' | 'initial',
   }, onUserAction);

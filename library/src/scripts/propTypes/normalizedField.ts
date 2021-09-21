@@ -41,4 +41,7 @@ export default {
 
   /** Whether to load next step when performing a user action on this field. */
   loadNextStep: PropTypes.bool,
+
+  /** Create and display this field only if the given condition is met. */
+  displayIf: PropTypes.func,
 };

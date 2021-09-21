@@ -33,6 +33,7 @@ describe('core/valuesUpdater', () => {
     process.env.LAST_FIELD = 'true';
     await engine.trigger('userAction', { fieldId: 'last', type: 'input', value: 'initialValue' });
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
+      id: 'test',
       fields: [
         { id: 'test', type: 'Message', value: [] },
         { id: 'new', type: 'Message', value: 'ok' },

@@ -46,6 +46,7 @@ export default function Step(props: InferProps<typeof stepPropType>): JSX.Elemen
             options={field.options}
             message={field.message}
             onUserAction={onUserAction}
+            allValues={props.allValues}
             customComponents={customComponents as Components}
           />
         ))}

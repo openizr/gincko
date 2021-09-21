@@ -11,10 +11,10 @@ import * as PropTypes from 'prop-types';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export type FormValue = any;
+export type AnyValue = any;
 export type Plugin = (engine: Engine) => void;
 export type Field = PropTypes.InferProps<{
-  value: PropTypes.Requireable<FormValue>;
+  value: PropTypes.Requireable<AnyValue>;
   active: PropTypes.Requireable<boolean>;
   label: PropTypes.Requireable<string>;
   message: PropTypes.Requireable<string>;
@@ -22,18 +22,20 @@ export type Field = PropTypes.InferProps<{
   type: PropTypes.Validator<string>;
   status: PropTypes.Validator<string>;
   options: PropTypes.Validator<Record<string, any>>;
+  allValues: PropTypes.Requireable<Record<string, any>>;
   i18n: PropTypes.Requireable<(label: string, values?: Record<string, string>) => string>;
 }>;
 export type Step = PropTypes.InferProps<{
   index: PropTypes.Requireable<number>;
   isActive: PropTypes.Requireable<boolean>;
-  onUserAction: PropTypes.Requireable<(...args: FormValue[]) => Promise<FormValue>>;
+  onUserAction: PropTypes.Requireable<(...args: AnyValue[]) => Promise<AnyValue>>;
   id: PropTypes.Validator<string>;
   status: PropTypes.Validator<string>;
   customComponents: PropTypes.Requireable<{
     [x: string]: (...args: any[]) => any;
   }>;
   fields: PropTypes.Validator<Field[]>;
+  allValues: PropTypes.Requireable<Record<string, any>>;
   i18n: PropTypes.Requireable<(label: string, values?: Record<string, string>) => string>;
 }>;
 
@@ -56,14 +58,14 @@ export type Configuration = PropTypes.InferProps<{
   /** Root step, from which to start the form. */
   root: PropTypes.Validator<string>;
 
+  /** List of initial form variables. */
+  variables: PropTypes.Requireable<any>,
+
   /** Whether to check fields values only on step submit. */
   checkValuesOnSubmit: PropTypes.Requireable<boolean>;
 
   /** Custom plugins registrations. */
   plugins: PropTypes.Requireable<((...args: any[]) => void)[]>;
-
-  /** List of fields types in which to inject form values in options. */
-  injectValuesTo: PropTypes.Requireable<string[]>;
 
   /** List of non-interactive fields types (message, ...) that will always pass to success state. */
   nonInteractiveFields: PropTypes.Requireable<string[]>;
@@ -78,7 +80,7 @@ export type Configuration = PropTypes.InferProps<{
       submit: PropTypes.Requireable<boolean>;
 
       /** Determines which step to load next. */
-      nextStep: PropTypes.Requireable<string | ((...args: FormValue[]) => string | null)>;
+      nextStep: PropTypes.Requireable<string | ((...args: AnyValue[]) => string | null)>;
     }>;
   }>;
 
@@ -103,17 +105,20 @@ export type Configuration = PropTypes.InferProps<{
         required: PropTypes.Requireable<string>;
 
         /** Returns a different message depending on validation rule. */
-        validation: PropTypes.Requireable<(...args: FormValue[]) => string | null | undefined>;
+        validation: PropTypes.Requireable<(...args: AnyValue[]) => string | null | undefined>;
       }>>;
 
       /** Field's default value. */
-      value: PropTypes.Requireable<FormValue>;
+      value: PropTypes.Requireable<AnyValue>;
 
       /** Field's options. */
       options: PropTypes.Requireable<Record<string, any>>;
 
       /** Whether to load next step when performing a user action on this field. */
       loadNextStep: PropTypes.Requireable<boolean>;
+
+      /** Create and display this field only if the given condition is met. */
+      displayIf: PropTypes.Requireable<(values: AnyValues) => boolean>;
     }>;
   }>;
 }>;
@@ -126,11 +131,11 @@ export interface UserAction {
   fieldId: string;
   stepIndex: number;
   type: 'input' | 'click';
-  value: FormValue;
+  value: AnyValue;
 }
 
-export interface FormValues {
-  [fieldId: string]: FormValue;
+export interface AnyValues {
+  [fieldId: string]: AnyValue;
 }
 
 /**
@@ -147,35 +152,38 @@ export class Engine {
   private useCache: boolean;
 
   /** Timeout after which to refresh cache. */
-  private cacheTimeout: number | null;
+  private cacheTimeout: NodeJS.Timeout | null;
 
   /** Form engine configuration. Contains steps, elements, ... */
   private configuration: Configuration;
 
   /** Contains all events hooks to trigger when events are fired. */
-  private hooks: { [eventName: string]: Hook<FormValues | Error | Step | UserAction | null>[]; };
+  private hooks: { [eventName: string]: Hook<AnyValues | Error | Step | UserAction | null>[]; };
 
   /** Contains the actual form steps, as they are currently displayed to end-user. */
   private generatedSteps: Step[];
 
   /** Contains last value of each form field. */
-  private formValues: FormValues;
+  private values: AnyValues;
+
+  /** Contains user-defined variables, accessible anywhere, anytime in the form. */
+  private variables: AnyValues;
 
   /**
    * Triggers hooks chain for the given event.
    *
    * @param {FormEvent} eventName Event's name.
    *
-   * @param {FormValues | Error | Step | UserAction | null} [data = undefined] Additional data
+   * @param {AnyValues | Error | Step | UserAction | null} [data = undefined] Additional data
    * to pass to the hooks chain.
    *
-   * @returns {Promise<FormValues | Error | Step | UserAction | null>} Pending hooks chain.
+   * @returns {Promise<AnyValues | Error | Step | UserAction | null>} Pending hooks chain.
    *
    * @throws {Error} If any event hook does not return a Promise.
    */
   private triggerHooks(eventName: 'start', data: undefined | null): Promise<undefined | null>;
 
-  private triggerHooks(eventName: 'submit', data: FormValues | null): Promise<FormValues | null>;
+  private triggerHooks(eventName: 'submit', data: AnyValues | null): Promise<AnyValues | null>;
 
   private triggerHooks(eventName: 'loadNextStep', data: Step | null): Promise<Step | null>;
 
@@ -195,6 +203,13 @@ export class Engine {
    * @returns {void}
    */
   private updateGeneratedSteps(stepIndex: number, step: Step): void;
+
+  /**
+   * Updates form's cached data.
+   *
+   * @returns {Promise<void>}
+   */
+  private async updateCache(): Promise<void>;
 
   /**
    * Loads the next step with given id.
@@ -262,22 +277,6 @@ export class Engine {
   public createStep(stepId: string | null): Step | null;
 
   /**
-   * Retrieves form fields values that have been filled.
-   *
-   * @returns {FormValues} Form values.
-   */
-  public getValues(): FormValues;
-
-  /**
-   * Adds or overrides the given form values.
-   *
-   * @param {FormValues} values Form values to add.
-   *
-   * @returns {void}
-   */
-  public setValues(values: FormValues): void;
-
-  /**
    * Returns current store instance.
    *
    * @returns {Store} Current store instance.
@@ -323,7 +322,7 @@ export class Engine {
    *
    * @param {FormEvent} eventName Name of the event to register hook for.
    *
-   * @param {Hook<FormValues | Error | Step | UserAction | undefined | null>} hook Hook to register.
+   * @param {Hook<AnyValues | Error | Step | UserAction | undefined | null>} hook Hook to register.
    *
    * @returns {void}
    */
@@ -337,7 +336,7 @@ export class Engine {
 
   public on(eventName: 'error', hook: Hook<Error | null>): void;
 
-  public on(eventName: 'submit', hook: Hook<FormValues | null>): void;
+  public on(eventName: 'submit', hook: Hook<AnyValues | null>): void;
 
   /**
    * Toggles a loader right after current step, indicating next step is/not being generated.
@@ -358,11 +357,34 @@ export class Engine {
   public userAction(userAction: UserAction): void;
 
   /**
+   * Retrieves current form fields values.
+   *
+   * @returns {AnyValues} Form values.
+   */
+  public getValues(): AnyValues;
+
+  /**
    * Clears current form cache.
    *
    * @returns {Promise<void>}
    */
   public async clearCache(): Promise<void>;
+
+  /**
+   * Retrieves current form variables.
+   *
+   * @returns {AnyValues} Form variables.
+   */
+  public getVariables(): AnyValues;
+
+  /**
+   * Adds or overrides the given form variables.
+   *
+   * @param {AnyValues} variables Form variables to add or override.
+   *
+   * @returns {void}
+   */
+  public setVariables(variables: AnyValues): void;
 }
 
 declare module 'gincko' {
@@ -370,7 +392,7 @@ declare module 'gincko' {
 }
 
 declare module 'gincko/react' {
-  type OUA = (type: 'click' | 'input', newValue: FormValue) => void;
+  type OUA = (type: 'click' | 'input', newValue: AnyValue) => void;
 
   /** Custom React component. */
   export type Component = (field: Field & { i18n: I18n; }, onUserAction: OUA) => JSX.Element;
@@ -402,7 +424,7 @@ declare module 'gincko/vue' {
   import Vue from 'vue';
   import { ExtendedVue } from 'vue/types/vue.d';
 
-  type OUA = (type: 'click' | 'input', newValue: FormValue) => void;
+  type OUA = (type: 'click' | 'input', newValue: AnyValue) => void;
 
   /**
    * Dynamic form.

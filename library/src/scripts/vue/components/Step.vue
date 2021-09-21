@@ -16,6 +16,7 @@
         :options="field.options"
         :message="field.message"
         :custom-components="customComponents"
+        :all-values="allValues"
         @userAction="onUserAction"
       />
     </div>
@@ -33,24 +34,20 @@
 
 import Vue from 'vue';
 import { buildClass } from 'sonar-ui/vue';
+import { Step } from 'scripts/propTypes/step';
 import Field from 'scripts/vue/components/Field.vue';
-import { FormValue, UserAction } from 'scripts/core/Engine';
-import { Field as FormField } from 'scripts/propTypes/field';
+import { AnyValue, UserAction } from 'scripts/core/Engine';
+import { Field as FieldType } from 'scripts/propTypes/field';
 
-type Generic = Record<string, FormValue>;
+type Generic = Record<string, AnyValue>;
 
-interface Props {
-  id: string;
-  index: number;
-  status: string;
-  fields: FormField[];
-  isActive: boolean;
+interface Props extends Step {
   i18n: (label: string, values?: Record<string, string>) => string;
   customComponents: {
-    [type: string]: (field: FormField, onUserAction: (newValue: FormValue) => void) => {
+    [type: string]: (field: FieldType, onUserAction: (newValue: AnyValue) => void) => {
       name: string;
-      props: FormValue;
-      events: FormValue;
+      props: AnyValue;
+      events: AnyValue;
     };
   };
 }
@@ -91,6 +88,10 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       type: Object,
       required: false,
       default: () => ({}),
+    },
+    allValues: {
+      type: Object,
+      required: true,
     },
   },
   methods: {

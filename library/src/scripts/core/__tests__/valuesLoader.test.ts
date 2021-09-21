@@ -19,26 +19,6 @@ describe('core/valuesLoader', () => {
     valuesLoader()(engine as unknown as Engine);
   });
 
-  test('loadNextStep hook - null next step', async () => {
-    await engine.trigger('loadNextStep', null);
-    expect(engine.next).toHaveBeenCalledTimes(1);
-    expect(engine.next).toHaveBeenCalledWith(null);
-  });
-
-  test('loadNextStep hook - injectTo does not contain field type', async () => {
-    await engine.trigger('loadNextStep', { fields: [{ id: 'test', type: 'Test' }] });
-    expect(engine.next).toHaveBeenCalledTimes(1);
-    expect(engine.next).toHaveBeenCalledWith({ fields: [{ id: 'test', type: 'Test' }] });
-  });
-
-  test('loadNextStep hook - injectTo contains field type', async () => {
-    await engine.trigger('loadNextStep', { fields: [{ id: 'test', type: 'Message' }] });
-    expect(engine.next).toHaveBeenCalledTimes(1);
-    expect(engine.next).toHaveBeenCalledWith({
-      fields: [{ id: 'test', type: 'Message', options: { formValues: { test: 'value' } } }],
-    });
-  });
-
   test('loadedNextStep hook - null next step', async () => {
     await engine.trigger('loadedNextStep', null);
     expect(engine.next).toHaveBeenCalledWith(null);

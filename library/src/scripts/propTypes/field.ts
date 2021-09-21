@@ -17,10 +17,11 @@ const fieldPropTypes = {
   active: PropTypes.bool,
   label: PropTypes.string,
   message: PropTypes.string,
+  allValues: PropTypes.any,
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(['initial', 'error', 'success']).isRequired,
   options: PropTypes.any.isRequired,
+  status: PropTypes.oneOf(['initial', 'error', 'success']).isRequired,
 };
 
 export default fieldPropTypes;

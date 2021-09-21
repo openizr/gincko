@@ -13,18 +13,10 @@ export default {
   getItem: jest.fn(() => {
     if (process.env.CACHE_EXISTING_FORM === 'true') {
       return Promise.resolve({
-        formValues: { test: 'value' },
+        values: { test: 'value' },
+        variables: { var1: 'test1', var2: 'test2' },
         steps: [{
           fields: [
-            {
-              id: 'test',
-              label: undefined,
-              message: null,
-              options: {},
-              status: 'initial',
-              type: 'Test',
-              value: undefined,
-            },
             {
               id: 'last',
               label: undefined,
