@@ -336,7 +336,7 @@ export default class Engine {
       if (this.useCache && this.configuration.autoFill !== false) {
         this.values = parsedData.values;
       }
-      this.variables = parsedData.variables;
+      this.setVariables(parsedData.variables);
       let callback = (): void => { this.loadNextStep(configuration.root); };
       if (data !== null && this.useCache && this.configuration.restartOnReload !== true) {
         const lastStepIndex = parsedData.steps.length - 1;

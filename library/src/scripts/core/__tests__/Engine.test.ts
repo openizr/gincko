@@ -208,7 +208,10 @@ describe('core/Engine', () => {
     expect(store.mutate).toHaveBeenCalledTimes(1);
     expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
       values: {},
-      variables: {},
+      variables: {
+        var1: 'test1',
+        var2: 'test2',
+      },
       steps: [{
         fields: [{
           id: 'last',
@@ -259,7 +262,10 @@ describe('core/Engine', () => {
     expect(localforage.setItem).toHaveBeenCalled();
     expect(localforage.setItem).toHaveBeenCalledWith('gincko_cache', {
       values: { test: 'test' },
-      variables: {},
+      variables: {
+        var1: 'test1',
+        var2: 'test2',
+      },
       steps: [{
         fields: [{
           id: 'test',
@@ -645,7 +651,7 @@ describe('core/Engine', () => {
     expect(store.mutate).toHaveBeenCalledTimes(1);
     expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
       values: {},
-      variables: {},
+      variables: { var1: 'test1', var2: 'test2' },
       steps: [step],
     });
   });
