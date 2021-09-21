@@ -38,7 +38,7 @@ describe('core/fieldsFilter', () => {
     expect(engine.userAction).toHaveBeenCalledWith({ fieldId: 'last', value: 'test' });
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
       id: 'test',
-      fields: [{ id: 'last', type: 'Input', value: 'test' }],
+      fields: [{ id: 'other', type: 'Input' }, { id: 'last', type: 'Input', value: 'test' }],
     });
   });
 
@@ -47,7 +47,7 @@ describe('core/fieldsFilter', () => {
     expect(engine.userAction).not.toHaveBeenCalled();
     expect(engine.setCurrentStep).toHaveBeenCalledWith({
       id: 'test',
-      fields: [{ id: 'test', type: 'Message', value: [] }],
+      fields: [{ id: 'test', type: 'Message', value: [] }, { id: 'test', type: 'Message', value: [] }],
     });
   });
 

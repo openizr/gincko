@@ -36,7 +36,9 @@ export default function fieldsFilter(): Plugin {
           let newField = currentStep.fields[fieldIndex];
           if (fieldIndex < 0) {
             newField = engine.createField(currentFieldId);
-            newInputs[currentFieldId] = newField.value;
+            if (newField.value !== undefined) {
+              newInputs[currentFieldId] = newField.value;
+            }
           }
           newFields.push(newField);
         }

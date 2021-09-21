@@ -43,12 +43,13 @@ export default jest.fn((configuration = {}) => {
     createStep: jest.fn((stepId) => ((stepId === 'invalid')
       ? null
       : { id: stepId, fields: [] })),
-    createField: jest.fn((fieldId) => ({ id: fieldId, type: 'Input', value: 'test' })),
+    createField: jest.fn((fieldId) => ((fieldId === 'last')
+      ? { id: fieldId, type: 'Input', value: 'test' } : { id: fieldId, type: 'Input' })),
     getConfiguration: jest.fn(() => ({
       root: '',
       steps: {
         test: {
-          fields: ['test', 'last'],
+          fields: ['test', 'other', 'last'],
         },
       },
       autoFill: configuration.autoFill !== false,
