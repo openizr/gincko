@@ -1,0 +1,362 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vue/FormField renders correctly - Array 1`] = `
+<div
+  addbuttonprops="[object Object]"
+  addtextfieldprops="[object Object]"
+  customcomponents="[object Object]"
+  fields=""
+  id="path__0__to__field"
+  isactive="true"
+  modifiers="success "
+  removebuttonprops="[object Object]"
+  t="function () {
+        return fn.apply(this, arguments);
+      }"
+  type="array"
+  userinputs="[object Object]"
+  variables="[object Object]"
+>
+  {"path":"path.0.to.field"}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Array 2`] = `
+<div
+  addbuttonprops="[object Object]"
+  addtextfieldprops="[object Object]"
+  customcomponents="[object Object]"
+  fields=""
+  id="path__0__to__field"
+  isactive="false"
+  modifiers="success "
+  removebuttonprops="[object Object]"
+  t="function () {
+        return fn.apply(this, arguments);
+      }"
+  type="array"
+  userinputs="[object Object]"
+  variables="[object Object]"
+>
+  {"path":"path.0.to.field"}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Button 1`] = `
+<div
+  id="path__0__to__field"
+  modifiers="success "
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Date 1`] = `
+<div
+  debouncetimeout="100"
+  id="path__0__to__field"
+  maxlength="10"
+  modifiers="success "
+  name="path.0.to.field"
+  transform="(value) => {
+          /* istanbul ignore next */
+          cov_1bjbea2t0w().f[20]++;
+          const cleaned =
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().s[77]++, value.replace(/\\\\D/g, ''));
+          const match1 =
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().s[78]++, cleaned.match(/^(\\\\d{4})$/));
+          const match2 =
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().s[79]++, cleaned.match(/^(\\\\d{4})(\\\\d{2})$/));
+          const match3 =
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().s[80]++, cleaned.match(/^(\\\\d{4})(\\\\d{2})(\\\\d{2})$/));
+
+          /* istanbul ignore next */
+          cov_1bjbea2t0w().s[81]++;
+
+          if (
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().b[54][0]++, match1) &&
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().b[54][1]++, match1.length < 5)) {
+            /* istanbul ignore next */
+            cov_1bjbea2t0w().b[53][0]++;
+            cov_1bjbea2t0w().s[82]++;
+            return [\`\${match1[1]}/\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_1bjbea2t0w().b[53][1]++;
+          }
+
+          cov_1bjbea2t0w().s[83]++;
+
+          if (
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().b[56][0]++, match2) &&
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().b[56][1]++, match2.length < 8)) {
+            /* istanbul ignore next */
+            cov_1bjbea2t0w().b[55][0]++;
+            cov_1bjbea2t0w().s[84]++;
+            return [\`\${match2[1]}/\${match2[2]}/\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_1bjbea2t0w().b[55][1]++;
+          }
+
+          cov_1bjbea2t0w().s[85]++;
+
+          if (match3) {
+            /* istanbul ignore next */
+            cov_1bjbea2t0w().b[57][0]++;
+            cov_1bjbea2t0w().s[86]++;
+            return [\`\${match3[1]}/\${match3[2]}/\${match3[3]}\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_1bjbea2t0w().b[57][1]++;
+          }
+
+          cov_1bjbea2t0w().s[87]++;
+          return [value];
+        }"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Date 2`] = `
+<div
+  debouncetimeout="10"
+  id="path__0__to__field"
+  maxlength="10"
+  modifiers="success "
+  name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
+  transform="(value) => {
+          /* istanbul ignore next */
+          cov_1bjbea2t0w().f[20]++;
+          const cleaned =
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().s[77]++, value.replace(/\\\\D/g, ''));
+          const match1 =
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().s[78]++, cleaned.match(/^(\\\\d{4})$/));
+          const match2 =
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().s[79]++, cleaned.match(/^(\\\\d{4})(\\\\d{2})$/));
+          const match3 =
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().s[80]++, cleaned.match(/^(\\\\d{4})(\\\\d{2})(\\\\d{2})$/));
+
+          /* istanbul ignore next */
+          cov_1bjbea2t0w().s[81]++;
+
+          if (
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().b[54][0]++, match1) &&
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().b[54][1]++, match1.length < 5)) {
+            /* istanbul ignore next */
+            cov_1bjbea2t0w().b[53][0]++;
+            cov_1bjbea2t0w().s[82]++;
+            return [\`\${match1[1]}/\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_1bjbea2t0w().b[53][1]++;
+          }
+
+          cov_1bjbea2t0w().s[83]++;
+
+          if (
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().b[56][0]++, match2) &&
+          /* istanbul ignore next */
+          (cov_1bjbea2t0w().b[56][1]++, match2.length < 8)) {
+            /* istanbul ignore next */
+            cov_1bjbea2t0w().b[55][0]++;
+            cov_1bjbea2t0w().s[84]++;
+            return [\`\${match2[1]}/\${match2[2]}/\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_1bjbea2t0w().b[55][1]++;
+          }
+
+          cov_1bjbea2t0w().s[85]++;
+
+          if (match3) {
+            /* istanbul ignore next */
+            cov_1bjbea2t0w().b[57][0]++;
+            cov_1bjbea2t0w().s[86]++;
+            return [\`\${match3[1]}/\${match3[2]}/\${match3[3]}\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_1bjbea2t0w().b[57][1]++;
+          }
+
+          cov_1bjbea2t0w().s[87]++;
+          return [value];
+        }"
+  value="2022/07/07"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - DynamicObject 1`] = `
+<div
+  addbuttonprops="[object Object]"
+  addtextfieldprops="[object Object]"
+  customcomponents="[object Object]"
+  fields=""
+  id="path__0__to__field"
+  isactive="true"
+  modifiers="success "
+  removebuttonprops="[object Object]"
+  t="function () {
+        return fn.apply(this, arguments);
+      }"
+  type="dynamicObject"
+  userinputs="[object Object]"
+  variables="[object Object]"
+>
+  {"path":"path.0.to.field"}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - DynamicObject 2`] = `
+<div
+  addbuttonprops="[object Object]"
+  addtextfieldprops="[object Object]"
+  customcomponents="[object Object]"
+  fields=""
+  id="path__0__to__field"
+  isactive="true"
+  modifiers="success "
+  removebuttonprops="[object Object]"
+  t="function () {
+        return fn.apply(this, arguments);
+      }"
+  type="dynamicObject"
+  userinputs="[object Object]"
+  variables="[object Object]"
+>
+  {"path":"path.0.to.field"}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - FilePicker 1`] = `
+<div
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - FilePicker 2`] = `
+<div
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Link 1`] = `
+<div
+  id="path__0__to__field"
+  label=""
+  modifiers="success "
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Message with label and helper 1`] = `
+<div
+  id="field"
+>
+  {"id":"path__0__to__field","label":"TRANSLATED LABEL","modifiers":"success "}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Message with label and message 1`] = `
+<div
+  id="field"
+>
+  {"id":"path__0__to__field","label":"TRANSLATED LABEL","modifiers":"success "}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Options 1`] = `
+<div
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+  options="[object Object],[object Object]"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Textarea 1`] = `
+<div
+  debouncetimeout="100"
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Textarea 2`] = `
+<div
+  debouncetimeout="10"
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
+  value="test"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Textfield 1`] = `
+<div
+  debouncetimeout="100"
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Textfield 2`] = `
+<div
+  debouncetimeout="10"
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
+  value="test"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Unknown component 1`] = `<!--v-if-->`;

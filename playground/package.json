@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "@types/react": "^17.0.21",
-    "@types/react-dom": "^17.0.9",
-    "typescript-dev-kit": "^4.0.0"
+    "@types/react": "^18.0.11",
+    "@types/react-dom": "^18.0.5",
+    "typescript-dev-kit": "^5.1.1"
   },
   "eslintConfig": {
     "extends": [
@@ -10,26 +10,19 @@
     ]
   },
   "dependencies": {
+    "biuty": "^1.1.0",
     "gincko": "file:../../../library/dist",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "vue": "^2.6.14"
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "svelte": "^3.48.0",
+    "vue": "^3.2.36"
   },
   "tsDevKitConfig": {
     "target": "web",
-    "entry": {
-      "vue": "./scripts/vue.ts",
-      "react": "./scripts/react.tsx"
-    },
+    "html": "./html/index.html",
     "devServer": {
-      "ip": "0.0.0.0",
+      "host": "0.0.0.0",
       "port": 5050
-    },
-    "html": {
-      "template": "./html/index.html",
-      "entries": [
-        "react"
-      ]
     },
     "splitChunks": false,
     "srcPath": "src",
@@ -37,9 +30,11 @@
     "banner": "",
     "env": {
       "development": {
+        "ENV": "development",
         "NODE_ENV": "development"
       },
       "production": {
+        "ENV": "production",
         "NODE_ENV": "production"
       }
     }

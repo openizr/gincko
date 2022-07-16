@@ -1,0 +1,1 @@
+type JSXElement = any;

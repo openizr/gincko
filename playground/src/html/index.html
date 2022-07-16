@@ -4,15 +4,16 @@
 <head>
   <base href="/" />
   <meta charset="UTF-8">
-  <% for (var filePath in htmlWebpackPlugin.files.js) { %>
-    <script async src="<%= htmlWebpackPlugin.files.js[filePath] %>"></script>
-  <% } %>
+  <title>gincko playground</title>
+  <meta name="description" content="gincko playground">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+  <script async crossorigin type="module" src="/src/scripts/vue.ts"></script>
+  <!-- <script async crossorigin type="module" src="/src/scripts/react.tsx"></script> -->
 </head>
 
 <body>
-  <section id="root">
-    <div>LOADING...</div>
-  </section>
+  <section id="root"></section>
 </body>
 
 </html>

@@ -1,153 +1,229 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { Configuration } from 'scripts/propTypes/configuration';
-
-type Any = any; // eslint-disable-line @typescript-eslint/no-explicit-any
-
 /**
- * Engine mock.
+ * Form engine mock.
  */
-export default jest.fn((configuration = {}) => {
-  const hooks: { [eventName: string]: ((...args: Any[]) => Any)[]; } = {
-    start: [],
-    error: [],
-    submit: [],
-    userAction: [],
-    loadNextStep: [],
-    loadedNextStep: [],
-  };
+export default class Engine {
+  private configuration: Record<string, FieldConfiguration>;
 
-  const next = jest.fn();
+  private store: { mutate: jest.Mock; };
 
-  return ({
-    next,
-    getStore: jest.fn(() => ({
-      subscribe: jest.fn((_name, callback) => callback({
-        steps: [{ id: 'start' }, { id: 'end' }],
-        loadingNextStep: process.env.LOADING === 'true',
-      })),
-      unsubscribe: jest.fn(),
-      mutate: jest.fn(),
-    })),
-    setValues: jest.fn(),
-    userAction: jest.fn(),
-    loadNextStep: jest.fn(),
-    handleSubmit: jest.fn(),
-    triggerHooks: jest.fn(),
-    createStep: jest.fn((stepId) => ((stepId === 'invalid')
-      ? null
-      : { id: stepId, fields: [] })),
-    createField: jest.fn((fieldId) => ((fieldId === 'last')
-      ? { id: fieldId, type: 'Input', value: 'test' } : { id: fieldId, type: 'Input' })),
-    getConfiguration: jest.fn(() => ({
-      root: '',
-      steps: {
-        test: {
-          fields: ['test', 'other', 'last'],
-        },
+  private currentStep: Step | null;
+
+  private field: Field | null;
+
+  private steps: Step[];
+
+  public updater: () => void;
+
+  public toggleFields: () => void;
+
+  public toggleLoader: () => void;
+
+  public validateFields: () => void;
+
+  public createStep: () => Promise<void>;
+
+  constructor() {
+    this.hooks = {};
+    this.configuration = {
+      'root.0.field': {
+        type: 'string',
+        component: 'Null',
       },
-      autoFill: configuration.autoFill !== false,
-      fields: {
-        test: {
-          type: 'Test',
-          value: 'first',
-          displayIf: (values) => values.var1 === 'test',
-        },
-        new: {
-          type: 'Test',
-          loadNextStep: true,
-          messages: {
-            validation: (value: string) => ((value !== 'new') ? 'invalid' : null),
+      'root.0.boolean': {
+        type: 'boolean',
+        component: 'Null',
+      },
+      'root.0.float': {
+        type: 'float',
+        component: 'Null',
+      },
+      'root.0.integer': {
+        type: 'integer',
+        component: 'Null',
+      },
+      'root.0.dynamicObject': {
+        type: 'dynamicObject',
+        component: 'Null',
+        fields: {},
+      },
+      'root.0.array': {
+        type: 'array',
+        component: 'Null',
+        fields: { type: 'string', component: 'Null' },
+      },
+      'root.0.date': {
+        type: 'date',
+        component: 'Null',
+      },
+      'root.0.array.0': {
+        type: 'dynamicObject',
+        component: 'Null',
+        fields: {
+          __: {
+            type: 'object',
+            component: 'Null',
+            fields: {
+              string: {
+                type: 'string',
+                component: 'Null',
+              },
+            },
+          },
+          '000': {
+            type: 'array',
+            component: 'Null',
+            fields: {
+              type: 'integer',
+              component: 'Null',
+            },
           },
         },
-        other: {
-          type: 'Test',
-          required: true,
-          messages: {
-            validation: (value: string) => ((value !== 'other') ? 'invalid' : null),
+      },
+      'root.0.array.0.__': {
+        type: 'object',
+        component: 'Null',
+        fields: {
+          string: {
+            type: 'string',
+            component: 'Null',
           },
         },
-        last: {
-          required: true,
-          type: 'Test',
-          value: null,
+      },
+      'root.0.array.0.000': {
+        type: 'array',
+        component: 'Null',
+        fields: {
+          type: 'integer',
+          component: 'Null',
         },
       },
-    } as Configuration)),
-    getValues: jest.fn(() => ({ test: 'value' })),
-    getVariables: jest.fn(() => ({ var1: 'test1' })),
-    getFieldIndex: jest.fn(() => {
-      if (process.env.FIELD_NOT_FOUND === 'true') {
-        return -1;
-      }
-      if (process.env.LAST_FIELD === 'true') {
-        return 3;
-      }
-      return 0;
-    }),
-    handleUserAction: jest.fn(),
-    toggleStepLoader: jest.fn(),
-    setCurrentStep: jest.fn(),
-    updateGeneratedSteps: jest.fn(),
-    getCurrentStepIndex: jest.fn(() => 0),
-    getCurrentStep: jest.fn(() => {
-      if (process.env.ALL_FIELDS_VALID === 'true') {
-        return {
+      'root.0.array.0.000.': {
+        type: 'integer',
+        component: 'Null',
+      },
+      'root.0.array.0.__.string': {
+        type: 'string',
+        component: 'Null',
+      },
+      'root.0.submit': {
+        submit: true,
+        type: 'string',
+        component: 'Null',
+      },
+    };
+    this.currentStep = (process.env.NULL_CURRENT_STEP === 'true') ? null : {
+      id: 'root',
+      fields: [],
+      status: (process.env.ERROR_CURRENT_STEP === 'true') ? 'error' : 'initial',
+    };
+    this.field = {
+      id: 'test',
+      status: 'initial',
+      component: 'Null',
+      componentProps: {},
+    };
+    this.steps = [{
+      id: 'root',
+      status: 'success',
+      fields: [
+        null,
+        {
+          id: 'field1',
+          value: 'test',
+          component: 'Null',
           status: 'success',
-          fields: [
-            {
-              id: 'test',
-              type: 'Message',
-              value: 'test',
-            },
-          ],
-        };
-      }
-      if (process.env.ENGINE_NULL_CURRENT_STEP === 'true') {
-        return null;
-      }
-      return {
-        id: 'test',
-        fields: [
-          {
-            id: 'test',
-            type: 'Message',
-            value: [],
-          },
-          {
-            id: 'new',
-            type: 'Message',
-            value: 'ok',
-          },
-          {
-            id: 'other',
-            type: 'Message',
-          },
-          {
-            id: 'last',
-            type: 'Message',
-            value: 'last',
-            options: {
-              modifiers: 'test',
-            },
-          },
-        ],
-      };
-    }),
-    on: jest.fn((event: string, callback: () => Any) => {
-      hooks[event].push(callback);
-    }),
-    trigger: (event: string, data: Any, nextData?: Any): Any => (
-      Promise.all(hooks[event].map((hook) => hook(data, (updatedData: Any) => {
-        next(updatedData);
-        return Promise.resolve(nextData);
-      })))
-    ),
-  });
-});
+          componentProps: {},
+        },
+        {
+          id: 'array',
+          component: 'Null',
+          status: 'success',
+          componentProps: {},
+          fieldIds: [0],
+          fields: [{
+            id: '0',
+            component: 'Null',
+            componentProps: {},
+            status: 'success',
+            fieldIds: ['__', '000'],
+            fields: [{
+              id: '__',
+              component: 'Null',
+              status: 'success',
+              componentProps: {},
+              fieldIds: ['string'],
+              fields: [{
+                id: 'string',
+                value: 'value',
+                status: 'success',
+                component: 'Null',
+                componentProps: {},
+              }],
+            }, {
+              id: '000',
+              component: 'Null',
+              status: 'success',
+              componentProps: {},
+              fields: [{
+                id: '0',
+                value: 42,
+                status: 'initial',
+                component: 'Null',
+                componentProps: {},
+              }],
+            }],
+          }],
+        },
+      ],
+    }];
+    this.updater = jest.fn();
+    this.createStep = jest.fn();
+    this.toggleLoader = jest.fn();
+    this.toggleFields = jest.fn();
+    this.validateFields = jest.fn();
+    this.store = { mutate: jest.fn() };
+  }
+
+  protected hooks: { [eventName: string]: Hook<HookData>; };
+
+  public on(eventName: FormEvent, hook: Hook<HookData>): void {
+    this.hooks[eventName] = hook;
+  }
+
+  public async trigger(eventName: FormEvent, data: HookData): Promise<HookData | null> {
+    return this.hooks[eventName](data, (newData) => (process.env.NULL_NEXT_DATA === 'true'
+      ? Promise.resolve(null)
+      : Promise.resolve(newData)
+    ));
+  }
+
+  public getConfiguration(path?: string): FieldConfiguration {
+    return this.configuration[path || ''] || null;
+  }
+
+  public getCurrentStep(): Step | null {
+    return this.currentStep;
+  }
+
+  public getStore(): { mutate: jest.Mock; } {
+    return this.store;
+  }
+
+  public getField(path: string): Field | null {
+    return (path === 'root.0.wrong.path')
+      ? null
+      : this.field;
+  }
+
+  public getSteps(): Step[] {
+    return this.steps;
+  }
+}

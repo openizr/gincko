@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vue/MessageField renders correctly - custom props 1`] = `
+<section
+  class="ui-message strong"
+  id="test"
+>
+  MARKDOWN FOR *Test*, false
+</section>
+`;
+
+exports[`vue/MessageField renders correctly - default props 1`] = `
+<section
+  class="ui-message"
+  id="test"
+>
+  MARKDOWN FOR , false
+</section>
+`;

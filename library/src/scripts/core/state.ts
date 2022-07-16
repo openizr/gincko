@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,38 +8,35 @@
 
 import { Module } from 'diox';
 import { deepMerge } from 'basx';
-import { Step } from 'scripts/propTypes/step';
-import { AnyValues } from 'scripts/core/Engine';
 
-export interface State {
+export interface StateState {
   steps: Step[];
-  values: AnyValues;
-  variables: AnyValues;
-  loadingNextStep: boolean;
+  loading: boolean;
+  userInputs: UserInputs;
+  variables: Variables;
 }
 
 /**
  * Handles state lifecycle in form.
  */
-export default <Module<State>>{
+export default <Module<StateState>>{
   state: {
     steps: [],
-    values: {},
+    loading: true,
     variables: {},
-    loadingNextStep: true,
+    userInputs: {},
   },
   mutations: {
     UPDATE({ state }, mutation) {
       return deepMerge(state, {
         steps: mutation.steps,
-        values: mutation.values,
+        loading: mutation.loading,
         variables: mutation.variables,
+        userInputs: mutation.userInputs,
       });
     },
-    SET_LOADER({ state }, mutation) {
-      return deepMerge(state, {
-        loadingNextStep: mutation.loadingNextStep,
-      });
+    SET_LOADER({ state }, loading) {
+      return deepMerge(state, { loading });
     },
   },
 };

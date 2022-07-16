@@ -1,69 +1,32 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import Store from 'diox';
-import localforage from 'localforage';
-import { Configuration } from 'scripts/propTypes/configuration';
-import Engine, { Plugin, UserAction, AnyValues } from 'scripts/core/Engine';
-
-type EngineApi = {
-  values: AnyValues;
-  handleUserAction: (arg: UserAction | null) => void;
-  triggerHooks: (name: string, data?: Record<string, string>) => void;
-};
+import cache from 'scripts/core/__mocks__/cache';
+import Engine from 'scripts/core/__mocks__/TestEngine';
+import configuration from 'scripts/core/__mocks__/configuration';
 
 jest.mock('diox');
 jest.mock('basx');
-jest.mock('localforage');
-jest.mock('scripts/core/state');
-jest.mock('scripts/core/userActions');
+jest.mock('scripts/core/deepFreeze');
 
 // This trick allows to check the calling order of the different plugins.
 const call = jest.fn();
-jest.mock('scripts/core/errorHandler', jest.fn(() => () => (): void => {
-  call('errorHandler');
-}));
-jest.mock('scripts/core/valuesChecker', jest.fn(() => () => (): void => {
-  call('valuesChecker');
-}));
-jest.mock('scripts/core/valuesUpdater', jest.fn(() => () => (): void => {
-  call('valuesUpdater');
-}));
-jest.mock('scripts/core/valuesLoader', jest.fn(() => () => (): void => {
-  call('valuesLoader');
-}));
-jest.mock('scripts/core/fieldsFilter', jest.fn(() => () => (): void => {
-  call('fieldsFilter');
-}));
+
+async function flushPromises(): Promise<void> {
+  const promise = new Promise<void>((resolve) => { setTimeout(resolve, 50); });
+  return promise;
+}
 
 describe('core/Engine', () => {
-  const store = new Store();
-  const configuration: Configuration = {
-    variables: { var1: 'test1', var2: 'test2' },
-    root: 'test',
-    steps: { test: { fields: ['last'] } },
-    fields: { last: { type: 'Message' } },
-  };
-  const userAction: UserAction = {
-    stepId: 'test',
-    type: 'input',
-    value: 'test',
-    fieldId: 'test',
-    stepIndex: 0,
-  };
-
-  async function flushPromises(): Promise<void> {
-    const promise = new Promise<void>((resolve) => setTimeout(resolve, 50));
-    return promise;
-  }
+  let engine: Engine;
 
   async function createEngine(conf: Configuration = configuration, flush = true): Promise<Engine> {
-    const engine = new Engine(conf);
+    engine = new Engine(conf);
     if (flush) {
       await flushPromises();
       jest.clearAllMocks();
@@ -72,637 +35,685 @@ describe('core/Engine', () => {
   }
 
   beforeEach(() => {
+    jest.useRealTimers();
     jest.clearAllMocks();
-    delete process.env.CACHE_EXISTING_FORM;
+    delete process.env.CACHE_EXISTS;
+    delete process.env.CACHE_EXISTS_2;
   });
 
-  test('constructor - default plugins values and a custom plugin', async () => {
-    await createEngine({
-      ...configuration,
-      plugins: [
-        jest.fn(() => call('customPlugin')),
-      ],
-    }, false);
-    expect(call).toHaveBeenNthCalledWith(1, 'customPlugin');
-    expect(call).toHaveBeenNthCalledWith(2, 'errorHandler');
-    expect(call).toHaveBeenNthCalledWith(3, 'valuesUpdater');
-    expect(call).toHaveBeenNthCalledWith(4, 'valuesChecker');
-    expect(call).toHaveBeenNthCalledWith(5, 'valuesLoader');
-    expect(call).toHaveBeenNthCalledWith(6, 'fieldsFilter');
-  });
-
-  test('constructor - start hook returns correct value', async () => {
-    const callback = jest.fn();
-    const create = (): Engine => new Engine({
-      ...configuration,
-      plugins: [
-        ((engine) => {
-          engine.on('start', (data, next) => {
-            callback(data);
-            return next(data);
-          });
-        }) as Plugin,
-      ],
+  describe('triggerHooks', () => {
+    test('error', async () => {
+      try {
+        await createEngine({
+          ...configuration,
+          plugins: [(api): void => {
+            api.on('userAction', (data, next) => (data !== null
+              ? next(undefined as unknown as UserAction)
+              : next(data)));
+          }],
+        });
+        await engine.triggerHooks('userAction', {});
+      } catch (error) {
+        expect(error).toEqual(new Error(
+          'Event "userAction": data passed to the next hook is "undefined". This usually means that'
+          + ' you did not correctly resolved your hook\'s Promise with proper data.',
+        ));
+      }
     });
-    create();
-    await flushPromises();
-    expect(callback).toHaveBeenCalledWith(undefined);
-  });
 
-  test('constructor - start hook returns null', async () => {
-    await createEngine({
-      ...configuration,
-      plugins: [
-        ((engine) => {
-          engine.on('start', (_data, next) => next(null));
-        }) as Plugin,
-      ],
-    });
-    expect(store.mutate).not.toHaveBeenCalled();
-  });
-
-  test('constructor - root step does not exist', async () => {
-    const callback = jest.fn();
-    await createEngine({
-      ...configuration,
-      root: 'other',
-      plugins: [
-        ((engine) => {
-          engine.on('error', (error, next) => {
-            callback(error);
-            return next(error);
-          });
-        }) as Plugin,
-      ],
-    }, false);
-    await flushPromises();
-    expect(callback).toHaveBeenCalledWith(new Error('Step "other" does not exist.'));
-  });
-
-  test('constructor - `restartOnReload` is true', async () => {
-    process.env.CACHE_EXISTING_FORM = 'true';
-    const engine = await createEngine({
-      ...configuration,
-      restartOnReload: true,
-    }, false);
-    await flushPromises();
-    expect(engine.getValues()).toEqual({ test: 'value' });
-    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
-      values: { test: 'value' },
-      variables: { var1: 'test1', var2: 'test2' },
-      steps: [{
-        fields: [{
-          id: 'last',
-          label: undefined,
-          message: null,
-          options: {},
-          status: 'success',
-          type: 'Message',
-          value: undefined,
+    test('error with errors hook', async () => {
+      const hook = jest.fn((data, next) => next(data));
+      await createEngine({
+        ...configuration,
+        plugins: [(api): void => {
+          // Covers `getInputs` constructor declaration.
+          api.getInputs();
+          api.on('userAction', (data, next) => (data !== null
+            ? next(undefined as unknown as UserAction)
+            : next(data)));
+          api.on('error', hook);
         }],
-        id: 'test',
-        status: 'initial',
-      }],
+      });
+      expect(await engine.triggerHooks('userAction', {})).toBe(null);
+      expect(hook).toHaveBeenCalledTimes(1);
+      expect(hook).toHaveBeenCalledWith(new Error(
+        'Event "userAction": data passed to the next hook is "undefined". This usually means that'
+        + ' you did not correctly resolved your hook\'s Promise with proper data.',
+      ), expect.any(Function));
     });
   });
 
-  test('constructor - custom plugins values and no custom plugin, `autoFill` is false', async () => {
-    process.env.CACHE_EXISTING_FORM = 'true';
-    const engine = new Engine({ ...configuration, autoFill: false });
-    await flushPromises();
-    expect(store.mutate).toHaveBeenCalledTimes(2);
-    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
-      values: {},
-      variables: { var1: 'test1', var2: 'test2' },
-      steps: [{
-        fields: [{
-          id: 'last',
-          label: undefined,
-          message: null,
-          options: {},
-          status: 'initial',
-          type: 'Test',
-          value: undefined,
+  describe('constructor', () => {
+    test('default plugins values and a custom plugin', async () => {
+      await createEngine({
+        ...configuration,
+        plugins: [jest.fn(() => call('customPlugin'))],
+      }, false);
+      expect(call).toHaveBeenCalledTimes(1);
+      expect(call).toHaveBeenCalledWith('customPlugin');
+    });
+
+    test('`start` hook returns `null`', async () => {
+      await createEngine({
+        ...configuration,
+        plugins: [(api): void => {
+          api.on('start', (_data, next) => next(null));
         }],
-        id: 'test',
-        status: 'initial',
-      }],
+      });
+      expect(engine.getCurrentStep()).toBe(null);
     });
-    expect(engine.getValues()).toEqual({});
-    expect(call).toHaveBeenNthCalledWith(1, 'errorHandler');
-    expect(call).toHaveBeenNthCalledWith(2, 'valuesUpdater');
-    expect(call).toHaveBeenNthCalledWith(3, 'valuesChecker');
-    expect(call).toHaveBeenNthCalledWith(4, 'valuesLoader');
-  });
 
-  test('handleUserAction - `null` value', async () => {
-    const engine = await createEngine();
-    (engine as unknown as EngineApi).handleUserAction(null);
-    expect(store.mutate).not.toHaveBeenCalled();
-  });
+    test('cache is enabled, cache exists', async () => {
+      process.env.CACHE_EXISTS = 'true';
+      await createEngine({ ...configuration, cache }, false);
+      await flushPromises();
+      expect(engine.getCurrentStep()).toMatchSnapshot();
+      expect(engine.getInputs()).toEqual({ test: 'value' });
+    });
 
-  test('handleUserAction - non-input action', async () => {
-    const engine = await createEngine();
-    (engine as unknown as EngineApi).handleUserAction({ ...userAction, type: 'click' });
-    await flushPromises();
-    expect(store.mutate).toHaveBeenCalledTimes(1);
-    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
-      values: {},
-      variables: {
-        var1: 'test1',
-        var2: 'test2',
-      },
-      steps: [{
-        fields: [{
-          id: 'last',
-          label: undefined,
-          message: null,
-          options: {},
-          status: 'success',
-          type: 'Message',
-          value: undefined,
-        }],
-        id: 'test',
-        status: 'initial',
-      }],
+    test('cache is enabled, cache exists, `autoFill` is `false`', async () => {
+      process.env.CACHE_EXISTS = 'true';
+      await createEngine({ ...configuration, cache, autoFill: false }, false);
+      await flushPromises();
+      expect(engine.getInputs()).toEqual({});
+      expect(engine.getCurrentStep()).toMatchSnapshot();
+    });
+
+    test('cache exists, `useCache` is `true`, `restartOnReload` is `true`', async () => {
+      process.env.CACHE_EXISTS = 'true';
+      await createEngine({ ...configuration, cache, restartOnReload: true }, false);
+      await flushPromises();
+      expect(engine.getCurrentStep()).toMatchSnapshot();
     });
   });
 
-  test('handleUserAction - `null` value from plugins', async () => {
-    const engine = await createEngine({
-      ...configuration,
-      plugins: [<Plugin>((api) => {
-        api.on('userAction', (_userAction, next) => next(null));
-      })],
-    });
-    (engine as unknown as EngineApi).handleUserAction(userAction);
-    await flushPromises();
-    expect(store.mutate).toHaveBeenCalledTimes(1);
-  });
-
-  test('handleUserAction - non-null value, non-submitting step field', async () => {
-    const engine = await createEngine({
-      ...configuration,
-      steps: { test: { fields: ['test', 'last'] } },
-      fields: {
-        test: {
-          type: 'Test',
-          options: {
-            prop: 3,
-            callback: () => null,
-          },
-        },
-        last: {
-          type: 'Test',
-        },
-      },
-    });
-    (engine as unknown as EngineApi).handleUserAction(userAction);
-    await new Promise<void>((resolve) => setTimeout(resolve, 1000));
-    expect(localforage.setItem).toHaveBeenCalled();
-    expect(localforage.setItem).toHaveBeenCalledWith('gincko_cache', {
-      values: { test: 'test' },
-      variables: {
-        var1: 'test1',
-        var2: 'test2',
-      },
-      steps: [{
-        fields: [{
-          id: 'test',
-          label: undefined,
-          message: null,
-          options: { prop: 3 },
-          status: 'initial',
-          type: 'Test',
-          value: undefined,
-        }, {
-          id: 'last',
-          label: undefined,
-          message: null,
-          options: {},
-          status: 'initial',
-          type: 'Test',
-          value: undefined,
-        }],
-        id: 'test',
-        status: 'initial',
-      }],
-    });
-    // TODO must be called only once.
-    expect(store.mutate).toHaveBeenCalledTimes(2);
-  });
-
-  test('handleUserAction - non-null value, submitting step field, `submit` not `true`', async () => {
-    const engine = await createEngine({
-      root: 'test',
-      steps: { test: { fields: ['test', 'last'], nextStep: 'last' }, last: { fields: [] } },
-      fields: { test: { type: 'Test', loadNextStep: true }, last: { type: 'Test' } },
-    });
-    (engine as unknown as EngineApi).handleUserAction(userAction);
-    await flushPromises();
-    // TODO must be called only 4 times.
-    expect(store.mutate).toHaveBeenCalledTimes(5);
-    expect(store.mutate).toHaveBeenNthCalledWith(2, 'state', 'UPDATE', {
-      values: { test: 'test' },
+  test('toggleLoader', async () => {
+    jest.useFakeTimers();
+    const promise = createEngine();
+    jest.runAllTimers();
+    await promise;
+    jest.clearAllMocks();
+    engine.toggleLoader(true);
+    jest.runAllTimers();
+    expect(engine.getStore().mutate).toHaveBeenCalledTimes(1);
+    expect(engine.getStore().mutate).toHaveBeenCalledWith('state', 'UPDATE', {
+      loading: true,
+      steps: [],
+      userInputs: {},
       variables: {},
-      steps: [{
-        fields: [
-          {
-            id: 'test',
-            label: undefined,
-            message: null,
-            options: {},
-            status: 'initial',
-            type: 'Test',
-            value: undefined,
-          },
-          {
-            id: 'last',
-            label: undefined,
-            message: null,
-            options: {},
-            status: 'initial',
-            type: 'Test',
-            value: undefined,
-          },
-        ],
-        id: 'test',
-        status: 'initial',
-      }],
     });
-  });
-
-  test('handleUserAction - non-null value, submitting step field, `submit` is `true`', async () => {
-    const engine = await createEngine({
-      root: 'test',
-      steps: { test: { fields: ['test'], submit: true } },
-      fields: { test: { type: 'Test' } },
-      plugins: [((api): void => {
-        api.on('submit', (_data, next) => next(null));
-      }) as Plugin],
-    });
-    (engine as unknown as EngineApi).handleUserAction(userAction);
-    await flushPromises();
-    // TODO must be called only 2 times.
-    expect(store.mutate).toHaveBeenCalledTimes(3);
-    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
-      values: { test: 'test' },
-      variables: {},
-      steps: [{
-        fields: [{
-          id: 'test',
-          label: undefined,
-          message: null,
-          options: {},
-          status: 'initial',
-          type: 'Test',
-          value: undefined,
-        }],
-        id: 'test',
-        status: 'initial',
-      }],
-    });
-  });
-
-  test('handleUserAction - non-null value, submitting step field, nextStep is `null`', async () => {
-    const engine = await createEngine({
-      root: 'test',
-      steps: { test: { fields: ['test'], nextStep: null } },
-      fields: { test: { type: 'Test' } },
-      plugins: [((api): void => {
-        api.on('submit', (_data, next) => next(null));
-      }) as Plugin],
-    });
-    (engine as unknown as EngineApi).handleUserAction(userAction);
-    await flushPromises();
-    // TODO must be called only 2 times.
-    expect(store.mutate).toHaveBeenCalledTimes(3);
-    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
-      values: { test: 'test' },
-      variables: {},
-      steps: [{
-        fields: [{
-          id: 'test',
-          label: undefined,
-          message: null,
-          options: {},
-          status: 'initial',
-          type: 'Test',
-          value: undefined,
-        }],
-        id: 'test',
-        status: 'initial',
-      }],
-    });
-  });
-
-  test('handleUserAction - non-null value, submitting step field, loaded next step is `null`', async () => {
-    const engine = await createEngine({
-      root: 'test',
-      steps: { test: { fields: ['test'], nextStep: null } },
-      fields: { test: { type: 'Test' } },
-      plugins: [<Plugin>((api): void => {
-        api.on('loadedNextStep', (_data, next) => next(null));
-      })],
-    });
-    (engine as unknown as EngineApi).handleUserAction(userAction);
-    await flushPromises();
-    // TODO must be called only 2 times.
-    expect(store.mutate).toHaveBeenCalledTimes(3);
-    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
-      values: { test: 'test' },
-      variables: {},
-      steps: [{
-        fields: [{
-          id: 'test',
-          label: undefined,
-          message: null,
-          options: {},
-          status: 'initial',
-          type: 'Test',
-          value: undefined,
-        }],
-        id: 'test',
-        status: 'initial',
-      }],
-    });
-  });
-
-  test('handleUserAction - non-null value, `nextStep` is a function', async () => {
-    const engine = await createEngine({
-      root: 'test',
-      steps: { test: { fields: ['test'], nextStep: (): null => null } },
-      fields: { test: { type: 'Test' } },
-      plugins: [<Plugin>((api): void => {
-        api.on('submit', (_data, next) => next(null));
-      })],
-    });
-    (engine as unknown as EngineApi).handleUserAction(userAction);
-    await flushPromises();
-    // TODO must be called only 2 times.
-    expect(store.mutate).toHaveBeenCalledTimes(3);
-    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
-      values: { test: 'test' },
-      variables: {},
-      steps: [{
-        fields: [{
-          id: 'test',
-          label: undefined,
-          message: null,
-          options: {},
-          status: 'initial',
-          type: 'Test',
-          value: undefined,
-        }],
-        id: 'test',
-        status: 'initial',
-      }],
-    });
-  });
-
-  test('triggerHooks - hook does not return a Promise', (done) => {
-    const handleError = (error: Error): void => {
-      expect(error.message).toBe('Event "loadNextStep": all your hooks must return a Promise.');
-      done();
-    };
-    const engine = new Engine({
-      root: 'test',
-      steps: { test: { fields: ['test'] } },
-      fields: { test: { type: 'Test' } },
-      plugins: [((api): void => {
-        api.on('error', (error: Error, next: (error: Error) => Promise<void>) => {
-          setImmediate(() => {
-            handleError(error);
-          });
-          return next(error);
-        });
-        api.on('loadNextStep', () => { call(engine); });
-      })],
-    });
-  });
-
-  test('triggerHooks - hook does not return valid data', (done) => {
-    const handleError = (error: Error): void => {
-      expect(error.message).toBe(
-        'Event "loadNextStep": data passed to the next hook is "undefined". '
-        + 'This usually means that you did not correctly resolved your hook\'s Promise '
-        + 'with proper data.',
-      );
-      done();
-    };
-    const engine = new Engine({
-      root: 'test',
-      steps: { test: { fields: ['test'] } },
-      fields: { test: { type: 'Test' } },
-      plugins: [((api): void => {
-        api.on('error', (error: Error, next: (error: Error) => Promise<void>) => {
-          setImmediate(() => {
-            handleError(error);
-          });
-          return next(error);
-        });
-        api.on('loadNextStep', () => Promise.resolve().then(() => {
-          call(engine);
-        }));
-      })],
-    });
-  });
-
-  test('triggerHooks - hook throws an error in an error hook', async () => {
-    const engine = await createEngine({
-      root: 'test',
-      steps: { test: { fields: ['last'] } },
-      fields: { last: { type: 'Radio' } },
-      plugins: [<Plugin>((api) => {
-        api.on('error', () => {
-          throw new Error('test');
-        });
-        api.on('error', (error, next) => {
-          call(error);
-          return next(error);
-        });
-        api.on('userAction', () => {
-          throw new Error('nextStep');
-        });
-      })],
-    });
-    (engine as unknown as EngineApi).handleUserAction({
-      fieldId: '', stepId: '', stepIndex: 0, type: 'click', value: '',
-    });
-    await flushPromises();
-    expect(call).toHaveBeenCalledWith(new Error('test'));
-  });
-
-  test('triggerHooks - submit form with clearCacheOnSubmit set to `false`', async () => {
-    const engine = await createEngine({
-      root: 'test',
-      clearCacheOnSubmit: false,
-      steps: { test: { fields: ['last'] } },
-      fields: { last: { type: 'Radio' } },
-    });
-    await (engine as unknown as EngineApi).triggerHooks('submit');
-    expect(localforage.removeItem).not.toHaveBeenCalled();
-  });
-
-  test('getConfiguration', async () => {
-    const engine = await createEngine();
-    expect(engine.getConfiguration()).toBe(configuration);
-  });
-
-  test('createField - field exists, interactive', async () => {
-    const engine = await createEngine({ ...configuration, fields: { test: { type: 'Radio' } } });
-    expect(engine.createField('test')).toEqual({
-      id: 'test',
-      label: undefined,
-      message: null,
-      options: {},
-      status: 'initial',
-      type: 'Radio',
-      value: undefined,
-    });
-  });
-
-  test('createField - field exists, non-interactive', async () => {
-    const engine = await createEngine();
-    expect(engine.createField('last')).toEqual({
-      id: 'last',
-      label: undefined,
-      message: null,
-      options: {},
-      status: 'success',
-      type: 'Message',
-      value: undefined,
-    });
-  });
-
-  test('createField - field does not exist', async () => {
-    const engine = await createEngine();
-    expect(() => engine.createField('other')).toThrow(new Error('Field "other" does not exist.'));
-  });
-
-  test('createStep - null stepId', async () => {
-    const engine = await createEngine();
-    expect(engine.createStep(null)).toBeNull();
-  });
-
-  test('createStep - step exists', async () => {
-    const engine = await createEngine({ root: 'test', steps: { test: { fields: ['last'] } }, fields: { last: { type: 'Message' } } });
-    expect(engine.createStep('test')).toEqual({
-      id: 'test',
-      status: 'initial',
-      fields: [{
-        id: 'last',
-        label: undefined,
-        message: null,
-        options: {},
-        status: 'success',
-        type: 'Message',
-        value: undefined,
-      }],
-    });
-  });
-
-  test('createStep - step does not exist', async () => {
-    const engine = await createEngine();
-    expect(() => engine.createStep('other')).toThrow(new Error('Step "other" does not exist.'));
-  });
-
-  test('getStore', async () => {
-    const engine = await createEngine();
-    expect(store).toBe(engine.getStore());
-  });
-
-  test('getFieldIndex - unexisting step', async () => {
-    let fieldIndex = 0;
-    await createEngine({
-      ...configuration,
-      plugins: [<Plugin>((engine) => {
-        engine.on('loadNextStep', (nextStep, next) => {
-          fieldIndex = engine.getFieldIndex('last');
-          return next(nextStep);
-        });
-      })],
-    });
-    expect(fieldIndex).toBe(-1);
-  });
-
-  test('getFieldIndex - unexisting field', async () => {
-    const engine = await createEngine();
-    expect(engine.getFieldIndex('unknown')).toBe(-1);
-  });
-
-  test('getCurrentStepIndex', async () => {
-    const engine = await createEngine();
-    expect(engine.getCurrentStepIndex()).toBe(0);
-  });
-
-  test('getCurrentStep - null step', async () => {
-    process.env.DEEP_COPY = 'undefined';
-    const engine = await createEngine();
-    expect(engine.getCurrentStep()).toBeNull();
-    delete process.env.DEEP_COPY;
-  });
-
-  test('setCurrentStep - with notification', async () => {
-    const engine = await createEngine();
-    const step = { id: 'test', status: 'progress', fields: [] };
-    engine.setCurrentStep(step, true);
-    expect(engine.getCurrentStep()).toEqual(step);
-    expect(store.mutate).toHaveBeenCalledTimes(1);
-    expect(store.mutate).toHaveBeenCalledWith('state', 'UPDATE', {
-      values: {},
-      variables: { var1: 'test1', var2: 'test2' },
-      steps: [step],
-    });
-  });
-
-  test('setCurrentStep - no notification', async () => {
-    const engine = await createEngine();
-    const step = { id: 'test', status: 'progress', fields: [] };
-    engine.setCurrentStep(step);
-    expect(engine.getCurrentStep()).toEqual(step);
-    expect(store.mutate).not.toHaveBeenCalled();
   });
 
   test('on', async () => {
-    const hook = jest.fn((data, next) => next(data));
-    const engine = await createEngine();
-    engine.on('submit', hook);
-    await (engine as unknown as EngineApi).triggerHooks('submit', { test: 'value' });
-    expect(hook).toHaveBeenCalledTimes(1);
-    expect(hook).toHaveBeenCalledWith({ test: 'value' }, expect.any(Function));
+    await createEngine();
+    const hook1 = jest.fn((_data, next) => next(null));
+    const hook2 = jest.fn((data, next) => next(data));
+    engine.on('submit', hook1);
+    engine.on('submit', hook2);
+    await engine.triggerHooks('submit', { test: 'value' });
+    expect(hook1).toHaveBeenCalledTimes(1);
+    expect(hook1).toHaveBeenCalledWith({ test: 'value' }, expect.any(Function));
+    expect(hook2).toHaveBeenCalledTimes(1);
+    expect(hook2).toHaveBeenCalledWith(null, expect.any(Function));
   });
 
-  test('toggleStepLoader', async () => {
-    const engine = await createEngine();
-    engine.toggleStepLoader(true);
-    expect(store.mutate).toHaveBeenCalledTimes(1);
-    expect(store.mutate).toHaveBeenCalledWith('state', 'SET_LOADER', { loadingNextStep: true });
+  test('deepCompare', async () => {
+    await createEngine();
+    const field: Field = {
+      id: 'field1',
+      value: 'test',
+      component: 'Null',
+      status: 'initial',
+      componentProps: {},
+    };
+    let fieldConfiguration: FieldConfiguration = { type: 'string', component: 'Null' };
+    expect(engine.deepCompare(field, 'test2', fieldConfiguration, 'root.0.field1')).toMatchSnapshot();
+    expect(field).toMatchSnapshot();
+    field.fieldIds = ['0', '1', '2', '3'];
+    field.fields = [{
+      id: '0',
+      value: { key: 'test0' },
+      component: 'Null',
+      status: 'success',
+      componentProps: {},
+      fields: [{
+        id: 'key',
+        component: 'Null',
+        status: 'success',
+        componentProps: {},
+        value: 'test0',
+      }, {
+        id: 'key2',
+        component: 'Null',
+        status: 'initial',
+        componentProps: {},
+        value: new Date(1657192371401),
+      }],
+    }, {
+      id: '1',
+      value: { key: 'test1' },
+      component: 'Null',
+      status: 'success',
+      componentProps: {},
+      fields: [{
+        id: 'key',
+        component: 'Null',
+        status: 'success',
+        componentProps: {},
+        value: 'test1',
+      }],
+    }, {
+      id: '2',
+      value: { key: 'test2' },
+      component: 'Null',
+      status: 'success',
+      componentProps: {},
+      fields: [{
+        id: 'key',
+        component: 'Null',
+        status: 'success',
+        componentProps: {},
+        value: 'test2',
+      }, {
+        id: 'key2',
+        component: 'Null',
+        status: 'initial',
+        componentProps: {},
+        value: null,
+      }, {
+        id: 'key3',
+        component: 'Null',
+        status: 'initial',
+        componentProps: {},
+        value: { __: 'test2' },
+        fields: [{
+          id: '__',
+          component: 'Null',
+          status: 'initial',
+          componentProps: {},
+          value: 'test2',
+        }],
+      }],
+    }, {
+      id: '3',
+      value: { key: 'test3' },
+      component: 'Null',
+      status: 'success',
+      componentProps: {},
+      fields: [{
+        id: 'key',
+        component: 'Null',
+        status: 'success',
+        componentProps: {},
+        value: 'test3',
+      }, {
+        id: 'key2',
+        component: 'Null',
+        status: 'initial',
+        componentProps: {},
+        value: null,
+      }, {
+        id: 'key3',
+        component: 'Null',
+        status: 'initial',
+        componentProps: {},
+        value: { __: 'test3' },
+        fields: [{
+          id: '__',
+          component: 'Null',
+          status: 'initial',
+          componentProps: {},
+          value: 'test3',
+        }],
+      }],
+    }];
+    field.value = [
+      { key: 'test0', key2: new Date(1657192371401) },
+      { key: 'test1', key3: { __: 'test2' } },
+      { key: 'test2', key3: { __: 'test3' } },
+    ];
+    fieldConfiguration = {
+      type: 'array',
+      component: 'Null',
+      fields: {
+        type: 'object',
+        component: 'Null',
+        fields: {
+          key: {
+            type: 'string',
+            component: 'Null',
+          },
+          key2: {
+            type: 'date',
+            component: 'Null',
+          },
+          key3: {
+            type: 'dynamicObject',
+            component: 'Null',
+            fields: {
+              __: { type: 'string', component: 'null' },
+            },
+          },
+        },
+      },
+    };
+    expect(engine.deepCompare(field, [
+      { key: 'test0', key2: new Date(1657192371401) },
+      null,
+      { key: 'new2', key2: new Date(1657192371401) },
+      { key: 'test3', key3: { __: 'ok' } },
+    ], fieldConfiguration, 'root.0.field1')).toMatchSnapshot();
+    expect(field).toMatchSnapshot();
   });
 
   test('userAction', async () => {
-    const engine = await createEngine();
+    await createEngine();
+    const userAction = { path: 'path.to.field', data: 1, type: 'input' };
     engine.userAction(userAction);
-    expect(store.mutate).toHaveBeenCalledTimes(1);
-    expect(store.mutate).toHaveBeenCalledWith('userActions', 'ADD', userAction);
+    expect(engine.getStore().mutate).toHaveBeenCalledTimes(1);
+    expect(engine.getStore().mutate).toHaveBeenCalledWith('userActions', 'ADD', userAction);
   });
 
-  test('getValues', async () => {
-    const engine = await createEngine();
-    (engine as unknown as EngineApi).values = { last: 'test' };
-    expect(engine.getValues()).toEqual({ last: 'test' });
+  test('coerceAndCheckInput', async () => {
+    const errorHook = jest.fn(async () => null);
+    await createEngine({ ...configuration, plugins: [(api): void => { api.on('error', errorHook); }] });
+    expect(await engine.coerceAndCheckInput('', 'string')).toBe('');
+    expect(await engine.coerceAndCheckInput('3.0', 'float')).toBe(3.0);
+    expect(await engine.coerceAndCheckInput('_3_0', 'float')).toBe(null);
+    expect(await engine.coerceAndCheckInput('3', 'integer')).toBe(3);
+    expect(await engine.coerceAndCheckInput('_3', 'integer')).toBe(null);
+    expect(await engine.coerceAndCheckInput('2022-07-14T16:47:19.253Z', 'date')).toBeInstanceOf(Date);
+    await engine.coerceAndCheckInput('', 'array');
+    await engine.coerceAndCheckInput('', 'object');
+    await engine.coerceAndCheckInput('', 'dynamicObject');
+    expect(errorHook).toHaveBeenNthCalledWith(1, new Error('Invalid input type for array.'), expect.any(Function));
+    expect(errorHook).toHaveBeenNthCalledWith(2, new Error('Invalid input type for object.'), expect.any(Function));
+    expect(errorHook).toHaveBeenNthCalledWith(3, new Error('Invalid input type for dynamicObject.'), expect.any(Function));
+  });
+
+  test('areEqual', async () => {
+    await createEngine();
+    const date1 = new Date(1657816419059);
+    const date2 = new Date(1657816419059);
+    const binary1 = { size: 1982, name: 'test.png' };
+    const binary2 = { size: 1982, name: 'test.png' };
+    expect(engine.areEqual(1.0, 1.0, 'float')).toBe(true);
+    expect(engine.areEqual(1.2, 1.0, 'float')).toBe(false);
+    expect(engine.areEqual(NaN, NaN, 'float')).toBe(true);
+    expect(engine.areEqual(date1, date2, 'date')).toBe(true);
+    expect(engine.areEqual(NaN, NaN, 'integer')).toBe(true);
+    expect(engine.areEqual(binary1, binary2, 'binary')).toBe(true);
+  });
+
+  test('handleUserAction', async () => {
+    await createEngine();
+    await engine.handleUserAction({ path: 'path.to.field', data: 1, type: 'input' });
+    await engine.handleUserAction({ path: 'root.0.submit', data: [false], type: 'input' });
+    await engine.handleUserAction({ path: 'root.0.submit', data: [true], type: 'input' });
+    expect(engine.getCurrentStep()).toMatchSnapshot();
+    await createEngine({
+      ...configuration,
+      plugins: [(api): void => {
+        api.on('afterUserAction', async (userAction) => {
+          (<Step>engine.getCurrentStep()).status = 'success';
+          return userAction;
+        });
+      }],
+    });
+    await engine.handleUserAction({ path: 'root.0.submit', data: [false], type: 'input' });
+    await engine.handleUserAction({ path: 'root.0.submit', data: [true], type: 'input' });
+    expect(engine.getCurrentStep()).toMatchSnapshot();
+  });
+
+  test('submit - clear cache', async () => {
+    const hook = jest.fn((data, next) => next(data));
+    await createEngine({
+      ...configuration,
+      plugins: [(api): void => { api.on('submit', hook); }],
+    });
+    await engine.handleSubmit();
+    expect(hook).toHaveBeenCalledTimes(1);
+    expect(hook).toHaveBeenCalledWith({}, expect.any(Function));
+    // Covers `nextStep` as a primitive value.
+    await createEngine({
+      ...configuration,
+      steps: { root: { fields: {} } },
+    });
+    await engine.handleSubmit();
+  });
+
+  test('getInputs', async () => {
+    await createEngine();
+    engine.setInput('root.0.nestedArray.0.0', undefined);
+    engine.setInput('root.0.stringCondition', undefined);
+    engine.setInput('root.0.nestedArray.0.0', 'BONJOUR');
+    engine.setInput('root.0.nestedArray.0.1', 'SALUT');
+    engine.setInput('root.0.nestedObject.object.string', 'HOLA');
+    expect(engine.getInputs()).toEqual({
+      nestedArray: [[
+        'BONJOUR',
+        'SALUT',
+      ]],
+      nestedObject: {
+        object: {
+          string: 'HOLA',
+        },
+      },
+    });
+    expect(engine.getInputs('root.0.nestedObject.object')).toEqual({ string: 'HOLA' });
+    expect(engine.getInputs('root.0.nestedArray')).toEqual([['BONJOUR', 'SALUT']]);
+    expect(engine.getInputs('root.0.nestedArray.0.1')).toBe('SALUT');
+    expect(engine.getInputs('other.12.unexisting.0.1')).toBe(null);
+  });
+
+  test('withoutFunctions', async () => {
+    await createEngine();
+    expect(engine.withoutFunctions([{
+      id: 'object',
+      status: 'initial',
+      component: 'Null',
+      componentProps: { onClick: [jest.fn()] },
+      fields: [{
+        id: 'dynamicObject',
+        status: 'initial',
+        component: 'Null',
+        componentProps: { key: true, onFocus: jest.fn() },
+        fields: [{
+          id: '__',
+          status: 'initial',
+          component: 'Null',
+          componentProps: {},
+          fields: [{
+            id: '0',
+            status: 'initial',
+            component: 'Null',
+            componentProps: { props: { onBlur: jest.fn() } },
+          }],
+        }, {
+          id: '000',
+          status: 'initial',
+          component: 'Null',
+          componentProps: {},
+        }, null],
+      }],
+    }, null] as unknown as Step[])).toMatchSnapshot();
+  });
+
+  test('withFunctions', async () => {
+    await createEngine();
+    expect(engine.withFunctions([{
+      id: 'object',
+      status: 'initial',
+      component: 'Null',
+      componentProps: {},
+      fields: [{
+        id: 'dynamicObject',
+        status: 'initial',
+        component: 'Null',
+        componentProps: { key: true },
+        fields: [{
+          id: '__',
+          status: 'initial',
+          component: 'Null',
+          componentProps: {},
+          fields: [{
+            id: '0',
+            status: 'initial',
+            component: 'Null',
+            componentProps: {},
+          }],
+        }, {
+          id: '000',
+          status: 'initial',
+          component: 'Null',
+          componentProps: {},
+        }, null],
+      }],
+    }, null], {
+      object: {
+        type: 'object',
+        component: 'Null',
+        fields: {
+          dynamicObject: {
+            type: 'dynamicObject',
+            component: 'Null',
+            fields: {
+              __: {
+                type: 'array',
+                component: 'Null',
+                fields: {
+                  type: 'string',
+                  component: 'Null',
+                  componentProps: { props: { onBlur: jest.fn() } },
+                },
+              },
+            },
+            componentProps: { onFocus: jest.fn() },
+          },
+        },
+        componentProps: { onClick: jest.fn() },
+      },
+    })).toMatchSnapshot();
+  });
+
+  test('toggleFields', async () => {
+    await createEngine();
+    engine.toggleFields(null);
+    const currentStep = <Step>engine.getCurrentStep();
+    expect(currentStep).toMatchSnapshot();
+    engine.setInput('root.0.nestedObject.object.string', 'HOLA');
+    engine.toggleFields(currentStep);
+    expect(currentStep).toMatchSnapshot();
+    currentStep.fields?.[2]?.fields?.splice(0, 0, null);
+    engine.toggleFields(currentStep);
+    expect(currentStep).toMatchSnapshot();
+    currentStep.fields?.[7]?.fields?.splice(0, 0, null);
+    engine.toggleFields(currentStep);
+    engine.setInput('root.0.nestedDynamicObject', {});
+    engine.toggleFields(currentStep);
+    expect(currentStep).toMatchSnapshot();
+  });
+
+  test('filterInputs', async () => {
+    await createEngine();
+    const field: Field = {
+      id: 'test',
+      value: 'test',
+      status: 'initial',
+      component: 'Null',
+      componentProps: {},
+    };
+    const filteredInputs = {};
+    let fieldConfiguration: FieldConfiguration = { type: 'null', component: 'Null' };
+    engine.filterInputs(true, field, fieldConfiguration, 'test', filteredInputs);
+    expect(filteredInputs).toEqual({});
+    engine.filterInputs(true, field, fieldConfiguration, undefined, filteredInputs);
+    expect(filteredInputs).toEqual({ test: 'test' });
+    fieldConfiguration = { type: 'array', component: 'Null', fields: { type: 'string', component: 'Null' } };
+    field.value = ['test'];
+    field.fields = [{
+      id: '0',
+      value: 'test',
+      status: 'initial',
+      component: 'Null',
+      componentProps: {},
+    }];
+    engine.filterInputs(false, field, fieldConfiguration, undefined, filteredInputs);
+    engine.filterInputs(false, field, fieldConfiguration, [], filteredInputs);
+    fieldConfiguration = { type: 'object', component: 'Null', fields: { 0: { type: 'string', component: 'Null' } } };
+    engine.filterInputs(false, field, fieldConfiguration, undefined, filteredInputs);
+    engine.filterInputs(false, field, fieldConfiguration, {}, filteredInputs);
+    fieldConfiguration = { type: 'dynamicObject', component: 'Null', fields: { 0: { type: 'string', component: 'Null' } } };
+    engine.filterInputs(false, field, fieldConfiguration, {}, filteredInputs);
+    field.fields = [null];
+    engine.filterInputs(false, field, fieldConfiguration, {}, filteredInputs);
+    fieldConfiguration = { type: 'object', component: 'Null', fields: { 0: { type: 'string', component: 'Null' } } };
+    engine.filterInputs(false, field, fieldConfiguration, {}, filteredInputs);
+    expect(filteredInputs).toEqual({ test: { 0: 'test' } });
+  });
+
+  test('validateFields', async () => {
+    await createEngine();
+    const currentStep = <Step>engine.getCurrentStep();
+    engine.validateFields();
+    expect(currentStep).toMatchSnapshot();
+    (<Field>currentStep.fields[6]).value = { object: {} };
+    engine.validateFields(true);
+    expect(currentStep).toMatchSnapshot();
+    delete (<Field>currentStep.fields[6]).value;
+    (<Field>currentStep.fields[1]).value = 'ok';
+    (<Field>currentStep.fields[2]).value = [];
+    (<Field>currentStep.fields[2]).fieldIds = [0, 1, 2];
+    for (let i = 0; i < 3; i += 1) {
+      (<unknown[]>(<Field>currentStep.fields[2]).value).push(['valid', 'invalid']);
+      (<Field>currentStep.fields[2]).fields?.push({
+        id: `${i}`,
+        status: 'initial',
+        component: 'Null',
+        value: ['valid', 'invalid'],
+        componentProps: {},
+        fieldIds: [0, 1],
+        fields: [
+          {
+            id: '0',
+            status: 'initial',
+            value: 'valid',
+            component: 'Null',
+            componentProps: {},
+          },
+          {
+            id: '1',
+            status: 'initial',
+            value: 'invalid',
+            component: 'Null',
+            componentProps: {},
+          },
+        ],
+      });
+    }
+    (<Field>currentStep.fields[7]).value = { invalid01: 3 };
+    (<Field>currentStep.fields[7]).fieldIds = ['invalid01'];
+    (<Field>currentStep.fields[7]).fields?.push({
+      id: 'invalid01',
+      status: 'initial',
+      component: 'Null',
+      componentProps: {},
+      fieldIds: ['integer'],
+      fields: [{
+        id: 'integer',
+        status: 'initial',
+        value: 3,
+        component: 'Null',
+        componentProps: {},
+      }],
+    });
+    engine.validateFields();
+    expect(currentStep).toMatchSnapshot();
+    for (let i = 0; i < 3; i += 1) {
+      (<Field[]>(<Field[]>(<Field>currentStep.fields[2]).fields)[i].fields)[1].value = 'valid';
+    }
+    (<Field>currentStep.fields[7]).fieldIds = ['test'];
+    (<Field>currentStep.fields[7]).fields?.splice(0, 1, {
+      id: 'test',
+      status: 'initial',
+      component: 'Null',
+      componentProps: {},
+      fieldIds: ['string'],
+      fields: [{
+        id: 'string',
+        status: 'initial',
+        component: 'Null',
+        componentProps: {},
+      }],
+    });
+    engine.validateFields();
+    expect(currentStep).toMatchSnapshot();
+  });
+
+  test('getConfiguration', async () => {
+    await createEngine();
+    expect(engine.getConfiguration()).toMatchSnapshot();
+    expect(engine.getConfiguration('wrong.path.0')).toBe(null);
+    expect(engine.getConfiguration('root.0.wrong.path')).toBe(null);
+    expect(engine.getConfiguration('root.0.nestedArray.0')).toMatchSnapshot();
+    expect(engine.getConfiguration('root.0.nestedDynamicObject.***')).toBe(null);
+    expect(engine.getConfiguration('root.0.nestedObject.object.wrong.path')).toBe(null);
+    expect(engine.getConfiguration('root.0.nestedDynamicObject.123')).toMatchSnapshot();
+    expect(engine.getConfiguration('root.0.nestedDynamicObject.string')).toMatchSnapshot();
+  });
+
+  test('getField', async () => {
+    await createEngine();
+    const currentStep = <Step>engine.getCurrentStep();
+    engine.toggleFields(currentStep);
+    (<Field>currentStep.fields[7]).fieldIds = ['123', 'test'];
+    (<Field>currentStep.fields[7]).fields = [{
+      id: '123',
+      status: 'initial',
+      component: 'Null',
+      componentProps: {},
+      fieldIds: ['integer'],
+      fields: [{
+        id: 'integer',
+        status: 'initial',
+        component: 'Null',
+        componentProps: {},
+      }],
+    }, {
+      id: 'test',
+      status: 'initial',
+      component: 'Null',
+      componentProps: {},
+      fieldIds: ['string'],
+      fields: [{
+        id: 'string',
+        status: 'initial',
+        component: 'Null',
+        componentProps: {},
+      }],
+    }];
+    expect(engine.getField('wrong.0')).toBe(null);
+    expect(engine.getField('wrong.path.0')).toBe(null);
+    expect(engine.getField('root.0.wrong')).toBe(null);
+    expect(engine.getField('root.0.submit')).toMatchSnapshot();
+    expect(engine.getField('root.0.nestedArray.0')).toMatchSnapshot();
+    expect(engine.getField('root.0.nestedDynamicObject.123')).toMatchSnapshot();
+    expect(engine.getField('root.0.nestedDynamicObject.test')).toMatchSnapshot();
+  });
+
+  test('getSteps', async () => {
+    await createEngine();
+    expect(engine.getSteps()).toMatchSnapshot();
+  });
+
+  test('setVariables', async () => {
+    process.env.CACHE_EXISTS_2 = 'true';
+    jest.useFakeTimers();
+    const promise = createEngine({ ...configuration, cache });
+    jest.runAllTimers();
+    await promise;
+    engine.setInput('root.0.integerCondition', 3);
+    const currentStep = <Step>engine.getCurrentStep();
+    engine.toggleFields(currentStep);
+    (<Field>currentStep.fields[4]).value = 'test';
+    engine.setVariables({ newTest: true, nested: { test: 'ok' } });
+    jest.runAllTimers();
+    expect(engine.getVariables()).toMatchSnapshot();
+    expect(cache.set).toHaveBeenCalledTimes(1);
+    expect(cache.set.mock.lastCall).toMatchSnapshot();
+    jest.useRealTimers();
+    expect(engine.getCurrentStep()).toMatchSnapshot();
+    engine.setVariables({ newTest: true, nested: { test: 'test' } });
+    expect(engine.getCurrentStep()).toMatchSnapshot();
   });
 
   test('clearCache', async () => {
-    const engine = await createEngine();
+    await createEngine({ ...configuration });
     await engine.clearCache();
-    expect(localforage.removeItem).toHaveBeenCalledWith('gincko_cache');
-  });
-
-  test('setVariables and getVariables', async () => {
-    process.env.CACHE_EXISTING_FORM = 'true';
-    const engine = await createEngine();
-    engine.setVariables({ var1: 'test2', var3: 'test3' });
-    expect(engine.getVariables()).toEqual({ var1: 'test2', var2: 'test2', var3: 'test3' });
+    expect(cache.delete).toHaveBeenCalledTimes(0);
+    await createEngine({ ...configuration, cache });
+    await engine.clearCache();
+    expect(cache.delete).toHaveBeenCalledTimes(1);
+    expect(cache.delete).toHaveBeenCalledWith('gincko_cache');
   });
 });

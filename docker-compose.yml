@@ -3,16 +3,20 @@ version: "3.6"
 services:
   library:
     container_name: ${PROJECT_NAME}_library
-    image: openizr/node:2.0.1-dev
+    image: openizr/node:3.0.0-dev
     env_file:
       - .env
-    command: sh -c "dsync src/scripts/types.d.ts dist/types.d.ts & dsync src/scripts/types.d.ts dist/react.d.ts & dsync src/scripts/types.d.ts dist/vue.d.ts & dsync src/scripts/types.d.ts dist/plugins.d.ts & yarn && yarn run dev"
+    command: sh -c "
+      dsync src/scripts/core.d.ts dist/core.d.ts &
+      dsync src/scripts/plugins.d.ts dist/plugins.d.ts &
+      dsync src/scripts/react.d.ts dist/react.d.ts &
+      yarn && yarn run dev"
     volumes:
       - ./library:/var/www/html
     restart: unless-stopped
   playground:
     container_name: ${PROJECT_NAME}_playground
-    image: openizr/node:2.0.1-dev
+    image: openizr/node:3.0.0-dev
     env_file:
       - .env
     ports:
