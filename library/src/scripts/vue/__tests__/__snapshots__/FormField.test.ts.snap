@@ -51,86 +51,19 @@ exports[`vue/FormField renders correctly - Button 1`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Date 1`] = `
+exports[`vue/FormField renders correctly - DatePicker 1`] = `
 <div
   debouncetimeout="100"
   id="path__0__to__field"
   maxlength="10"
   modifiers="success "
   name="path.0.to.field"
-  transform="(value) => {
-          /* istanbul ignore next */
-          cov_1bjbea2t0w().f[20]++;
-          const cleaned =
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().s[77]++, value.replace(/\\\\D/g, ''));
-          const match1 =
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().s[78]++, cleaned.match(/^(\\\\d{4})$/));
-          const match2 =
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().s[79]++, cleaned.match(/^(\\\\d{4})(\\\\d{2})$/));
-          const match3 =
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().s[80]++, cleaned.match(/^(\\\\d{4})(\\\\d{2})(\\\\d{2})$/));
-
-          /* istanbul ignore next */
-          cov_1bjbea2t0w().s[81]++;
-
-          if (
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().b[54][0]++, match1) &&
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().b[54][1]++, match1.length < 5)) {
-            /* istanbul ignore next */
-            cov_1bjbea2t0w().b[53][0]++;
-            cov_1bjbea2t0w().s[82]++;
-            return [\`\${match1[1]}/\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_1bjbea2t0w().b[53][1]++;
-          }
-
-          cov_1bjbea2t0w().s[83]++;
-
-          if (
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().b[56][0]++, match2) &&
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().b[56][1]++, match2.length < 8)) {
-            /* istanbul ignore next */
-            cov_1bjbea2t0w().b[55][0]++;
-            cov_1bjbea2t0w().s[84]++;
-            return [\`\${match2[1]}/\${match2[2]}/\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_1bjbea2t0w().b[55][1]++;
-          }
-
-          cov_1bjbea2t0w().s[85]++;
-
-          if (match3) {
-            /* istanbul ignore next */
-            cov_1bjbea2t0w().b[57][0]++;
-            cov_1bjbea2t0w().s[86]++;
-            return [\`\${match3[1]}/\${match3[2]}/\${match3[3]}\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_1bjbea2t0w().b[57][1]++;
-          }
-
-          cov_1bjbea2t0w().s[87]++;
-          return [value];
-        }"
 >
   {}
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Date 2`] = `
+exports[`vue/FormField renders correctly - DatePicker 2`] = `
 <div
   debouncetimeout="10"
   id="path__0__to__field"
@@ -138,73 +71,6 @@ exports[`vue/FormField renders correctly - Date 2`] = `
   modifiers="success "
   name="path.0.to.field"
   placeholder="TRANSLATED LABEL"
-  transform="(value) => {
-          /* istanbul ignore next */
-          cov_1bjbea2t0w().f[20]++;
-          const cleaned =
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().s[77]++, value.replace(/\\\\D/g, ''));
-          const match1 =
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().s[78]++, cleaned.match(/^(\\\\d{4})$/));
-          const match2 =
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().s[79]++, cleaned.match(/^(\\\\d{4})(\\\\d{2})$/));
-          const match3 =
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().s[80]++, cleaned.match(/^(\\\\d{4})(\\\\d{2})(\\\\d{2})$/));
-
-          /* istanbul ignore next */
-          cov_1bjbea2t0w().s[81]++;
-
-          if (
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().b[54][0]++, match1) &&
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().b[54][1]++, match1.length < 5)) {
-            /* istanbul ignore next */
-            cov_1bjbea2t0w().b[53][0]++;
-            cov_1bjbea2t0w().s[82]++;
-            return [\`\${match1[1]}/\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_1bjbea2t0w().b[53][1]++;
-          }
-
-          cov_1bjbea2t0w().s[83]++;
-
-          if (
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().b[56][0]++, match2) &&
-          /* istanbul ignore next */
-          (cov_1bjbea2t0w().b[56][1]++, match2.length < 8)) {
-            /* istanbul ignore next */
-            cov_1bjbea2t0w().b[55][0]++;
-            cov_1bjbea2t0w().s[84]++;
-            return [\`\${match2[1]}/\${match2[2]}/\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_1bjbea2t0w().b[55][1]++;
-          }
-
-          cov_1bjbea2t0w().s[85]++;
-
-          if (match3) {
-            /* istanbul ignore next */
-            cov_1bjbea2t0w().b[57][0]++;
-            cov_1bjbea2t0w().s[86]++;
-            return [\`\${match3[1]}/\${match3[2]}/\${match3[3]}\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_1bjbea2t0w().b[57][1]++;
-          }
-
-          cov_1bjbea2t0w().s[87]++;
-          return [value];
-        }"
   value="2022/07/07"
 >
   {}

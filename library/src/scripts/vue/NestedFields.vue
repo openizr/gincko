@@ -8,14 +8,6 @@
  *
  */
 
-import {
-  Fields,
-  Variables,
-  UserInput,
-  UserInputs,
-  OnUserAction,
-} from 'scripts/vue.d';
-import { vue } from 'scripts/index.d';
 import { ref, computed, watch } from 'vue';
 import FormField from 'scripts/vue/FormField.vue';
 import { buildClass, UIButton, UITextfield } from 'biuty/vue';
@@ -29,7 +21,7 @@ type Transform = (value: string, selectionStart: number) => [string, number?];
 const props = defineProps<{
   id?: string;
   path: string;
-  t: vue.I18n;
+  t: I18n;
   fields: Fields;
   label?: string;
   helper?: string;
@@ -81,7 +73,7 @@ const props = defineProps<{
   userInputs: UserInputs;
   allowedPatterns?: RegExp[];
   onUserAction: OnUserAction;
-  customComponents?: vue.CustomComponents;
+  customComponents?: CustomComponents;
   type: 'array' | 'object' | 'dynamicObject';
   value?: { [key: string]: UserInput; } | UserInput[] | null;
 }>();

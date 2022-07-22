@@ -20,7 +20,7 @@ export default <Configuration>{
           componentProps: {
             debounceTimeout: 1000,
             autocomplete: 'off',
-            transform(value) {
+            transform(value: string) {
               return [value.replace(/a/g, 'e')];
             },
           },
@@ -42,7 +42,7 @@ export default <Configuration>{
           fields: {
             test: {
               type: 'string',
-              component: 'Textfield',
+              component: 'Null',
             },
           },
         },
@@ -62,11 +62,11 @@ export default <Configuration>{
       fields: {
         address: {
           type: 'string',
-          component: 'Textfield',
+          component: 'Null',
         },
         city: {
           type: 'string',
-          component: 'Textfield',
+          component: 'Null',
         },
         submit: {
           submit: true,

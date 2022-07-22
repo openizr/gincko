@@ -2,5 +2,5 @@
   "extends": "./node_modules/typescript-dev-kit/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "src"
-  }
+  },
 }

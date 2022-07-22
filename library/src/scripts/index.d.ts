@@ -8,54 +8,22 @@
 
 import BaseEngine from 'scripts/core/Engine';
 
-declare namespace gincko {
-  /**
-   * Form cache.
-   */
-  export interface Cache {
-    /** Stores `value` at `key` in cache. */
-    set(key: string, value: unknown): Promise<void>;
+/**
+ * Form cache.
+ */
+export interface Cache {
+  /** Stores `value` at `key` in cache. */
+  set(key: string, value: unknown): Promise<void>;
 
-    /** Fetches value at `key` from cache. */
-    get(key: string): Promise<unknown>;
+  /** Fetches value at `key` from cache. */
+  get(key: string): Promise<unknown>;
 
-    /** Deletes value at `key` from cache. */
-    delete(key: string): Promise<void>;
-  }
-
-  /** Custom form plugin. */
-  export type Plugin = (engine: Engine) => void;
+  /** Deletes value at `key` from cache. */
+  delete(key: string): Promise<void>;
 }
 
-declare namespace react {
-  interface ExtendedField extends Field {
-    i18n: I18n;
-    path: string;
-    isActive: boolean;
-    variables: Variables;
-    allValues: UserInputs;
-    userInputs: UserInputs;
-    customComponents: CustomComponents;
-  }
-  export type I18n = (label: string, values?: Variables) => string;
-  export type CustomComponents = Record<string, CustomComponent>;
-  type CustomComponent = (field: ExtendedField, onUserAction: OnUserAction) => JSX.Element | null;
-}
-
-declare namespace vue {
-  interface ExtendedField extends Field {
-    i18n: I18n;
-    path: string;
-    isActive: boolean;
-    variables: Variables;
-    allValues: UserInputs;
-    userInputs: UserInputs;
-    customComponents: CustomComponents;
-  }
-  export type I18n = (label: string, values?: Variables) => string;
-  export type CustomComponents = Record<string, CustomComponent>;
-  type CustomComponent = (field: ExtendedField, onUserAction: OnUserAction) => Any;
-}
+/** Custom form plugin. */
+export type Plugin = (engine: Engine) => void;
 
 declare global {
   type Fields = (Field | null)[];
@@ -66,12 +34,23 @@ declare global {
   type OnUserAction = (type: string, path: string, data: UserInput) => void;
   type NestedFieldConfiguration = ObjectFieldConfiguration | ArrayFieldConfiguration;
   type SubConfiguration = Configuration | FieldConfiguration | StepConfiguration | null;
+  type CustomComponent = (field: ExtendedField, onUserAction: OnUserAction) => unknown | null;
 
   interface CachedData {
     steps: Step[];
     variables: Variables;
     userInputs: UserInputs;
     fieldValues: UserInputs;
+  }
+
+  interface ExtendedField extends Field {
+    i18n: I18n;
+    path: string;
+    isActive: boolean;
+    variables: Variables;
+    allValues: UserInputs;
+    userInputs: UserInputs;
+    customComponents: CustomComponents;
   }
 
   /** Field's status-specific messages. */
@@ -243,6 +222,12 @@ declare global {
   /** List of hooks events names. */
   export type FormEvent = 'start' | 'step' | 'afterStep' | 'userAction' | 'afterUserAction' | 'submit' | 'error';
 
+  /** Internationalization function, used for labels translation. */
+  export type I18n = (label: string, values?: Variables) => string;
+
+  /** List of custom form components. */
+  export type CustomComponents = Record<string, CustomComponent>;
+
   /**
    * Form user action.
    */
@@ -319,13 +304,13 @@ declare global {
     autoFill?: boolean;
 
     /** List of custom plugins to register to the current form instance. */
-    plugins?: gincko.Plugin[];
+    plugins?: Plugin[];
 
     /** Set of initial variables. */
     variables?: Variables;
 
     /** Cache instance to use. */
-    cache?: gincko.Cache | null;
+    cache?: Cache | null;
 
     /** Whether to restart form from the beginning when reloading the page. */
     restartOnReload?: boolean;

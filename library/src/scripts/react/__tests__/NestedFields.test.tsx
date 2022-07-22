@@ -43,7 +43,7 @@ describe('react/NestedFields', () => {
         componentProps: {},
       }, null]}
       onUserAction={onUserAction}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -62,7 +62,7 @@ describe('react/NestedFields', () => {
         componentProps: {},
       }]}
       onUserAction={onUserAction}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -82,7 +82,7 @@ describe('react/NestedFields', () => {
         componentProps: {},
       }, null]}
       onUserAction={onUserAction}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -100,7 +100,7 @@ describe('react/NestedFields', () => {
         componentProps: {},
       }, null]}
       onUserAction={onUserAction}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -120,7 +120,7 @@ describe('react/NestedFields', () => {
       }, null]}
       onUserAction={onUserAction}
       allowedPatterns={[/test/]}
-    />);
+    /> as JSXElement);
     await waitFor(() => new Promise<void>((resolve) => { setTimeout(resolve, 50); }));
     expect(container.firstChild).toMatchSnapshot();
   });
@@ -140,13 +140,13 @@ describe('react/NestedFields', () => {
       }, null]}
       onUserAction={onUserAction}
       addTextfieldProps={{ debounceTimeout: 10, helper: 'INVALID' }}
-    />);
+    /> as JSXElement);
     await waitFor(() => new Promise<void>((resolve) => { setTimeout(resolve, 50); }));
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - dynamicObject with error', async () => {
-    const { container } = await render(<JSXNestedFields
+    const { container } = render(<JSXNestedFields
       t={i18n}
       helper="Error"
       modifiers="error"
@@ -170,7 +170,7 @@ describe('react/NestedFields', () => {
         componentProps: {},
       }, null]}
       onUserAction={onUserAction}
-    />);
+    /> as JSXElement);
     await waitFor(() => new Promise<void>((resolve) => { setTimeout(resolve, 50); }));
     expect(container.firstChild).toMatchSnapshot();
   });

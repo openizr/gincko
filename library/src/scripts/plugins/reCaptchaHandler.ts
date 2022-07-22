@@ -6,7 +6,7 @@
  *
  */
 
-import { gincko } from 'scripts/index.d';
+import { Plugin } from 'scripts/index.d';
 
 type GreCaptcha = { grecaptcha: Client; };
 type Client = {
@@ -24,9 +24,9 @@ interface ReCaptchaHandlerOptions {
  *
  * @param {ReCaptchaHandlerOptions} options Plugin's options.
  *
- * @returns {gincko.Plugin} The actual plugin.
+ * @returns {Plugin} The actual plugin.
  */
-export default function reCaptchaHandler(options: ReCaptchaHandlerOptions): gincko.Plugin {
+export default function reCaptchaHandler(options: ReCaptchaHandlerOptions): Plugin {
   return (engine): void => {
     const { grecaptcha } = <Window & { grecaptcha?: Client; }>window;
     engine.on('submit', (userInputs, next) => new Promise((resolve) => {

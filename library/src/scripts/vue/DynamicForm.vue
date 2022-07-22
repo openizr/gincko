@@ -8,25 +8,23 @@
  *
  */
 
-import { vue } from 'scripts/index.d';
 import Engine from 'scripts/core/Engine';
 import useStore from 'diox/connectors/vue';
 import FormStep from 'scripts/vue/FormStep.vue';
 import { StateState } from 'scripts/core/state';
-import { Configuration, UserInput } from 'scripts/vue.d';
 
 const props = defineProps<{
+  /** Internationalization function, used to translate form labels into different languages. */
+  i18n?: I18n;
+
   /** Form's active step's id. */
   activeStep?: string | null;
 
   /** Form's configuration. */
   configuration: Configuration,
 
-  /** Internationalization function, used to translate form labels into different languages. */
-  i18n?: vue.I18n;
-
   /** List of form's custom UI components. */
-  customComponents?: vue.CustomComponents;
+  customComponents?: CustomComponents;
 
   /** Custom gincko form engine class to use instead of the default engine. */
   engineClass?: typeof Engine;

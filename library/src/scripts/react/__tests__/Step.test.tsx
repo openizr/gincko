@@ -47,7 +47,7 @@ describe('react/Step', () => {
       userInputs={userInputs}
       onUserAction={onUserAction}
       customComponents={customComponents}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -70,7 +70,7 @@ describe('react/Step', () => {
       userInputs={userInputs}
       onUserAction={onUserAction}
       customComponents={customComponents}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

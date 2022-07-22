@@ -6,7 +6,7 @@
  *
  */
 
-declare module 'gincko/core' {
+declare module 'gincko' {
   import Store from 'diox';
 
   type Fields = (Field | null)[];
@@ -17,6 +17,30 @@ declare module 'gincko/core' {
   type OnUserAction = (type: string, path: string, data: UserInput) => void;
   type NestedFieldConfiguration = ObjectFieldConfiguration | ArrayFieldConfiguration;
   type SubConfiguration = Configuration | FieldConfiguration | StepConfiguration | null;
+  type CustomComponent = (field: ExtendedField, onUserAction: OnUserAction) => Any | null;
+
+  interface ExtendedField extends Field {
+    /** Internationalization function, used for labels translation. */
+    i18n: I18n;
+
+    /** Field's path. */
+    path: string;
+
+    /** Whether field belongs to the active step. */
+    isActive: boolean;
+
+    /** Form variables. */
+    variables: Variables;
+
+    /** Form variables and user inputs merged all together for dynamic labelling.  */
+    allValues: UserInputs;
+
+    /** List of user inputs. */
+    userInputs: UserInputs;
+
+    /** List of registered custom form components. */
+    customComponents: CustomComponents;
+  }
 
   interface CachedData {
     steps: Step[];
@@ -191,6 +215,12 @@ declare module 'gincko/core' {
 
   /** List of hooks events names. */
   export type FormEvent = 'start' | 'step' | 'afterStep' | 'userAction' | 'afterUserAction' | 'submit' | 'error';
+
+  /** Internationalization function, used for labels translation. */
+  export type I18n = (label: string, values?: Variables) => string;
+
+  /** List of custom form components. */
+  export type CustomComponents = Record<string, CustomComponent>;
 
   /**
    * Form cache.
@@ -729,9 +759,7 @@ declare module 'gincko/core' {
     /**
      * Adds or overrides the given form variables.
      *
-     * @param {Variables} variables Form variables to add or override.
-     *
-     * @returns {void}
+     * @param variables Form variables to add or override.
      */
     public setVariables(variables: Variables): void;
 

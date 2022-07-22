@@ -6,39 +6,34 @@
  *
  */
 
-/* eslint-disable react/destructuring-assignment */
-
 import * as React from 'react';
 import * as biuty from 'biuty/react';
-import { react } from 'scripts/index.d';
 import Message from 'scripts/react/Message';
-import Textarea from 'scripts/react/Textarea';
-import Textfield from 'scripts/react/Textfield';
 import NestedFields from 'scripts/react/NestedFields';
 
-const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): react.CustomComponent => (
+const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomComponent => (
   function Nested(field, onUserAction): JSX.Element {
     const { componentProps } = field;
     const addButtonProps = {
       ...componentProps.addButtonProps,
       label: (componentProps.addButtonProps?.label !== undefined)
         ? field.i18n(componentProps.addButtonProps.label, field.allValues)
-        : undefined,
+        : null,
     };
     const removeButtonProps = {
       ...componentProps.removeButtonProps,
       label: (componentProps.removeButtonProps?.label !== undefined)
         ? field.i18n(componentProps.removeButtonProps.label, field.allValues)
-        : undefined,
+        : null,
     };
     const addTextfieldProps = {
       ...componentProps.addTextfieldProps,
       label: (componentProps.addTextfieldProps?.label !== undefined)
         ? field.i18n(componentProps.addTextfieldProps.label, field.allValues)
-        : undefined,
+        : null,
       placeholder: (componentProps.addTextfieldProps?.placeholder !== undefined)
         ? field.i18n(componentProps.addTextfieldProps.placeholder, field.allValues)
-        : undefined,
+        : null,
     };
     const JSXNestedFields = NestedFields as JSXElement;
     return (
@@ -124,7 +119,7 @@ export default {
         ...rest,
         label: (label !== undefined)
           ? field.i18n(label as unknown as string, field.allValues)
-          : undefined,
+          : null,
       };
     });
     return (
@@ -145,14 +140,13 @@ export default {
   },
   Textfield(field, onUserAction) {
     const { componentProps } = field;
-    let debounceTimeout = 100;
-    if (componentProps.debounceTimeout !== undefined) {
-      debounceTimeout = componentProps.debounceTimeout;
-    }
+    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
+      ? componentProps.debounceTimeout
+      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
       : null;
-    const JSXTextfield = Textfield as JSXElement;
+    const JSXTextfield = biuty.UITextfield as JSXElement;
     return (
       <JSXTextfield
         name={field.path}
@@ -186,16 +180,15 @@ export default {
       />
     );
   },
-  Date(field, onUserAction) {
+  DatePicker(field, onUserAction) {
     const { componentProps } = field;
-    let debounceTimeout = 100;
-    if (componentProps.debounceTimeout !== undefined) {
-      debounceTimeout = componentProps.debounceTimeout;
-    }
+    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
+      ? componentProps.debounceTimeout
+      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
       : null;
-    const JSXTextfield = Textfield as JSXElement;
+    const JSXTextfield = biuty.UITextfield as JSXElement;
     return (
       <JSXTextfield
         maxlength={10}
@@ -258,14 +251,13 @@ export default {
   },
   Textarea(field, onUserAction) {
     const { componentProps } = field;
-    let debounceTimeout = 100;
-    if (componentProps.debounceTimeout !== undefined) {
-      debounceTimeout = componentProps.debounceTimeout;
-    }
+    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
+      ? componentProps.debounceTimeout
+      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
       : null;
-    const JSXTextarea = Textarea as JSXElement;
+    const JSXTextarea = biuty.UITextarea as JSXElement;
     return (
       <JSXTextarea
         name={field.path}
@@ -284,9 +276,9 @@ export default {
         id={field.path.replace(/\./g, '__')}
         autocomplete={componentProps.autocomplete}
         readonly={componentProps.readonly || !field.isActive}
+        value={field.value !== null ? `${field.value}` : field.value}
         modifiers={`${field.status} ${componentProps.modifiers || ''}`}
         onChange={(value: string): void => onUserAction('input', field.path, value)}
-        value={field.value !== undefined && field.value !== null ? `${field.value}` : field.value}
       />
     );
   },
@@ -314,4 +306,4 @@ export default {
       />
     );
   },
-} as react.CustomComponents;
+} as CustomComponents;

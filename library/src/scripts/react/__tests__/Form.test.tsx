@@ -35,25 +35,25 @@ describe('react/Form', () => {
 
   test('renders correctly - loading next step', async () => {
     process.env.LOADING = 'true';
-    const { container, rerender } = render(<JSXForm configuration={configuration} />);
+    const { container, rerender } = render(<JSXForm configuration={configuration} /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
     // Covers React.memo checks.
-    await rerender(<JSXForm configuration={configuration} />);
-    await rerender(<JSXForm configuration={configuration} loader={<div>LOADING</div>} />);
+    rerender(<JSXForm configuration={configuration} /> as JSXElement);
+    rerender(<JSXForm configuration={configuration} loader={<div>LOADING</div>} /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with active step', async () => {
-    const { container } = render(<JSXForm configuration={configuration} activeStep="start" />);
+    const { container } = render(<JSXForm configuration={configuration} activeStep="start" /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('prevents native form submission', async () => {
-    const { container } = render(<JSXForm configuration={configuration} />);
-    const form = await container.getElementsByTagName('form')[0];
+    const { container } = render(<JSXForm configuration={configuration} /> as JSXElement);
+    const form = container.getElementsByTagName('form')[0];
     const event = createEvent.submit(form);
     event.preventDefault = jest.fn();
-    await fireEvent(form, event);
+    fireEvent(form, event);
     expect(event.preventDefault).toHaveBeenCalled();
   });
 });

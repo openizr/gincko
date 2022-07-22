@@ -4,7 +4,7 @@ exports[`react/Field renders correctly - Array 1`] = `
 <div
   id="field"
 >
-  {"type":"array","path":"path.0.to.field","isActive":true,"variables":{"var":"value"},"userInputs":{"test":"ok"},"fields":[],"addButtonProps":{},"id":"path__0__to__field","removeButtonProps":{},"addTextfieldProps":{},"customComponents":{},"modifiers":"success "}
+  {"type":"array","path":"path.0.to.field","isActive":true,"variables":{"var":"value"},"userInputs":{"test":"ok"},"fields":[],"addButtonProps":{"label":null},"id":"path__0__to__field","removeButtonProps":{"label":null},"addTextfieldProps":{"label":null,"placeholder":null},"customComponents":{},"modifiers":"success "}
 </div>
 `;
 
@@ -12,7 +12,7 @@ exports[`react/Field renders correctly - Array 2`] = `
 <div
   id="field"
 >
-  {"type":"array","path":"path.0.to.field","isActive":true,"variables":{"var":"value"},"userInputs":{"test":"ok"},"fields":[],"addButtonProps":{"label":"TRANSLATED LABEL"},"id":"path__0__to__field","removeButtonProps":{"label":"TRANSLATED LABEL"},"addTextfieldProps":{},"customComponents":{},"modifiers":"success "}
+  {"type":"array","path":"path.0.to.field","isActive":true,"variables":{"var":"value"},"userInputs":{"test":"ok"},"fields":[],"addButtonProps":{"label":"TRANSLATED LABEL"},"id":"path__0__to__field","removeButtonProps":{"label":"TRANSLATED LABEL"},"addTextfieldProps":{"label":null,"placeholder":null},"customComponents":{},"modifiers":"success "}
 </div>
 `;
 
@@ -22,13 +22,13 @@ exports[`react/Field renders correctly - Button 1`] = `
 </div>
 `;
 
-exports[`react/Field renders correctly - Date 1`] = `
+exports[`react/Field renders correctly - DatePicker 1`] = `
 <div>
-  {"maxlength":10,"name":"path.0.to.field","placeholder":null,"debounceTimeout":100,"id":"path__0__to__field","readonly":false,"modifiers":"success "}
+  {"maxlength":10,"name":"path.0.to.field","placeholder":null,"debounceTimeout":100,"id":"path__0__to__field","readonly":false,"value":null,"modifiers":"success "}
 </div>
 `;
 
-exports[`react/Field renders correctly - Date 2`] = `
+exports[`react/Field renders correctly - DatePicker 2`] = `
 <div>
   {"maxlength":10,"name":"path.0.to.field","placeholder":"TRANSLATED LABEL","debounceTimeout":10,"id":"path__0__to__field","readonly":false,"value":"2022/07/07","modifiers":"success "}
 </div>
@@ -38,7 +38,7 @@ exports[`react/Field renders correctly - DynamicObject 1`] = `
 <div
   id="field"
 >
-  {"type":"dynamicObject","path":"path.0.to.field","isActive":true,"variables":{"var":"value"},"userInputs":{"test":"ok"},"fields":[],"addButtonProps":{},"id":"path__0__to__field","removeButtonProps":{},"addTextfieldProps":{},"customComponents":{},"modifiers":"success "}
+  {"type":"dynamicObject","path":"path.0.to.field","isActive":true,"variables":{"var":"value"},"userInputs":{"test":"ok"},"fields":[],"addButtonProps":{"label":null},"id":"path__0__to__field","removeButtonProps":{"label":null},"addTextfieldProps":{"label":null,"placeholder":null},"customComponents":{},"modifiers":"success "}
 </div>
 `;
 
@@ -46,7 +46,7 @@ exports[`react/Field renders correctly - DynamicObject 2`] = `
 <div
   id="field"
 >
-  {"type":"dynamicObject","path":"path.0.to.field","isActive":true,"variables":{"var":"value"},"userInputs":{"test":"ok"},"fields":[],"addButtonProps":{},"id":"path__0__to__field","removeButtonProps":{},"addTextfieldProps":{"label":"TRANSLATED LABEL","placeholder":"TRANSLATED LABEL"},"customComponents":{},"modifiers":"success "}
+  {"type":"dynamicObject","path":"path.0.to.field","isActive":true,"variables":{"var":"value"},"userInputs":{"test":"ok"},"fields":[],"addButtonProps":{"label":null},"id":"path__0__to__field","removeButtonProps":{"label":null},"addTextfieldProps":{"label":"TRANSLATED LABEL","placeholder":"TRANSLATED LABEL"},"customComponents":{},"modifiers":"success "}
 </div>
 `;
 
@@ -86,19 +86,19 @@ exports[`react/Field renders correctly - Message with label and message 1`] = `
 
 exports[`react/Field renders correctly - Options 1`] = `
 <div>
-  {"name":"path.0.to.field","value":"undefined","options":[{"value":"option1","label":"TRANSLATED LABEL"},{"value":"option2"}],"id":"path__0__to__field","modifiers":"success "}
+  {"name":"path.0.to.field","value":"undefined","options":[{"value":"option1","label":"TRANSLATED LABEL"},{"value":"option2","label":null}],"id":"path__0__to__field","modifiers":"success "}
 </div>
 `;
 
 exports[`react/Field renders correctly - Textarea 1`] = `
 <div>
-  {"name":"path.0.to.field","placeholder":null,"debounceTimeout":100,"id":"path__0__to__field","readonly":false,"modifiers":"success "}
+  {"name":"path.0.to.field","placeholder":null,"debounceTimeout":100,"id":"path__0__to__field","readonly":false,"value":null,"modifiers":"success "}
 </div>
 `;
 
 exports[`react/Field renders correctly - Textarea 2`] = `
 <div>
-  {"name":"path.0.to.field","placeholder":"TRANSLATED LABEL","debounceTimeout":10,"id":"path__0__to__field","readonly":false,"modifiers":"success ","value":"test"}
+  {"name":"path.0.to.field","placeholder":"TRANSLATED LABEL","debounceTimeout":10,"id":"path__0__to__field","readonly":false,"value":"test","modifiers":"success "}
 </div>
 `;
 

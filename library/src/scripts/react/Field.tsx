@@ -7,7 +7,6 @@
  */
 
 import * as React from 'react';
-import { react } from 'scripts/index.d';
 import builtInComponents from 'scripts/react/Components';
 
 interface FieldProps {
@@ -18,7 +17,7 @@ interface FieldProps {
   path: string;
 
   /** Internationalization function, used for labels translation. */
-  i18n: react.I18n;
+  i18n: I18n;
 
   /** Whether field belongs to the active step. */
   isActive: boolean;
@@ -33,18 +32,18 @@ interface FieldProps {
   onUserAction: OnUserAction;
 
   /** List of form's custom UI components. */
-  customComponents: react.CustomComponents;
+  customComponents: CustomComponents;
 }
 
 /**
  * React form field.
  */
-function Field(props: FieldProps): JSX.Element | null {
+function Field(props: FieldProps): JSX.Element {
   const { path, i18n, field } = props;
   const { userInputs, variables } = props;
   const { isActive, customComponents, onUserAction } = props;
 
-  const allComponents = React.useMemo<react.CustomComponents>(() => ({
+  const allComponents = React.useMemo<CustomComponents>(() => ({
     ...builtInComponents,
     ...customComponents,
   }), [customComponents]);
@@ -116,7 +115,7 @@ function Field(props: FieldProps): JSX.Element | null {
     isCurrentlyActive,
   ]);
 
-  return actualField;
+  return actualField as JSXElement;
 }
 
-export default React.memo(Field);
+export default React.memo(Field as JSXElement);

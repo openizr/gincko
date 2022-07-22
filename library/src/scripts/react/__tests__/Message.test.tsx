@@ -21,12 +21,12 @@ describe('react/Message', () => {
   });
 
   test('renders correctly - default props', async () => {
-    const { container } = render(<JSXMessage id="test" />);
+    const { container } = render(<JSXMessage id="test" /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - custom props', async () => {
-    const { container } = render(<JSXMessage id="test" label="*Test*" modifiers="strong" />);
+    const { container } = render(<JSXMessage id="test" label="*Test*" modifiers="strong" /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

@@ -8,14 +8,6 @@
  *
  */
 
-import {
-  Field,
-  UserInput,
-  Variables,
-  UserInputs,
-  OnUserAction,
-} from 'scripts/vue.d';
-import { vue } from 'scripts/index.d';
 import { computed, watch, ref } from 'vue';
 import builtInComponents from 'scripts/vue/Components';
 
@@ -27,7 +19,7 @@ const props = defineProps<{
   path: string;
 
   /** Internationalization function, used for labels translation. */
-  i18n: vue.I18n;
+  i18n: I18n;
 
   /** Whether field belongs to the active step. */
   isActive: boolean;
@@ -42,7 +34,7 @@ const props = defineProps<{
   onUserAction: OnUserAction;
 
   /** List of form's custom UI components. */
-  customComponents: vue.CustomComponents;
+  customComponents: CustomComponents;
 }>();
 
 const allComponents = computed(() => ({

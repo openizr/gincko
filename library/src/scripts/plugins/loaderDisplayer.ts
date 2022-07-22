@@ -6,7 +6,7 @@
  *
  */
 
-import { gincko } from 'scripts/index.d';
+import { Plugin } from 'scripts/index.d';
 
 interface LoaderDisplayerOptions {
   /** Minimum time during which loader should be displayed. */
@@ -18,9 +18,9 @@ interface LoaderDisplayerOptions {
  *
  * @param {LoaderDisplayerOptions} [options = {}] Plugin's options.
  *
- * @returns {gincko.Plugin} The actual plugin.
+ * @returns {Plugin} The actual plugin.
  */
-export default function loaderDisplayer(options: LoaderDisplayerOptions = {}): gincko.Plugin {
+export default function loaderDisplayer(options: LoaderDisplayerOptions = {}): Plugin {
   return (engine): void => {
     const timeout = options.timeout || 250;
     // This timestamp is used to mesure total time between user action and next step rendering.

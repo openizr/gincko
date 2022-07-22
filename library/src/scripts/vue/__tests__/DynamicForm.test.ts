@@ -48,7 +48,7 @@ describe('vue/DynamicForm', () => {
 
   test('prevents native form submission', async () => {
     const { container } = render(DynamicForm, { props: { configuration } });
-    const form = await container.getElementsByTagName('form')[0];
+    const form = container.getElementsByTagName('form')[0];
     const event = createEvent.submit(form);
     event.preventDefault = jest.fn();
     await fireEvent(form, event);

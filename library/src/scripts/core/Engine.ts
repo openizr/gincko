@@ -10,7 +10,7 @@
 
 import Store from 'diox';
 import state from 'scripts/core/state';
-import { gincko } from 'scripts/index.d';
+import { Cache } from 'scripts/index.d';
 import deepFreeze from 'scripts/core/deepFreeze';
 import userActions from 'scripts/core/userActions';
 import { isPlainObject, deepMerge, deepCopy } from 'basx';
@@ -23,7 +23,7 @@ export default class BaseEngine {
   protected store: Store;
 
   /** Cache client. */
-  protected cache: gincko.Cache | null;
+  protected cache: Cache | null;
 
   /** Form cache key. */
   protected cacheKey: string;

@@ -1,0 +1,827 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`svelte/Field renders correctly - Array 1`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":null,"placeholder":null},"type":"array","value":null,"customComponents":{}}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Array 2`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":false,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":"TRANSLATED LABEL"},"removeButtonProps":{"label":"TRANSLATED LABEL"},"addTextfieldProps":{"label":null,"placeholder":null},"type":"array","value":null,"customComponents":{}}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Button 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    null
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path__0__to__field
+     
+    undefined
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - DatePicker 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    null
+     
+    null
+     
+    null
+     
+    100
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    (value) =&gt; {
+          /* istanbul ignore next */
+          cov_2n9oqb4wxe().f[20]++;
+          const cleaned =
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().s[73]++, value.replace(/\\D/g, ''));
+          const match1 =
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().s[74]++, cleaned.match(/^(\\d{4})$/));
+          const match2 =
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().s[75]++, cleaned.match(/^(\\d{4})(\\d{2})$/));
+          const match3 =
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().s[76]++, cleaned.match(/^(\\d{4})(\\d{2})(\\d{2})$/));
+
+          /* istanbul ignore next */
+          cov_2n9oqb4wxe().s[77]++;
+
+          if (
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().b[53][0]++, match1) &&
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().b[53][1]++, match1.length &lt; 5)) {
+            /* istanbul ignore next */
+            cov_2n9oqb4wxe().b[52][0]++;
+            cov_2n9oqb4wxe().s[78]++;
+            return [\`\${match1[1]}/\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_2n9oqb4wxe().b[52][1]++;
+          }
+
+          cov_2n9oqb4wxe().s[79]++;
+
+          if (
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().b[55][0]++, match2) &&
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().b[55][1]++, match2.length &lt; 8)) {
+            /* istanbul ignore next */
+            cov_2n9oqb4wxe().b[54][0]++;
+            cov_2n9oqb4wxe().s[80]++;
+            return [\`\${match2[1]}/\${match2[2]}/\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_2n9oqb4wxe().b[54][1]++;
+          }
+
+          cov_2n9oqb4wxe().s[81]++;
+
+          if (match3) {
+            /* istanbul ignore next */
+            cov_2n9oqb4wxe().b[56][0]++;
+            cov_2n9oqb4wxe().s[82]++;
+            return [\`\${match3[1]}/\${match3[2]}/\${match3[3]}\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_2n9oqb4wxe().b[56][1]++;
+          }
+
+          cov_2n9oqb4wxe().s[83]++;
+          return [value];
+        }
+     
+    10
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - DatePicker 2`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    2022/07/07
+     
+    TRANSLATED LABEL
+     
+    null
+     
+    10
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    (value) =&gt; {
+          /* istanbul ignore next */
+          cov_2n9oqb4wxe().f[20]++;
+          const cleaned =
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().s[73]++, value.replace(/\\D/g, ''));
+          const match1 =
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().s[74]++, cleaned.match(/^(\\d{4})$/));
+          const match2 =
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().s[75]++, cleaned.match(/^(\\d{4})(\\d{2})$/));
+          const match3 =
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().s[76]++, cleaned.match(/^(\\d{4})(\\d{2})(\\d{2})$/));
+
+          /* istanbul ignore next */
+          cov_2n9oqb4wxe().s[77]++;
+
+          if (
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().b[53][0]++, match1) &&
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().b[53][1]++, match1.length &lt; 5)) {
+            /* istanbul ignore next */
+            cov_2n9oqb4wxe().b[52][0]++;
+            cov_2n9oqb4wxe().s[78]++;
+            return [\`\${match1[1]}/\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_2n9oqb4wxe().b[52][1]++;
+          }
+
+          cov_2n9oqb4wxe().s[79]++;
+
+          if (
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().b[55][0]++, match2) &&
+          /* istanbul ignore next */
+          (cov_2n9oqb4wxe().b[55][1]++, match2.length &lt; 8)) {
+            /* istanbul ignore next */
+            cov_2n9oqb4wxe().b[54][0]++;
+            cov_2n9oqb4wxe().s[80]++;
+            return [\`\${match2[1]}/\${match2[2]}/\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_2n9oqb4wxe().b[54][1]++;
+          }
+
+          cov_2n9oqb4wxe().s[81]++;
+
+          if (match3) {
+            /* istanbul ignore next */
+            cov_2n9oqb4wxe().b[56][0]++;
+            cov_2n9oqb4wxe().s[82]++;
+            return [\`\${match3[1]}/\${match3[2]}/\${match3[3]}\`];
+          } else
+          /* istanbul ignore next */
+          {
+            cov_2n9oqb4wxe().b[56][1]++;
+          }
+
+          cov_2n9oqb4wxe().s[83]++;
+          return [value];
+        }
+     
+    10
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - DynamicObject 1`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":null,"placeholder":null},"type":"dynamicObject","value":null,"customComponents":{}}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - DynamicObject 2`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":"TRANSLATED LABEL","placeholder":"TRANSLATED LABEL"},"type":"dynamicObject","value":null,"customComponents":{}}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - FilePicker 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    undefined
+     
+    null
+     
+    null
+     
+    undefined
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - FilePicker 2`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    undefined
+     
+    TRANSLATED LABEL
+     
+    null
+     
+    undefined
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Link 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path__0__to__field
+     
+    undefined
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Message with label and helper 1`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","label":"TRANSLATED LABEL","modifiers":"success "}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Message with label and message 1`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","label":"TRANSLATED LABEL","modifiers":"success "}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Options 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    undefined
+     
+    undefined
+     
+    null
+     
+    undefined
+     
+    path__0__to__field
+     
+    undefined
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    () =&gt; null
+     
+    [object Object],[object Object]
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Textarea 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    null
+     
+    null
+     
+    null
+     
+    100
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Textarea 2`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    test
+     
+    TRANSLATED LABEL
+     
+    null
+     
+    10
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Textfield 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    null
+     
+    null
+     
+    null
+     
+    100
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Textfield 2`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    test
+     
+    TRANSLATED LABEL
+     
+    null
+     
+    10
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Unknown component 1`] = `
+<div>
+  
+</div>
+`;

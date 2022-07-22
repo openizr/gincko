@@ -13,15 +13,14 @@ import { computed } from 'vue';
 type Handler = (value?: string) => string;
 
 const props = defineProps<{
-  onFocus?: Handler;
-  onClick?: Handler;
-  onChange?: Handler;
+  transform?: Handler;
 }>();
 
 const emit = defineEmits({
   focus: null,
   click: null,
   change: null,
+  keyDown: null,
 });
 
 const computedProps = computed(() => props);
@@ -29,6 +28,9 @@ const computedProps = computed(() => props);
 // Covers `onChange` handler.
 setTimeout(() => {
   emit('change', 'test');
+  if (process.env.IS_DATE === 'true') {
+    emit('change', '2020/02/20');
+  }
 }, 10);
 
 // Covers `onFocus` handler.
@@ -39,6 +41,16 @@ setTimeout(() => {
   emit('click');
 }, 10);
 
+// Covers `transform` function.
+if (props.transform !== undefined) {
+  props.transform('ok');
+  props.transform('1002');
+  props.transform('100220');
+  props.transform('10022020');
+}
+// Covers `onKeyDown` handler.
+emit('keyDown', { key: '1' });
+emit('keyDown', { key: 'A', ctrlKey: false, preventDefault: jest.fn() });
 </script>
 
 <template>

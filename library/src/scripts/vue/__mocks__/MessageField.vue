@@ -1,4 +1,4 @@
-<!-- gincko/react/MessageField mock. -->
+<!-- gincko/vue/MessageField mock. -->
 <script lang="ts" setup>
 /**
  * Copyright (c) Openizr. All Rights Reserved.

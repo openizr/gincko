@@ -14,8 +14,6 @@ import { render, waitFor } from '@testing-library/react';
 jest.mock('biuty/react');
 jest.mock('scripts/core/Engine');
 jest.mock('scripts/react/Message');
-jest.mock('scripts/react/Textarea');
-jest.mock('scripts/react/Textfield');
 jest.mock('scripts/react/NestedFields');
 
 const JSXField = Field as JSXElement;
@@ -30,6 +28,7 @@ describe('react/Field', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    delete process.env.IS_DATE;
   });
 
   test('renders correctly - Unknown component', async () => {
@@ -47,7 +46,7 @@ describe('react/Field', () => {
         component: 'Unknown',
         componentProps: {},
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -67,7 +66,7 @@ describe('react/Field', () => {
         component: 'Message',
         componentProps: { helper: 'Helper' },
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -88,7 +87,7 @@ describe('react/Field', () => {
         component: 'Message',
         componentProps: { helper: 'Helper' },
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -107,7 +106,7 @@ describe('react/Field', () => {
         component: 'Button',
         componentProps: {},
       }}
-    />);
+    /> as JSXElement);
     await waitFor(flushPromise);
     expect(container.firstChild).toMatchSnapshot();
     expect(onUserAction).toHaveBeenCalledTimes(1);
@@ -129,7 +128,7 @@ describe('react/Field', () => {
         component: 'Link',
         componentProps: {},
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -151,11 +150,12 @@ describe('react/Field', () => {
           options: [{ label: 'test', value: 'option1' }, { value: 'option2' }],
         },
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - Date', async () => {
+  test('renders correctly - DatePicker', async () => {
+    process.env.IS_DATE = 'true';
     const { container, rerender } = render(<JSXField
       isActive
       i18n={i18n}
@@ -167,13 +167,14 @@ describe('react/Field', () => {
       field={{
         id: 'field',
         status: 'success',
-        component: 'Date',
+        component: 'DatePicker',
         componentProps: {},
+        value: null,
       }}
-    />);
+    /> as JSXElement);
     await waitFor(flushPromise);
     expect(container.firstChild).toMatchSnapshot();
-    await rerender(<JSXField
+    rerender(<JSXField
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -184,11 +185,11 @@ describe('react/Field', () => {
       field={{
         id: 'field',
         status: 'success',
-        component: 'Date',
+        component: 'DatePicker',
         value: new Date(1657192371401),
         componentProps: { placeholder: 'placeholder', debounceTimeout: 10 },
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -207,10 +208,10 @@ describe('react/Field', () => {
         component: 'Textfield',
         componentProps: {},
       }}
-    />);
+    /> as JSXElement);
     await waitFor(flushPromise);
     expect(container.firstChild).toMatchSnapshot();
-    await rerender(<JSXField
+    rerender(<JSXField
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -225,7 +226,7 @@ describe('react/Field', () => {
         component: 'Textfield',
         componentProps: { placeholder: 'placeholder', debounceTimeout: 10 },
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -240,14 +241,15 @@ describe('react/Field', () => {
       customComponents={customComponents}
       field={{
         id: 'field',
+        value: null,
         status: 'success',
         component: 'Textarea',
         componentProps: {},
       }}
-    />);
+    /> as JSXElement);
     await waitFor(flushPromise);
     expect(container.firstChild).toMatchSnapshot();
-    await rerender(<JSXField
+    rerender(<JSXField
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -262,7 +264,7 @@ describe('react/Field', () => {
         component: 'Textarea',
         componentProps: { placeholder: 'placeholder', debounceTimeout: 10 },
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -281,10 +283,10 @@ describe('react/Field', () => {
         component: 'FilePicker',
         componentProps: {},
       }}
-    />);
+    /> as JSXElement);
     await waitFor(flushPromise);
     expect(container.firstChild).toMatchSnapshot();
-    await rerender(<JSXField
+    rerender(<JSXField
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -298,7 +300,7 @@ describe('react/Field', () => {
         component: 'FilePicker',
         componentProps: { placeholder: 'placeholder' },
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -318,9 +320,9 @@ describe('react/Field', () => {
         componentProps: {},
         fields: [],
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
-    await rerender(<JSXField
+    rerender(<JSXField
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -338,7 +340,7 @@ describe('react/Field', () => {
         },
         fields: [],
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -358,9 +360,9 @@ describe('react/Field', () => {
         componentProps: {},
         fields: [],
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
-    await rerender(<JSXField
+    rerender(<JSXField
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -377,7 +379,7 @@ describe('react/Field', () => {
         },
         fields: [],
       }}
-    />);
+    /> as JSXElement);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

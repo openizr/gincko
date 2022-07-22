@@ -7,33 +7,32 @@
  */
 
 import * as biuty from 'biuty/vue';
-import { vue } from 'scripts/index.d';
 import MessageField from 'scripts/vue/MessageField.vue';
 import NestedFields from 'scripts/vue/NestedFields.vue';
 
-const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): vue.CustomComponent => (
+const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomComponent => (
   function Nested(field, onUserAction) {
     const { componentProps } = field;
     const addButtonProps = {
       ...componentProps.addButtonProps,
       label: (componentProps.addButtonProps?.label !== undefined)
         ? field.i18n(componentProps.addButtonProps.label, field.allValues)
-        : undefined,
+        : null,
     };
     const removeButtonProps = {
       ...componentProps.removeButtonProps,
       label: (componentProps.removeButtonProps?.label !== undefined)
         ? field.i18n(componentProps.removeButtonProps.label, field.allValues)
-        : undefined,
+        : null,
     };
     const addTextfieldProps = {
       ...componentProps.addTextfieldProps,
       label: (componentProps.addTextfieldProps?.label !== undefined)
         ? field.i18n(componentProps.addTextfieldProps.label, field.allValues)
-        : undefined,
+        : null,
       placeholder: (componentProps.addTextfieldProps?.placeholder !== undefined)
         ? field.i18n(componentProps.addTextfieldProps.placeholder, field.allValues)
-        : undefined,
+        : null,
     };
 
     return ({
@@ -144,10 +143,9 @@ export default {
   },
   Textfield(field, onUserAction) {
     const { componentProps } = field;
-    let debounceTimeout = 100;
-    if (componentProps.debounceTimeout !== undefined) {
-      debounceTimeout = componentProps.debounceTimeout;
-    }
+    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
+      ? componentProps.debounceTimeout
+      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
       : null;
@@ -163,7 +161,7 @@ export default {
         id: field.path.replace(/\./g, '__'),
         readonly: componentProps.readonly || !field.isActive,
         modifiers: `${field.status} ${componentProps.modifiers || ''}`,
-        value: field.value !== undefined && field.value !== null ? `${field.value}` : field.value,
+        value: field.value !== null ? `${field.value}` : field.value,
       },
       events: {
         blur: componentProps.onBlur,
@@ -176,12 +174,11 @@ export default {
       },
     });
   },
-  Date(field, onUserAction) {
+  DatePicker(field, onUserAction) {
     const { componentProps } = field;
-    let debounceTimeout = 100;
-    if (componentProps.debounceTimeout !== undefined) {
-      debounceTimeout = componentProps.debounceTimeout;
-    }
+    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
+      ? componentProps.debounceTimeout
+      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
       : null;
@@ -214,7 +211,7 @@ export default {
         },
         readonly: componentProps.readonly || !field.isActive,
         modifiers: `${field.status} ${componentProps.modifiers || ''}`,
-        value: field.value !== undefined && field.value !== null
+        value: field.value !== null
           ? (field.value as Date).toISOString().split('T')[0].replace(/-/g, '/')
           : field.value,
       },
@@ -237,10 +234,9 @@ export default {
   },
   Textarea(field, onUserAction) {
     const { componentProps } = field;
-    let debounceTimeout = 100;
-    if (componentProps.debounceTimeout !== undefined) {
-      debounceTimeout = componentProps.debounceTimeout;
-    }
+    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
+      ? componentProps.debounceTimeout
+      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
       : null;
@@ -254,8 +250,9 @@ export default {
         label: field.label,
         helper: field.message,
         id: field.path.replace(/\./g, '__'),
+        readonly: componentProps.readonly || !field.isActive,
         modifiers: `${field.status} ${componentProps.modifiers || ''}`,
-        value: field.value !== undefined && field.value !== null ? `${field.value}` : field.value,
+        value: field.value !== null ? `${field.value}` : field.value,
       },
       events: {
         blur: componentProps.onBlur,
@@ -264,7 +261,6 @@ export default {
         keyDown: componentProps.onKeyDown,
         iconClick: componentProps.onIconClick,
         iconKeyDown: componentProps.onIconKeyDown,
-        readonly: componentProps.readonly || !field.isActive,
         change: (value: string): void => onUserAction('input', field.path, value),
       },
     });
@@ -284,6 +280,7 @@ export default {
         value: field.value,
         helper: field.message,
         id: field.path.replace(/\./g, '__'),
+        readonly: componentProps.readonly || !field.isActive,
         modifiers: `${field.status} ${componentProps.modifiers || ''}`,
       },
       events: {
@@ -293,9 +290,8 @@ export default {
         keyDown: componentProps.onKeyDown,
         iconClick: componentProps.onIconClick,
         iconKeyDown: componentProps.onIconKeyDown,
-        readonly: componentProps.readonly || !field.isActive,
         change: (value: File): void => onUserAction('input', field.path, value),
       },
     });
   },
-} as vue.CustomComponents;
+} as CustomComponents;

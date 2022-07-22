@@ -9,19 +9,18 @@
 import * as React from 'react';
 import Field from 'scripts/react/Field';
 import { buildClass } from 'biuty/react';
-import { react } from 'scripts/index.d';
 
 const JSXField = Field as JSXElement;
 
 interface StepProps {
+  i18n: I18n;
   step: Step;
   index: number;
-  i18n: react.I18n;
   isActive: boolean;
   variables: Variables;
   userInputs: UserInputs;
   onUserAction: OnUserAction;
-  customComponents: react.CustomComponents;
+  customComponents: CustomComponents;
 }
 
 /**
@@ -35,25 +34,27 @@ function Step(props: StepProps): JSX.Element {
 
   return (
     <div id={`${step.id}__${index}`} className={buildClass('gincko__step', modifiers)}>
-      <div className="gincko__step__fields">
-        {/* Key is composed of both step and field ids, in order to ensure each field is correctly
+      {
+        <div className="gincko__step__fields">
+          {/* Key is composed of both step and field ids, in order to ensure each field is correctly
          reset when user changes his journey in previous steps. */}
-        {step.fields.map((field) => ((field === null) ? null : (
-          <JSXField
-            i18n={i18n}
-            field={field}
-            isActive={isActive}
-            variables={variables}
-            userInputs={userInputs}
-            onUserAction={onUserAction}
-            customComponents={customComponents}
-            key={`${step.id}.${index}.${field.id}`}
-            path={`${step.id}.${index}.${field.id}`}
-          />
-        )))}
-      </div>
+          {step.fields.map((field) => ((field === null) ? null : (
+            <JSXField
+              i18n={i18n}
+              field={field}
+              isActive={isActive}
+              variables={variables}
+              userInputs={userInputs}
+              onUserAction={onUserAction}
+              customComponents={customComponents}
+              key={`${step.id}.${index}.${field.id}`}
+              path={`${step.id}.${index}.${field.id}`}
+            />
+          ))) as JSXElement}
+        </div> as JSXElement
+      }
     </div>
   );
 }
 
-export default React.memo(Step);
+export default React.memo(Step as JSXElement);

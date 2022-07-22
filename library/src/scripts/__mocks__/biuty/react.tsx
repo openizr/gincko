@@ -12,17 +12,33 @@ import * as React from 'react';
  * biuty/react mock.
  */
 function Component(props: Any): JSX.Element {
+  const { transform, onKeyDown } = props;
   const { onChange, onFocus, onClick } = props;
 
   // Covers `onChange` handler.
   if (onChange !== undefined) {
     setTimeout(() => {
       onChange('test');
+      if (process.env.IS_DATE === 'true') {
+        onChange('2020/02/20');
+      }
     }, 10);
   }
   // Covers `onFocus` handler.
   if (onFocus !== undefined) {
     onFocus();
+  }
+  // Covers `transform` function.
+  if (transform !== undefined) {
+    transform('ok');
+    transform('1002');
+    transform('100220');
+    transform('10022020');
+  }
+  // Covers `onKeyDown` handler.
+  if (onKeyDown !== undefined) {
+    onKeyDown({ key: '1' });
+    onKeyDown({ key: 'A', ctrlKey: false, preventDefault: jest.fn() });
   }
   // Covers `onClick` handler.
   if (onClick !== undefined && process.env.NOCLICK !== 'true') {

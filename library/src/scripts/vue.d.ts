@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /**
  * Copyright (c) Openizr. All Rights Reserved.
  *
@@ -9,55 +7,25 @@
  */
 
 declare module 'gincko/vue' {
-  import type {
-    Field,
+  import {
+    I18n,
     Variables,
     UserInputs,
     OnUserAction,
     Configuration,
-  } from 'gincko/core';
-  import type Engine from 'gincko/core';
+    CustomComponents,
+    Field as GeneratedField,
+  } from 'gincko';
+  import type Engine from 'gincko';
+  import type { DefineComponent } from 'vue';
 
-  export * from 'gincko/core';
-
-  interface ExtendedField extends Field {
-    /** Internationalization function, used for labels translation. */
-    i18n: I18n;
-
-    /** Field's path. */
-    path: string;
-
-    /** Whether field belongs to the active step. */
-    isActive: boolean;
-
-    /** Form variables. */
-    variables: Variables;
-
-    /** Form variables and user inputs merged all together for dynamic labelling.  */
-    allValues: UserInputs;
-
-    /** List of user inputs. */
-    userInputs: UserInputs;
-
-    /** List of registered custom form components. */
-    customComponents: CustomComponents;
-  }
-
-  type CustomComponent = (field: ExtendedField, onUserAction: OnUserAction) => JSX.Element | null;
-
-  /** Internationalization function, used for labels translation. */
-  export type I18n = (label: string, values?: Variables) => string;
-
-  /** List of custom form components. */
-  export type CustomComponents = Record<string, CustomComponent>;
-
-  export { Engine };
+  export * from 'gincko';
 
   /**
-   * React form field.
+   * Vue form field.
    */
-  export function Field(props: {
-    field: Field;
+  export const Field: DefineComponent<{
+    field: GeneratedField;
     path: string;
     i18n: I18n;
     isActive: boolean;
@@ -65,12 +33,12 @@ declare module 'gincko/vue' {
     userInputs: UserInputs;
     onUserAction: OnUserAction;
     customComponents: CustomComponents;
-  }): JSX.Element | null;
+  }>;
 
   /**
-   * React form.
+   * Vue form.
    */
-  export default function Form(props: {
+  const Form: DefineComponent<{
     /** Form's active step's id. */
     activeStep?: string | null;
 
@@ -85,8 +53,10 @@ declare module 'gincko/vue' {
 
     /** Custom gincko form engine class to use instead of the default engine. */
     engineClass?: Engine;
-
+  }, Record<string, unknown>, {
     /** UI component to use when loading steps. */
-    loader?: JSX.Element | null;
-  }): JSX.Element | null;
+    loader: Any;
+  }>;
+
+  export default Form;
 }

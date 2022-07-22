@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /**
  * Copyright (c) Openizr. All Rights Reserved.
  *
@@ -9,7 +7,7 @@
  */
 
 declare module 'gincko/plugins' {
-  import { Plugin } from 'gincko/core';
+  import { Plugin } from 'gincko';
 
   type GreCaptcha = { grecaptcha: Client; };
   type Client = {

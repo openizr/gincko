@@ -8,15 +8,14 @@
 
 import * as React from 'react';
 import Field from 'scripts/react/Field';
-import { react } from 'scripts/index.d';
 import { buildClass, UIButton, UITextfield } from 'biuty/react';
 
 const JSXField = Field as JSXElement;
 
 interface NestedFieldsProps {
+  t: I18n;
   id?: string;
   path: string;
-  t: react.I18n;
   fields: Fields;
   label?: string;
   helper?: string;
@@ -68,8 +67,8 @@ interface NestedFieldsProps {
   userInputs: UserInputs;
   allowedPatterns?: RegExp[];
   onUserAction: OnUserAction;
+  customComponents?: CustomComponents;
   value?: UserInput[] | UserInputs | null;
-  customComponents?: react.CustomComponents;
   type: 'array' | 'object' | 'dynamicObject';
 }
 
@@ -162,7 +161,7 @@ function NestedFields({
 
   return (
     <div id={id} className={className}>
-      {(label !== undefined) && <span className="ui-nested-fields__label">{label}</span>}
+      {(label !== undefined) && <span className="ui-nested-fields__label">{label}</span> as JSXElement}
 
       {fields.map((field, index) => {
         if (field === null) {
@@ -182,7 +181,7 @@ function NestedFields({
                 onFocus={removeButtonProps.onFocus}
                 modifiers={removeButtonProps.modifiers}
                 iconPosition={removeButtonProps.iconPosition}
-              />
+              /> as JSXElement
             )}
             <JSXField
               i18n={t}
@@ -196,7 +195,7 @@ function NestedFields({
             />
           </div>
         );
-      })}
+      }) as JSXElement}
 
       {(type !== 'object') && (
         <div className="ui-nested-fields__add">
@@ -226,7 +225,7 @@ function NestedFields({
               debounceTimeout={(addTextfieldProps.debounceTimeout !== undefined)
                 ? addTextfieldProps.debounceTimeout
                 : 100}
-            />
+            /> as JSXElement
           )}
           {!isAddButtonDisabled && (
             <UIButton
@@ -237,13 +236,13 @@ function NestedFields({
               onFocus={addButtonProps.onFocus}
               iconPosition={addButtonProps.iconPosition}
               modifiers={`${addButtonDisabledModifier} ${addButtonProps.modifiers || ''}`}
-            />
+            /> as JSXElement
           )}
         </div>
-      )}
-      {(helper !== undefined) && <span className="ui-nested-fields__helper">{helper}</span>}
-    </div>
-  );
+      ) as JSXElement}
+      {(helper !== undefined) && <span className="ui-nested-fields__helper">{helper}</span> as JSXElement}
+    </div> as JSXElement
+  ) as JSXElement;
 }
 
-export default React.memo(NestedFields);
+export default React.memo(NestedFields as JSXElement);

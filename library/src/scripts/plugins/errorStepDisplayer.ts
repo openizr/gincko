@@ -6,7 +6,7 @@
  *
  */
 
-import { gincko } from 'scripts/index.d';
+import { Plugin } from 'scripts/index.d';
 
 interface ErrorStepDisplayerOptions {
   /** Id of the error step in the configuration. */
@@ -21,9 +21,9 @@ interface ErrorStepDisplayerOptions {
  *
  * @param {ErrorStepDisplayerOptions} options Plugin options.
  *
- * @returns {gincko.Plugin} The actual gincko plugin.
+ * @returns {Plugin} The actual gincko plugin.
  */
-export default function errorStepDisplayer(options: ErrorStepDisplayerOptions): gincko.Plugin {
+export default function errorStepDisplayer(options: ErrorStepDisplayerOptions): Plugin {
   return (engine): void => {
     engine.on('error', async (error, next) => {
       await engine.createStep(options.stepId);

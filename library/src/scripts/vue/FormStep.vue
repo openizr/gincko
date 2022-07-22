@@ -8,26 +8,19 @@
  *
  */
 
-import {
-  Step,
-  Variables,
-  UserInputs,
-  OnUserAction,
-} from 'scripts/vue.d';
 import { computed } from 'vue';
-import { vue } from 'scripts/index.d';
 import { buildClass } from 'biuty/vue';
 import FormField from 'scripts/vue/FormField.vue';
 
 const props = defineProps<{
+  i18n: I18n;
   step: Step;
   index: number;
-  i18n: vue.I18n;
   isActive: boolean;
   variables: Variables;
   userInputs: UserInputs;
   onUserAction: OnUserAction;
-  customComponents: vue.CustomComponents;
+  customComponents: CustomComponents;
 }>();
 
 const modifiers = computed(() => [
@@ -43,7 +36,7 @@ const modifiers = computed(() => [
     :id="`${step.id}__${index}`"
     :class="buildClass('gincko__step', modifiers)"
   >
-    <div className="gincko__step__fields">
+    <div class="gincko__step__fields">
       <!-- Key is composed of both step and field ids, in order to ensure each field is correctly
       reset when user changes his journey in previous steps. -->
       <FormField

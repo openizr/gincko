@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /**
  * Copyright (c) Openizr. All Rights Reserved.
  *
@@ -9,55 +7,25 @@
  */
 
 declare module 'gincko/react' {
-  import 'react';
-  import type {
-    Field,
+  import type Engine from 'gincko';
+  import {
+    I18n,
     Variables,
     UserInputs,
     OnUserAction,
     Configuration,
-  } from 'gincko/core';
-  import type Engine from 'gincko/core';
+    CustomComponents,
+    Field as GeneratedField,
+  } from 'gincko';
 
-  export * from 'gincko/core';
-
-  interface ExtendedField extends Field {
-    /** Internationalization function, used for labels translation. */
-    i18n: I18n;
-
-    /** Field's path. */
-    path: string;
-
-    /** Whether field belongs to the active step. */
-    isActive: boolean;
-
-    /** Form variables. */
-    variables: Variables;
-
-    /** Form variables and user inputs merged all together for dynamic labelling.  */
-    allValues: UserInputs;
-
-    /** List of user inputs. */
-    userInputs: UserInputs;
-
-    /** List of registered custom form components. */
-    customComponents: CustomComponents;
-  }
-
-  type CustomComponent = (field: ExtendedField, onUserAction: OnUserAction) => JSX.Element | null;
-
-  /** Internationalization function, used for labels translation. */
-  export type I18n = (label: string, values?: Variables) => string;
-
-  /** List of custom form components. */
-  export type CustomComponents = Record<string, CustomComponent>;
+  export * from 'gincko';
 
   /**
    * React form field.
    */
   export function Field(props: {
     /** Generated field. */
-    field: Field;
+    field: GeneratedField;
 
     /** Field's path. */
     path: string;
@@ -79,7 +47,7 @@ declare module 'gincko/react' {
 
     /** List of form's custom UI components. */
     customComponents: CustomComponents;
-  }): JSX.Element | null;
+  }): JSX.Element;
 
   /**
    * React form.
@@ -102,5 +70,5 @@ declare module 'gincko/react' {
 
     /** UI component to use when loading steps. */
     loader?: JSX.Element | null;
-  }): JSX.Element | null;
+  }): JSX.Element;
 }

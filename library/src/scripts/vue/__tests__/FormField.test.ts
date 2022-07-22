@@ -27,6 +27,7 @@ describe('vue/FormField', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    delete process.env.IS_DATE;
   });
 
   test('renders correctly - Unknown component', async () => {
@@ -161,10 +162,12 @@ describe('vue/FormField', () => {
         },
       },
     });
+    await waitFor(flushPromise);
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - Date', async () => {
+  test('renders correctly - DatePicker', async () => {
+    process.env.IS_DATE = 'true';
     const { container, rerender } = render(FormField, {
       props: {
         isActive,
@@ -177,8 +180,9 @@ describe('vue/FormField', () => {
         field: {
           id: 'field',
           status: 'success',
-          component: 'Date',
+          component: 'DatePicker',
           componentProps: {},
+          value: null,
         },
       },
     });
@@ -195,7 +199,7 @@ describe('vue/FormField', () => {
       field: {
         id: 'field',
         status: 'success',
-        component: 'Date',
+        component: 'DatePicker',
         value: new Date(1657192371401),
         componentProps: { placeholder: 'placeholder', debounceTimeout: 10 },
       },
@@ -215,6 +219,7 @@ describe('vue/FormField', () => {
         customComponents,
         field: {
           id: 'field',
+          value: null,
           status: 'success',
           component: 'Textfield',
           componentProps: {},
@@ -254,6 +259,7 @@ describe('vue/FormField', () => {
         customComponents,
         field: {
           id: 'field',
+          value: null,
           status: 'success',
           component: 'Textarea',
           componentProps: {},
