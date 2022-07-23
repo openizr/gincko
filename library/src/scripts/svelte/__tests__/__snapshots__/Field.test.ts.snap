@@ -113,73 +113,7 @@ exports[`svelte/Field renders correctly - DatePicker 1`] = `
      
     success 
      
-    (value) =&gt; {
-          /* istanbul ignore next */
-          cov_2n9oqb4wxe().f[20]++;
-          const cleaned =
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().s[73]++, value.replace(/\\D/g, ''));
-          const match1 =
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().s[74]++, cleaned.match(/^(\\d{4})$/));
-          const match2 =
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().s[75]++, cleaned.match(/^(\\d{4})(\\d{2})$/));
-          const match3 =
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().s[76]++, cleaned.match(/^(\\d{4})(\\d{2})(\\d{2})$/));
-
-          /* istanbul ignore next */
-          cov_2n9oqb4wxe().s[77]++;
-
-          if (
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().b[53][0]++, match1) &&
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().b[53][1]++, match1.length &lt; 5)) {
-            /* istanbul ignore next */
-            cov_2n9oqb4wxe().b[52][0]++;
-            cov_2n9oqb4wxe().s[78]++;
-            return [\`\${match1[1]}/\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_2n9oqb4wxe().b[52][1]++;
-          }
-
-          cov_2n9oqb4wxe().s[79]++;
-
-          if (
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().b[55][0]++, match2) &&
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().b[55][1]++, match2.length &lt; 8)) {
-            /* istanbul ignore next */
-            cov_2n9oqb4wxe().b[54][0]++;
-            cov_2n9oqb4wxe().s[80]++;
-            return [\`\${match2[1]}/\${match2[2]}/\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_2n9oqb4wxe().b[54][1]++;
-          }
-
-          cov_2n9oqb4wxe().s[81]++;
-
-          if (match3) {
-            /* istanbul ignore next */
-            cov_2n9oqb4wxe().b[56][0]++;
-            cov_2n9oqb4wxe().s[82]++;
-            return [\`\${match3[1]}/\${match3[2]}/\${match3[3]}\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_2n9oqb4wxe().b[56][1]++;
-          }
-
-          cov_2n9oqb4wxe().s[83]++;
-          return [value];
-        }
+    function
      
     10
      
@@ -235,73 +169,7 @@ exports[`svelte/Field renders correctly - DatePicker 2`] = `
      
     success 
      
-    (value) =&gt; {
-          /* istanbul ignore next */
-          cov_2n9oqb4wxe().f[20]++;
-          const cleaned =
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().s[73]++, value.replace(/\\D/g, ''));
-          const match1 =
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().s[74]++, cleaned.match(/^(\\d{4})$/));
-          const match2 =
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().s[75]++, cleaned.match(/^(\\d{4})(\\d{2})$/));
-          const match3 =
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().s[76]++, cleaned.match(/^(\\d{4})(\\d{2})(\\d{2})$/));
-
-          /* istanbul ignore next */
-          cov_2n9oqb4wxe().s[77]++;
-
-          if (
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().b[53][0]++, match1) &&
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().b[53][1]++, match1.length &lt; 5)) {
-            /* istanbul ignore next */
-            cov_2n9oqb4wxe().b[52][0]++;
-            cov_2n9oqb4wxe().s[78]++;
-            return [\`\${match1[1]}/\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_2n9oqb4wxe().b[52][1]++;
-          }
-
-          cov_2n9oqb4wxe().s[79]++;
-
-          if (
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().b[55][0]++, match2) &&
-          /* istanbul ignore next */
-          (cov_2n9oqb4wxe().b[55][1]++, match2.length &lt; 8)) {
-            /* istanbul ignore next */
-            cov_2n9oqb4wxe().b[54][0]++;
-            cov_2n9oqb4wxe().s[80]++;
-            return [\`\${match2[1]}/\${match2[2]}/\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_2n9oqb4wxe().b[54][1]++;
-          }
-
-          cov_2n9oqb4wxe().s[81]++;
-
-          if (match3) {
-            /* istanbul ignore next */
-            cov_2n9oqb4wxe().b[56][0]++;
-            cov_2n9oqb4wxe().s[82]++;
-            return [\`\${match3[1]}/\${match3[2]}/\${match3[3]}\`];
-          } else
-          /* istanbul ignore next */
-          {
-            cov_2n9oqb4wxe().b[56][1]++;
-          }
-
-          cov_2n9oqb4wxe().s[83]++;
-          return [value];
-        }
+    function
      
     10
      

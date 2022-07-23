@@ -82,7 +82,7 @@ dispatch('keyDown', { key: 'A', ctrlKey: false, preventDefault: jest.fn() });
     {id}
     {readonly}
     {modifiers}
-    {transform}
+    {typeof transform}
     {maxlength}
     {onFocus}
     {options}
