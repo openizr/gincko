@@ -75,7 +75,7 @@ declare module 'gincko' {
     /** Whether to submit current step when performing a user action on this field. */
     submit?: boolean;
 
-    /** UI component to use for rendering field. */
+    /** Name of the UI component to use for rendering field. */
     component: string;
 
     /** Additional props that will be passed to the field's component. */
