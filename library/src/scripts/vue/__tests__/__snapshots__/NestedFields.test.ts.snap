@@ -1,0 +1,423 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vue/NestedFields renders correctly - array 1`] = `
+<div
+  class="ui-nested-fields  array"
+>
+  <span
+    class="ui-nested-fields__label"
+  >
+    Test
+  </span>
+  
+  <div
+    class="ui-nested-fields__field"
+  >
+    <!--v-if-->
+    <div
+      type="button"
+    >
+      {}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  
+  <div
+    class="ui-nested-fields__add"
+  >
+    <!--v-if-->
+    <div
+      modifiers="disabled "
+      type="button"
+    >
+      {}
+    </div>
+  </div>
+  <span
+    class="ui-nested-fields__helper"
+  >
+    Helper
+  </span>
+</div>
+`;
+
+exports[`vue/NestedFields renders correctly - array with maxItems 1`] = `
+<div
+  class="ui-nested-fields  array"
+>
+  <!--v-if-->
+  
+  <div
+    class="ui-nested-fields__field"
+  >
+    <!--v-if-->
+    <div
+      type="button"
+    >
+      {}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  
+  <div
+    class="ui-nested-fields__add"
+  >
+    <!--v-if-->
+    <!--v-if-->
+  </div>
+  <!--v-if-->
+</div>
+`;
+
+exports[`vue/NestedFields renders correctly - array with maxItems 2`] = `
+<div
+  class="ui-nested-fields  array"
+>
+  <!--v-if-->
+  
+  <div
+    class="ui-nested-fields__field"
+  >
+    <!--v-if-->
+    <div
+      type="button"
+    >
+      {}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  
+  <div
+    class="ui-nested-fields__add"
+  >
+    <!--v-if-->
+    <!--v-if-->
+  </div>
+  <!--v-if-->
+</div>
+`;
+
+exports[`vue/NestedFields renders correctly - array with minItems 1`] = `
+<div
+  class="ui-nested-fields  array"
+>
+  <!--v-if-->
+  
+  <div
+    class="ui-nested-fields__field"
+  >
+    <!--v-if-->
+    <div
+      type="button"
+    >
+      {}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <!--v-if-->
+    <div
+      type="button"
+    >
+      {}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <!--v-if-->
+    <div
+      type="button"
+    >
+      {}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  
+  <div
+    class="ui-nested-fields__add"
+  >
+    <!--v-if-->
+    <div
+      modifiers="disabled "
+      type="button"
+    >
+      {}
+    </div>
+  </div>
+  <!--v-if-->
+</div>
+`;
+
+exports[`vue/NestedFields renders correctly - array with minItems 2`] = `
+<div
+  class="ui-nested-fields  array"
+>
+  <!--v-if-->
+  
+  <div
+    class="ui-nested-fields__field"
+  >
+    <!--v-if-->
+    <!--v-if-->
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <!--v-if-->
+    <!--v-if-->
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <!--v-if-->
+    <!--v-if-->
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  
+  <div
+    class="ui-nested-fields__add"
+  >
+    <!--v-if-->
+    <div
+      modifiers="disabled "
+      type="button"
+    >
+      {}
+    </div>
+  </div>
+  <!--v-if-->
+</div>
+`;
+
+exports[`vue/NestedFields renders correctly - dynamicObject with error 1`] = `
+<div
+  class="ui-nested-fields error dynamicObject"
+>
+  <!--v-if-->
+  
+  <div
+    class="ui-nested-fields__field"
+  >
+    <span
+      class="ui-nested-fields__field__label"
+    >
+      Message
+    </span>
+    <div
+      type="button"
+    >
+      {}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <span
+      class="ui-nested-fields__field__label"
+    >
+      Message
+    </span>
+    <div
+      type="button"
+    >
+      {}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  
+  <div
+    class="ui-nested-fields__add"
+  >
+    <div
+      debounce-timeout="100"
+      name="undefined-add"
+      readonly=""
+      value=""
+    >
+      {}
+    </div>
+    <div
+      modifiers="disabled "
+      type="button"
+    >
+      {}
+    </div>
+  </div>
+  <span
+    class="ui-nested-fields__helper"
+  >
+    Error
+  </span>
+</div>
+`;
+
+exports[`vue/NestedFields renders correctly - dynamicObject with invalid pattern 1`] = `
+<div
+  class="ui-nested-fields  dynamicObject"
+>
+  <!--v-if-->
+  
+  <div
+    class="ui-nested-fields__field"
+  >
+    <span
+      class="ui-nested-fields__field__label"
+    >
+      Message
+    </span>
+    <div
+      type="button"
+    >
+      {}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  
+  <div
+    class="ui-nested-fields__add"
+  >
+    <div
+      debounce-timeout="10"
+      helper="INVALID"
+      name="undefined-add"
+      readonly=""
+      value=""
+    >
+      {}
+    </div>
+    <div
+      modifiers="disabled "
+      type="button"
+    >
+      {}
+    </div>
+  </div>
+  <!--v-if-->
+</div>
+`;
+
+exports[`vue/NestedFields renders correctly - dynamicObject with valid pattern 1`] = `
+<div
+  class="ui-nested-fields  dynamicObject"
+>
+  <!--v-if-->
+  
+  <div
+    class="ui-nested-fields__field"
+  >
+    <span
+      class="ui-nested-fields__field__label"
+    >
+      Message
+    </span>
+    <div
+      type="button"
+    >
+      {}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  
+  <div
+    class="ui-nested-fields__add"
+  >
+    <div
+      debounce-timeout="10"
+      name="undefined-add"
+      readonly=""
+      value=""
+    >
+      {}
+    </div>
+    <div
+      modifiers="disabled "
+      type="button"
+    >
+      {}
+    </div>
+  </div>
+  <!--v-if-->
+</div>
+`;
+
+exports[`vue/NestedFields renders correctly - object 1`] = `
+<div
+  class="ui-nested-fields  object"
+>
+  <!--v-if-->
+  
+  <div
+    class="ui-nested-fields__field"
+  >
+    <!--v-if-->
+    <!--v-if-->
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+    </div>
+  </div>
+  
+  <!--v-if-->
+  <!--v-if-->
+</div>
+`;

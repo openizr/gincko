@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`react/Message renders correctly - custom props 1`] = `
+<section
+  class="ui-message strong"
+  id="test"
+>
+  MARKDOWN FOR *Test*, false
+</section>
+`;
+
+exports[`react/Message renders correctly - default props 1`] = `
+<section
+  class="ui-message "
+  id="test"
+>
+  MARKDOWN FOR , false
+</section>
+`;

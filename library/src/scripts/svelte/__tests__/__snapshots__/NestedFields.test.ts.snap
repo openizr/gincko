@@ -1,0 +1,1344 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`svelte/NestedFields renders correctly - array 1`] = `
+<div>
+  <div
+    class="ui-nested-fields  array"
+  >
+    <span
+      class="ui-nested-fields__label"
+    >
+      Test
+    </span>
+     
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    
+     
+    <div
+      class="ui-nested-fields__add"
+    >
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        disabled 
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+    </div>
+     
+    <span
+      class="ui-nested-fields__helper"
+    >
+      Helper
+    </span>
+  </div>
+</div>
+`;
+
+exports[`svelte/NestedFields renders correctly - array with maxItems 1`] = `
+<div>
+  <div
+    class="ui-nested-fields  array"
+  >
+     
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    
+     
+    <div
+      class="ui-nested-fields__add"
+    >
+       
+    </div>
+     
+  </div>
+</div>
+`;
+
+exports[`svelte/NestedFields renders correctly - array with maxItems 2`] = `
+<div>
+  <div
+    class="ui-nested-fields  array"
+  >
+     
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    
+     
+    <div
+      class="ui-nested-fields__add"
+    >
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        disabled 
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+    </div>
+     
+  </div>
+</div>
+`;
+
+exports[`svelte/NestedFields renders correctly - array with minItems 1`] = `
+<div>
+  <div
+    class="ui-nested-fields  array"
+  >
+     
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message1","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message1","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message2","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message2","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message3","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message3","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+     
+    <div
+      class="ui-nested-fields__add"
+    >
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        disabled 
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+    </div>
+     
+  </div>
+</div>
+`;
+
+exports[`svelte/NestedFields renders correctly - array with minItems 2`] = `
+<div>
+  <div
+    class="ui-nested-fields  array"
+  >
+     
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+       
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message1","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message1","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+       
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message2","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message2","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    
+     
+    <div
+      class="ui-nested-fields__add"
+    >
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        disabled 
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+    </div>
+     
+  </div>
+</div>
+`;
+
+exports[`svelte/NestedFields renders correctly - dynamicObject with error 1`] = `
+<div>
+  <div
+    class="ui-nested-fields  dynamicObject"
+  >
+     
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+      <span
+        class="ui-nested-fields__field__label"
+      >
+        Message1
+      </span>
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message1","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message1","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+      <span
+        class="ui-nested-fields__field__label"
+      >
+        Message2
+      </span>
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message2","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message2","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    
+     
+    <div
+      class="ui-nested-fields__add"
+    >
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        null-add
+         
+        undefined
+         
+        
+         
+        undefined
+         
+        undefined
+         
+        100
+         
+        undefined
+         
+        true
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        disabled 
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+    </div>
+     
+  </div>
+</div>
+`;
+
+exports[`svelte/NestedFields renders correctly - dynamicObject with invalid pattern 1`] = `
+<div>
+  <div
+    class="ui-nested-fields  dynamicObject"
+  >
+     
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+      <span
+        class="ui-nested-fields__field__label"
+      >
+        Message
+      </span>
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    
+     
+    <div
+      class="ui-nested-fields__add"
+    >
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        null-add
+         
+        undefined
+         
+        
+         
+        undefined
+         
+        INVALID
+         
+        10
+         
+        undefined
+         
+        true
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        disabled 
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+    </div>
+     
+  </div>
+</div>
+`;
+
+exports[`svelte/NestedFields renders correctly - dynamicObject with valid pattern 1`] = `
+<div>
+  <div
+    class="ui-nested-fields  dynamicObject"
+  >
+     
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+      <span
+        class="ui-nested-fields__field__label"
+      >
+        Message
+      </span>
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    
+     
+    <div
+      class="ui-nested-fields__add"
+    >
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        null-add
+         
+        undefined
+         
+        
+         
+        undefined
+         
+        undefined
+         
+        10
+         
+        undefined
+         
+        true
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+       
+      <div>
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        disabled 
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+         
+        undefined
+      </div>
+    </div>
+     
+  </div>
+</div>
+`;
+
+exports[`svelte/NestedFields renders correctly - object 1`] = `
+<div>
+  <div
+    class="ui-nested-fields  object"
+  >
+     
+    
+    <div
+      class="ui-nested-fields__field"
+    >
+       
+       
+      <div
+        id="field"
+      >
+        {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
+      </div>
+    </div>
+    
+    
+    
+     
+     
+  </div>
+</div>
+`;

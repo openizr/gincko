@@ -1,51 +1,26 @@
 import * as React from 'react';
-import Form from 'gincko/react';
-import * as ReactDOM from 'react-dom';
 import configuration from 'scripts/config';
+import Form, { Variables } from 'gincko/react';
+import { createRoot, Root } from 'react-dom/client';
 
-// Webpack HMR interface.
-interface ExtendedNodeModule extends NodeModule {
-  hot: { accept: () => void };
-}
+let app: Root;
 
-const App = (): JSX.Element => {
-  const [conf, setConf] = React.useState(configuration);
-  const [activeStep, setActiveStep] = React.useState('start');
-  React.useEffect(() => {
-    setTimeout(() => {
-      setConf({
-        root: 'start',
-        id: 'test',
-        steps: {
-          start: { fields: ['mess', 'submit'] },
-        },
-        fields: {
-          mess: {
-            type: 'Message',
-            label: '{{email}} - {{test}}',
-          },
-          submit: {
-            type: 'Button',
-            label: 'Submit',
-          },
-        },
-      });
-    }, 5000);
-    setTimeout(() => {
-      setActiveStep('end');
-    }, 3000);
-  }, []);
-
-  return (
-    <Form
-      activeStep={activeStep}
-      configuration={conf}
-    />
-  );
+const translate = (label: string, variables: Variables = {}): string => {
+  let translatedLabel = label;
+  Object.keys(variables).forEach((variable) => {
+    translatedLabel = translatedLabel.replace(`{{${variable}}}`, variables[variable] as string);
+  });
+  return translatedLabel;
 };
 
 function main(): void {
-  ReactDOM.render(<App />, document.querySelector('#root'));
+  app = createRoot(document.querySelector('#root') as HTMLElement);
+  const StrictMode = React.StrictMode as JSXElement;
+  app.render(
+    <StrictMode>
+      <Form configuration={configuration} i18n={translate} />
+    </StrictMode>,
+  );
 }
 
 // Ensures DOM is fully loaded before running app's main logic.
@@ -60,10 +35,5 @@ if (document.readyState === 'loading') {
 // Ensures subscriptions to Store are correctly cleared when page is left, to prevent "ghost"
 // processing, by manually unmounting React components tree.
 window.addEventListener('beforeunload', () => {
-  ReactDOM.unmountComponentAtNode(document.querySelector('#root') as Element);
+  app.unmount();
 });
-
-// Enables Hot Module Rendering.
-if ((module as ExtendedNodeModule).hot) {
-  (module as ExtendedNodeModule).hot.accept();
-}

@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`react/NestedFields renders correctly - array 1`] = `
+<div
+  class="ui-nested-fields  array"
+>
+  <span
+    class="ui-nested-fields__label"
+  >
+    Test
+  </span>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <div>
+      {"type":"button"}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"path":"path.0.to.field.Message","customComponents":{}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__add"
+  >
+    <div>
+      {"type":"button","modifiers":"disabled "}
+    </div>
+  </div>
+  <span
+    class="ui-nested-fields__helper"
+  >
+    Helper
+  </span>
+</div>
+`;
+
+exports[`react/NestedFields renders correctly - array with maxItems 1`] = `
+<div
+  class="ui-nested-fields  array"
+>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <div>
+      {"type":"button"}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"path":"path.0.to.field.Message","customComponents":{}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__add"
+  />
+</div>
+`;
+
+exports[`react/NestedFields renders correctly - array with minItems 1`] = `
+<div
+  class="ui-nested-fields  array"
+>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"path":"path.0.to.field.Message","customComponents":{}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__add"
+  >
+    <div>
+      {"type":"button","modifiers":"disabled "}
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/NestedFields renders correctly - dynamicObject with error 1`] = `
+<div
+  class="ui-nested-fields error dynamicObject"
+>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <span
+      class="ui-nested-fields__field__label"
+    >
+      Message
+    </span>
+    <div>
+      {"type":"button"}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"path":"path.0.to.field.Message","customComponents":{}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <span
+      class="ui-nested-fields__field__label"
+    >
+      Message2
+    </span>
+    <div>
+      {"type":"button"}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message2","status":"initial","component":"Message","componentProps":{}},"isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"path":"path.0.to.field.Message2","customComponents":{}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__add"
+  >
+    <div>
+      {"value":"","name":"undefined-add","readonly":true,"debounceTimeout":100}
+    </div>
+    <div>
+      {"type":"button","modifiers":"disabled "}
+    </div>
+  </div>
+  <span
+    class="ui-nested-fields__helper"
+  >
+    Error
+  </span>
+</div>
+`;
+
+exports[`react/NestedFields renders correctly - dynamicObject with invalid pattern 1`] = `
+<div
+  class="ui-nested-fields  dynamicObject"
+>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <span
+      class="ui-nested-fields__field__label"
+    >
+      Message
+    </span>
+    <div>
+      {"type":"button"}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"path":"path.0.to.field.Message","customComponents":{}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__add"
+  >
+    <div>
+      {"value":"","name":"undefined-add","readonly":true,"helper":"INVALID","debounceTimeout":10}
+    </div>
+    <div>
+      {"type":"button","modifiers":"disabled "}
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/NestedFields renders correctly - dynamicObject with valid pattern 1`] = `
+<div
+  class="ui-nested-fields  dynamicObject"
+>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <span
+      class="ui-nested-fields__field__label"
+    >
+      Message
+    </span>
+    <div>
+      {"type":"button"}
+    </div>
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"path":"path.0.to.field.Message","customComponents":{}}
+    </div>
+  </div>
+  <div
+    class="ui-nested-fields__add"
+  >
+    <div>
+      {"value":"test","name":"undefined-add","readonly":true,"debounceTimeout":100}
+    </div>
+    <div>
+      {"type":"button","modifiers":" "}
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/NestedFields renders correctly - object 1`] = `
+<div
+  class="ui-nested-fields  object"
+>
+  <div
+    class="ui-nested-fields__field"
+  >
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"path":"path.0.to.field.Message","customComponents":{}}
+    </div>
+  </div>
+</div>
+`;

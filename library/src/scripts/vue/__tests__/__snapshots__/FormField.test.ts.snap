@@ -1,0 +1,228 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vue/FormField renders correctly - Array 1`] = `
+<div
+  addbuttonprops="[object Object]"
+  addtextfieldprops="[object Object]"
+  customcomponents="[object Object]"
+  fields=""
+  id="path__0__to__field"
+  isactive="true"
+  modifiers="success "
+  removebuttonprops="[object Object]"
+  t="function () {
+        return fn.apply(this, arguments);
+      }"
+  type="array"
+  userinputs="[object Object]"
+  variables="[object Object]"
+>
+  {"path":"path.0.to.field"}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Array 2`] = `
+<div
+  addbuttonprops="[object Object]"
+  addtextfieldprops="[object Object]"
+  customcomponents="[object Object]"
+  fields=""
+  id="path__0__to__field"
+  isactive="false"
+  modifiers="success "
+  removebuttonprops="[object Object]"
+  t="function () {
+        return fn.apply(this, arguments);
+      }"
+  type="array"
+  userinputs="[object Object]"
+  variables="[object Object]"
+>
+  {"path":"path.0.to.field"}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Button 1`] = `
+<div
+  id="path__0__to__field"
+  modifiers="success "
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - DatePicker 1`] = `
+<div
+  debouncetimeout="100"
+  id="path__0__to__field"
+  maxlength="10"
+  modifiers="success "
+  name="path.0.to.field"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - DatePicker 2`] = `
+<div
+  debouncetimeout="10"
+  id="path__0__to__field"
+  maxlength="10"
+  modifiers="success "
+  name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
+  value="2022/07/07"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - DynamicObject 1`] = `
+<div
+  addbuttonprops="[object Object]"
+  addtextfieldprops="[object Object]"
+  customcomponents="[object Object]"
+  fields=""
+  id="path__0__to__field"
+  isactive="true"
+  modifiers="success "
+  removebuttonprops="[object Object]"
+  t="function () {
+        return fn.apply(this, arguments);
+      }"
+  type="dynamicObject"
+  userinputs="[object Object]"
+  variables="[object Object]"
+>
+  {"path":"path.0.to.field"}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - DynamicObject 2`] = `
+<div
+  addbuttonprops="[object Object]"
+  addtextfieldprops="[object Object]"
+  customcomponents="[object Object]"
+  fields=""
+  id="path__0__to__field"
+  isactive="true"
+  modifiers="success "
+  removebuttonprops="[object Object]"
+  t="function () {
+        return fn.apply(this, arguments);
+      }"
+  type="dynamicObject"
+  userinputs="[object Object]"
+  variables="[object Object]"
+>
+  {"path":"path.0.to.field"}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - FilePicker 1`] = `
+<div
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - FilePicker 2`] = `
+<div
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Link 1`] = `
+<div
+  id="path__0__to__field"
+  label=""
+  modifiers="success "
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Message with label and helper 1`] = `
+<div
+  id="field"
+>
+  {"id":"path__0__to__field","label":"TRANSLATED LABEL","modifiers":"success "}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Message with label and message 1`] = `
+<div
+  id="field"
+>
+  {"id":"path__0__to__field","label":"TRANSLATED LABEL","modifiers":"success "}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Options 1`] = `
+<div
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+  options="[object Object],[object Object]"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Textarea 1`] = `
+<div
+  debouncetimeout="100"
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Textarea 2`] = `
+<div
+  debouncetimeout="10"
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
+  value="test"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Textfield 1`] = `
+<div
+  debouncetimeout="100"
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Textfield 2`] = `
+<div
+  debouncetimeout="10"
+  id="path__0__to__field"
+  modifiers="success "
+  name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
+  value="test"
+>
+  {}
+</div>
+`;
+
+exports[`vue/FormField renders correctly - Unknown component 1`] = `<!--v-if-->`;

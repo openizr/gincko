@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 15
+  - 17
 
 jobs:
   include:
@@ -12,8 +12,6 @@ jobs:
         - sed -i "s/\.\.\/\.\.\///g" coverage/lcov.info
 
 before_deploy:
-  - yarn run doc
-  - touch ../docs/.nojekyll
   - npm config set '//registry.npmjs.org/:_authToken' "${NPM_AUTH_TOKEN}"
 
 # Only when deploying a new release
@@ -22,14 +20,6 @@ deploy:
   - provider: script
     skip_cleanup: true
     script: yarn run build && cp ../README.md dist && cp ../LICENSE dist && sed -i "s/TRAVIS_TAG/$TRAVIS_TAG/g" ./dist/package.json && npm publish ./dist
-    on:
-      tags: true
-  # Generates documentation
-  - provider: pages
-    skip_cleanup: true
-    keep_history: true
-    target_branch: master
-    github_token: $GITHUB_TOKEN
     on:
       tags: true
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -13,45 +13,44 @@ describe('core/state', () => {
     jest.clearAllMocks();
   });
 
-  test('UPDATE mutation', () => {
+  test('UPDATE', () => {
     expect(state.mutations.UPDATE({
       state: {
         steps: [],
-        values: {},
+        userInputs: {},
         variables: {},
-        loadingNextStep: true,
+        loading: true,
       },
       mutate: jest.fn(),
-      hash: 'steps',
+      hash: 'state',
     }, {
       steps: [1],
-      values: { test: 'test' },
+      userInputs: { test: 'test' },
       variables: { var1: 'test1' },
+      loading: false,
     })).toEqual({
       steps: [1],
-      values: { test: 'test' },
+      userInputs: { test: 'test' },
       variables: { var1: 'test1' },
-      loadingNextStep: true,
+      loading: false,
     });
   });
 
-  test('SET_LOADER mutation', () => {
+  test('SET_LOADER', () => {
     expect(state.mutations.SET_LOADER({
       state: {
         steps: [],
-        values: {},
+        userInputs: {},
         variables: {},
-        loadingNextStep: true,
+        loading: true,
       },
       mutate: jest.fn(),
-      hash: 'steps',
-    }, {
-      loadingNextStep: false,
-    })).toEqual({
+      hash: 'state',
+    }, false)).toEqual({
       steps: [],
-      values: {},
+      userInputs: {},
       variables: {},
-      loadingNextStep: false,
+      loading: false,
     });
   });
 });

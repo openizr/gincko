@@ -1,12 +1,12 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { Plugin } from 'scripts/core/Engine';
+import { Plugin } from 'scripts/index.d';
 
 type GreCaptcha = { grecaptcha: Client; };
 type Client = {
@@ -14,10 +14,7 @@ type Client = {
   execute: (...args: (string | Record<string, string>)[]) => Promise<string>;
 };
 
-/**
- * Plugin options.
- */
-interface Options {
+interface ReCaptchaHandlerOptions {
   /** Google's reCAPTCHA v3 site key. */
   siteKey: string;
 }
@@ -25,14 +22,14 @@ interface Options {
 /**
  * Automatically handles a reCAPTCHA challenge for current form.
  *
- * @param {Options} options Plugin's options.
+ * @param {ReCaptchaHandlerOptions} options Plugin's options.
  *
  * @returns {Plugin} The actual plugin.
  */
-export default function reCaptchaHandler(options: Options): Plugin {
+export default function reCaptchaHandler(options: ReCaptchaHandlerOptions): Plugin {
   return (engine): void => {
     const { grecaptcha } = <Window & { grecaptcha?: Client; }>window;
-    engine.on('submit', (formValues, next) => new Promise((resolve) => {
+    engine.on('submit', (userInputs, next) => new Promise((resolve) => {
       const submit = (client: Client): void => {
         client.ready(() => {
           client.execute(options.siteKey, { action: 'submit' }).then((token) => {
@@ -49,6 +46,6 @@ export default function reCaptchaHandler(options: Options): Plugin {
       } else {
         submit(grecaptcha);
       }
-    }).then((reCaptchaToken) => next({ ...formValues, reCaptchaToken })));
+    }).then((reCaptchaToken) => next({ ...userInputs, reCaptchaToken })));
   };
 }

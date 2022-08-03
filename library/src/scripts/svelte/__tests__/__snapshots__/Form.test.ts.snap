@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`svelte/Form renders correctly - loading next step 1`] = `
+<div>
+  <form
+    class="gincko"
+    id="test"
+  >
+    <div
+      class="gincko__steps"
+    >
+      
+      <div
+        id="step"
+      >
+        {"step":{"id":"start"},"index":0,"isActive":false,"customComponents":{}}
+      </div>
+      
+      <div
+        id="step"
+      >
+        {"step":{"id":"end"},"index":1,"isActive":true,"customComponents":{}}
+      </div>
+       
+      <div
+        slot="loader"
+      >
+        LOADING...
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`svelte/Form renders correctly - loading next step 2`] = `
+<div>
+  <form
+    class="gincko"
+    id="test"
+  >
+    <div
+      class="gincko__steps"
+    >
+      
+      <div
+        id="step"
+      >
+        {"step":{"id":"start"},"index":0,"isActive":false,"customComponents":{}}
+      </div>
+      
+      <div
+        id="step"
+      >
+        {"step":{"id":"end"},"index":1,"isActive":true,"customComponents":{}}
+      </div>
+       
+      <div
+        slot="loader"
+      >
+        LOADING...
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`svelte/Form renders correctly - with active step 1`] = `
+<div>
+  <form
+    class="gincko"
+    id="test"
+  >
+    <div
+      class="gincko__steps"
+    >
+      
+      <div
+        id="step"
+      >
+        {"step":{"id":"start"},"index":0,"isActive":false,"customComponents":{}}
+      </div>
+      
+      <div
+        id="step"
+      >
+        {"step":{"id":"end"},"index":1,"isActive":true,"customComponents":{}}
+      </div>
+       
+      <div
+        slot="loader"
+      >
+        LOADING...
+      </div>
+    </div>
+  </form>
+</div>
+`;

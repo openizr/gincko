@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,16 +7,15 @@
  * @jest-environment jsdom
  */
 
-import Engine from 'scripts/core/Engine';
-import MockedEngine from 'scripts/core/__mocks__/Engine';
-import reCaptchaHandler from 'scripts/plugins/reCaptchaHandler';
+import { reCaptchaHandler } from 'scripts/plugins';
+import BaseEngine from 'scripts/core/__mocks__/Engine';
 
 describe('plugins/reCaptchaHandler', () => {
-  let engine = MockedEngine();
+  let engine: BaseEngine;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    engine = MockedEngine();
+    engine = new BaseEngine();
     reCaptchaHandler({ siteKey: 'testKey' })(engine as unknown as Engine);
   });
 
@@ -30,7 +29,7 @@ describe('plugins/reCaptchaHandler', () => {
         appendChild: jest.fn(),
       }]),
     });
-    const promise = engine.trigger('submit', {}, { reCaptchaToken: 'test_token' });
+    const promise = engine.trigger('submit', { reCaptchaToken: 'test_token' });
     Object.assign(window, {
       grecaptcha: {
         ready: jest.fn((callback) => callback()),
@@ -40,7 +39,7 @@ describe('plugins/reCaptchaHandler', () => {
     element.onload();
     const result = await promise;
     expect(document.createElement).toHaveBeenCalled();
-    expect(result[0]).toEqual({ reCaptchaToken: 'test_token' });
+    expect(result).toEqual({ reCaptchaToken: 'test_token' });
     document.createElement = unmockedCreateElement;
     document.getElementsByTagName = unmockedGetElementsByTagName;
   });
@@ -52,8 +51,7 @@ describe('plugins/reCaptchaHandler', () => {
         execute: jest.fn(() => Promise.resolve('test_token')),
       },
     });
-    const promise = engine.trigger('submit', {}, { reCaptchaToken: 'test_token' });
-    const result = await promise;
-    expect(result[0]).toEqual({ reCaptchaToken: 'test_token' });
+    const result = await engine.trigger('submit', { reCaptchaToken: 'test_token' });
+    expect(result).toEqual({ reCaptchaToken: 'test_token' });
   });
 });

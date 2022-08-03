@@ -1,14 +1,14 @@
 /**
- * Copyright (c) KivFinance, Inc.
- * All rights reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { Plugin } from 'scripts/core/Engine';
+import { Plugin } from 'scripts/index.d';
 
-/**
- * Plugin options.
- */
-interface Options {
+interface ErrorStepDisplayerOptions {
   /** Id of the error step in the configuration. */
   stepId: string;
 
@@ -19,18 +19,15 @@ interface Options {
 /**
  * Gracefully handles errors by displaying a generic error step.
  *
- * @param {Options} options Plugin options.
+ * @param {ErrorStepDisplayerOptions} options Plugin options.
  *
  * @returns {Plugin} The actual gincko plugin.
  */
-export default function errorStepDisplayer(options: Options): Plugin {
+export default function errorStepDisplayer(options: ErrorStepDisplayerOptions): Plugin {
   return (engine): void => {
-    engine.on('error', (error, next) => {
-      const errorStep = engine.createStep(options.stepId);
-      if (errorStep !== null) {
-        engine.setCurrentStep(errorStep);
-        options.setActiveStep(options.stepId);
-      }
+    engine.on('error', async (error, next) => {
+      await engine.createStep(options.stepId);
+      options.setActiveStep(options.stepId);
       return next(error);
     });
   };

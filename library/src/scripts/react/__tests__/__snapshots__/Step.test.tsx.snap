@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`react/Step renders correctly - active step 1`] = `
+<div
+  class="gincko__step success step active"
+  id="step__0"
+>
+  <div
+    class="gincko__step__fields"
+  >
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"isActive":true,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{},"path":"step.0.Message"}
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/Step renders correctly - inactive step 1`] = `
+<div
+  class="gincko__step success step "
+  id="step__0"
+>
+  <div
+    class="gincko__step__fields"
+  >
+    <div
+      id="field"
+    >
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{},"path":"step.0.Message"}
+    </div>
+  </div>
+</div>
+`;

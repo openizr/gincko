@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -13,15 +13,8 @@ describe('core/userActions', () => {
     jest.clearAllMocks();
   });
 
-  test('ADD mutation', () => {
-    expect(userActions.mutations.ADD({
-      state: null,
-      mutate: jest.fn(),
-      hash: 'steps',
-    }, {
-      test: true,
-    })).toEqual({
-      test: true,
-    });
+  test('ADD', () => {
+    const data = { test: true };
+    expect(userActions.mutations.ADD({ state: null, mutate: jest.fn(), hash: 'steps' }, data)).toEqual(data);
   });
 });

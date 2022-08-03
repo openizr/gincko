@@ -1,0 +1,695 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`svelte/Field renders correctly - Array 1`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":null,"placeholder":null},"type":"array","value":null,"customComponents":{}}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Array 2`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":false,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":"TRANSLATED LABEL"},"removeButtonProps":{"label":"TRANSLATED LABEL"},"addTextfieldProps":{"label":null,"placeholder":null},"type":"array","value":null,"customComponents":{}}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Button 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    null
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path__0__to__field
+     
+    undefined
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - DatePicker 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    null
+     
+    null
+     
+    null
+     
+    100
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    function
+     
+    10
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - DatePicker 2`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    2022/07/07
+     
+    TRANSLATED LABEL
+     
+    null
+     
+    10
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    function
+     
+    10
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - DynamicObject 1`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":null,"placeholder":null},"type":"dynamicObject","value":null,"customComponents":{}}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - DynamicObject 2`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":"TRANSLATED LABEL","placeholder":"TRANSLATED LABEL"},"type":"dynamicObject","value":null,"customComponents":{}}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - FilePicker 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    undefined
+     
+    null
+     
+    null
+     
+    undefined
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - FilePicker 2`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    undefined
+     
+    TRANSLATED LABEL
+     
+    null
+     
+    undefined
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Link 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path__0__to__field
+     
+    undefined
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Message with label and helper 1`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","label":"TRANSLATED LABEL","modifiers":"success "}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Message with label and message 1`] = `
+<div>
+  <div
+    id="field"
+  >
+    {"id":"path__0__to__field","label":"TRANSLATED LABEL","modifiers":"success "}
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Options 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    undefined
+     
+    undefined
+     
+    null
+     
+    undefined
+     
+    path__0__to__field
+     
+    undefined
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    () =&gt; null
+     
+    [object Object],[object Object]
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Textarea 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    null
+     
+    null
+     
+    null
+     
+    100
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Textarea 2`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    test
+     
+    TRANSLATED LABEL
+     
+    null
+     
+    10
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Textfield 1`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    null
+     
+    null
+     
+    null
+     
+    100
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Textfield 2`] = `
+<div>
+  <div>
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    path.0.to.field
+     
+    null
+     
+    test
+     
+    TRANSLATED LABEL
+     
+    null
+     
+    10
+     
+    path__0__to__field
+     
+    false
+     
+    success 
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+     
+    undefined
+  </div>
+  
+  
+</div>
+`;
+
+exports[`svelte/Field renders correctly - Unknown component 1`] = `
+<div>
+  
+</div>
+`;
