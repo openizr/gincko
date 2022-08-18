@@ -14,8 +14,6 @@ import { render, waitFor } from '@testing-library/react';
 jest.mock('biuty/react');
 jest.mock('scripts/react/Field');
 
-const JSXNestedFields = NestedFields as JSXElement;
-
 describe('react/NestedFields', () => {
   const onUserAction = jest.fn();
   const userInputs = { test: 'ok' };
@@ -28,7 +26,7 @@ describe('react/NestedFields', () => {
   });
 
   test('renders correctly - array', async () => {
-    const { container } = render(<JSXNestedFields
+    const { container } = render(<NestedFields
       t={i18n}
       type="array"
       label="Test"
@@ -43,12 +41,12 @@ describe('react/NestedFields', () => {
         componentProps: {},
       }, null]}
       onUserAction={onUserAction}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - array with minItems', async () => {
-    const { container } = render(<JSXNestedFields
+    const { container } = render(<NestedFields
       t={i18n}
       type="array"
       minItems={2}
@@ -62,12 +60,12 @@ describe('react/NestedFields', () => {
         componentProps: {},
       }]}
       onUserAction={onUserAction}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - array with maxItems', async () => {
-    const { container } = render(<JSXNestedFields
+    const { container } = render(<NestedFields
       t={i18n}
       type="array"
       maxItems={1}
@@ -82,12 +80,12 @@ describe('react/NestedFields', () => {
         componentProps: {},
       }, null]}
       onUserAction={onUserAction}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - object', async () => {
-    const { container } = render(<JSXNestedFields
+    const { container } = render(<NestedFields
       t={i18n}
       type="object"
       path="path.0.to.field"
@@ -100,13 +98,13 @@ describe('react/NestedFields', () => {
         componentProps: {},
       }, null]}
       onUserAction={onUserAction}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - dynamicObject with valid pattern', async () => {
     process.env.NOCLICK = 'true';
-    const { container } = render(<JSXNestedFields
+    const { container } = render(<NestedFields
       t={i18n}
       type="dynamicObject"
       path="path.0.to.field"
@@ -120,13 +118,13 @@ describe('react/NestedFields', () => {
       }, null]}
       onUserAction={onUserAction}
       allowedPatterns={[/test/]}
-    /> as JSXElement);
+    />);
     await waitFor(() => new Promise<void>((resolve) => { setTimeout(resolve, 50); }));
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - dynamicObject with invalid pattern', async () => {
-    const { container } = render(<JSXNestedFields
+    const { container } = render(<NestedFields
       t={i18n}
       type="dynamicObject"
       path="path.0.to.field"
@@ -140,13 +138,13 @@ describe('react/NestedFields', () => {
       }, null]}
       onUserAction={onUserAction}
       addTextfieldProps={{ debounceTimeout: 10, helper: 'INVALID' }}
-    /> as JSXElement);
+    />);
     await waitFor(() => new Promise<void>((resolve) => { setTimeout(resolve, 50); }));
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - dynamicObject with error', async () => {
-    const { container } = render(<JSXNestedFields
+    const { container } = render(<NestedFields
       t={i18n}
       helper="Error"
       modifiers="error"
@@ -170,7 +168,7 @@ describe('react/NestedFields', () => {
         componentProps: {},
       }, null]}
       onUserAction={onUserAction}
-    /> as JSXElement);
+    />);
     await waitFor(() => new Promise<void>((resolve) => { setTimeout(resolve, 50); }));
     expect(container.firstChild).toMatchSnapshot();
   });

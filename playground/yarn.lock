@@ -1477,10 +1477,10 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
-biuty@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/biuty/-/biuty-1.1.0.tgz#706e03cd246d22de7b034c10525b4a30d1e4f69f"
-  integrity sha512-EWRyAlEDL2CpZwVnT4+CBqpfb/0ICNH8vspKN1PekP2Y47h49Et1e5rj2rzt9NcjKgzpWX3nxvfpOs4ah8D6yg==
+biuty@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/biuty/-/biuty-1.2.0.tgz#417f8555d033e0af01ec2adf90c61bfe0d623ba1"
+  integrity sha512-UUKJQf4f3DWXONzQnu42p7/zxs1aCEA61B/9+ehy7LJWkz+2Pd2co9CF9qzUCkJLbrRsWeo+m7HS4oZdAFRxEw==
 
 boolbase@^1.0.0:
   version "1.0.0"
@@ -2784,7 +2784,7 @@ get-value@^2.0.3, get-value@^2.0.6:
   integrity sha512-Ln0UQDlxH1BapMu3GPtf7CuYNwRZf2gwCuPqbyG6pB8WfmFpzqcy4xtAaAMUhnNqjMKTiCPZG2oMT3YSx8U2NA==
 
 "gincko@file:../../../library/dist":
-  version "1.2.5"
+  version "2.2.4"
   dependencies:
     basx "^2.0.1"
     diox "^5.0.3"

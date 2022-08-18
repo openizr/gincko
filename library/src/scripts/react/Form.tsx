@@ -12,8 +12,6 @@ import Engine from 'scripts/core/Engine';
 import useStore from 'diox/connectors/react';
 import { StateState } from 'scripts/core/state';
 
-const JSXStep = Step as JSXElement;
-
 interface FormProps {
   /** Form's active step's id. */
   activeStep?: string | null;
@@ -68,7 +66,7 @@ function Form({
               : index === state.steps.length - 1;
 
             return (
-              <JSXStep
+              <Step
                 key={key}
                 step={step}
                 i18n={i18n}
@@ -79,8 +77,8 @@ function Form({
                 userInputs={state.userInputs}
                 customComponents={customComponents}
               />
-            ) as JSXElement;
-          }) as JSXElement}
+            );
+          })}
 
           {state.loading && loader}
         </div> as JSXElement
@@ -89,9 +87,9 @@ function Form({
   );
 }
 
-export default React.memo(Form as JSXElement, (prevProps, nextProps) => (
+export default React.memo(Form, (prevProps, nextProps) => (
   prevProps.loader === nextProps.loader
   && prevProps.i18n === nextProps.i18n
   && prevProps.activeStep === nextProps.activeStep
   && prevProps.customComponents === nextProps.customComponents
-));
+)) as JSXElement;

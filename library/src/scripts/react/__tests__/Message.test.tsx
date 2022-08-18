@@ -13,20 +13,18 @@ import { render } from '@testing-library/react';
 
 jest.mock('biuty/react');
 
-const JSXMessage = Message as JSXElement;
-
 describe('react/Message', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   test('renders correctly - default props', async () => {
-    const { container } = render(<JSXMessage id="test" /> as JSXElement);
+    const { container } = render(<Message id="test" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - custom props', async () => {
-    const { container } = render(<JSXMessage id="test" label="*Test*" modifiers="strong" /> as JSXElement);
+    const { container } = render(<Message id="test" label="*Test*" modifiers="strong" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

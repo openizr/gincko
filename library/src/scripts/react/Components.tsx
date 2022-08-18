@@ -35,9 +35,8 @@ const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomCompone
         ? field.i18n(componentProps.addTextfieldProps.placeholder, field.allValues)
         : null,
     };
-    const JSXNestedFields = NestedFields as JSXElement;
     return (
-      <JSXNestedFields
+      <NestedFields
         type={type}
         t={field.i18n}
         path={field.path}
@@ -72,9 +71,8 @@ export default {
   DynamicObject: nestedFields('dynamicObject'),
   Message(field) {
     const { componentProps } = field;
-    const JSXMessage = Message as JSXElement;
     return (
-      <JSXMessage
+      <Message
         label={field.label}
         id={field.path.replace(/\./g, '__')}
         modifiers={`${field.status} ${componentProps.modifiers || ''}`}
@@ -83,9 +81,8 @@ export default {
   },
   Link(field) {
     const { componentProps } = field;
-    const JSXUILink = biuty.UILink as JSXElement;
     return (
-      <JSXUILink
+      <biuty.UILink
         label={field.label || ''}
         rel={componentProps.rel}
         href={componentProps.href}
@@ -146,9 +143,8 @@ export default {
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
       : null;
-    const JSXTextfield = biuty.UITextfield as JSXElement;
     return (
-      <JSXTextfield
+      <biuty.UITextfield
         name={field.path}
         label={field.label}
         helper={field.message}
@@ -188,9 +184,8 @@ export default {
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
       : null;
-    const JSXTextfield = biuty.UITextfield as JSXElement;
     return (
-      <JSXTextfield
+      <biuty.UITextfield
         maxlength={10}
         name={field.path}
         label={field.label}
@@ -257,9 +252,8 @@ export default {
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
       : null;
-    const JSXTextarea = biuty.UITextarea as JSXElement;
     return (
-      <JSXTextarea
+      <biuty.UITextarea
         name={field.path}
         label={field.label}
         helper={field.message}
@@ -287,22 +281,21 @@ export default {
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
       : null;
-    const JSXUIFilePicker = biuty.UIFilePicker as JSXElement;
     return (
-      <JSXUIFilePicker
+      <biuty.UIFilePicker
         name={field.path}
         label={field.label}
-        value={field.value}
         helper={field.message}
         icon={componentProps.icon}
         placeholder={placeholder}
+        value={field.value as File[]}
         accept={componentProps.accept}
         onFocus={componentProps.onFocus}
         multiple={componentProps.multiple}
         id={field.path.replace(/\./g, '__')}
         iconPosition={componentProps.iconPosition}
         modifiers={`${field.status} ${componentProps.modifiers || ''}`}
-        onChange={(value: File): void => onUserAction('input', field.path, value)}
+        onChange={(value: File[]): void => onUserAction('input', field.path, value)}
       />
     );
   },
