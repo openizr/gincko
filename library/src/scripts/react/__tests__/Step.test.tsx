@@ -15,8 +15,6 @@ jest.mock('biuty/react');
 jest.mock('scripts/core/Engine');
 jest.mock('scripts/react/Field');
 
-const JSXStep = Step as JSXElement;
-
 describe('react/Step', () => {
   const customComponents = {};
   const userInputs = { test: 'ok' };
@@ -29,7 +27,7 @@ describe('react/Step', () => {
   });
 
   test('renders correctly - active step', async () => {
-    const { container } = render(<JSXStep
+    const { container } = render(<Step
       index={0}
       isActive
       step={{
@@ -47,12 +45,12 @@ describe('react/Step', () => {
       userInputs={userInputs}
       onUserAction={onUserAction}
       customComponents={customComponents}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - inactive step', async () => {
-    const { container } = render(<JSXStep
+    const { container } = render(<Step
       index={0}
       step={{
         id: 'step',
@@ -70,7 +68,7 @@ describe('react/Step', () => {
       userInputs={userInputs}
       onUserAction={onUserAction}
       customComponents={customComponents}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

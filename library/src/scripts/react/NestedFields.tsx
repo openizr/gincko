@@ -10,8 +10,6 @@ import * as React from 'react';
 import Field from 'scripts/react/Field';
 import { buildClass, UIButton, UITextfield } from 'biuty/react';
 
-const JSXField = Field as JSXElement;
-
 interface NestedFieldsProps {
   t: I18n;
   id?: string;
@@ -161,7 +159,7 @@ function NestedFields({
 
   return (
     <div id={id} className={className}>
-      {(label !== undefined) && <span className="ui-nested-fields__label">{label}</span> as JSXElement}
+      {(label !== undefined) && <span className="ui-nested-fields__label">{label}</span>}
 
       {fields.map((field, index) => {
         if (field === null) {
@@ -181,9 +179,9 @@ function NestedFields({
                 onFocus={removeButtonProps.onFocus}
                 modifiers={removeButtonProps.modifiers}
                 iconPosition={removeButtonProps.iconPosition}
-              /> as JSXElement
+              />
             )}
-            <JSXField
+            <Field
               i18n={t}
               field={field}
               isActive={isActive}
@@ -195,7 +193,7 @@ function NestedFields({
             />
           </div>
         );
-      }) as JSXElement}
+      })}
 
       {(type !== 'object') && (
         <div className="ui-nested-fields__add">
@@ -225,7 +223,7 @@ function NestedFields({
               debounceTimeout={(addTextfieldProps.debounceTimeout !== undefined)
                 ? addTextfieldProps.debounceTimeout
                 : 100}
-            /> as JSXElement
+            />
           )}
           {!isAddButtonDisabled && (
             <UIButton
@@ -236,13 +234,13 @@ function NestedFields({
               onFocus={addButtonProps.onFocus}
               iconPosition={addButtonProps.iconPosition}
               modifiers={`${addButtonDisabledModifier} ${addButtonProps.modifiers || ''}`}
-            /> as JSXElement
+            />
           )}
         </div>
-      ) as JSXElement}
-      {(helper !== undefined) && <span className="ui-nested-fields__helper">{helper}</span> as JSXElement}
-    </div> as JSXElement
-  ) as JSXElement;
+      )}
+      {(helper !== undefined) && <span className="ui-nested-fields__helper">{helper}</span>}
+    </div>
+  );
 }
 
-export default React.memo(NestedFields as JSXElement);
+export default React.memo(NestedFields) as JSXElement;

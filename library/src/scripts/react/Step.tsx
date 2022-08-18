@@ -10,8 +10,6 @@ import * as React from 'react';
 import Field from 'scripts/react/Field';
 import { buildClass } from 'biuty/react';
 
-const JSXField = Field as JSXElement;
-
 interface StepProps {
   i18n: I18n;
   step: Step;
@@ -39,7 +37,7 @@ function Step(props: StepProps): JSX.Element {
           {/* Key is composed of both step and field ids, in order to ensure each field is correctly
          reset when user changes his journey in previous steps. */}
           {step.fields.map((field) => ((field === null) ? null : (
-            <JSXField
+            <Field
               i18n={i18n}
               field={field}
               isActive={isActive}
@@ -50,11 +48,11 @@ function Step(props: StepProps): JSX.Element {
               key={`${step.id}.${index}.${field.id}`}
               path={`${step.id}.${index}.${field.id}`}
             />
-          ))) as JSXElement}
-        </div> as JSXElement
+          )))}
+        </div>
       }
     </div>
   );
 }
 
-export default React.memo(Step as JSXElement);
+export default React.memo(Step) as JSXElement;

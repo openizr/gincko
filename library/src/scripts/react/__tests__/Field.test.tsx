@@ -16,7 +16,6 @@ jest.mock('scripts/core/Engine');
 jest.mock('scripts/react/Message');
 jest.mock('scripts/react/NestedFields');
 
-const JSXField = Field as JSXElement;
 const flushPromise = jest.fn(() => new Promise<void>((resolve) => { setTimeout(resolve, 50); }));
 
 describe('react/Field', () => {
@@ -32,7 +31,7 @@ describe('react/Field', () => {
   });
 
   test('renders correctly - Unknown component', async () => {
-    const { container } = render(<JSXField
+    const { container } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -46,12 +45,12 @@ describe('react/Field', () => {
         component: 'Unknown',
         componentProps: {},
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - Message with label and helper', async () => {
-    const { container } = render(<JSXField
+    const { container } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -66,12 +65,12 @@ describe('react/Field', () => {
         component: 'Message',
         componentProps: { helper: 'Helper' },
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - Message with label and message', async () => {
-    const { container } = render(<JSXField
+    const { container } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -87,12 +86,12 @@ describe('react/Field', () => {
         component: 'Message',
         componentProps: { helper: 'Helper' },
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - Button', async () => {
-    const { container } = render(<JSXField
+    const { container } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -106,7 +105,7 @@ describe('react/Field', () => {
         component: 'Button',
         componentProps: {},
       }}
-    /> as JSXElement);
+    />);
     await waitFor(flushPromise);
     expect(container.firstChild).toMatchSnapshot();
     expect(onUserAction).toHaveBeenCalledTimes(1);
@@ -114,7 +113,7 @@ describe('react/Field', () => {
   });
 
   test('renders correctly - Link', async () => {
-    const { container } = render(<JSXField
+    const { container } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -128,12 +127,12 @@ describe('react/Field', () => {
         component: 'Link',
         componentProps: {},
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - Options', async () => {
-    const { container } = render(<JSXField
+    const { container } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -150,13 +149,13 @@ describe('react/Field', () => {
           options: [{ label: 'test', value: 'option1' }, { value: 'option2' }],
         },
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - DatePicker', async () => {
     process.env.IS_DATE = 'true';
-    const { container, rerender } = render(<JSXField
+    const { container, rerender } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -171,10 +170,10 @@ describe('react/Field', () => {
         componentProps: {},
         value: null,
       }}
-    /> as JSXElement);
+    />);
     await waitFor(flushPromise);
     expect(container.firstChild).toMatchSnapshot();
-    rerender(<JSXField
+    rerender(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -189,12 +188,12 @@ describe('react/Field', () => {
         value: new Date(1657192371401),
         componentProps: { placeholder: 'placeholder', debounceTimeout: 10 },
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - Textfield', async () => {
-    const { container, rerender } = render(<JSXField
+    const { container, rerender } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -208,10 +207,10 @@ describe('react/Field', () => {
         component: 'Textfield',
         componentProps: {},
       }}
-    /> as JSXElement);
+    />);
     await waitFor(flushPromise);
     expect(container.firstChild).toMatchSnapshot();
-    rerender(<JSXField
+    rerender(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -226,12 +225,12 @@ describe('react/Field', () => {
         component: 'Textfield',
         componentProps: { placeholder: 'placeholder', debounceTimeout: 10 },
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - Textarea', async () => {
-    const { container, rerender } = render(<JSXField
+    const { container, rerender } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -246,10 +245,10 @@ describe('react/Field', () => {
         component: 'Textarea',
         componentProps: {},
       }}
-    /> as JSXElement);
+    />);
     await waitFor(flushPromise);
     expect(container.firstChild).toMatchSnapshot();
-    rerender(<JSXField
+    rerender(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -264,12 +263,12 @@ describe('react/Field', () => {
         component: 'Textarea',
         componentProps: { placeholder: 'placeholder', debounceTimeout: 10 },
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - FilePicker', async () => {
-    const { container, rerender } = render(<JSXField
+    const { container, rerender } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -283,10 +282,10 @@ describe('react/Field', () => {
         component: 'FilePicker',
         componentProps: {},
       }}
-    /> as JSXElement);
+    />);
     await waitFor(flushPromise);
     expect(container.firstChild).toMatchSnapshot();
-    rerender(<JSXField
+    rerender(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -300,12 +299,12 @@ describe('react/Field', () => {
         component: 'FilePicker',
         componentProps: { placeholder: 'placeholder' },
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - Array', async () => {
-    const { container, rerender } = render(<JSXField
+    const { container, rerender } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -320,9 +319,9 @@ describe('react/Field', () => {
         componentProps: {},
         fields: [],
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
-    rerender(<JSXField
+    rerender(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -340,12 +339,12 @@ describe('react/Field', () => {
         },
         fields: [],
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - DynamicObject', async () => {
-    const { container, rerender } = render(<JSXField
+    const { container, rerender } = render(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -360,9 +359,9 @@ describe('react/Field', () => {
         componentProps: {},
         fields: [],
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
-    rerender(<JSXField
+    rerender(<Field
       isActive
       i18n={i18n}
       path="path.0.to.field"
@@ -379,7 +378,7 @@ describe('react/Field', () => {
         },
         fields: [],
       }}
-    /> as JSXElement);
+    />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

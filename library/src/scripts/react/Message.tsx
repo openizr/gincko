@@ -29,4 +29,4 @@ function Message({ id, label = '', modifiers = '' }: MessageProps): JSX.Element 
   );
 }
 
-export default React.memo(Message as JSXElement);
+export default React.memo(Message) as JSXElement;

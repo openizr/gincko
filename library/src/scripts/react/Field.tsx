@@ -118,4 +118,4 @@ function Field(props: FieldProps): JSX.Element {
   return actualField as JSXElement;
 }
 
-export default React.memo(Field as JSXElement);
+export default React.memo(Field) as JSXElement;

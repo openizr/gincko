@@ -15,8 +15,6 @@ jest.mock('scripts/react/Step');
 jest.mock('scripts/core/Engine');
 jest.mock('diox/connectors/react');
 
-const JSXForm = Form as JSXElement;
-
 describe('react/Form', () => {
   const configuration = {
     id: 'test',
@@ -35,21 +33,21 @@ describe('react/Form', () => {
 
   test('renders correctly - loading next step', async () => {
     process.env.LOADING = 'true';
-    const { container, rerender } = render(<JSXForm configuration={configuration} /> as JSXElement);
+    const { container, rerender } = render(<Form configuration={configuration} />);
     expect(container.firstChild).toMatchSnapshot();
     // Covers React.memo checks.
-    rerender(<JSXForm configuration={configuration} /> as JSXElement);
-    rerender(<JSXForm configuration={configuration} loader={<div>LOADING</div>} /> as JSXElement);
+    rerender(<Form configuration={configuration} />);
+    rerender(<Form configuration={configuration} loader={<div>LOADING</div>} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with active step', async () => {
-    const { container } = render(<JSXForm configuration={configuration} activeStep="start" /> as JSXElement);
+    const { container } = render(<Form configuration={configuration} activeStep="start" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('prevents native form submission', async () => {
-    const { container } = render(<JSXForm configuration={configuration} /> as JSXElement);
+    const { container } = render(<Form configuration={configuration} />);
     const form = container.getElementsByTagName('form')[0];
     const event = createEvent.submit(form);
     event.preventDefault = jest.fn();
