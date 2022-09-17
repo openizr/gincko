@@ -38,7 +38,7 @@ function Component(props: Any): JSX.Element {
   // Covers `onKeyDown` handler.
   if (onKeyDown !== undefined) {
     onKeyDown({ key: '1' });
-    onKeyDown({ key: 'A', ctrlKey: false, preventDefault: jest.fn() });
+    onKeyDown({ key: 'A', ctrlKey: false, preventDefault: vi.fn() });
   }
   // Covers `onClick` handler.
   if (onClick !== undefined && process.env.NOCLICK !== 'true') {
@@ -57,5 +57,5 @@ export const UIOptions = Component;
 export const UITextfield = Component;
 export const UITextarea = Component;
 export const UIFilePicker = Component;
-export const buildClass = jest.fn((...values: string[]): string => values.join(' '));
-export const markdown = jest.fn((label: string, lightMode: boolean) => `MARKDOWN FOR ${label}, ${lightMode}`);
+export const buildClass = vi.fn((...values: string[]): string => values.join(' '));
+export const markdown = vi.fn((label: string, lightMode: boolean) => `MARKDOWN FOR ${label}, ${lightMode}`);

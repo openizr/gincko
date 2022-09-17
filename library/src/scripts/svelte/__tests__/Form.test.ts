@@ -4,15 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import Form from 'scripts/svelte/__tests__/TestForm.svelte';
 import { render, fireEvent, createEvent } from '@testing-library/svelte';
 
-jest.mock('scripts/core/Engine');
-jest.mock('diox/connectors/svelte');
-jest.mock('scripts/svelte/Step.svelte');
+vi.mock('scripts/core/Engine');
+vi.mock('diox/connectors/svelte');
+vi.mock('scripts/svelte/Step.svelte');
 
 describe('svelte/Form', () => {
   const configuration = {
@@ -26,7 +26,7 @@ describe('svelte/Form', () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     delete process.env.LOADING;
   });
 
@@ -47,7 +47,7 @@ describe('svelte/Form', () => {
     const { container } = render(Form, { props: { configuration } });
     const form = container.getElementsByTagName('form')[0];
     const event = createEvent.submit(form);
-    event.preventDefault = jest.fn();
+    event.preventDefault = vi.fn();
     await fireEvent(form, event);
     expect(event.preventDefault).toHaveBeenCalled();
   });

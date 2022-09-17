@@ -4,16 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import React from 'react';
 import Form from 'scripts/react/Form';
 import { render, fireEvent, createEvent } from '@testing-library/react';
 
-jest.mock('scripts/react/Step');
-jest.mock('scripts/core/Engine');
-jest.mock('diox/connectors/react');
+vi.mock('scripts/react/Step');
+vi.mock('scripts/core/Engine');
+vi.mock('diox/connectors/react');
 
 describe('react/Form', () => {
   const configuration = {
@@ -27,7 +27,7 @@ describe('react/Form', () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     delete process.env.LOADING;
   });
 
@@ -50,7 +50,7 @@ describe('react/Form', () => {
     const { container } = render(<Form configuration={configuration} />);
     const form = container.getElementsByTagName('form')[0];
     const event = createEvent.submit(form);
-    event.preventDefault = jest.fn();
+    event.preventDefault = vi.fn();
     fireEvent(form, event);
     expect(event.preventDefault).toHaveBeenCalled();
   });

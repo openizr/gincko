@@ -6,16 +6,17 @@
  *
  */
 
-import GenericComponent from 'scripts/__mocks__/biuty/GenericComponent.svelte';
+import GenericComponent from 'scripts/__mocks__/biuty/GenericComponent.vue';
 
 /**
- * biuty/svelte mock.
+ * biuty/vue mock.
  */
+
 export const UILink = GenericComponent;
 export const UIButton = GenericComponent;
 export const UIOptions = GenericComponent;
 export const UITextfield = GenericComponent;
 export const UITextarea = GenericComponent;
 export const UIFilePicker = GenericComponent;
-export const buildClass = jest.fn((...values: string[]): string => values.join(' '));
-export const markdown = jest.fn((label: string, lightMode: boolean) => `MARKDOWN FOR ${label}, ${lightMode}`);
+export const buildClass = vi.fn((...values: string[]): string => values.join(' '));
+export const markdown = vi.fn((label: string, lightMode: boolean) => `MARKDOWN FOR ${label}, ${lightMode}`);

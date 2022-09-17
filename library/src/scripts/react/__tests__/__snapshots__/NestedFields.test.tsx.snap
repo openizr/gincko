@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`react/NestedFields renders correctly - array 1`] = `
+exports[`react/NestedFields > renders correctly - array 1`] = `
 <div
   class="ui-nested-fields  array"
 >
@@ -25,7 +25,7 @@ exports[`react/NestedFields renders correctly - array 1`] = `
     class="ui-nested-fields__add"
   >
     <div>
-      {"type":"button","modifiers":"disabled "}
+      {"type":"button","modifiers":" "}
     </div>
   </div>
   <span
@@ -36,7 +36,7 @@ exports[`react/NestedFields renders correctly - array 1`] = `
 </div>
 `;
 
-exports[`react/NestedFields renders correctly - array with maxItems 1`] = `
+exports[`react/NestedFields > renders correctly - array with maxItems 1`] = `
 <div
   class="ui-nested-fields  array"
 >
@@ -58,7 +58,7 @@ exports[`react/NestedFields renders correctly - array with maxItems 1`] = `
 </div>
 `;
 
-exports[`react/NestedFields renders correctly - array with minItems 1`] = `
+exports[`react/NestedFields > renders correctly - array with minItems 1`] = `
 <div
   class="ui-nested-fields  array"
 >
@@ -75,13 +75,13 @@ exports[`react/NestedFields renders correctly - array with minItems 1`] = `
     class="ui-nested-fields__add"
   >
     <div>
-      {"type":"button","modifiers":"disabled "}
+      {"type":"button","modifiers":" "}
     </div>
   </div>
 </div>
 `;
 
-exports[`react/NestedFields renders correctly - dynamicObject with error 1`] = `
+exports[`react/NestedFields > renders correctly - dynamicObject with error 1`] = `
 <div
   class="ui-nested-fields error dynamicObject"
 >
@@ -137,7 +137,7 @@ exports[`react/NestedFields renders correctly - dynamicObject with error 1`] = `
 </div>
 `;
 
-exports[`react/NestedFields renders correctly - dynamicObject with invalid pattern 1`] = `
+exports[`react/NestedFields > renders correctly - dynamicObject with invalid pattern 1`] = `
 <div
   class="ui-nested-fields  dynamicObject"
 >
@@ -171,7 +171,7 @@ exports[`react/NestedFields renders correctly - dynamicObject with invalid patte
 </div>
 `;
 
-exports[`react/NestedFields renders correctly - dynamicObject with valid pattern 1`] = `
+exports[`react/NestedFields > renders correctly - dynamicObject with valid pattern 1`] = `
 <div
   class="ui-nested-fields  dynamicObject"
 >
@@ -205,7 +205,7 @@ exports[`react/NestedFields renders correctly - dynamicObject with valid pattern
 </div>
 `;
 
-exports[`react/NestedFields renders correctly - object 1`] = `
+exports[`react/NestedFields > renders correctly - object 1`] = `
 <div
   class="ui-nested-fields  object"
 >

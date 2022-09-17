@@ -10,14 +10,14 @@ import * as vue from 'scripts/vue';
 
 describe('vue', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('has correct exports', () => {
     expect(Object.keys(vue)).toEqual([
+      'default',
       'Field',
       'Engine',
-      'default',
     ]);
   });
 });

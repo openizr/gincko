@@ -7,6 +7,11 @@
  */
 
 /**
- * basx mock.
+ * diox/connectors/vue mock.
  */
-export default vi.fn((data) => data);
+const connect = vi.fn(() => vi.fn(() => ({
+  steps: [{ id: 'start' }, { id: 'end' }],
+  loading: process.env.LOADING === 'true',
+})));
+
+export default connect;

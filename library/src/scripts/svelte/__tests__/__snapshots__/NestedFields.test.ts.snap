@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`svelte/NestedFields renders correctly - array 1`] = `
+exports[`svelte/NestedFields > renders correctly - array 1`] = `
 <div>
   <div
     class="ui-nested-fields  array"
@@ -65,12 +65,14 @@ exports[`svelte/NestedFields renders correctly - array 1`] = `
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div
         id="field"
       >
         {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -109,7 +111,7 @@ exports[`svelte/NestedFields renders correctly - array 1`] = `
          
         undefined
          
-        disabled 
+         
          
         undefined
          
@@ -129,6 +131,7 @@ exports[`svelte/NestedFields renders correctly - array 1`] = `
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
     </div>
      
     <span
@@ -137,10 +140,11 @@ exports[`svelte/NestedFields renders correctly - array 1`] = `
       Helper
     </span>
   </div>
+  <!--&lt;NestedFields&gt;-->
 </div>
 `;
 
-exports[`svelte/NestedFields renders correctly - array with maxItems 1`] = `
+exports[`svelte/NestedFields > renders correctly - array with maxItems 1`] = `
 <div>
   <div
     class="ui-nested-fields  array"
@@ -200,12 +204,14 @@ exports[`svelte/NestedFields renders correctly - array with maxItems 1`] = `
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div
         id="field"
       >
         {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -218,10 +224,11 @@ exports[`svelte/NestedFields renders correctly - array with maxItems 1`] = `
     </div>
      
   </div>
+  <!--&lt;NestedFields&gt;-->
 </div>
 `;
 
-exports[`svelte/NestedFields renders correctly - array with maxItems 2`] = `
+exports[`svelte/NestedFields > renders correctly - array with maxItems 2`] = `
 <div>
   <div
     class="ui-nested-fields  array"
@@ -281,12 +288,14 @@ exports[`svelte/NestedFields renders correctly - array with maxItems 2`] = `
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div
         id="field"
       >
         {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -325,7 +334,7 @@ exports[`svelte/NestedFields renders correctly - array with maxItems 2`] = `
          
         undefined
          
-        disabled 
+         
          
         undefined
          
@@ -345,13 +354,15 @@ exports[`svelte/NestedFields renders correctly - array with maxItems 2`] = `
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
     </div>
      
   </div>
+  <!--&lt;NestedFields&gt;-->
 </div>
 `;
 
-exports[`svelte/NestedFields renders correctly - array with minItems 1`] = `
+exports[`svelte/NestedFields > renders correctly - array with minItems 1`] = `
 <div>
   <div
     class="ui-nested-fields  array"
@@ -411,12 +422,14 @@ exports[`svelte/NestedFields renders correctly - array with minItems 1`] = `
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div
         id="field"
       >
         {"field":{"id":"Message1","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message1","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -473,12 +486,14 @@ exports[`svelte/NestedFields renders correctly - array with minItems 1`] = `
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div
         id="field"
       >
         {"field":{"id":"Message2","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message2","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -535,12 +550,14 @@ exports[`svelte/NestedFields renders correctly - array with minItems 1`] = `
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div
         id="field"
       >
         {"field":{"id":"Message3","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message3","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
      
@@ -577,7 +594,7 @@ exports[`svelte/NestedFields renders correctly - array with minItems 1`] = `
          
         undefined
          
-        disabled 
+         
          
         undefined
          
@@ -597,13 +614,15 @@ exports[`svelte/NestedFields renders correctly - array with minItems 1`] = `
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
     </div>
      
   </div>
+  <!--&lt;NestedFields&gt;-->
 </div>
 `;
 
-exports[`svelte/NestedFields renders correctly - array with minItems 2`] = `
+exports[`svelte/NestedFields > renders correctly - array with minItems 2`] = `
 <div>
   <div
     class="ui-nested-fields  array"
@@ -620,6 +639,7 @@ exports[`svelte/NestedFields renders correctly - array with minItems 2`] = `
       >
         {"field":{"id":"Message1","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message1","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -633,6 +653,7 @@ exports[`svelte/NestedFields renders correctly - array with minItems 2`] = `
       >
         {"field":{"id":"Message2","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message2","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -671,7 +692,7 @@ exports[`svelte/NestedFields renders correctly - array with minItems 2`] = `
          
         undefined
          
-        disabled 
+         
          
         undefined
          
@@ -691,13 +712,15 @@ exports[`svelte/NestedFields renders correctly - array with minItems 2`] = `
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
     </div>
      
   </div>
+  <!--&lt;NestedFields&gt;-->
 </div>
 `;
 
-exports[`svelte/NestedFields renders correctly - dynamicObject with error 1`] = `
+exports[`svelte/NestedFields > renders correctly - dynamicObject with error 1`] = `
 <div>
   <div
     class="ui-nested-fields  dynamicObject"
@@ -762,12 +785,14 @@ exports[`svelte/NestedFields renders correctly - dynamicObject with error 1`] = 
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div
         id="field"
       >
         {"field":{"id":"Message1","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message1","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -829,12 +854,14 @@ exports[`svelte/NestedFields renders correctly - dynamicObject with error 1`] = 
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div
         id="field"
       >
         {"field":{"id":"Message2","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message2","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -892,6 +919,7 @@ exports[`svelte/NestedFields renders correctly - dynamicObject with error 1`] = 
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div>
         undefined
@@ -942,13 +970,15 @@ exports[`svelte/NestedFields renders correctly - dynamicObject with error 1`] = 
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
     </div>
      
   </div>
+  <!--&lt;NestedFields&gt;-->
 </div>
 `;
 
-exports[`svelte/NestedFields renders correctly - dynamicObject with invalid pattern 1`] = `
+exports[`svelte/NestedFields > renders correctly - dynamicObject with invalid pattern 1`] = `
 <div>
   <div
     class="ui-nested-fields  dynamicObject"
@@ -1013,12 +1043,14 @@ exports[`svelte/NestedFields renders correctly - dynamicObject with invalid patt
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div
         id="field"
       >
         {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -1076,6 +1108,7 @@ exports[`svelte/NestedFields renders correctly - dynamicObject with invalid patt
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div>
         undefined
@@ -1126,13 +1159,15 @@ exports[`svelte/NestedFields renders correctly - dynamicObject with invalid patt
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
     </div>
      
   </div>
+  <!--&lt;NestedFields&gt;-->
 </div>
 `;
 
-exports[`svelte/NestedFields renders correctly - dynamicObject with valid pattern 1`] = `
+exports[`svelte/NestedFields > renders correctly - dynamicObject with valid pattern 1`] = `
 <div>
   <div
     class="ui-nested-fields  dynamicObject"
@@ -1197,12 +1232,14 @@ exports[`svelte/NestedFields renders correctly - dynamicObject with valid patter
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div
         id="field"
       >
         {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -1260,6 +1297,7 @@ exports[`svelte/NestedFields renders correctly - dynamicObject with valid patter
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
        
       <div>
         undefined
@@ -1310,13 +1348,15 @@ exports[`svelte/NestedFields renders correctly - dynamicObject with valid patter
          
         undefined
       </div>
+      <!--&lt;GenericComponent&gt;-->
     </div>
      
   </div>
+  <!--&lt;NestedFields&gt;-->
 </div>
 `;
 
-exports[`svelte/NestedFields renders correctly - object 1`] = `
+exports[`svelte/NestedFields > renders correctly - object 1`] = `
 <div>
   <div
     class="ui-nested-fields  object"
@@ -1333,6 +1373,7 @@ exports[`svelte/NestedFields renders correctly - object 1`] = `
       >
         {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
     </div>
     
     
@@ -1340,5 +1381,6 @@ exports[`svelte/NestedFields renders correctly - object 1`] = `
      
      
   </div>
+  <!--&lt;NestedFields&gt;-->
 </div>
 `;

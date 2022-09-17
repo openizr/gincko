@@ -62,34 +62,32 @@ if (transform !== undefined) {
 }
 // Covers `onKeyDown` handler.
 dispatch('keyDown', { key: '1' });
-dispatch('keyDown', { key: 'A', ctrlKey: false, preventDefault: jest.fn() });
+dispatch('keyDown', { key: 'A', ctrlKey: false, preventDefault: vi.fn() });
 </script>
 
-<template>
-  <div>
-    {t}
-    {path}
-    {type}
-    {variables}
-    {userInputs}
-    {onUserAction}
-    {name}
-    {label}
-    {value}
-    {placeholder}
-    {helper}
-    {debounceTimeout}
-    {id}
-    {readonly}
-    {modifiers}
-    {typeof transform}
-    {maxlength}
-    {onFocus}
-    {options}
-    {autocomplete}
-    {icon}
-    {iconPosition}
-    {autofocus}
-    {allowedKeys}
-  </div>
-</template>
+<div>
+  {t}
+  {path}
+  {type}
+  {variables}
+  {userInputs}
+  {onUserAction}
+  {name}
+  {label}
+  {value}
+  {placeholder}
+  {helper}
+  {debounceTimeout}
+  {id}
+  {readonly}
+  {modifiers}
+  {typeof transform}
+  {maxlength}
+  {onFocus}
+  {options}
+  {autocomplete}
+  {icon}
+  {iconPosition}
+  {autofocus}
+  {allowedKeys}
+</div>

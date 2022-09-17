@@ -1,43 +1,23 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`vue/FormStep renders correctly - active step 1`] = `
+exports[`vue/FormStep > renders correctly - active step 1`] = `
 <div
   class="gincko__step success step active"
   id="step__0"
 >
   <div
     class="gincko__step__fields"
-  >
-    <!-- Key is composed of both step and field ids, in order to ensure each field is correctly
-      reset when user changes his journey in previous steps. -->
-    
-    <div
-      id="field"
-    >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"step.0.Message","isActive":true,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
-    </div>
-    
-  </div>
+  />
 </div>
 `;
 
-exports[`vue/FormStep renders correctly - inactive step 1`] = `
+exports[`vue/FormStep > renders correctly - inactive step 1`] = `
 <div
   class="gincko__step success step"
   id="step__0"
 >
   <div
     class="gincko__step__fields"
-  >
-    <!-- Key is composed of both step and field ids, in order to ensure each field is correctly
-      reset when user changes his journey in previous steps. -->
-    
-    <div
-      id="field"
-    >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"step.0.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
-    </div>
-    
-  </div>
+  />
 </div>
 `;

@@ -10,14 +10,14 @@ import * as react from 'scripts/react';
 
 describe('react', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('has correct exports', () => {
     expect(Object.keys(react)).toEqual([
+      'default',
       'Field',
       'Engine',
-      'default',
     ]);
   });
 });

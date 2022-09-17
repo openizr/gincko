@@ -4,26 +4,26 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import React from 'react';
 import Step from 'scripts/react/Step';
 import { render } from '@testing-library/react';
 
-jest.mock('biuty/react');
-jest.mock('scripts/core/Engine');
-jest.mock('scripts/react/Field');
+vi.mock('biuty/react');
+vi.mock('scripts/core/Engine');
+vi.mock('scripts/react/Field');
 
 describe('react/Step', () => {
   const customComponents = {};
   const userInputs = { test: 'ok' };
   const variables = { var: 'value' };
-  const i18n = jest.fn(() => 'TRANSLATED LABEL');
-  const onUserAction = jest.fn() as unknown as OnUserAction;
+  const i18n = vi.fn(() => 'TRANSLATED LABEL');
+  const onUserAction = vi.fn() as unknown as OnUserAction;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - active step', async () => {

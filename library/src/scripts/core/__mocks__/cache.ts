@@ -7,9 +7,9 @@
  */
 
 export default {
-  set: jest.fn(() => Promise.resolve()),
-  delete: jest.fn(() => Promise.resolve()),
-  get: jest.fn(() => {
+  set: vi.fn(() => Promise.resolve()),
+  delete: vi.fn(() => Promise.resolve()),
+  get: vi.fn(() => {
     if (process.env.CACHE_EXISTS === 'true') {
       return Promise.resolve({
         userInputs: { test: 'value' },

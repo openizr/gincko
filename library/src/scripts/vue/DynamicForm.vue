@@ -65,7 +65,6 @@ const preventSubmit = (event: Event): void => {
           : index === state.steps.length - 1"
         :custom-components="customComponents || {}"
       />
-
       <slot
         v-if="state.loading"
         name="loader"

@@ -242,6 +242,7 @@ declare global {
    */
   export interface Step {
     id: string;
+    index: number;
     fields: (Field | null)[];
     status: 'initial' | 'error' | 'progress' | 'success';
   }

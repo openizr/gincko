@@ -10,12 +10,12 @@ import cache from 'scripts/core/__mocks__/cache';
 import Engine from 'scripts/core/__mocks__/TestEngine';
 import configuration from 'scripts/core/__mocks__/configuration';
 
-jest.mock('diox');
-jest.mock('basx');
-jest.mock('scripts/core/deepFreeze');
+vi.mock('diox');
+vi.mock('basx');
+vi.mock('scripts/core/deepFreeze');
 
 // This trick allows to check the calling order of the different plugins.
-const call = jest.fn();
+const call = vi.fn();
 
 async function flushPromises(): Promise<void> {
   const promise = new Promise<void>((resolve) => { setTimeout(resolve, 50); });
@@ -29,14 +29,14 @@ describe('core/Engine', () => {
     engine = new Engine(conf);
     if (flush) {
       await flushPromises();
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     }
     return engine;
   }
 
   beforeEach(() => {
-    jest.useRealTimers();
-    jest.clearAllMocks();
+    vi.useRealTimers();
+    vi.clearAllMocks();
     delete process.env.CACHE_EXISTS;
     delete process.env.CACHE_EXISTS_2;
   });
@@ -62,7 +62,7 @@ describe('core/Engine', () => {
     });
 
     test('error with errors hook', async () => {
-      const hook = jest.fn((data, next) => next(data));
+      const hook = vi.fn((data, next) => next(data));
       await createEngine({
         ...configuration,
         plugins: [(api): void => {
@@ -87,7 +87,7 @@ describe('core/Engine', () => {
     test('default plugins values and a custom plugin', async () => {
       await createEngine({
         ...configuration,
-        plugins: [jest.fn(() => call('customPlugin'))],
+        plugins: [vi.fn(() => call('customPlugin'))],
       }, false);
       expect(call).toHaveBeenCalledTimes(1);
       expect(call).toHaveBeenCalledWith('customPlugin');
@@ -128,13 +128,13 @@ describe('core/Engine', () => {
   });
 
   test('toggleLoader', async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const promise = createEngine();
-    jest.runAllTimers();
+    vi.runAllTimers();
     await promise;
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     engine.toggleLoader(true);
-    jest.runAllTimers();
+    vi.runAllTimers();
     expect(engine.getStore().mutate).toHaveBeenCalledTimes(1);
     expect(engine.getStore().mutate).toHaveBeenCalledWith('state', 'UPDATE', {
       loading: true,
@@ -146,8 +146,8 @@ describe('core/Engine', () => {
 
   test('on', async () => {
     await createEngine();
-    const hook1 = jest.fn((_data, next) => next(null));
-    const hook2 = jest.fn((data, next) => next(data));
+    const hook1 = vi.fn((_data, next) => next(null));
+    const hook2 = vi.fn((data, next) => next(data));
     engine.on('submit', hook1);
     engine.on('submit', hook2);
     await engine.triggerHooks('submit', { test: 'value' });
@@ -315,7 +315,7 @@ describe('core/Engine', () => {
   });
 
   test('coerceAndCheckInput', async () => {
-    const errorHook = jest.fn(async () => null);
+    const errorHook = vi.fn(async () => null);
     await createEngine({ ...configuration, plugins: [(api): void => { api.on('error', errorHook); }] });
     expect(await engine.coerceAndCheckInput('', 'string')).toBe('');
     expect(await engine.coerceAndCheckInput('3.0', 'float')).toBe(3.0);
@@ -350,7 +350,7 @@ describe('core/Engine', () => {
     await engine.handleUserAction({ path: 'path.to.field', data: 1, type: 'input' });
     await engine.handleUserAction({ path: 'root.0.submit', data: [false], type: 'input' });
     await engine.handleUserAction({ path: 'root.0.submit', data: [true], type: 'input' });
-    expect(engine.getCurrentStep()).toMatchSnapshot();
+    expect(engine.getSteps()).toMatchSnapshot();
     await createEngine({
       ...configuration,
       plugins: [(api): void => {
@@ -361,12 +361,23 @@ describe('core/Engine', () => {
       }],
     });
     await engine.handleUserAction({ path: 'root.0.submit', data: [false], type: 'input' });
+    const spy = vi.spyOn(engine, 'toggleField');
     await engine.handleUserAction({ path: 'root.0.submit', data: [true], type: 'input' });
-    expect(engine.getCurrentStep()).toMatchSnapshot();
+    expect(engine.getSteps()).toMatchSnapshot();
+    expect(spy).toHaveBeenCalledWith('second.1.submit', [{
+      component: 'Button',
+      componentProps: {},
+      id: 'submit',
+      label: undefined,
+      status: 'initial',
+      value: [
+        true,
+      ],
+    }], 0, { component: 'Button', type: 'boolean' }, [true]);
   });
 
   test('submit - clear cache', async () => {
-    const hook = jest.fn((data, next) => next(data));
+    const hook = vi.fn((data, next) => next(data));
     await createEngine({
       ...configuration,
       plugins: [(api): void => { api.on('submit', hook); }],
@@ -412,12 +423,12 @@ describe('core/Engine', () => {
       id: 'object',
       status: 'initial',
       component: 'Null',
-      componentProps: { onClick: [jest.fn()] },
+      componentProps: { onClick: [vi.fn()] },
       fields: [{
         id: 'dynamicObject',
         status: 'initial',
         component: 'Null',
-        componentProps: { key: true, onFocus: jest.fn() },
+        componentProps: { key: true, onFocus: vi.fn() },
         fields: [{
           id: '__',
           status: 'initial',
@@ -427,7 +438,7 @@ describe('core/Engine', () => {
             id: '0',
             status: 'initial',
             component: 'Null',
-            componentProps: { props: { onBlur: jest.fn() } },
+            componentProps: { props: { onBlur: vi.fn() } },
           }],
         }, {
           id: '000',
@@ -484,14 +495,14 @@ describe('core/Engine', () => {
                 fields: {
                   type: 'string',
                   component: 'Null',
-                  componentProps: { props: { onBlur: jest.fn() } },
+                  componentProps: { props: { onBlur: vi.fn() } },
                 },
               },
             },
-            componentProps: { onFocus: jest.fn() },
+            componentProps: { onFocus: vi.fn() },
           },
         },
-        componentProps: { onClick: jest.fn() },
+        componentProps: { onClick: vi.fn() },
       },
     })).toMatchSnapshot();
   });
@@ -688,20 +699,20 @@ describe('core/Engine', () => {
 
   test('setVariables', async () => {
     process.env.CACHE_EXISTS_2 = 'true';
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const promise = createEngine({ ...configuration, cache });
-    jest.runAllTimers();
+    vi.runAllTimers();
     await promise;
     engine.setInput('root.0.integerCondition', 3);
     const currentStep = <Step>engine.getCurrentStep();
     engine.toggleFields(currentStep);
     (<Field>currentStep.fields[4]).value = 'test';
     engine.setVariables({ newTest: true, nested: { test: 'ok' } });
-    jest.runAllTimers();
+    vi.runAllTimers();
     expect(engine.getVariables()).toMatchSnapshot();
     expect(cache.set).toHaveBeenCalledTimes(1);
     expect(cache.set.mock.lastCall).toMatchSnapshot();
-    jest.useRealTimers();
+    vi.useRealTimers();
     expect(engine.getCurrentStep()).toMatchSnapshot();
     engine.setVariables({ newTest: true, nested: { test: 'test' } });
     expect(engine.getCurrentStep()).toMatchSnapshot();

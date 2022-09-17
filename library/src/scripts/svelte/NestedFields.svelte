@@ -102,11 +102,8 @@ $: {
 }
 $: isAddButtonDisabled = fields.length >= maxItems;
 $: className = buildClass('ui-nested-fields', `${modifiers} ${type}`);
-$: addButtonDisabledModifier = (
-  isInvalidPattern
-  || newKey === ''
-  || (currentValue as UserInputs)[newKey] !== undefined
-) ? 'disabled' : '';
+$: keyExistsOrIsEmpty = newKey === '' || (currentValue as UserInputs)[newKey] !== undefined;
+$: addButtonDisabledModifier = (isInvalidPattern || (type === 'dynamicObject' && keyExistsOrIsEmpty)) ? 'disabled' : '';
 
 const removeItem = (index: number) => () => {
   const valueKeys = Object.keys(currentValue);

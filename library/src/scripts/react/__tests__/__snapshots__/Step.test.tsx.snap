@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`react/Step renders correctly - active step 1`] = `
+exports[`react/Step > renders correctly - active step 1`] = `
 <div
   class="gincko__step success step active"
   id="step__0"
@@ -17,7 +17,7 @@ exports[`react/Step renders correctly - active step 1`] = `
 </div>
 `;
 
-exports[`react/Step renders correctly - inactive step 1`] = `
+exports[`react/Step > renders correctly - inactive step 1`] = `
 <div
   class="gincko__step success step "
   id="step__0"

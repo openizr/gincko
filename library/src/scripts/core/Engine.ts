@@ -569,7 +569,7 @@ export default class BaseEngine {
       for (let index = 0, { length } = fieldConfigurations; index < length; index += 1) {
         const fieldId = fieldConfigurations[index][0];
         const fieldConfiguration = fieldConfigurations[index][1];
-        this.toggleField(`${id}.0.${fieldId}`, fields, index, fieldConfiguration, this.userInputs[fieldId]);
+        this.toggleField(`${id}.${step.index}.${fieldId}`, fields, index, fieldConfiguration, this.userInputs[fieldId]);
       }
     }
   }
@@ -929,7 +929,12 @@ export default class BaseEngine {
    */
   public async createStep(stepId?: string | null): Promise<void> {
     if (stepId !== null && stepId !== undefined) {
-      const nextStep: Step = { id: stepId, status: 'initial', fields: [] };
+      const nextStep: Step = {
+        id: stepId,
+        fields: [],
+        status: 'initial',
+        index: this.steps.length,
+      };
       this.toggleFields(nextStep);
       const updatedNextStep = await this.triggerHooks('step', nextStep);
       if (updatedNextStep !== null) {
@@ -1040,7 +1045,7 @@ export default class BaseEngine {
   public getField(path: string): Field | null {
     const splitted = path.split('.').slice(1);
     const step = this.steps[+splitted[0]];
-    let field = <Field | null | undefined>step;
+    let field = step as unknown as Field | null | undefined;
     const configurations = <FieldConfiguration[]>(this.getConfigurations(path));
     for (let index = 1, { length } = splitted; index < length; index += 1) {
       if (field === undefined || field === null) {

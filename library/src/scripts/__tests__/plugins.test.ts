@@ -10,7 +10,7 @@ import * as plugins from 'scripts/plugins';
 
 describe('plugins', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('has correct exports', () => {

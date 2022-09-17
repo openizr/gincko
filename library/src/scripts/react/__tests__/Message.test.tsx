@@ -4,18 +4,18 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import React from 'react';
 import Message from 'scripts/react/Message';
 import { render } from '@testing-library/react';
 
-jest.mock('biuty/react');
+vi.mock('biuty/react');
 
 describe('react/Message', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - default props', async () => {
