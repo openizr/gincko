@@ -51,6 +51,7 @@
           "import/named": "off",
           "import/export": "off",
           "import/no-cycle": "off",
+          "react/no-typos": "off",
           "import/no-duplicates": "off",
           "import/no-unresolved": "off",
           "max-classes-per-file": "off",
@@ -117,6 +118,7 @@
       "plugins": "./scripts/plugins.ts"
     },
     "runInDev": false,
+    "splitChunks": false,
     "srcPath": "src",
     "distPath": "dist",
     "banner": "/*!\n * Copyright (c) Openizr. All Rights Reserved.\n *\n * This source code is licensed under the MIT license found in the\n * LICENSE file in the root directory of this source tree.\n */",

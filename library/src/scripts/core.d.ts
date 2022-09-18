@@ -696,7 +696,19 @@ declare module 'gincko' {
      *
      * @returns {void}
      */
-    public on(eventName: FormEvent, hook: Hook<HookData>): void;
+    public on(eventName: 'userAction', hook: Hook<UserAction | null>): void;
+
+    public on(eventName: 'afterUserAction', hook: Hook<UserAction | null>): void;
+
+    public on(eventName: 'step', hook: Hook<Step | null>): void;
+
+    public on(eventName: 'afterStep', hook: Hook<Step | null>): void;
+
+    public on(eventName: 'error', hook: Hook<Error | null>): void;
+
+    public on(eventName: 'submit', hook: Hook<UserInputs | null>): void;
+
+    public on(eventName: 'start', hook: Hook<boolean | null>): void;
 
     /**
      * Triggers the given user action.
