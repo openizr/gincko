@@ -180,7 +180,12 @@ export default <Configuration>{
       },
     },
     second: {
-      fields: {},
+      fields: {
+        submit: {
+          type: 'boolean',
+          component: 'Button',
+        },
+      },
     },
   },
 };

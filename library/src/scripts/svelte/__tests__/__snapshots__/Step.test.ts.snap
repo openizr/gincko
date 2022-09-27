@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`svelte/Step renders correctly - active step 1`] = `
+exports[`svelte/Step > renders correctly - active step 1`] = `
 <div>
   <div
     class="gincko__step success step active"
@@ -15,13 +15,15 @@ exports[`svelte/Step renders correctly - active step 1`] = `
       >
         {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"step.0.Message","isActive":true,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
       
     </div>
   </div>
+  <!--&lt;Step&gt;-->
 </div>
 `;
 
-exports[`svelte/Step renders correctly - inactive step 1`] = `
+exports[`svelte/Step > renders correctly - inactive step 1`] = `
 <div>
   <div
     class="gincko__step success step "
@@ -36,10 +38,12 @@ exports[`svelte/Step renders correctly - inactive step 1`] = `
       >
         {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"step.0.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
       </div>
+      <!--&lt;Field&gt;-->
       
       
       
     </div>
   </div>
+  <!--&lt;Step&gt;-->
 </div>
 `;

@@ -335,6 +335,9 @@ declare module 'gincko' {
     /** Whether to submit only updated fields values. */
     submitPartialUpdates?: boolean;
 
+    /** Whether to validate fields only on step submission. */
+    validateOnSubmit?: boolean;
+
     /** Form's steps configurations. */
     steps: { [stepId: string]: StepConfiguration; };
   }
@@ -382,24 +385,24 @@ declare module 'gincko' {
     /**
      * Checks whether `input` is considered as empty, according to its type.
      *
-     * @param {UserInput} input Input to check.
+     * @param input Input to check.
      *
-     * @param {string} type Input's type.
+     * @param type Input's type.
      *
-     * @returns {boolean} `true` if `input` is empty, `false` otherwise.
+     * @returns `true` if `input` is empty, `false` otherwise.
      */
     protected isEmpty(input: UserInput, type: string): boolean;
 
     /**
      * Checks whether `firstInput` and `secondInput` are equal, according to their type.
      *
-     * @param {UserInput} firstInput First input to compare.
+     * @param firstInput First input to compare.
      *
-     * @param {UserInput} secondInput Second input to compare.
+     * @param secondInput Second input to compare.
      *
-     * @param {string} type Inputs' type.
+     * @param type Inputs' type.
      *
-     * @returns {boolean} `true` if `firstInput` and `secondInput` are equal, `false` otherwise.
+     * @returns `true` if `firstInput` and `secondInput` are equal, `false` otherwise.
      */
     protected areEqual(firstInput: UserInput, secondInput: UserInput, type: string): boolean;
 
@@ -408,22 +411,20 @@ declare module 'gincko' {
      * optimization that prevents UI from being notified (and thus re-rendered) too many times per
      * second, which would be unecessary and not great UX-wise.
      *
-     * @param {string} mutation Mutation name for the `state` module.
+     * @param mutation Mutation name for the `state` module.
      *
-     * @param {StateState | boolean} data Mutation data.
-     *
-     * @returns {void}
+     * @param data Mutation data.
      */
     protected enqueueMutation(mutation: string, data: Step[] | boolean): void;
 
     /**
      * Returns the first dynamic object's pattern that matches `fieldId`.
      *
-     * @param {string} fieldId Field's id to match against patterns.
+     * @param fieldId Field's id to match against patterns.
      *
-     * @param {NestedFieldConfiguration} configuration Dynamic object's configuration.
+     * @param configuration Dynamic object's configuration.
      *
-     * @returns {string} First matching pattern, if it exists, `null` otherwise.
+     * @returns First matching pattern, if it exists, `null` otherwise.
      */
     protected getPattern(fieldId: string, configuration: NestedFieldConfiguration): string | null;
 
@@ -432,9 +433,9 @@ declare module 'gincko' {
      * in cache, which is why we need to mangle them before caching form steps, and to add them back
      * when fetching form steps from cache.
      *
-     * @param {Step[]} steps Steps to mangle functions from.
+     * @param steps Steps to mangle functions from.
      *
-     * @returns {Step[]} Steps without functions.
+     * @returns Steps without functions.
      */
     protected withoutFunctions(steps: Step[]): Step[];
 
@@ -443,28 +444,26 @@ declare module 'gincko' {
      * cannot be stored in cache, which is why we need to mangle them before caching form steps, and
      * to add them back when fetching form steps from cache.
      *
-     * @param {Fields} fields Form fields to add functions to.
+     * @param fields Form fields to add functions to.
      *
-     * @param {FieldConfigurations} fieldConfigurations Configuration to retrieve functions from.
+     * @param fieldConfigurations Configuration to retrieve functions from.
      *
-     * @returns {Fields} Fields with functions.
+     * @returns Fields with functions.
      */
     protected withFunctions(fields: Fields, fieldConfigurations: FieldConfigurations): Fields;
 
     /**
      * Filters user inputs, keeping only the ones for rendered fields.
      *
-     * @param {boolean} partial Whether to keep only updated inputs, or all inputs.
+     * @param partial Whether to keep only updated inputs, or all inputs.
      *
-     * @param {Field | null} field Current field to get input from.
+     * @param field Current field to get input from.
      *
-     * @param {FieldConfiguration} fieldConfiguration Current field's configuration.
+     * @param fieldConfiguration Current field's configuration.
      *
-     * @param {UserInput} currentInitialInput Current initial input.
+     * @param currentInitialInput Current initial input.
      *
-     * @param {UserInput} filteredInputs Current filtered input.
-     *
-     * @returns {void}
+     * @param filteredInputs Current filtered input.
      */
     protected filterInputs(
       partial: boolean,
@@ -477,22 +476,22 @@ declare module 'gincko' {
     /**
      * Generates field with path `path` from its configuration `fieldConfiguration`.
      *
-     * @param {string} path Field path.
+     * @param path Field path.
      *
-     * @param {FieldConfiguration} fieldConfiguration Field configuration.
+     * @param fieldConfiguration Field configuration.
      *
-     * @returns {Field} Generated field.
+     * @returns Generated field.
      */
     protected createField(path: string, fieldConfiguration: FieldConfiguration): Field;
 
     /**
      * Coerces user inputs into proper types and performs some type checks on user actions.
      *
-     * @param {UserInput} userInput User input to coerce and check.
+     * @param userInput User input to coerce and check.
      *
-     * @param {string} type Type to use for coercion and checking.
+     * @param type Type to use for coercion and checking.
      *
-     * @returns {Promise<UserInput>} Coerced user input.
+     * @returns Coerced user input.
      */
     protected coerceAndCheckInput(userInput: UserInput, type: string): Promise<UserInput>;
 
@@ -500,17 +499,17 @@ declare module 'gincko' {
      * Performs a deep comparison between `newValue` and `field`'s value and returns a list of user
      * actions that must be triggered to reflect subsequent changes.
      *
-     * @param {Field | null} field Field to compate `newValue` with.
+     * @param field Field to compate `newValue` with.
      *
-     * @param {UserInput} newValue New value to compare.
+     * @param newValue New value to compare.
      *
-     * @param {FieldConfiguration} fieldConfiguration Field's configuration.
+     * @param fieldConfiguration Field's configuration.
      *
-     * @param {string} path Current field's path.
+     * @param path Current field's path.
      *
-     * @param {boolean} [isRoot = true] Whether current field is the root field (used internally).
+     * @param isRoot Whether current field is the root field (used internally). Defaults to `true`.
      *
-     * @returns {UserAction[]} List of user actions that must be triggered.
+     * @returns List of user actions that must be triggered.
      */
     protected deepCompare(
       field: Field | null,
@@ -523,17 +522,15 @@ declare module 'gincko' {
     /**
      * Toggles field at `path`, according to its rendering condition.
      *
-     * @param {string} path Field's path.
+     * @param path Field's path.
      *
-     * @param {Fields} parent Field's parent.
+     * @param parent Field's parent.
      *
-     * @param {number} fieldIndex Field's index in its parent's fields list.
+     * @param fieldIndex Field's index in its parent's fields list.
      *
-     * @param {FieldConfiguration} configuration Field's configuration.
+     * @param configuration Field's configuration.
      *
-     * @param {UserInput} currentValues Current inputs to update field's value with.
-     *
-     * @returns {void}
+     * @param currentValues Current inputs to update field's value with.
      */
     protected toggleField(
       path: string,
@@ -546,13 +543,13 @@ declare module 'gincko' {
     /**
      * Validates `field`, making sure that its value passes all validation rules.
      *
-     * @param {Field | null} field Field to validate.
+     * @param field Field to validate.
      *
-     * @param {FieldConfiguration} configuration Field configuration.
+     * @param configuration Field configuration.
      *
-     * @param {boolean} partial Whether to also validate empty fields.
+     * @param partial Whether to also validate empty fields.
      *
-     * @returns {string} Field's state ("progress", "success" or "error").
+     * @returns Field's state ("progress", "success" or "error").
      */
     protected validateField(
       field: Field | null,
@@ -563,18 +560,14 @@ declare module 'gincko' {
     /**
      * Toggles all fields and sub-fields for `step`, according to their rendering conditions.
      *
-     * @param {Step | null} step Step to toggle fields for.
-     *
-     * @returns {void}
+     * @param step Step to toggle fields for.
      */
     protected toggleFields(step: Step | null): void;
 
     /**
      * Validates current step, making sure that all its fields' values pass validation rules.
      *
-     * @param {boolean} [partial = false] Whether to also validate empty fields.
-     *
-     * @returns {void}
+     * @param partial Whether to also validate empty fields. Defaults to `false`.
      */
     protected validateFields(partial?: boolean): void;
 
@@ -582,57 +575,49 @@ declare module 'gincko' {
      * Returns the list of gincko field/step's configurations for each part of `path`. If no path is
      * provided, a list containing only the global form configuration is returned instead.
      *
-     * @param {string} [path] Field/step's path to get configurations for.
+     * @param path Field/step's path to get configurations for.
      *
-     * @returns {SubConfiguration[]} Array of gincko configurations for each part of `path`.
+     * @returns Array of gincko configurations for each part of `path`.
      */
     protected getConfigurations(path?: string): SubConfiguration[];
 
     /**
      * Inserts or updates `userInput` at `path` in the inputs store.
      *
-     * @param {string} path Path to insert/update user input at in the inputs store.
+     * @param path Path to insert/update user input at in the inputs store.
      *
-     * @param {UserInput} userInput User input to store. If `undefined`, existing value at `path`
+     * @param userInput User input to store. If `undefined`, existing value at `path`
      * will be deleted instead of updated.
-     *
-     * @returns {void}
      */
     protected setInput(path: string, userInput: UserInput): void;
 
     /**
      * Triggers hooks chain for the given event.
      *
-     * @param {FormEvent} eventName Event's name.
+     * @param eventName Event's name.
      *
-     * @param {HookData} data Additional data to pass to the hooks chain.
+     * @param data Additional data to pass to the hooks chain.
      *
-     * @returns {Promise<HookData>} Pending hooks chain.
+     * @returns Pending hooks chain.
      */
     protected triggerHooks<T extends HookData>(eventName: FormEvent, data: T): Promise<T>;
 
     /**
      * Updates form's cached data.
-     *
-     * @returns {void}
      */
     protected updateCache(): void;
 
     /**
      * Updates list of generated steps.
      *
-     * @param {number} stepIndex Index of the step to create or update.
+     * @param stepIndex Index of the step to create or update.
      *
-     * @param {Step} step Created or updated step.
-     *
-     * @returns {Promise<void>}
+     * @param step Created or updated step.
      */
     protected updateSteps(stepIndex: number, step: Step): Promise<void>;
 
     /**
      * Handles form submission and next step generation.
-     *
-     * @returns {Promise<void>}
      */
     protected handleSubmit(): Promise<void>;
 
@@ -640,79 +625,79 @@ declare module 'gincko' {
      * Handles new user actions, applying core logic such as hooks triggering or next step
      * generation.
      *
-     * @param {UserAction | null} userAction New state sent by `userActions` store module.
-     *
-     * @returns {Promise<void>}
+     * @param userAction New state sent by `userActions` store module.
      */
     protected handleUserAction(userAction: UserAction | null): Promise<void>;
 
     /**
      * Class constructor.
      *
-     * @param {Configuration} configuration Form engine configuration.
-     *
-     * @returns {void}
+     * @param configuration Form engine configuration.
      */
     constructor(configuration: Configuration);
 
     /**
      * Generates step with id `stepId`.
      *
-     * @param {string | null} [stepId] Step id.
+     * @param stepId Step id.
      *
-     * @returns {Step} Generated step.
+     * @returns Generated step.
      */
     public createStep(stepId?: string | null): Promise<void>;
 
     /**
      * Toggles a loader right after current step, indicating next step is/not being generated.
      *
-     * @param {boolean} display Whether to display step loader.
-     *
-     * @returns {void}
+     * @param display Whether to display step loader.
      */
     public toggleLoader(display: boolean): void;
 
     /**
      * Returns current store instance.
      *
-     * @returns {Store} Current store instance.
+     * @returns Current store instance.
      */
     public getStore(): Store;
 
     /**
      * Forces a new notification to all `state` module's listeners.
-     *
-     * @returns {void}
      */
     public forceUpdate(): void;
 
     /**
      * Registers a new hook for the given event.
      *
-     * @param {FormEvent} eventName Name of the event to register hook for.
+     * @param eventName Name of the event to register hook for.
      *
-     * @param {Hook<HookData>} hook Hook to register.
-     *
-     * @returns {void}
+     * @param hook Hook to register.
      */
-    public on(eventName: FormEvent, hook: Hook<HookData>): void;
+    public on(eventName: 'userAction', hook: Hook<UserAction | null>): void;
+
+    public on(eventName: 'afterUserAction', hook: Hook<UserAction | null>): void;
+
+    public on(eventName: 'step', hook: Hook<Step | null>): void;
+
+    public on(eventName: 'afterStep', hook: Hook<Step | null>): void;
+
+    public on(eventName: 'error', hook: Hook<Error | null>): void;
+
+    public on(eventName: 'submit', hook: Hook<UserInputs | null>): void;
+
+    public on(eventName: 'start', hook: Hook<boolean | null>): void;
 
     /**
      * Triggers the given user action.
      *
-     * @param {UserAction} userAction User action to trigger.
-     *
-     * @returns {void}
+     * @param userAction User action to trigger.
      */
     public userAction(userAction: UserAction): void;
 
     /**
      * Retrieves current user inputs at `path`. If no path is given, returns all user inputs.
      *
-     * @param {string} [path] Input path.
+     * @param [path] Input path.
      *
-     * @returns {UserInputs | UserInput | null} User inputs if they exist, `null` otherwise.
+     * @returns User inputs if they exist, `null` otherwise.
      */
     public getInputs(path?: string): UserInputs | UserInput | null;
 
@@ -720,39 +705,39 @@ declare module 'gincko' {
      * Returns gincko field/step's configuration for `path`. If no path is provided, the global form
      * configuration is returned instead.
      *
-     * @param {string} [path] Field/step's path to get configuration for.
+     * @param path Field/step's path to get configuration for.
      *
-     * @returns {SubConfiguration} Gincko configuration.
+     * @returns Gincko configuration.
      */
     public getConfiguration(path?: string): SubConfiguration;
 
     /**
      * Returns the generated field at `path`.
      *
-     * @param {string} path Path of the field to get, in the current generated form.
+     * @param path Path of the field to get, in the current generated form.
      *
-     * @returns {Field | null} Generated field if it exists, `null` otherwise.
+     * @returns Generated field if it exists, `null` otherwise.
      */
     public getField(path: string): Field | null;
 
     /**
      * Returns all generated steps.
      *
-     * @returns {Step[]} Current step.
+     * @returns Current step.
      */
     public getSteps(): Step[];
 
     /**
      * Returns current step.
      *
-     * @returns {Step | null} Current step.
+     * @returns Current step.
      */
     public getCurrentStep(): Step | null;
 
     /**
      * Retrieves current form variables.
      *
-     * @returns {Variables} Form variables.
+     * @returns Form variables.
      */
     public getVariables(): Variables;
 
@@ -765,8 +750,6 @@ declare module 'gincko' {
 
     /**
      * Clears current form cache.
-     *
-     * @returns {Promise<void>}
      */
     public clearCache(): Promise<void>;
   }

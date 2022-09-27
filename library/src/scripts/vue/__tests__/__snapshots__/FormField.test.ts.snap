@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`vue/FormField renders correctly - Array 1`] = `
+exports[`vue/FormField > renders correctly - Array 1`] = `
 <div
   addbuttonprops="[object Object]"
   addtextfieldprops="[object Object]"
@@ -10,9 +10,29 @@ exports[`vue/FormField renders correctly - Array 1`] = `
   isactive="true"
   modifiers="success "
   removebuttonprops="[object Object]"
-  t="function () {
-        return fn.apply(this, arguments);
-      }"
+  t="function(...o) {
+    if (e.called = !0, e.callCount++, e.calls.push(o), e.next) {
+      let [s, l] = e.next;
+      if (e.results.push(e.next), e.next = null, s === \\"ok\\")
+        return l;
+      throw l;
+    }
+    let r, n = \\"ok\\";
+    if (e.impl)
+      try {
+        r = e.impl.apply(this, o), n = \\"ok\\";
+      } catch (s) {
+        throw r = s, n = \\"error\\", e.results.push([n, s]), s;
+      }
+    let c = [n, r];
+    if (v(r)) {
+      let s = r.then((l) => c[1] = l).catch((l) => {
+        throw c[0] = \\"error\\", c[1] = l, l;
+      });
+      Object.assign(s, r), r = s;
+    }
+    return e.results.push(c), r;
+  }"
   type="array"
   userinputs="[object Object]"
   variables="[object Object]"
@@ -21,7 +41,7 @@ exports[`vue/FormField renders correctly - Array 1`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Array 2`] = `
+exports[`vue/FormField > renders correctly - Array 2`] = `
 <div
   addbuttonprops="[object Object]"
   addtextfieldprops="[object Object]"
@@ -31,9 +51,29 @@ exports[`vue/FormField renders correctly - Array 2`] = `
   isactive="false"
   modifiers="success "
   removebuttonprops="[object Object]"
-  t="function () {
-        return fn.apply(this, arguments);
-      }"
+  t="function(...o) {
+    if (e.called = !0, e.callCount++, e.calls.push(o), e.next) {
+      let [s, l] = e.next;
+      if (e.results.push(e.next), e.next = null, s === \\"ok\\")
+        return l;
+      throw l;
+    }
+    let r, n = \\"ok\\";
+    if (e.impl)
+      try {
+        r = e.impl.apply(this, o), n = \\"ok\\";
+      } catch (s) {
+        throw r = s, n = \\"error\\", e.results.push([n, s]), s;
+      }
+    let c = [n, r];
+    if (v(r)) {
+      let s = r.then((l) => c[1] = l).catch((l) => {
+        throw c[0] = \\"error\\", c[1] = l, l;
+      });
+      Object.assign(s, r), r = s;
+    }
+    return e.results.push(c), r;
+  }"
   type="array"
   userinputs="[object Object]"
   variables="[object Object]"
@@ -42,7 +82,7 @@ exports[`vue/FormField renders correctly - Array 2`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Button 1`] = `
+exports[`vue/FormField > renders correctly - Button 1`] = `
 <div
   id="path__0__to__field"
   modifiers="success "
@@ -51,7 +91,7 @@ exports[`vue/FormField renders correctly - Button 1`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - DatePicker 1`] = `
+exports[`vue/FormField > renders correctly - DatePicker 1`] = `
 <div
   debouncetimeout="100"
   id="path__0__to__field"
@@ -63,7 +103,7 @@ exports[`vue/FormField renders correctly - DatePicker 1`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - DatePicker 2`] = `
+exports[`vue/FormField > renders correctly - DatePicker 2`] = `
 <div
   debouncetimeout="10"
   id="path__0__to__field"
@@ -77,7 +117,7 @@ exports[`vue/FormField renders correctly - DatePicker 2`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - DynamicObject 1`] = `
+exports[`vue/FormField > renders correctly - DynamicObject 1`] = `
 <div
   addbuttonprops="[object Object]"
   addtextfieldprops="[object Object]"
@@ -87,9 +127,29 @@ exports[`vue/FormField renders correctly - DynamicObject 1`] = `
   isactive="true"
   modifiers="success "
   removebuttonprops="[object Object]"
-  t="function () {
-        return fn.apply(this, arguments);
-      }"
+  t="function(...o) {
+    if (e.called = !0, e.callCount++, e.calls.push(o), e.next) {
+      let [s, l] = e.next;
+      if (e.results.push(e.next), e.next = null, s === \\"ok\\")
+        return l;
+      throw l;
+    }
+    let r, n = \\"ok\\";
+    if (e.impl)
+      try {
+        r = e.impl.apply(this, o), n = \\"ok\\";
+      } catch (s) {
+        throw r = s, n = \\"error\\", e.results.push([n, s]), s;
+      }
+    let c = [n, r];
+    if (v(r)) {
+      let s = r.then((l) => c[1] = l).catch((l) => {
+        throw c[0] = \\"error\\", c[1] = l, l;
+      });
+      Object.assign(s, r), r = s;
+    }
+    return e.results.push(c), r;
+  }"
   type="dynamicObject"
   userinputs="[object Object]"
   variables="[object Object]"
@@ -98,7 +158,7 @@ exports[`vue/FormField renders correctly - DynamicObject 1`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - DynamicObject 2`] = `
+exports[`vue/FormField > renders correctly - DynamicObject 2`] = `
 <div
   addbuttonprops="[object Object]"
   addtextfieldprops="[object Object]"
@@ -108,9 +168,29 @@ exports[`vue/FormField renders correctly - DynamicObject 2`] = `
   isactive="true"
   modifiers="success "
   removebuttonprops="[object Object]"
-  t="function () {
-        return fn.apply(this, arguments);
-      }"
+  t="function(...o) {
+    if (e.called = !0, e.callCount++, e.calls.push(o), e.next) {
+      let [s, l] = e.next;
+      if (e.results.push(e.next), e.next = null, s === \\"ok\\")
+        return l;
+      throw l;
+    }
+    let r, n = \\"ok\\";
+    if (e.impl)
+      try {
+        r = e.impl.apply(this, o), n = \\"ok\\";
+      } catch (s) {
+        throw r = s, n = \\"error\\", e.results.push([n, s]), s;
+      }
+    let c = [n, r];
+    if (v(r)) {
+      let s = r.then((l) => c[1] = l).catch((l) => {
+        throw c[0] = \\"error\\", c[1] = l, l;
+      });
+      Object.assign(s, r), r = s;
+    }
+    return e.results.push(c), r;
+  }"
   type="dynamicObject"
   userinputs="[object Object]"
   variables="[object Object]"
@@ -119,7 +199,7 @@ exports[`vue/FormField renders correctly - DynamicObject 2`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - FilePicker 1`] = `
+exports[`vue/FormField > renders correctly - FilePicker 1`] = `
 <div
   id="path__0__to__field"
   modifiers="success "
@@ -129,7 +209,7 @@ exports[`vue/FormField renders correctly - FilePicker 1`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - FilePicker 2`] = `
+exports[`vue/FormField > renders correctly - FilePicker 2`] = `
 <div
   id="path__0__to__field"
   modifiers="success "
@@ -140,7 +220,7 @@ exports[`vue/FormField renders correctly - FilePicker 2`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Link 1`] = `
+exports[`vue/FormField > renders correctly - Link 1`] = `
 <div
   id="path__0__to__field"
   label=""
@@ -150,7 +230,7 @@ exports[`vue/FormField renders correctly - Link 1`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Message with label and helper 1`] = `
+exports[`vue/FormField > renders correctly - Message with label and helper 1`] = `
 <div
   id="field"
 >
@@ -158,7 +238,7 @@ exports[`vue/FormField renders correctly - Message with label and helper 1`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Message with label and message 1`] = `
+exports[`vue/FormField > renders correctly - Message with label and message 1`] = `
 <div
   id="field"
 >
@@ -166,7 +246,7 @@ exports[`vue/FormField renders correctly - Message with label and message 1`] = 
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Options 1`] = `
+exports[`vue/FormField > renders correctly - Options 1`] = `
 <div
   id="path__0__to__field"
   modifiers="success "
@@ -177,7 +257,7 @@ exports[`vue/FormField renders correctly - Options 1`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Textarea 1`] = `
+exports[`vue/FormField > renders correctly - Textarea 1`] = `
 <div
   debouncetimeout="100"
   id="path__0__to__field"
@@ -188,7 +268,7 @@ exports[`vue/FormField renders correctly - Textarea 1`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Textarea 2`] = `
+exports[`vue/FormField > renders correctly - Textarea 2`] = `
 <div
   debouncetimeout="10"
   id="path__0__to__field"
@@ -201,7 +281,7 @@ exports[`vue/FormField renders correctly - Textarea 2`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Textfield 1`] = `
+exports[`vue/FormField > renders correctly - Textfield 1`] = `
 <div
   debouncetimeout="100"
   id="path__0__to__field"
@@ -212,7 +292,7 @@ exports[`vue/FormField renders correctly - Textfield 1`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Textfield 2`] = `
+exports[`vue/FormField > renders correctly - Textfield 2`] = `
 <div
   debouncetimeout="10"
   id="path__0__to__field"
@@ -225,4 +305,4 @@ exports[`vue/FormField renders correctly - Textfield 2`] = `
 </div>
 `;
 
-exports[`vue/FormField renders correctly - Unknown component 1`] = `<!--v-if-->`;
+exports[`vue/FormField > renders correctly - Unknown component 1`] = `<!--v-if-->`;

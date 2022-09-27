@@ -106,7 +106,7 @@ function NestedFields({
   const [isInvalidPattern, setIsInvalidPattern] = React.useState(false);
   const className = buildClass('ui-nested-fields', [modifiers, type].join(' '));
   const keyExistsOrIsEmpty = newKey === '' || (currentValue as UserInputs)[newKey] !== undefined;
-  const addButtonDisabledModifier = (isInvalidPattern || keyExistsOrIsEmpty) ? 'disabled' : '';
+  const addButtonDisabledModifier = (isInvalidPattern || (type === 'dynamicObject' && keyExistsOrIsEmpty)) ? 'disabled' : '';
   const isAddButtonDisabled = React.useMemo(() => (
     fields.length >= maxItems
   ), [fields.length, maxItems]);
@@ -240,7 +240,7 @@ function NestedFields({
       )}
       {(helper !== undefined) && <span className="ui-nested-fields__helper">{helper}</span>}
     </div>
-  );
+  ) as Any;
 }
 
-export default React.memo(NestedFields) as JSXElement;
+export default React.memo(NestedFields) as Any;

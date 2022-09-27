@@ -10,11 +10,11 @@ import userActions from 'scripts/core/userActions';
 
 describe('core/userActions', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('ADD', () => {
     const data = { test: true };
-    expect(userActions.mutations.ADD({ state: null, mutate: jest.fn(), hash: 'steps' }, data)).toEqual(data);
+    expect(userActions.mutations.ADD({ state: null, mutate: vi.fn(), hash: 'steps' }, data)).toEqual(data);
   });
 });

@@ -23,9 +23,9 @@ declare module 'gincko/plugins' {
   /**
    * Automatically handles a reCAPTCHA challenge for current form.
    *
-   * @param {ReCaptchaHandlerOptions} options Plugin's options.
+   * @param options Plugin's options.
    *
-   * @returns {Plugin} The actual plugin.
+   * @returns The actual plugin.
    */
   export function reCaptchaHandler(options: ReCaptchaHandlerOptions): Plugin;
 
@@ -40,9 +40,9 @@ declare module 'gincko/plugins' {
   /**
    * Gracefully handles errors by displaying a generic error step.
    *
-   * @param {ErrorStepDisplayerOptions} options Plugin options.
+   * @param options Plugin options.
    *
-   * @returns {Plugin} The actual gincko plugin.
+   * @returns The actual gincko plugin.
    */
   export function errorStepDisplayer(options: ErrorStepDisplayerOptions): Plugin;
 
@@ -54,9 +54,9 @@ declare module 'gincko/plugins' {
   /**
    * Displays a loader each time a new step is being loaded, for better UX.
    *
-   * @param {LoaderDisplayerOptions} [options = {}] Plugin's options.
+   * @param options Plugin's options. Defaults to `{}`.
    *
-   * @returns {Plugin} The actual plugin.
+   * @returns The actual plugin.
    */
   export function loaderDisplayer(options?: LoaderDisplayerOptions): Plugin;
 }

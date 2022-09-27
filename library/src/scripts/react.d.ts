@@ -7,6 +7,7 @@
  */
 
 declare module 'gincko/react' {
+  import 'react';
   import type Engine from 'gincko';
   import {
     I18n,

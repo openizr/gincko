@@ -10,7 +10,7 @@ import state from 'scripts/core/state';
 
 describe('core/state', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('UPDATE', () => {
@@ -21,7 +21,7 @@ describe('core/state', () => {
         variables: {},
         loading: true,
       },
-      mutate: jest.fn(),
+      mutate: vi.fn(),
       hash: 'state',
     }, {
       steps: [1],
@@ -44,7 +44,7 @@ describe('core/state', () => {
         variables: {},
         loading: true,
       },
-      mutate: jest.fn(),
+      mutate: vi.fn(),
       hash: 'state',
     }, false)).toEqual({
       steps: [],

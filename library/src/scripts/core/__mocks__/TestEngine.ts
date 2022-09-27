@@ -45,6 +45,16 @@ export default class TestEngine extends Engine {
     super.toggleFields(step);
   }
 
+  public toggleField(
+    path: string,
+    parent: Fields,
+    fieldIndex: number,
+    configuration: FieldConfiguration,
+    currentValues: UserInput,
+  ): void {
+    super.toggleField(path, parent, fieldIndex, configuration, currentValues);
+  }
+
   public areEqual(firstInput: UserInput, secondInput: UserInput, type: string): boolean {
     return super.areEqual(firstInput, secondInput, type);
   }

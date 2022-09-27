@@ -50,7 +50,7 @@ if (props.transform !== undefined) {
 }
 // Covers `onKeyDown` handler.
 emit('keyDown', { key: '1' });
-emit('keyDown', { key: 'A', ctrlKey: false, preventDefault: jest.fn() });
+emit('keyDown', { key: 'A', ctrlKey: false, preventDefault: vi.fn() });
 </script>
 
 <template>

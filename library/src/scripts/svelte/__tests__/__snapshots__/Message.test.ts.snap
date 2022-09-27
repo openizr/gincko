@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`svelte/Message renders correctly - custom props 1`] = `
+exports[`svelte/Message > renders correctly - custom props 1`] = `
 <div>
   <section
     class="ui-message strong"
@@ -8,10 +8,11 @@ exports[`svelte/Message renders correctly - custom props 1`] = `
   >
     MARKDOWN FOR *Test*, false
   </section>
+  <!--&lt;Message&gt;-->
 </div>
 `;
 
-exports[`svelte/Message renders correctly - default props 1`] = `
+exports[`svelte/Message > renders correctly - default props 1`] = `
 <div>
   <section
     class="ui-message "
@@ -19,5 +20,6 @@ exports[`svelte/Message renders correctly - default props 1`] = `
   >
     MARKDOWN FOR , false
   </section>
+  <!--&lt;Message&gt;-->
 </div>
 `;

@@ -11,10 +11,10 @@ import BaseEngine from 'scripts/core/__mocks__/Engine';
 
 describe('plugins/errorStepDisplayer', () => {
   let engine: BaseEngine;
-  const setActiveStep = jest.fn();
+  const setActiveStep = vi.fn();
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     engine = new BaseEngine();
     errorStepDisplayer({ stepId: 'error', setActiveStep })(engine as unknown as Engine);
   });

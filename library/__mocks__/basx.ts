@@ -9,7 +9,7 @@
 /**
  * basx mock.
  */
-export const deepMerge = jest.fn((obj1, obj2) => {
+export const deepMerge = vi.fn((obj1, obj2) => {
   const newObject = obj1;
   Object.keys(obj2).forEach((key) => {
     const firstValue = obj1[key];
@@ -22,5 +22,5 @@ export const deepMerge = jest.fn((obj1, obj2) => {
   });
   return newObject;
 });
-export const deepCopy = jest.fn((obj) => obj);
-export const isPlainObject = jest.fn((obj) => typeof obj === 'object' && obj?.constructor === Object);
+export const deepCopy = vi.fn((obj) => obj);
+export const isPlainObject = vi.fn((obj) => typeof obj === 'object' && obj?.constructor === Object);

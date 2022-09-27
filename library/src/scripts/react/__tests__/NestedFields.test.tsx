@@ -4,24 +4,24 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import React from 'react';
 import NestedFields from 'scripts/react/NestedFields';
 import { render, waitFor } from '@testing-library/react';
 
-jest.mock('biuty/react');
-jest.mock('scripts/react/Field');
+vi.mock('biuty/react');
+vi.mock('scripts/react/Field');
 
 describe('react/NestedFields', () => {
-  const onUserAction = jest.fn();
+  const onUserAction = vi.fn();
   const userInputs = { test: 'ok' };
   const variables = { var: 'value' };
-  const i18n = jest.fn(() => 'TRANSLATED LABEL');
+  const i18n = vi.fn(() => 'TRANSLATED LABEL');
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     delete process.env.NOCLICK;
   });
 

@@ -34,7 +34,7 @@ export let onUserAction: OnUserAction;
 /** List of form's custom UI components. */
 export let customComponents: CustomComponents;
 
-let actualField: JSXElement;
+let actualField: Any;
 let message: string | null;
 let allComponents: CustomComponents;
 

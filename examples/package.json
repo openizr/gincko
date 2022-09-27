@@ -1,12 +1,12 @@
 {
   "devDependencies": {
-    "@types/react": "^18.0.11",
+    "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.5",
-    "typescript-dev-kit": "^5.1.1"
+    "typescript-dev-kit": "^6.0.1"
   },
   "eslintConfig": {
     "extends": [
-      "./node_modules/typescript-dev-kit/main.js"
+      "./node_modules/typescript-dev-kit/main.cjs"
     ]
   },
   "dependencies": {
@@ -40,7 +40,7 @@
     }
   },
   "scripts": {
-    "init": "node_modules/typescript-dev-kit/scripts/init.sh",
+    "init": "node_modules/typescript-dev-kit/scripts/init",
     "dev": "cd node_modules/typescript-dev-kit/ && node scripts/dev",
     "build": "cd node_modules/typescript-dev-kit/ && node scripts/build",
     "postinstall": "rm -f node_modules/.eslintcache"

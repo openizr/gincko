@@ -115,7 +115,7 @@ function Field(props: FieldProps): JSX.Element {
     isCurrentlyActive,
   ]);
 
-  return actualField as JSXElement;
+  return actualField as JSX.Element;
 }
 
-export default React.memo(Field) as JSXElement;
+export default React.memo(Field) as Any;

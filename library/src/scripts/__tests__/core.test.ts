@@ -11,7 +11,7 @@ import BaseEngine from 'scripts/core/Engine';
 
 describe('core', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('has correct exports', () => {

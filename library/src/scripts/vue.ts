@@ -11,4 +11,6 @@ import Field from 'scripts/vue/FormField.vue';
 import Form from 'scripts/vue/DynamicForm.vue';
 
 export default Form;
+
+/* c8 ignore next */
 export { Field, Engine };

@@ -6,12 +6,19 @@
  *
  */
 
+import { readable } from 'svelte/store';
+
 /**
- * diox/connectors/vue mock.
+ * diox/connectors/svelte mock.
  */
-export default function useStore(): jest.Mock {
-  return jest.fn(() => ({
+const connect = vi.fn(() => {
+  const state = {
     steps: [{ id: 'start' }, { id: 'end' }],
     loading: process.env.LOADING === 'true',
+  };
+  return vi.fn(() => readable(state, (set) => {
+    set(state);
   }));
-}
+});
+
+export default connect;

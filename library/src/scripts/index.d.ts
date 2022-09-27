@@ -242,6 +242,7 @@ declare global {
    */
   export interface Step {
     id: string;
+    index: number;
     fields: (Field | null)[];
     status: 'initial' | 'error' | 'progress' | 'success';
   }
@@ -320,6 +321,9 @@ declare global {
 
     /** Whether to clear form cache on submit. */
     clearCacheOnSubmit?: boolean;
+
+    /** Whether to validate fields only on step submission. */
+    validateOnSubmit?: boolean;
 
     /** Whether to submit only updated fields values. */
     submitPartialUpdates?: boolean;

@@ -9,13 +9,13 @@
 import { loaderDisplayer } from 'scripts/plugins';
 import BaseEngine from 'scripts/core/__mocks__/Engine';
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 describe('plugins/loaderDisplayer', () => {
   let engine: BaseEngine;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     engine = new BaseEngine();
     delete process.env.NULL_NEXT_DATA;
     loaderDisplayer()(engine as unknown as Engine);
@@ -48,9 +48,9 @@ describe('plugins/loaderDisplayer', () => {
       const result = engine.trigger('step', null);
       // We need the following line as a `setTimeout` is called in an intermediary Promise.
       const immediate = new Promise(setImmediate);
-      jest.runAllTimers();
+      vi.runAllTimers();
       await immediate;
-      jest.runAllTimers();
+      vi.runAllTimers();
       await result;
       expect(engine.toggleLoader).not.toHaveBeenCalled();
     });
@@ -60,9 +60,9 @@ describe('plugins/loaderDisplayer', () => {
       const result = engine.trigger('step', null);
       // We need the following line as `setTimeout` is called in an intermediary Promise.
       const immediate = new Promise(setImmediate);
-      jest.runAllTimers();
+      vi.runAllTimers();
       await immediate;
-      jest.runAllTimers();
+      vi.runAllTimers();
       await result;
       expect(engine.toggleLoader).toHaveBeenCalledTimes(2);
       expect(engine.toggleLoader).toHaveBeenCalledWith(true);

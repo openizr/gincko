@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`vue/MessageField renders correctly - custom props 1`] = `
+exports[`vue/MessageField > renders correctly - custom props 1`] = `
 <section
   class="ui-message strong"
   id="test"
@@ -9,7 +9,7 @@ exports[`vue/MessageField renders correctly - custom props 1`] = `
 </section>
 `;
 
-exports[`vue/MessageField renders correctly - default props 1`] = `
+exports[`vue/MessageField > renders correctly - default props 1`] = `
 <section
   class="ui-message"
   id="test"

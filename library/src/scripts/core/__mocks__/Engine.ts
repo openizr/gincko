@@ -12,7 +12,7 @@
 export default class Engine {
   private configuration: Record<string, FieldConfiguration>;
 
-  private store: { mutate: jest.Mock; };
+  private store: { mutate: Any; };
 
   private currentStep: Step | null;
 
@@ -121,6 +121,7 @@ export default class Engine {
     };
     this.currentStep = (process.env.NULL_CURRENT_STEP === 'true') ? null : {
       id: 'root',
+      index: 0,
       fields: [],
       status: (process.env.ERROR_CURRENT_STEP === 'true') ? 'error' : 'initial',
     };
@@ -132,6 +133,7 @@ export default class Engine {
     };
     this.steps = [{
       id: 'root',
+      index: 0,
       status: 'success',
       fields: [
         null,
@@ -184,12 +186,12 @@ export default class Engine {
         },
       ],
     }];
-    this.updater = jest.fn();
-    this.createStep = jest.fn();
-    this.toggleLoader = jest.fn();
-    this.toggleFields = jest.fn();
-    this.validateFields = jest.fn();
-    this.store = { mutate: jest.fn() };
+    this.updater = vi.fn();
+    this.createStep = vi.fn();
+    this.toggleLoader = vi.fn();
+    this.toggleFields = vi.fn();
+    this.validateFields = vi.fn();
+    this.store = { mutate: vi.fn() };
   }
 
   protected hooks: { [eventName: string]: Hook<HookData>; };
@@ -213,7 +215,7 @@ export default class Engine {
     return this.currentStep;
   }
 
-  public getStore(): { mutate: jest.Mock; } {
+  public getStore(): { mutate: Any; } {
     return this.store;
   }
 

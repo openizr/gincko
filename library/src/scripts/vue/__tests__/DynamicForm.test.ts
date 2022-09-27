@@ -4,15 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import DynamicForm from 'scripts/vue/DynamicForm.vue';
 import { render, fireEvent, createEvent } from '@testing-library/vue';
 
-jest.mock('scripts/core/Engine');
-jest.mock('diox/connectors/vue');
-jest.mock('scripts/vue/FormStep.vue');
+vi.mock('scripts/core/Engine');
+vi.mock('diox/connectors/vue');
+vi.mock('scripts/vue/FormStep.vue');
 
 describe('vue/DynamicForm', () => {
   const configuration = {
@@ -26,8 +26,9 @@ describe('vue/DynamicForm', () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     delete process.env.LOADING;
+    Object.assign(console, { warn: vi.fn() });
   });
 
   test('renders correctly - loading next step', async () => {
@@ -50,7 +51,7 @@ describe('vue/DynamicForm', () => {
     const { container } = render(DynamicForm, { props: { configuration } });
     const form = container.getElementsByTagName('form')[0];
     const event = createEvent.submit(form);
-    event.preventDefault = jest.fn();
+    event.preventDefault = vi.fn();
     await fireEvent(form, event);
     expect(event.preventDefault).toHaveBeenCalled();
   });

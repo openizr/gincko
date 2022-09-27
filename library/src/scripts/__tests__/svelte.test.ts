@@ -10,14 +10,14 @@ import * as svelte from 'scripts/svelte';
 
 describe('svelte', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('has correct exports', () => {
     expect(Object.keys(svelte)).toEqual([
+      'default',
       'Field',
       'Engine',
-      'default',
     ]);
   });
 });

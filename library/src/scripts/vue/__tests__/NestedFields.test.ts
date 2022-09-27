@@ -4,23 +4,24 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { render, waitFor } from '@testing-library/vue';
 import NestedFields from 'scripts/vue/NestedFields.vue';
 
-jest.mock('biuty/vue');
-jest.mock('scripts/vue/FormField.vue');
+vi.mock('biuty/vue');
+vi.mock('scripts/vue/FormField.vue');
 
 describe('vue/NestedFields', () => {
-  const onUserAction = jest.fn();
+  const onUserAction = vi.fn();
   const userInputs = { test: 'ok' };
   const variables = { var: 'value' };
-  const i18n = jest.fn(() => 'TRANSLATED LABEL');
+  const i18n = vi.fn(() => 'TRANSLATED LABEL');
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
+    Object.assign(console, { warn: vi.fn() });
   });
 
   test('renders correctly - array', async () => {
@@ -39,6 +40,8 @@ describe('vue/NestedFields', () => {
           component: 'Message',
           componentProps: {},
         }, null],
+        addButtonProps: {},
+        removeButtonProps: {},
         onUserAction,
       },
     });

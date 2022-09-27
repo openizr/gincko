@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`react/Form renders correctly - loading next step 1`] = `
+exports[`react/Form > renders correctly - loading next step 1`] = `
 <form
   class="gincko"
   id="test"
@@ -22,7 +22,7 @@ exports[`react/Form renders correctly - loading next step 1`] = `
 </form>
 `;
 
-exports[`react/Form renders correctly - loading next step 2`] = `
+exports[`react/Form > renders correctly - loading next step 2`] = `
 <form
   class="gincko"
   id="test"
@@ -47,7 +47,7 @@ exports[`react/Form renders correctly - loading next step 2`] = `
 </form>
 `;
 
-exports[`react/Form renders correctly - with active step 1`] = `
+exports[`react/Form > renders correctly - with active step 1`] = `
 <form
   class="gincko"
   id="test"

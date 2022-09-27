@@ -1,30 +1,34 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`svelte/Field renders correctly - Array 1`] = `
+exports[`svelte/Field > renders correctly - Array 1`] = `
 <div>
   <div
     id="field"
   >
     {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":null,"placeholder":null},"type":"array","value":null,"customComponents":{}}
   </div>
+  <!--&lt;NestedFields&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - Array 2`] = `
+exports[`svelte/Field > renders correctly - Array 2`] = `
 <div>
   <div
     id="field"
   >
     {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":false,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":"TRANSLATED LABEL"},"removeButtonProps":{"label":"TRANSLATED LABEL"},"addTextfieldProps":{"label":null,"placeholder":null},"type":"array","value":null,"customComponents":{}}
   </div>
+  <!--&lt;NestedFields&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - Button 1`] = `
+exports[`svelte/Field > renders correctly - Button 1`] = `
 <div>
   <div>
     undefined
@@ -75,12 +79,14 @@ exports[`svelte/Field renders correctly - Button 1`] = `
      
     undefined
   </div>
+  <!--&lt;GenericComponent&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - DatePicker 1`] = `
+exports[`svelte/Field > renders correctly - DatePicker 1`] = `
 <div>
   <div>
     undefined
@@ -131,12 +137,14 @@ exports[`svelte/Field renders correctly - DatePicker 1`] = `
      
     undefined
   </div>
+  <!--&lt;GenericComponent&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - DatePicker 2`] = `
+exports[`svelte/Field > renders correctly - DatePicker 2`] = `
 <div>
   <div>
     undefined
@@ -187,36 +195,42 @@ exports[`svelte/Field renders correctly - DatePicker 2`] = `
      
     undefined
   </div>
+  <!--&lt;GenericComponent&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - DynamicObject 1`] = `
+exports[`svelte/Field > renders correctly - DynamicObject 1`] = `
 <div>
   <div
     id="field"
   >
     {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":null,"placeholder":null},"type":"dynamicObject","value":null,"customComponents":{}}
   </div>
+  <!--&lt;NestedFields&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - DynamicObject 2`] = `
+exports[`svelte/Field > renders correctly - DynamicObject 2`] = `
 <div>
   <div
     id="field"
   >
     {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":"TRANSLATED LABEL","placeholder":"TRANSLATED LABEL"},"type":"dynamicObject","value":null,"customComponents":{}}
   </div>
+  <!--&lt;NestedFields&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - FilePicker 1`] = `
+exports[`svelte/Field > renders correctly - FilePicker 1`] = `
 <div>
   <div>
     undefined
@@ -267,12 +281,14 @@ exports[`svelte/Field renders correctly - FilePicker 1`] = `
      
     undefined
   </div>
+  <!--&lt;GenericComponent&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - FilePicker 2`] = `
+exports[`svelte/Field > renders correctly - FilePicker 2`] = `
 <div>
   <div>
     undefined
@@ -323,12 +339,14 @@ exports[`svelte/Field renders correctly - FilePicker 2`] = `
      
     undefined
   </div>
+  <!--&lt;GenericComponent&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - Link 1`] = `
+exports[`svelte/Field > renders correctly - Link 1`] = `
 <div>
   <div>
     undefined
@@ -379,36 +397,42 @@ exports[`svelte/Field renders correctly - Link 1`] = `
      
     undefined
   </div>
+  <!--&lt;GenericComponent&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - Message with label and helper 1`] = `
+exports[`svelte/Field > renders correctly - Message with label and helper 1`] = `
 <div>
   <div
     id="field"
   >
     {"id":"path__0__to__field","label":"TRANSLATED LABEL","modifiers":"success "}
   </div>
+  <!--&lt;Message&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - Message with label and message 1`] = `
+exports[`svelte/Field > renders correctly - Message with label and message 1`] = `
 <div>
   <div
     id="field"
   >
     {"id":"path__0__to__field","label":"TRANSLATED LABEL","modifiers":"success "}
   </div>
+  <!--&lt;Message&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - Options 1`] = `
+exports[`svelte/Field > renders correctly - Options 1`] = `
 <div>
   <div>
     undefined
@@ -459,12 +483,14 @@ exports[`svelte/Field renders correctly - Options 1`] = `
      
     undefined
   </div>
+  <!--&lt;GenericComponent&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - Textarea 1`] = `
+exports[`svelte/Field > renders correctly - Textarea 1`] = `
 <div>
   <div>
     undefined
@@ -515,12 +541,14 @@ exports[`svelte/Field renders correctly - Textarea 1`] = `
      
     undefined
   </div>
+  <!--&lt;GenericComponent&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - Textarea 2`] = `
+exports[`svelte/Field > renders correctly - Textarea 2`] = `
 <div>
   <div>
     undefined
@@ -571,12 +599,14 @@ exports[`svelte/Field renders correctly - Textarea 2`] = `
      
     undefined
   </div>
+  <!--&lt;GenericComponent&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - Textfield 1`] = `
+exports[`svelte/Field > renders correctly - Textfield 1`] = `
 <div>
   <div>
     undefined
@@ -627,12 +657,14 @@ exports[`svelte/Field renders correctly - Textfield 1`] = `
      
     undefined
   </div>
+  <!--&lt;GenericComponent&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - Textfield 2`] = `
+exports[`svelte/Field > renders correctly - Textfield 2`] = `
 <div>
   <div>
     undefined
@@ -683,13 +715,16 @@ exports[`svelte/Field renders correctly - Textfield 2`] = `
      
     undefined
   </div>
+  <!--&lt;GenericComponent&gt;-->
   
   
+  <!--&lt;Field&gt;-->
 </div>
 `;
 
-exports[`svelte/Field renders correctly - Unknown component 1`] = `
+exports[`svelte/Field > renders correctly - Unknown component 1`] = `
 <div>
   
+  <!--&lt;Field&gt;-->
 </div>
 `;

@@ -22,9 +22,9 @@ interface ReCaptchaHandlerOptions {
 /**
  * Automatically handles a reCAPTCHA challenge for current form.
  *
- * @param {ReCaptchaHandlerOptions} options Plugin's options.
+ * @param options Plugin's options.
  *
- * @returns {Plugin} The actual plugin.
+ * @returns The actual plugin.
  */
 export default function reCaptchaHandler(options: ReCaptchaHandlerOptions): Plugin {
   return (engine): void => {

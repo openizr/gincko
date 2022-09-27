@@ -59,13 +59,12 @@ const preventSubmit = (event: Event): void => {
         :variables="state.variables"
         :on-user-action="onUserAction"
         :user-inputs="state.userInputs"
-        :i18n="i18n || ((label) => label)"
-        :is-active="((activeStep || null) !== null)
+        :i18n="i18n ?? ((label) => label)"
+        :is-active="((activeStep ?? null) !== null)
           ? activeStep === step.id
           : index === state.steps.length - 1"
-        :custom-components="customComponents || {}"
+        :custom-components="customComponents ?? {}"
       />
-
       <slot
         v-if="state.loading"
         name="loader"

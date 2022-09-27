@@ -58,11 +58,11 @@ export default class BaseEngine {
   /**
    * Checks whether `input` is considered as empty, according to its type.
    *
-   * @param {UserInput} input Input to check.
+   * @param input Input to check.
    *
-   * @param {string} type Input's type.
+   * @param type Input's type.
    *
-   * @returns {boolean} `true` if `input` is empty, `false` otherwise.
+   * @returns `true` if `input` is empty, `false` otherwise.
    */
   protected isEmpty(input: UserInput, type: string): boolean {
     return (
@@ -78,13 +78,13 @@ export default class BaseEngine {
   /**
    * Checks whether `firstInput` and `secondInput` are equal, according to their type.
    *
-   * @param {UserInput} firstInput First input to compare.
+   * @param firstInput First input to compare.
    *
-   * @param {UserInput} secondInput Second input to compare.
+   * @param secondInput Second input to compare.
    *
-   * @param {string} type Inputs' type.
+   * @param type Inputs' type.
    *
-   * @returns {boolean} `true` if `firstInput` and `secondInput` are equal, `false` otherwise.
+   * @returns `true` if `firstInput` and `secondInput` are equal, `false` otherwise.
    */
   protected areEqual(firstInput: UserInput, secondInput: UserInput, type: string): boolean {
     return (
@@ -104,11 +104,9 @@ export default class BaseEngine {
    * optimization that prevents UI from being notified (and thus re-rendered) too many times per
    * second, which would be unecessary and not great UX-wise.
    *
-   * @param {string} mutation Mutation name for the `state` module.
+   * @param mutation Mutation name for the `state` module.
    *
-   * @param {StateState | boolean} data Mutation data.
-   *
-   * @returns {void}
+   * @param data Mutation data.
    */
   protected enqueueMutation(mutation: string, data: Step[] | boolean): void {
     clearTimeout(<NodeJS.Timeout>(this.mutationTimeout));
@@ -128,11 +126,11 @@ export default class BaseEngine {
   /**
    * Returns the first dynamic object's pattern that matches `fieldId`.
    *
-   * @param {string} fieldId Field's id to match against patterns.
+   * @param fieldId Field's id to match against patterns.
    *
-   * @param {NestedFieldConfiguration} configuration Dynamic object's configuration.
+   * @param configuration Dynamic object's configuration.
    *
-   * @returns {string} First matching pattern, if it exists, `null` otherwise.
+   * @returns First matching pattern, if it exists, `null` otherwise.
    */
   protected getPattern(fieldId: string, configuration: NestedFieldConfiguration): string | null {
     const patterns = Object.keys(configuration.fields);
@@ -149,9 +147,9 @@ export default class BaseEngine {
    * cache, which is why we need to mangle them before caching form steps, and to add them back when
    * fetching form steps from cache.
    *
-   * @param {Step[]} steps Steps to mangle functions from.
+   * @param steps Steps to mangle functions from.
    *
-   * @returns {Step[]} Steps without functions.
+   * @returns Steps without functions.
    */
   protected withoutFunctions(steps: Step[]): Step[] {
     const mangledData = Array.isArray(steps) ? [] : {};
@@ -173,15 +171,15 @@ export default class BaseEngine {
    * cannot be stored in cache, which is why we need to mangle them before caching form steps, and
    * to add them back when fetching form steps from cache.
    *
-   * @param {Fields} fields Form fields to add functions to.
+   * @param fields Form fields to add functions to.
    *
-   * @param {FieldConfigurations} fieldConfigurations Configuration to retrieve functions from.
+   * @param fieldConfigurations Configuration to retrieve functions from.
    *
-   * @returns {Fields} Fields with functions.
+   * @returns Fields with functions.
    */
   protected withFunctions(fields: Fields, fieldConfigurations: FieldConfigurations): Fields {
     return fields.map((field) => {
-      const fieldConfiguration = fieldConfigurations[field?.id || ''];
+      const fieldConfiguration = fieldConfigurations[field?.id ?? ''];
       if (field === null || fieldConfiguration === undefined) {
         return null;
       }
@@ -198,8 +196,8 @@ export default class BaseEngine {
           });
         } else if (fieldConfiguration.type === 'dynamicObject') {
           fieldWithFunctions.fields = subFields.map((subField) => {
-            const subFieldId = subField?.id || '';
-            const pattern = this.getPattern(subFieldId, fieldConfiguration) || '';
+            const subFieldId = subField?.id ?? '';
+            const pattern = this.getPattern(subFieldId, fieldConfiguration) ?? '';
             const subFieldConfigurations = { [subFieldId]: fieldConfiguration.fields[pattern] };
             return this.withFunctions([subField], subFieldConfigurations)[0];
           });
@@ -214,17 +212,15 @@ export default class BaseEngine {
   /**
    * Filters user inputs, keeping only the ones for rendered fields.
    *
-   * @param {boolean} partial Whether to keep only updated inputs, or all inputs.
+   * @param partial Whether to keep only updated inputs, or all inputs.
    *
-   * @param {Field | null} field Current field to get input from.
+   * @param field Current field to get input from.
    *
-   * @param {FieldConfiguration} fieldConfiguration Current field's configuration.
+   * @param fieldConfiguration Current field's configuration.
    *
-   * @param {UserInput} currentInitialInput Current initial input.
+   * @param currentInitialInput Current initial input.
    *
-   * @param {UserInput} filteredInputs Current filtered input.
-   *
-   * @returns {void}
+   * @param filteredInputs Current filtered input.
    */
   protected filterInputs(
     partial: boolean,
@@ -277,11 +273,11 @@ export default class BaseEngine {
   /**
    * Generates field with path `path` from its configuration `fieldConfiguration`.
    *
-   * @param {string} path Field path.
+   * @param path Field path.
    *
-   * @param {FieldConfiguration} fieldConfiguration Field configuration.
+   * @param fieldConfiguration Field configuration.
    *
-   * @returns {Field} Generated field.
+   * @returns Generated field.
    */
   protected createField(path: string, fieldConfiguration: FieldConfiguration): Field {
     const newField: Field = ({
@@ -290,7 +286,7 @@ export default class BaseEngine {
       label: fieldConfiguration.label,
       id: path.split('.').slice(-1)[0],
       component: fieldConfiguration.component,
-      componentProps: fieldConfiguration.componentProps || {},
+      componentProps: fieldConfiguration.componentProps ?? {},
     });
 
     if (fieldConfiguration.type === 'array' || fieldConfiguration.type === 'dynamicObject') {
@@ -318,11 +314,11 @@ export default class BaseEngine {
   /**
    * Coerces user inputs into proper types and performs some type checks on user actions.
    *
-   * @param {UserInput} userInput User input to coerce and check.
+   * @param userInput User input to coerce and check.
    *
-   * @param {string} type Type to use for coercion and checking.
+   * @param type Type to use for coercion and checking.
    *
-   * @returns {Promise<UserInput>} Coerced user input.
+   * @returns Coerced user input.
    */
   protected async coerceAndCheckInput(userInput: UserInput, type: string): Promise<UserInput> {
     // Coercing data types...
@@ -358,17 +354,17 @@ export default class BaseEngine {
    * Performs a deep comparison between `newValue` and `field`'s value and returns a list of user
    * actions that must be triggered to reflect subsequent changes.
    *
-   * @param {Field | null} field Field to compate `newValue` with.
+   * @param field Field to compate `newValue` with.
    *
-   * @param {UserInput} newValue New value to compare.
+   * @param newValue New value to compare.
    *
-   * @param {FieldConfiguration} fieldConfiguration Field's configuration.
+   * @param fieldConfiguration Field's configuration.
    *
-   * @param {string} path Current field's path.
+   * @param path Current field's path.
    *
-   * @param {boolean} [isRoot = true] Whether current field is the root field (used internally).
+   * @param isRoot Whether current field is the root field (used internally). Defaults to `true`.
    *
-   * @returns {UserAction[]} List of user actions that must be triggered.
+   * @returns List of user actions that must be triggered.
    */
   protected deepCompare(
     field: Field | null,
@@ -389,18 +385,18 @@ export default class BaseEngine {
       const newUserActions: UserAction[] = [];
       const subFields = <Fields>(field.fields);
       const { fields } = <NestedFieldConfiguration>fieldConfiguration;
-      const fieldIds = (type === 'object') ? Object.keys(fields) : Object.keys(<UserInputs>newValue || {});
+      const fieldIds = (type === 'object') ? Object.keys(fields) : Object.keys(<UserInputs>newValue ?? {});
       for (let index = 0, { length } = fieldIds; index < length; index += 1) {
         const fieldId = fieldIds[index];
-        const subField = subFields[index] || null;
+        const subField = subFields[index] ?? null;
         newFields.push(subField);
         newFieldIds.push(fieldId);
         const key = (type === 'dynamicObject') ? this.getPattern(fieldId, fieldConfiguration) : fieldId;
-        const fieldValue = (<UserInputs>newValue)[fieldId];
-        if (key !== null && fieldValue !== null) {
+        const fieldValue = (<UserInputs>newValue)?.[fieldId] ?? null;
+        if (key !== null) {
           newUserActions.push(...this.deepCompare(
             subField,
-            (fieldValue !== undefined) ? fieldValue : null,
+            fieldValue,
             (type === 'array') ? <FieldConfiguration>fields : (<FieldConfigurations>fields)[key],
             `${path}.${fieldId}`,
             false,
@@ -418,17 +414,15 @@ export default class BaseEngine {
   /**
    * Toggles field at `path`, according to its rendering condition.
    *
-   * @param {string} path Field's path.
+   * @param path Field's path.
    *
-   * @param {Fields} parent Field's parent.
+   * @param parent Field's parent.
    *
-   * @param {number} fieldIndex Field's index in its parent's fields list.
+   * @param fieldIndex Field's index in its parent's fields list.
    *
-   * @param {FieldConfiguration} configuration Field's configuration.
+   * @param configuration Field's configuration.
    *
-   * @param {UserInput} currentValues Current inputs to update field's value with.
-   *
-   * @returns {void}
+   * @param currentValues Current inputs to update field's value with.
    */
   protected toggleField(
     path: string,
@@ -442,7 +436,7 @@ export default class BaseEngine {
     if (renderCondition !== undefined && !renderCondition(this.userInputs, this.variables)) {
       parentField[fieldIndex] = null;
     } else {
-      parentField[fieldIndex] = parentField[fieldIndex] || this.createField(path, configuration);
+      parentField[fieldIndex] = parentField[fieldIndex] ?? this.createField(path, configuration);
       (<Field>parentField[fieldIndex]).value = (currentValues !== undefined) ? currentValues : null;
       const { fields, fieldIds } = <Field>parentField[fieldIndex];
       if (fields !== undefined && fieldIds !== undefined) {
@@ -473,13 +467,13 @@ export default class BaseEngine {
   /**
    * Validates `field`, making sure that its value passes all validation rules.
    *
-   * @param {Field | null} field Field to validate.
+   * @param field Field to validate.
    *
-   * @param {FieldConfiguration} configuration Field configuration.
+   * @param configuration Field configuration.
    *
-   * @param {boolean} partial Whether to also validate empty fields.
+   * @param partial Whether to also validate empty fields.
    *
-   * @returns {string} Field's state ("progress", "success" or "error").
+   * @returns Field's state ("progress", "success" or "error").
    */
   protected validateField(
     field: Field | null,
@@ -557,9 +551,7 @@ export default class BaseEngine {
   /**
    * Toggles all fields and sub-fields for `step`, according to their rendering conditions.
    *
-   * @param {Step | null} step Step to toggle fields for.
-   *
-   * @returns {void}
+   * @param step Step to toggle fields for.
    */
   protected toggleFields(step: Step | null): void {
     if (step !== null) {
@@ -569,7 +561,7 @@ export default class BaseEngine {
       for (let index = 0, { length } = fieldConfigurations; index < length; index += 1) {
         const fieldId = fieldConfigurations[index][0];
         const fieldConfiguration = fieldConfigurations[index][1];
-        this.toggleField(`${id}.0.${fieldId}`, fields, index, fieldConfiguration, this.userInputs[fieldId]);
+        this.toggleField(`${id}.${step.index}.${fieldId}`, fields, index, fieldConfiguration, this.userInputs[fieldId]);
       }
     }
   }
@@ -577,9 +569,7 @@ export default class BaseEngine {
   /**
    * Validates current step, making sure that all its fields' values pass validation rules.
    *
-   * @param {boolean} [partial = false] Whether to also validate empty fields.
-   *
-   * @returns {void}
+   * @param partial Whether to also validate empty fields. Defaults to `false`.
    */
   protected validateFields(partial = false): void {
     if (this.currentStep !== null) {
@@ -604,9 +594,9 @@ export default class BaseEngine {
    * Returns the list of gincko field/step's configurations for each part of `path`. If no path is
    * provided, a list containing only the global form configuration is returned instead.
    *
-   * @param {string} [path] Field/step's path to get configurations for.
+   * @param path Field/step's path to get configurations for.
    *
-   * @returns {SubConfiguration[]} Array of gincko configurations for each part of `path`.
+   * @returns Array of gincko configurations for each part of `path`.
    */
   protected getConfigurations(path?: string): SubConfiguration[] {
     let subConfiguration = <SubConfiguration | undefined>(this.configuration);
@@ -616,7 +606,7 @@ export default class BaseEngine {
     }
     const splitted = path.split('.');
     subConfiguration = this.configuration.steps[splitted[0]];
-    configurations.push(deepFreeze(subConfiguration) || null);
+    configurations.push(deepFreeze(subConfiguration) ?? null);
     for (let index = 2, { length } = splitted; index < length; index += 1) {
       const subPath = splitted[index];
       const currentSubConfiguration = <FieldConfiguration | undefined>subConfiguration;
@@ -624,7 +614,7 @@ export default class BaseEngine {
         if (currentSubConfiguration.type === 'array') {
           subConfiguration = currentSubConfiguration.fields;
         } else if (currentSubConfiguration.type === 'dynamicObject') {
-          const pattern = this.getPattern(subPath, currentSubConfiguration) || '';
+          const pattern = this.getPattern(subPath, currentSubConfiguration) ?? '';
           subConfiguration = currentSubConfiguration.fields[pattern];
         } else if (currentSubConfiguration.type === 'object') {
           subConfiguration = currentSubConfiguration.fields[subPath];
@@ -632,7 +622,7 @@ export default class BaseEngine {
           subConfiguration = (<StepConfiguration>currentSubConfiguration).fields[subPath];
         }
       }
-      configurations.push(deepFreeze(subConfiguration) || null);
+      configurations.push(deepFreeze(subConfiguration) ?? null);
     }
     return configurations;
   }
@@ -640,12 +630,10 @@ export default class BaseEngine {
   /**
    * Inserts or updates `userInput` at `path` in the inputs store.
    *
-   * @param {string} path Path to insert/update user input at in the inputs store.
+   * @param path Path to insert/update user input at in the inputs store.
    *
-   * @param {UserInput} userInput User input to store. If `undefined`, existing value at `path` will
+   * @param userInput User input to store. If `undefined`, existing value at `path` will
    * be deleted instead of updated.
-   *
-   * @returns {void}
    */
   protected setInput(path: string, userInput: UserInput): void {
     const splitted = path.split('.');
@@ -661,9 +649,9 @@ export default class BaseEngine {
         if (index === length - 1) {
           currentInputs[subPath] = userInput;
         } else if (fieldConfiguration.type === 'array') {
-          currentInputs[subPath] = currentInputs[subPath] || [];
+          currentInputs[subPath] = currentInputs[subPath] ?? [];
         } else {
-          currentInputs[subPath] = currentInputs[subPath] || {};
+          currentInputs[subPath] = currentInputs[subPath] ?? {};
         }
         if (fieldConfiguration.type !== 'null') {
           currentInputs = <UserInputs>currentInputs[subPath];
@@ -676,15 +664,15 @@ export default class BaseEngine {
   /**
    * Triggers hooks chain for the given event.
    *
-   * @param {FormEvent} eventName Event's name.
+   * @param eventName Event's name.
    *
-   * @param {HookData} data Additional data to pass to the hooks chain.
+   * @param data Additional data to pass to the hooks chain.
    *
-   * @returns {Promise<HookData>} Pending hooks chain.
+   * @returns Pending hooks chain.
    */
   protected async triggerHooks<T extends HookData>(eventName: FormEvent, data: T): Promise<T> {
     try {
-      const hooksChain = (this.hooks[eventName] || []).reduce((chain, hook) => (updatedData) => (
+      const hooksChain = (this.hooks[eventName] ?? []).reduce((chain, hook) => (updatedData) => (
         hook(updatedData, chain as NextHook<HookData>)
       ), (updatedData) => Promise.resolve(updatedData));
       const updatedData = await (hooksChain as NextHook<HookData>)(data);
@@ -713,8 +701,6 @@ export default class BaseEngine {
 
   /**
    * Updates form's cached data.
-   *
-   * @returns {void}
    */
   protected updateCache(): void {
     clearTimeout(this.cacheTimeout as NodeJS.Timeout);
@@ -732,11 +718,9 @@ export default class BaseEngine {
   /**
    * Updates list of generated steps.
    *
-   * @param {number} stepIndex Index of the step to create or update.
+   * @param stepIndex Index of the step to create or update.
    *
-   * @param {Step} step Created or updated step.
-   *
-   * @returns {Promise<void>}
+   * @param step Created or updated step.
    */
   protected async updateSteps(stepIndex: number, step: Step): Promise<void> {
     // We always remove further steps as logic may have changed depending on last user inputs.
@@ -752,8 +736,6 @@ export default class BaseEngine {
 
   /**
    * Handles form submission and next step generation.
-   *
-   * @returns {Promise<void>}
    */
   protected async handleSubmit(): Promise<void> {
     const configuration = this.configuration.steps[(<Step>(this.currentStep)).id];
@@ -790,9 +772,7 @@ export default class BaseEngine {
   /**
    * Handles new user actions, applying core logic such as hooks triggering or next step generation.
    *
-   * @param {UserAction | null} userAction New state sent by `userActions` store module.
-   *
-   * @returns {Promise<void>}
+   * @param userAction New state sent by `userActions` store module.
    */
   protected async handleUserAction(userAction: UserAction | null): Promise<void> {
     if (userAction !== null && this.currentStep !== null) {
@@ -830,7 +810,9 @@ export default class BaseEngine {
       // (especially when updating an object sub-field for instance).
       this.setInput(path, updatedUserActions[0].data);
       this.toggleFields(this.currentStep);
-      this.validateFields(!shouldSubmit);
+      if (shouldSubmit || this.configuration.validateOnSubmit !== true) {
+        this.validateFields(!shouldSubmit);
+      }
       await Promise.all(updatedUserActions.map((action) => this.triggerHooks('afterUserAction', action)));
       if (this.currentStep.status === 'success' && shouldSubmit) {
         await this.handleSubmit();
@@ -841,9 +823,7 @@ export default class BaseEngine {
   /**
    * Class constructor.
    *
-   * @param {Configuration} configuration Form engine configuration.
-   *
-   * @returns {void}
+   * @param configuration Form engine configuration.
    */
   constructor(configuration: Configuration) {
     const store = new Store();
@@ -857,13 +837,13 @@ export default class BaseEngine {
     this.cacheTimeout = null;
     this.mutationTimeout = null;
     this.configuration = configuration;
-    this.cache = configuration.cache || null;
-    this.cacheKey = `gincko_${configuration.id || 'cache'}`;
-    this.variables = deepCopy(configuration.variables || {});
-    this.userInputs = deepCopy(configuration.initialValues || {});
+    this.cache = configuration.cache ?? null;
+    this.cacheKey = `gincko_${configuration.id ?? 'cache'}`;
+    this.variables = deepCopy(configuration.variables ?? {});
+    this.userInputs = deepCopy(configuration.initialValues ?? {});
 
     // Be careful: plugins' order matters!
-    (configuration.plugins || []).forEach((hook) => {
+    (configuration.plugins ?? []).forEach((hook) => {
       hook({
         on: this.on.bind(this),
         getSteps: this.getSteps.bind(this),
@@ -891,7 +871,7 @@ export default class BaseEngine {
 
     // Depending on the configuration, we want either to load the complete form from cache, or just
     // its filled values and restart user's journey from the beginning.
-    const cachePromise = this.cache?.get(this.cacheKey) || Promise.resolve(null);
+    const cachePromise = this.cache?.get(this.cacheKey) ?? Promise.resolve(null);
     cachePromise.then((data) => {
       if (data !== null) {
         const cachedData = <CachedData>data;
@@ -923,13 +903,18 @@ export default class BaseEngine {
   /**
    * Generates step with id `stepId`.
    *
-   * @param {string | null} [stepId] Step id.
+   * @param stepId Step id.
    *
-   * @returns {Step} Generated step.
+   * @returns Generated step.
    */
   public async createStep(stepId?: string | null): Promise<void> {
     if (stepId !== null && stepId !== undefined) {
-      const nextStep: Step = { id: stepId, status: 'initial', fields: [] };
+      const nextStep: Step = {
+        id: stepId,
+        fields: [],
+        status: 'initial',
+        index: this.steps.length,
+      };
       this.toggleFields(nextStep);
       const updatedNextStep = await this.triggerHooks('step', nextStep);
       if (updatedNextStep !== null) {
@@ -941,9 +926,7 @@ export default class BaseEngine {
   /**
    * Toggles a loader right after current step, indicating next step is/not being generated.
    *
-   * @param {boolean} display Whether to display step loader.
-   *
-   * @returns {void}
+   * @param display Whether to display step loader.
    */
   public toggleLoader(display: boolean): void {
     this.enqueueMutation('SET_LOADER', display);
@@ -952,7 +935,7 @@ export default class BaseEngine {
   /**
    * Returns current store instance.
    *
-   * @returns {Store} Current store instance.
+   * @returns Current store instance.
    */
   public getStore(): Store {
     return this.store;
@@ -960,8 +943,6 @@ export default class BaseEngine {
 
   /**
    * Forces a new notification to all `state` module's listeners.
-   *
-   * @returns {void}
    */
   public forceUpdate(): void {
     if (this.currentStep !== null) {
@@ -973,22 +954,18 @@ export default class BaseEngine {
   /**
    * Registers a new hook for the given event.
    *
-   * @param {FormEvent} eventName Name of the event to register hook for.
+   * @param eventName Name of the event to register hook for.
    *
-   * @param {Hook<HookData>} hook Hook to register.
-   *
-   * @returns {void}
+   * @param hook Hook to register.
    */
   public on(eventName: FormEvent, hook: Hook<HookData>): void {
-    this.hooks[eventName] = [hook].concat(this.hooks[eventName] || []);
+    this.hooks[eventName] = [hook].concat(this.hooks[eventName] ?? []);
   }
 
   /**
    * Triggers the given user action.
    *
-   * @param {UserAction} userAction User action to trigger.
-   *
-   * @returns {void}
+   * @param userAction User action to trigger.
    */
   public userAction(userAction: UserAction): void {
     this.store.mutate('userActions', 'ADD', userAction);
@@ -997,15 +974,15 @@ export default class BaseEngine {
   /**
    * Retrieves current user inputs at `path`. If no path is given, returns all user inputs.
    *
-   * @param {string} [path] Input path.
+   * @param path Input path.
    *
-   * @param {boolean} [freeze = true] Whether to make returned input immutable.
+   * @param freeze Whether to make returned input immutable. Defaults to `true`.
    *
-   * @returns {UserInputs | UserInput | null} User inputs if they exist, `null` otherwise.
+   * @returns User inputs if they exist, `null` otherwise.
    */
   public getInputs(path?: string, freeze = true): UserInputs | UserInput | null {
     let currentInputs = <UserInput>(this.userInputs);
-    const splittedPath = path?.split('.') || [];
+    const splittedPath = path?.split('.') ?? [];
     for (let index = 2, { length } = splittedPath; index < length; index += 1) {
       if (currentInputs === undefined || currentInputs === null) {
         return null;
@@ -1022,9 +999,9 @@ export default class BaseEngine {
    * Returns gincko field/step's configuration for `path`. If no path is provided, the global form
    * configuration is returned instead.
    *
-   * @param {string} [path] Field/step's path to get configuration for.
+   * @param path Field/step's path to get configuration for.
    *
-   * @returns {SubConfiguration} Gincko configuration.
+   * @returns Gincko configuration.
    */
   public getConfiguration(path?: string): SubConfiguration {
     return this.getConfigurations(path).slice(-1)[0];
@@ -1033,14 +1010,14 @@ export default class BaseEngine {
   /**
    * Returns the generated field at `path`.
    *
-   * @param {string} path Path of the field to get, in the current generated form.
+   * @param path Path of the field to get, in the current generated form.
    *
-   * @returns {Field | null} Generated field if it exists, `null` otherwise.
+   * @returns Generated field if it exists, `null` otherwise.
    */
   public getField(path: string): Field | null {
     const splitted = path.split('.').slice(1);
     const step = this.steps[+splitted[0]];
-    let field = <Field | null | undefined>step;
+    let field = step as unknown as Field | null | undefined;
     const configurations = <FieldConfiguration[]>(this.getConfigurations(path));
     for (let index = 1, { length } = splitted; index < length; index += 1) {
       if (field === undefined || field === null) {
@@ -1051,13 +1028,13 @@ export default class BaseEngine {
         ? (<Fields>field.fields)[+subPath]
         : (<Fields>field.fields).find((currentField) => currentField?.id === subPath);
     }
-    return (splitted.length < 2) ? null : field || null;
+    return (splitted.length < 2) ? null : field ?? null;
   }
 
   /**
    * Returns all generated steps.
    *
-   * @returns {Step[]} Current step.
+   * @returns Current step.
    */
   public getSteps(): Step[] {
     return this.steps;
@@ -1066,7 +1043,7 @@ export default class BaseEngine {
   /**
    * Returns current step.
    *
-   * @returns {Step | null} Current step.
+   * @returns Current step.
    */
   public getCurrentStep(): Step | null {
     return this.currentStep;
@@ -1075,7 +1052,7 @@ export default class BaseEngine {
   /**
    * Retrieves current form variables.
    *
-   * @returns {Variables} Form variables.
+   * @returns Form variables.
    */
   public getVariables(): Variables {
     return deepFreeze(this.variables);
@@ -1084,9 +1061,7 @@ export default class BaseEngine {
   /**
    * Adds or overrides the given form variables.
    *
-   * @param {Variables} variables Form variables to add or override.
-   *
-   * @returns {void}
+   * @param variables Form variables to add or override.
    */
   public setVariables(variables: Variables): void {
     this.variables = deepMerge(this.variables, variables);
@@ -1098,8 +1073,6 @@ export default class BaseEngine {
 
   /**
    * Clears current form cache.
-   *
-   * @returns {Promise<void>}
    */
   public async clearCache(): Promise<void> {
     await this.cache?.delete(this.cacheKey);

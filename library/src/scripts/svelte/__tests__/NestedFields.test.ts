@@ -4,23 +4,23 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { render, waitFor } from '@testing-library/svelte';
 import NestedFields from 'scripts/svelte/NestedFields.svelte';
 
-jest.mock('biuty/svelte');
-jest.mock('scripts/svelte/Field.svelte');
+vi.mock('biuty/svelte');
+vi.mock('scripts/svelte/Field.svelte');
 
 describe('svelte/NestedFields', () => {
-  const onUserAction = jest.fn();
+  const onUserAction = vi.fn();
   const userInputs = { test: 'ok' };
   const variables = { var: 'value' };
-  const i18n = jest.fn(() => 'TRANSLATED LABEL');
+  const i18n = vi.fn(() => 'TRANSLATED LABEL');
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - array', async () => {

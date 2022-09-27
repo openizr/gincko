@@ -98,7 +98,7 @@ const isAddButtonDisabled = computed(() => {
 });
 const addButtonDisabledModifier = computed(() => {
   const keyExistsOrIsEmpty = newKey.value === '' || value.value[newKey.value] !== undefined;
-  return (isInvalidPattern.value || keyExistsOrIsEmpty) ? 'disabled' : '';
+  return (isInvalidPattern.value || (props.type === 'dynamicObject' && keyExistsOrIsEmpty)) ? 'disabled' : '';
 });
 
 const removeItem = (index: number) => {

@@ -9,9 +9,9 @@
 /**
  * diox/connectors/react mock.
  */
-export default function useStore(): jest.Mock {
-  return jest.fn(() => ({
-    steps: [{ id: 'start' }, { id: 'end' }],
-    loading: process.env.LOADING === 'true',
-  }));
-}
+const connect = vi.fn(() => vi.fn(() => ({
+  steps: [{ id: 'start' }, { id: 'end' }],
+  loading: process.env.LOADING === 'true',
+})));
+
+export default connect;

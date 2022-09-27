@@ -16,9 +16,9 @@ interface LoaderDisplayerOptions {
 /**
  * Displays a loader each time a new step is being loaded, for better UX.
  *
- * @param {LoaderDisplayerOptions} [options = {}] Plugin's options.
+ * @param options Plugin's options. Defaults to `{}`.
  *
- * @returns {Plugin} The actual plugin.
+ * @returns The actual plugin.
  */
 export default function loaderDisplayer(options: LoaderDisplayerOptions = {}): Plugin {
   return (engine): void => {

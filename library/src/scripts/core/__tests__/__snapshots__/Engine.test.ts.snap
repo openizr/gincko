@@ -1,10 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`core/Engine constructor cache exists, \`useCache\` is \`true\`, \`restartOnReload\` is \`true\` 1`] = `null`;
+exports[`core/Engine > constructor > cache exists, \`useCache\` is \`true\`, \`restartOnReload\` is \`true\` 1`] = `null`;
 
-exports[`core/Engine constructor cache is enabled, cache exists 1`] = `
-Object {
-  "fields": Array [
+exports[`core/Engine > constructor > cache is enabled, cache exists 1`] = `
+{
+  "fields": [
     null,
   ],
   "id": "second",
@@ -12,9 +12,9 @@ Object {
 }
 `;
 
-exports[`core/Engine constructor cache is enabled, cache exists, \`autoFill\` is \`false\` 1`] = `
-Object {
-  "fields": Array [
+exports[`core/Engine > constructor > cache is enabled, cache exists, \`autoFill\` is \`false\` 1`] = `
+{
+  "fields": [
     null,
   ],
   "id": "second",
@@ -22,31 +22,36 @@ Object {
 }
 `;
 
-exports[`core/Engine deepCompare 1`] = `Array []`;
+exports[`core/Engine > deepCompare 1`] = `[]`;
 
-exports[`core/Engine deepCompare 2`] = `
-Object {
+exports[`core/Engine > deepCompare 2`] = `
+{
   "component": "Null",
-  "componentProps": Object {},
+  "componentProps": {},
   "id": "field1",
   "status": "initial",
   "value": "test",
 }
 `;
 
-exports[`core/Engine deepCompare 3`] = `
-Array [
-  Object {
+exports[`core/Engine > deepCompare 3`] = `
+[
+  {
+    "data": null,
+    "path": "root.0.field1.1.key",
+    "type": "input",
+  },
+  {
     "data": "new2",
     "path": "root.0.field1.2.key",
     "type": "input",
   },
-  Object {
+  {
     "data": 2022-07-07T11:12:51.401Z,
     "path": "root.0.field1.2.key2",
     "type": "input",
   },
-  Object {
+  {
     "data": "ok",
     "path": "root.0.field1.3.key3.__",
     "type": "input",
@@ -54,36 +59,36 @@ Array [
 ]
 `;
 
-exports[`core/Engine deepCompare 4`] = `
-Object {
+exports[`core/Engine > deepCompare 4`] = `
+{
   "component": "Null",
-  "componentProps": Object {},
-  "fieldIds": Array [
+  "componentProps": {},
+  "fieldIds": [
     "0",
     "1",
     "2",
     "3",
   ],
-  "fields": Array [
-    Object {
+  "fields": [
+    {
       "component": "Null",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "key",
         "key2",
         "key3",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Null",
-          "componentProps": Object {},
+          "componentProps": {},
           "id": "key",
           "status": "success",
           "value": "test0",
         },
-        Object {
+        {
           "component": "Null",
-          "componentProps": Object {},
+          "componentProps": {},
           "id": "key2",
           "status": "initial",
           "value": 2022-07-07T11:12:51.401Z,
@@ -92,102 +97,109 @@ Object {
       ],
       "id": "0",
       "status": "success",
-      "value": Object {
+      "value": {
         "key": "test0",
       },
     },
-    Object {
+    {
       "component": "Null",
-      "componentProps": Object {},
-      "fields": Array [
-        Object {
-          "component": "Null",
-          "componentProps": Object {},
-          "id": "key",
-          "status": "success",
-          "value": "test1",
-        },
-      ],
-      "id": "1",
-      "status": "success",
-      "value": Object {
-        "key": "test1",
-      },
-    },
-    Object {
-      "component": "Null",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "key",
         "key2",
         "key3",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Null",
-          "componentProps": Object {},
+          "componentProps": {},
+          "id": "key",
+          "status": "success",
+          "value": "test1",
+        },
+        null,
+        null,
+      ],
+      "id": "1",
+      "status": "success",
+      "value": {
+        "key": "test1",
+      },
+    },
+    {
+      "component": "Null",
+      "componentProps": {},
+      "fieldIds": [
+        "key",
+        "key2",
+        "key3",
+      ],
+      "fields": [
+        {
+          "component": "Null",
+          "componentProps": {},
           "id": "key",
           "status": "success",
           "value": "test2",
         },
-        Object {
+        {
           "component": "Null",
-          "componentProps": Object {},
+          "componentProps": {},
           "id": "key2",
           "status": "initial",
           "value": null,
         },
-        Object {
+        {
           "component": "Null",
-          "componentProps": Object {},
-          "fieldIds": Array [],
-          "fields": Array [],
+          "componentProps": {},
+          "fieldIds": [],
+          "fields": [],
           "id": "key3",
           "status": "initial",
-          "value": Object {
+          "value": {
             "__": "test2",
           },
         },
       ],
       "id": "2",
       "status": "success",
-      "value": Object {
+      "value": {
         "key": "test2",
       },
     },
-    Object {
+    {
       "component": "Null",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "key",
         "key2",
         "key3",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Null",
-          "componentProps": Object {},
+          "componentProps": {},
           "id": "key",
           "status": "success",
           "value": "test3",
         },
-        Object {
+        {
           "component": "Null",
-          "componentProps": Object {},
+          "componentProps": {},
           "id": "key2",
           "status": "initial",
           "value": null,
         },
-        Object {
+        {
           "component": "Null",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "__",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "__",
               "status": "initial",
               "value": "test3",
@@ -195,34 +207,34 @@ Object {
           ],
           "id": "key3",
           "status": "initial",
-          "value": Object {
+          "value": {
             "__": "test3",
           },
         },
       ],
       "id": "3",
       "status": "success",
-      "value": Object {
+      "value": {
         "key": "test3",
       },
     },
   ],
   "id": "field1",
   "status": "initial",
-  "value": Array [
-    Object {
+  "value": [
+    {
       "key": "test0",
       "key2": 2022-07-07T11:12:51.401Z,
     },
-    Object {
+    {
       "key": "test1",
-      "key3": Object {
+      "key3": {
         "__": "test2",
       },
     },
-    Object {
+    {
       "key": "test2",
-      "key3": Object {
+      "key3": {
         "__": "test3",
       },
     },
@@ -230,25 +242,25 @@ Object {
 }
 `;
 
-exports[`core/Engine getConfiguration 1`] = `
-Object {
+exports[`core/Engine > getConfiguration 1`] = `
+{
   "root": "root",
-  "steps": Object {
-    "root": Object {
-      "fields": Object {
-        "conditionalArray": Object {
+  "steps": {
+    "root": {
+      "fields": {
+        "conditionalArray": {
           "component": "Array",
-          "componentProps": Object {
+          "componentProps": {
             "minItems": 3,
           },
-          "fields": Object {
+          "fields": {
             "component": "Array",
-            "componentProps": Object {
+            "componentProps": {
               "minItems": 2,
             },
-            "fields": Object {
+            "fields": {
               "component": "String",
-              "messages": Object {
+              "messages": {
                 "required": "REQUIRED",
                 "validation": [Function],
               },
@@ -258,65 +270,65 @@ Object {
             },
             "type": "array",
           },
-          "messages": Object {
+          "messages": {
             "validation": [Function],
           },
           "renderCondition": [Function],
           "type": "array",
         },
-        "integerCondition": Object {
+        "integerCondition": {
           "component": "Integer",
           "renderCondition": [Function],
           "type": "integer",
         },
-        "message": Object {
+        "message": {
           "component": "Message",
           "type": "null",
         },
-        "nestedArray": Object {
+        "nestedArray": {
           "component": "Array",
-          "fields": Object {
+          "fields": {
             "component": "Array",
-            "fields": Object {
+            "fields": {
               "component": "String",
-              "messages": Object {
+              "messages": {
                 "required": "REQUIRED",
                 "validation": [Function],
               },
               "required": true,
               "type": "string",
             },
-            "messages": Object {
+            "messages": {
               "required": "REQUIRED",
               "validation": [Function],
             },
             "required": true,
             "type": "array",
           },
-          "messages": Object {
+          "messages": {
             "required": "ARRAY REQUIRED",
             "validation": [Function],
           },
           "required": true,
           "type": "array",
         },
-        "nestedDynamicObject": Object {
+        "nestedDynamicObject": {
           "component": "Object",
-          "fields": Object {
-            "^[0-9]+$": Object {
+          "fields": {
+            "^[0-9]+$": {
               "component": "Object",
-              "fields": Object {
-                "integer": Object {
+              "fields": {
+                "integer": {
                   "component": "Integer",
                   "type": "integer",
                 },
               },
               "type": "object",
             },
-            "^[a-z]+$": Object {
+            "^[a-z]+$": {
               "component": "Object",
-              "fields": Object {
-                "string": Object {
+              "fields": {
+                "string": {
                   "component": "String",
                   "type": "string",
                 },
@@ -326,13 +338,13 @@ Object {
           },
           "type": "dynamicObject",
         },
-        "nestedObject": Object {
+        "nestedObject": {
           "component": "Object",
-          "fields": Object {
-            "object": Object {
+          "fields": {
+            "object": {
               "component": "Object",
-              "fields": Object {
-                "string": Object {
+              "fields": {
+                "string": {
                   "component": "String",
                   "type": "string",
                 },
@@ -343,22 +355,22 @@ Object {
           },
           "type": "object",
         },
-        "stringCondition": Object {
+        "stringCondition": {
           "component": "String",
           "defaultValue": "ok",
-          "messages": Object {
+          "messages": {
             "validation": [Function],
           },
           "type": "string",
         },
-        "stringRequired": Object {
+        "stringRequired": {
           "component": "String",
           "required": true,
           "type": "string",
         },
-        "submit": Object {
+        "submit": {
           "component": "Array",
-          "fields": Object {
+          "fields": {
             "component": "Button",
             "submit": true,
             "type": "boolean",
@@ -369,26 +381,31 @@ Object {
       "nextStep": [Function],
       "submit": true,
     },
-    "second": Object {
-      "fields": Object {},
+    "second": {
+      "fields": {
+        "submit": {
+          "component": "Button",
+          "type": "boolean",
+        },
+      },
     },
   },
 }
 `;
 
-exports[`core/Engine getConfiguration 2`] = `
-Object {
+exports[`core/Engine > getConfiguration 2`] = `
+{
   "component": "Array",
-  "fields": Object {
+  "fields": {
     "component": "String",
-    "messages": Object {
+    "messages": {
       "required": "REQUIRED",
       "validation": [Function],
     },
     "required": true,
     "type": "string",
   },
-  "messages": Object {
+  "messages": {
     "required": "REQUIRED",
     "validation": [Function],
   },
@@ -397,11 +414,11 @@ Object {
 }
 `;
 
-exports[`core/Engine getConfiguration 3`] = `
-Object {
+exports[`core/Engine > getConfiguration 3`] = `
+{
   "component": "Object",
-  "fields": Object {
-    "integer": Object {
+  "fields": {
+    "integer": {
       "component": "Integer",
       "type": "integer",
     },
@@ -410,11 +427,11 @@ Object {
 }
 `;
 
-exports[`core/Engine getConfiguration 4`] = `
-Object {
+exports[`core/Engine > getConfiguration 4`] = `
+{
   "component": "Object",
-  "fields": Object {
-    "string": Object {
+  "fields": {
+    "string": {
       "component": "String",
       "type": "string",
     },
@@ -423,12 +440,12 @@ Object {
 }
 `;
 
-exports[`core/Engine getField 1`] = `
-Object {
+exports[`core/Engine > getField 1`] = `
+{
   "component": "Array",
-  "componentProps": Object {},
-  "fieldIds": Array [],
-  "fields": Array [],
+  "componentProps": {},
+  "fieldIds": [],
+  "fields": [],
   "id": "submit",
   "label": undefined,
   "status": "initial",
@@ -436,19 +453,19 @@ Object {
 }
 `;
 
-exports[`core/Engine getField 2`] = `null`;
+exports[`core/Engine > getField 2`] = `null`;
 
-exports[`core/Engine getField 3`] = `
-Object {
+exports[`core/Engine > getField 3`] = `
+{
   "component": "Null",
-  "componentProps": Object {},
-  "fieldIds": Array [
+  "componentProps": {},
+  "fieldIds": [
     "integer",
   ],
-  "fields": Array [
-    Object {
+  "fields": [
+    {
       "component": "Null",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "integer",
       "status": "initial",
     },
@@ -458,17 +475,17 @@ Object {
 }
 `;
 
-exports[`core/Engine getField 4`] = `
-Object {
+exports[`core/Engine > getField 4`] = `
+{
   "component": "Null",
-  "componentProps": Object {},
-  "fieldIds": Array [
+  "componentProps": {},
+  "fieldIds": [
     "string",
   ],
-  "fields": Array [
-    Object {
+  "fields": [
+    {
       "component": "Null",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "string",
       "status": "initial",
     },
@@ -478,70 +495,70 @@ Object {
 }
 `;
 
-exports[`core/Engine getSteps 1`] = `
-Array [
-  Object {
-    "fields": Array [
-      Object {
+exports[`core/Engine > getSteps 1`] = `
+[
+  {
+    "fields": [
+      {
         "component": "Message",
-        "componentProps": Object {},
+        "componentProps": {},
         "id": "message",
         "label": undefined,
         "status": "initial",
         "value": null,
       },
-      Object {
+      {
         "component": "String",
-        "componentProps": Object {},
+        "componentProps": {},
         "id": "stringRequired",
         "label": undefined,
         "status": "initial",
         "value": null,
       },
-      Object {
+      {
         "component": "Array",
-        "componentProps": Object {},
-        "fieldIds": Array [],
-        "fields": Array [],
+        "componentProps": {},
+        "fieldIds": [],
+        "fields": [],
         "id": "nestedArray",
         "label": undefined,
         "status": "initial",
         "value": null,
       },
-      Object {
+      {
         "component": "String",
-        "componentProps": Object {},
+        "componentProps": {},
         "id": "stringCondition",
         "label": undefined,
         "status": "initial",
         "value": null,
       },
-      Object {
+      {
         "component": "Integer",
-        "componentProps": Object {},
+        "componentProps": {},
         "id": "integerCondition",
         "label": undefined,
         "status": "initial",
         "value": null,
       },
       null,
-      Object {
+      {
         "component": "Object",
-        "componentProps": Object {},
-        "fieldIds": Array [
+        "componentProps": {},
+        "fieldIds": [
           "object",
         ],
-        "fields": Array [
-          Object {
+        "fields": [
+          {
             "component": "Object",
-            "componentProps": Object {},
-            "fieldIds": Array [
+            "componentProps": {},
+            "fieldIds": [
               "string",
             ],
-            "fields": Array [
-              Object {
+            "fields": [
+              {
                 "component": "String",
-                "componentProps": Object {},
+                "componentProps": {},
                 "id": "string",
                 "label": undefined,
                 "status": "initial",
@@ -559,21 +576,21 @@ Array [
         "status": "initial",
         "value": null,
       },
-      Object {
+      {
         "component": "Object",
-        "componentProps": Object {},
-        "fieldIds": Array [],
-        "fields": Array [],
+        "componentProps": {},
+        "fieldIds": [],
+        "fields": [],
         "id": "nestedDynamicObject",
         "label": undefined,
         "status": "initial",
         "value": null,
       },
-      Object {
+      {
         "component": "Array",
-        "componentProps": Object {},
-        "fieldIds": Array [],
-        "fields": Array [],
+        "componentProps": {},
+        "fieldIds": [],
+        "fields": [],
         "id": "submit",
         "label": undefined,
         "status": "initial",
@@ -581,187 +598,326 @@ Array [
       },
     ],
     "id": "root",
+    "index": 0,
     "status": "initial",
   },
 ]
 `;
 
-exports[`core/Engine handleUserAction 1`] = `
-Object {
-  "fields": Array [
-    Object {
-      "component": "Message",
-      "componentProps": Object {},
-      "id": "message",
-      "label": undefined,
-      "status": "initial",
-      "value": null,
-    },
-    Object {
-      "component": "String",
-      "componentProps": Object {},
-      "id": "stringRequired",
-      "label": undefined,
-      "message": undefined,
-      "status": "error",
-      "value": null,
-    },
-    Object {
-      "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
-      "id": "nestedArray",
-      "label": undefined,
-      "message": "ARRAY REQUIRED",
-      "status": "error",
-      "value": null,
-    },
-    Object {
-      "component": "String",
-      "componentProps": Object {},
-      "id": "stringCondition",
-      "label": undefined,
-      "status": "initial",
-      "value": null,
-    },
-    Object {
-      "component": "Integer",
-      "componentProps": Object {},
-      "id": "integerCondition",
-      "label": undefined,
-      "status": "initial",
-      "value": null,
-    },
-    null,
-    Object {
-      "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
-        "object",
-      ],
-      "fields": Array [
-        Object {
-          "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
-            "string",
-          ],
-          "fields": Array [
-            Object {
-              "component": "String",
-              "componentProps": Object {},
-              "id": "string",
-              "label": undefined,
-              "status": "initial",
-              "value": null,
-            },
-          ],
-          "id": "object",
-          "label": undefined,
-          "status": "initial",
-          "value": null,
-        },
-      ],
-      "id": "nestedObject",
-      "label": undefined,
-      "status": "initial",
-      "value": null,
-    },
-    Object {
-      "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
-      "id": "nestedDynamicObject",
-      "label": undefined,
-      "status": "initial",
-      "value": null,
-    },
-    Object {
-      "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [
-        "0",
-      ],
-      "fields": Array [
-        Object {
-          "component": "Button",
-          "componentProps": Object {},
-          "id": "0",
-          "label": undefined,
-          "message": undefined,
-          "status": "success",
-          "value": true,
-        },
-      ],
-      "id": "submit",
-      "label": undefined,
-      "message": undefined,
-      "status": "success",
-      "value": Array [
-        true,
-      ],
-    },
-  ],
-  "id": "root",
-  "status": "error",
-}
+exports[`core/Engine > handleUserAction 1`] = `
+[
+  {
+    "fields": [
+      {
+        "component": "Message",
+        "componentProps": {},
+        "id": "message",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "String",
+        "componentProps": {},
+        "id": "stringRequired",
+        "label": undefined,
+        "message": undefined,
+        "status": "error",
+        "value": null,
+      },
+      {
+        "component": "Array",
+        "componentProps": {},
+        "fieldIds": [],
+        "fields": [],
+        "id": "nestedArray",
+        "label": undefined,
+        "message": "ARRAY REQUIRED",
+        "status": "error",
+        "value": null,
+      },
+      {
+        "component": "String",
+        "componentProps": {},
+        "id": "stringCondition",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "Integer",
+        "componentProps": {},
+        "id": "integerCondition",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      null,
+      {
+        "component": "Object",
+        "componentProps": {},
+        "fieldIds": [
+          "object",
+        ],
+        "fields": [
+          {
+            "component": "Object",
+            "componentProps": {},
+            "fieldIds": [
+              "string",
+            ],
+            "fields": [
+              {
+                "component": "String",
+                "componentProps": {},
+                "id": "string",
+                "label": undefined,
+                "status": "initial",
+                "value": null,
+              },
+            ],
+            "id": "object",
+            "label": undefined,
+            "status": "initial",
+            "value": null,
+          },
+        ],
+        "id": "nestedObject",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "Object",
+        "componentProps": {},
+        "fieldIds": [],
+        "fields": [],
+        "id": "nestedDynamicObject",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "Array",
+        "componentProps": {},
+        "fieldIds": [
+          "0",
+        ],
+        "fields": [
+          {
+            "component": "Button",
+            "componentProps": {},
+            "id": "0",
+            "label": undefined,
+            "message": undefined,
+            "status": "success",
+            "value": true,
+          },
+        ],
+        "id": "submit",
+        "label": undefined,
+        "message": undefined,
+        "status": "success",
+        "value": [
+          true,
+        ],
+      },
+    ],
+    "id": "root",
+    "index": 0,
+    "status": "error",
+  },
+]
 `;
 
-exports[`core/Engine handleUserAction 2`] = `
-Object {
-  "fields": Array [],
-  "id": "second",
-  "status": "initial",
-}
+exports[`core/Engine > handleUserAction 2`] = `
+[
+  {
+    "fields": [
+      {
+        "component": "Message",
+        "componentProps": {},
+        "id": "message",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "String",
+        "componentProps": {},
+        "id": "stringRequired",
+        "label": undefined,
+        "message": undefined,
+        "status": "error",
+        "value": null,
+      },
+      {
+        "component": "Array",
+        "componentProps": {},
+        "fieldIds": [],
+        "fields": [],
+        "id": "nestedArray",
+        "label": undefined,
+        "message": "ARRAY REQUIRED",
+        "status": "error",
+        "value": null,
+      },
+      {
+        "component": "String",
+        "componentProps": {},
+        "id": "stringCondition",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "Integer",
+        "componentProps": {},
+        "id": "integerCondition",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      null,
+      {
+        "component": "Object",
+        "componentProps": {},
+        "fieldIds": [
+          "object",
+        ],
+        "fields": [
+          {
+            "component": "Object",
+            "componentProps": {},
+            "fieldIds": [
+              "string",
+            ],
+            "fields": [
+              {
+                "component": "String",
+                "componentProps": {},
+                "id": "string",
+                "label": undefined,
+                "status": "initial",
+                "value": null,
+              },
+            ],
+            "id": "object",
+            "label": undefined,
+            "status": "initial",
+            "value": null,
+          },
+        ],
+        "id": "nestedObject",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "Object",
+        "componentProps": {},
+        "fieldIds": [],
+        "fields": [],
+        "id": "nestedDynamicObject",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "Array",
+        "componentProps": {},
+        "fieldIds": [
+          "0",
+        ],
+        "fields": [
+          {
+            "component": "Button",
+            "componentProps": {},
+            "id": "0",
+            "label": undefined,
+            "message": undefined,
+            "status": "success",
+            "value": true,
+          },
+        ],
+        "id": "submit",
+        "label": undefined,
+        "message": undefined,
+        "status": "success",
+        "value": [
+          true,
+        ],
+      },
+    ],
+    "id": "root",
+    "index": 0,
+    "status": "success",
+  },
+  {
+    "fields": [
+      {
+        "component": "Button",
+        "componentProps": {},
+        "id": "submit",
+        "label": undefined,
+        "status": "initial",
+        "value": [
+          true,
+        ],
+      },
+    ],
+    "id": "second",
+    "index": 1,
+    "status": "initial",
+  },
+]
 `;
 
-exports[`core/Engine setVariables 1`] = `
-Object {
-  "nested": Object {
+exports[`core/Engine > setVariables 1`] = `
+{
+  "nested": {
     "test": "ok",
   },
   "newTest": true,
 }
 `;
 
-exports[`core/Engine setVariables 2`] = `
-Array [
+exports[`core/Engine > setVariables 2`] = `
+[
   "gincko_cache",
-  Object {
-    "steps": Array [
-      Object {
-        "fields": Array [
-          Object {
+  {
+    "steps": [
+      {
+        "fields": [
+          {
             "component": "Message",
-            "componentProps": Object {},
+            "componentProps": {},
             "id": "message",
             "label": undefined,
             "status": "initial",
             "value": null,
           },
-          Object {
+          {
             "component": "String",
-            "componentProps": Object {},
+            "componentProps": {},
             "id": "stringRequired",
             "label": undefined,
             "status": "initial",
             "value": null,
           },
-          Object {
+          {
             "component": "Array",
-            "componentProps": Object {},
-            "fieldIds": Array [],
-            "fields": Array [],
+            "componentProps": {},
+            "fieldIds": [],
+            "fields": [],
             "id": "nestedArray",
             "label": undefined,
             "status": "initial",
             "value": null,
           },
-          Object {
+          {
             "component": "String",
-            "componentProps": Object {},
+            "componentProps": {},
             "id": "stringCondition",
             "label": undefined,
             "status": "initial",
@@ -769,23 +925,23 @@ Array [
           },
           null,
           null,
-          Object {
+          {
             "component": "Object",
-            "componentProps": Object {},
-            "fieldIds": Array [
+            "componentProps": {},
+            "fieldIds": [
               "object",
             ],
-            "fields": Array [
-              Object {
+            "fields": [
+              {
                 "component": "Object",
-                "componentProps": Object {},
-                "fieldIds": Array [
+                "componentProps": {},
+                "fieldIds": [
                   "string",
                 ],
-                "fields": Array [
-                  Object {
+                "fields": [
+                  {
                     "component": "String",
-                    "componentProps": Object {},
+                    "componentProps": {},
                     "id": "string",
                     "label": undefined,
                     "status": "initial",
@@ -803,21 +959,21 @@ Array [
             "status": "initial",
             "value": null,
           },
-          Object {
+          {
             "component": "Object",
-            "componentProps": Object {},
-            "fieldIds": Array [],
-            "fields": Array [],
+            "componentProps": {},
+            "fieldIds": [],
+            "fields": [],
             "id": "nestedDynamicObject",
             "label": undefined,
             "status": "initial",
             "value": null,
           },
-          Object {
+          {
             "component": "Array",
-            "componentProps": Object {},
-            "fieldIds": Array [],
-            "fields": Array [],
+            "componentProps": {},
+            "fieldIds": [],
+            "fields": [],
             "id": "submit",
             "label": undefined,
             "status": "initial",
@@ -828,11 +984,11 @@ Array [
         "status": "progress",
       },
     ],
-    "userInputs": Object {
+    "userInputs": {
       "integerCondition": 3,
     },
-    "variables": Object {
-      "nested": Object {
+    "variables": {
+      "nested": {
         "test": "ok",
       },
       "newTest": true,
@@ -841,38 +997,38 @@ Array [
 ]
 `;
 
-exports[`core/Engine setVariables 3`] = `
-Object {
-  "fields": Array [
-    Object {
+exports[`core/Engine > setVariables 3`] = `
+{
+  "fields": [
+    {
       "component": "Message",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "message",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringRequired",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedArray",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringCondition",
       "label": undefined,
       "status": "initial",
@@ -880,23 +1036,23 @@ Object {
     },
     null,
     null,
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "object",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "String",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "label": undefined,
               "status": "initial",
@@ -914,21 +1070,21 @@ Object {
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedDynamicObject",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "submit",
       "label": undefined,
       "status": "initial",
@@ -940,46 +1096,46 @@ Object {
 }
 `;
 
-exports[`core/Engine setVariables 4`] = `
-Object {
-  "fields": Array [
-    Object {
+exports[`core/Engine > setVariables 4`] = `
+{
+  "fields": [
+    {
       "component": "Message",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "message",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringRequired",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedArray",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Integer",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "integerCondition",
       "label": undefined,
       "message": undefined,
@@ -987,23 +1143,23 @@ Object {
       "value": 3,
     },
     null,
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "object",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "String",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "label": undefined,
               "status": "initial",
@@ -1021,21 +1177,21 @@ Object {
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedDynamicObject",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "submit",
       "label": undefined,
       "status": "initial",
@@ -1047,69 +1203,69 @@ Object {
 }
 `;
 
-exports[`core/Engine toggleFields 1`] = `
-Object {
-  "fields": Array [
-    Object {
+exports[`core/Engine > toggleFields 1`] = `
+{
+  "fields": [
+    {
       "component": "Message",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "message",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringRequired",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedArray",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Integer",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "integerCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
     null,
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "object",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "String",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "label": undefined,
               "status": "initial",
@@ -1127,21 +1283,21 @@ Object {
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedDynamicObject",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "submit",
       "label": undefined,
       "status": "initial",
@@ -1149,73 +1305,74 @@ Object {
     },
   ],
   "id": "root",
+  "index": 0,
   "status": "initial",
 }
 `;
 
-exports[`core/Engine toggleFields 2`] = `
-Object {
-  "fields": Array [
-    Object {
+exports[`core/Engine > toggleFields 2`] = `
+{
+  "fields": [
+    {
       "component": "Message",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "message",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringRequired",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedArray",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Integer",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "integerCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
     null,
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "object",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "String",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "label": undefined,
               "status": "initial",
@@ -1225,7 +1382,7 @@ Object {
           "id": "object",
           "label": undefined,
           "status": "initial",
-          "value": Object {
+          "value": {
             "string": "HOLA",
           },
         },
@@ -1233,27 +1390,27 @@ Object {
       "id": "nestedObject",
       "label": undefined,
       "status": "initial",
-      "value": Object {
-        "object": Object {
+      "value": {
+        "object": {
           "string": "HOLA",
         },
       },
     },
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedDynamicObject",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "submit",
       "label": undefined,
       "status": "initial",
@@ -1261,39 +1418,40 @@ Object {
     },
   ],
   "id": "root",
+  "index": 0,
   "status": "initial",
 }
 `;
 
-exports[`core/Engine toggleFields 3`] = `
-Object {
-  "fields": Array [
-    Object {
+exports[`core/Engine > toggleFields 3`] = `
+{
+  "fields": [
+    {
       "component": "Message",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "message",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringRequired",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [
-        Object {
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [
+        {
           "component": "Array",
-          "componentProps": Object {},
-          "fieldIds": Array [],
-          "fields": Array [],
+          "componentProps": {},
+          "fieldIds": [],
+          "fields": [],
           "id": "0",
           "label": undefined,
           "status": "initial",
@@ -1305,40 +1463,40 @@ Object {
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Integer",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "integerCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
     null,
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "object",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "String",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "label": undefined,
               "status": "initial",
@@ -1348,7 +1506,7 @@ Object {
           "id": "object",
           "label": undefined,
           "status": "initial",
-          "value": Object {
+          "value": {
             "string": "HOLA",
           },
         },
@@ -1356,27 +1514,27 @@ Object {
       "id": "nestedObject",
       "label": undefined,
       "status": "initial",
-      "value": Object {
-        "object": Object {
+      "value": {
+        "object": {
           "string": "HOLA",
         },
       },
     },
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedDynamicObject",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "submit",
       "label": undefined,
       "status": "initial",
@@ -1384,39 +1542,40 @@ Object {
     },
   ],
   "id": "root",
+  "index": 0,
   "status": "initial",
 }
 `;
 
-exports[`core/Engine toggleFields 4`] = `
-Object {
-  "fields": Array [
-    Object {
+exports[`core/Engine > toggleFields 4`] = `
+{
+  "fields": [
+    {
       "component": "Message",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "message",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringRequired",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [
-        Object {
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [
+        {
           "component": "Array",
-          "componentProps": Object {},
-          "fieldIds": Array [],
-          "fields": Array [],
+          "componentProps": {},
+          "fieldIds": [],
+          "fields": [],
           "id": "0",
           "label": undefined,
           "status": "initial",
@@ -1428,40 +1587,40 @@ Object {
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Integer",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "integerCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
     null,
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "object",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "String",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "label": undefined,
               "status": "initial",
@@ -1471,7 +1630,7 @@ Object {
           "id": "object",
           "label": undefined,
           "status": "initial",
-          "value": Object {
+          "value": {
             "string": "HOLA",
           },
         },
@@ -1479,27 +1638,27 @@ Object {
       "id": "nestedObject",
       "label": undefined,
       "status": "initial",
-      "value": Object {
-        "object": Object {
+      "value": {
+        "object": {
           "string": "HOLA",
         },
       },
     },
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [
-        Object {
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [
+        {
           "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "String",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "label": undefined,
               "status": "initial",
@@ -1515,13 +1674,13 @@ Object {
       "id": "nestedDynamicObject",
       "label": undefined,
       "status": "initial",
-      "value": Object {},
+      "value": {},
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "submit",
       "label": undefined,
       "status": "initial",
@@ -1529,75 +1688,76 @@ Object {
     },
   ],
   "id": "root",
+  "index": 0,
   "status": "initial",
 }
 `;
 
-exports[`core/Engine validateFields 1`] = `
-Object {
-  "fields": Array [
-    Object {
+exports[`core/Engine > validateFields 1`] = `
+{
+  "fields": [
+    {
       "component": "Message",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "message",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringRequired",
       "label": undefined,
       "message": undefined,
       "status": "error",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedArray",
       "label": undefined,
       "message": "ARRAY REQUIRED",
       "status": "error",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Integer",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "integerCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
     null,
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "object",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "String",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "label": undefined,
               "status": "initial",
@@ -1615,21 +1775,21 @@ Object {
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedDynamicObject",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "submit",
       "label": undefined,
       "status": "initial",
@@ -1637,75 +1797,76 @@ Object {
     },
   ],
   "id": "root",
+  "index": 0,
   "status": "error",
 }
 `;
 
-exports[`core/Engine validateFields 2`] = `
-Object {
-  "fields": Array [
-    Object {
+exports[`core/Engine > validateFields 2`] = `
+{
+  "fields": [
+    {
       "component": "Message",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "message",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringRequired",
       "label": undefined,
       "message": undefined,
       "status": "error",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedArray",
       "label": undefined,
       "message": "ARRAY REQUIRED",
       "status": "error",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Integer",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "integerCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
     null,
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "object",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "String",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "label": undefined,
               "status": "initial",
@@ -1722,25 +1883,25 @@ Object {
       "label": undefined,
       "message": undefined,
       "status": "success",
-      "value": Object {
-        "object": Object {},
+      "value": {
+        "object": {},
       },
     },
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "nestedDynamicObject",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "submit",
       "label": undefined,
       "status": "initial",
@@ -1748,58 +1909,59 @@ Object {
     },
   ],
   "id": "root",
+  "index": 0,
   "status": "error",
 }
 `;
 
-exports[`core/Engine validateFields 3`] = `
-Object {
-  "fields": Array [
-    Object {
+exports[`core/Engine > validateFields 3`] = `
+{
+  "fields": [
+    {
       "component": "Message",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "message",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringRequired",
       "label": undefined,
       "message": undefined,
       "status": "success",
       "value": "ok",
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         0,
         1,
         2,
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Null",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             0,
             1,
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "0",
               "message": undefined,
               "status": "success",
               "value": "valid",
             },
-            Object {
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "1",
               "message": "BAD STRING",
               "status": "error",
@@ -1809,30 +1971,30 @@ Object {
           "id": "0",
           "message": undefined,
           "status": "error",
-          "value": Array [
+          "value": [
             "valid",
             "invalid",
           ],
         },
-        Object {
+        {
           "component": "Null",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             0,
             1,
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "0",
               "message": undefined,
               "status": "success",
               "value": "valid",
             },
-            Object {
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "1",
               "message": "BAD STRING",
               "status": "error",
@@ -1842,30 +2004,30 @@ Object {
           "id": "1",
           "message": undefined,
           "status": "error",
-          "value": Array [
+          "value": [
             "valid",
             "invalid",
           ],
         },
-        Object {
+        {
           "component": "Null",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             0,
             1,
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "0",
               "message": undefined,
               "status": "success",
               "value": "valid",
             },
-            Object {
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "1",
               "message": "BAD STRING",
               "status": "error",
@@ -1875,7 +2037,7 @@ Object {
           "id": "2",
           "message": undefined,
           "status": "error",
-          "value": Array [
+          "value": [
             "valid",
             "invalid",
           ],
@@ -1885,55 +2047,55 @@ Object {
       "label": undefined,
       "message": undefined,
       "status": "error",
-      "value": Array [
-        Array [
+      "value": [
+        [
           "valid",
           "invalid",
         ],
-        Array [
+        [
           "valid",
           "invalid",
         ],
-        Array [
+        [
           "valid",
           "invalid",
         ],
       ],
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Integer",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "integerCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
     null,
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "object",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "String",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "label": undefined,
               "status": "initial",
@@ -1950,23 +2112,23 @@ Object {
       "label": undefined,
       "status": "initial",
     },
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "invalid01",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Null",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "integer",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "integer",
               "status": "initial",
               "value": 3,
@@ -1980,15 +2142,15 @@ Object {
       "label": undefined,
       "message": undefined,
       "status": "error",
-      "value": Object {
+      "value": {
         "invalid01": 3,
       },
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "submit",
       "label": undefined,
       "status": "initial",
@@ -1996,58 +2158,59 @@ Object {
     },
   ],
   "id": "root",
+  "index": 0,
   "status": "error",
 }
 `;
 
-exports[`core/Engine validateFields 4`] = `
-Object {
-  "fields": Array [
-    Object {
+exports[`core/Engine > validateFields 4`] = `
+{
+  "fields": [
+    {
       "component": "Message",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "message",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringRequired",
       "label": undefined,
       "message": undefined,
       "status": "success",
       "value": "ok",
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         0,
         1,
         2,
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Null",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             0,
             1,
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "0",
               "message": undefined,
               "status": "success",
               "value": "valid",
             },
-            Object {
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "1",
               "message": undefined,
               "status": "success",
@@ -2057,30 +2220,30 @@ Object {
           "id": "0",
           "message": undefined,
           "status": "success",
-          "value": Array [
+          "value": [
             "valid",
             "invalid",
           ],
         },
-        Object {
+        {
           "component": "Null",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             0,
             1,
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "0",
               "message": undefined,
               "status": "success",
               "value": "valid",
             },
-            Object {
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "1",
               "message": undefined,
               "status": "success",
@@ -2090,30 +2253,30 @@ Object {
           "id": "1",
           "message": undefined,
           "status": "success",
-          "value": Array [
+          "value": [
             "valid",
             "invalid",
           ],
         },
-        Object {
+        {
           "component": "Null",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             0,
             1,
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "0",
               "message": undefined,
               "status": "success",
               "value": "valid",
             },
-            Object {
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "1",
               "message": undefined,
               "status": "success",
@@ -2123,7 +2286,7 @@ Object {
           "id": "2",
           "message": undefined,
           "status": "success",
-          "value": Array [
+          "value": [
             "valid",
             "invalid",
           ],
@@ -2133,55 +2296,55 @@ Object {
       "label": undefined,
       "message": undefined,
       "status": "success",
-      "value": Array [
-        Array [
+      "value": [
+        [
           "valid",
           "invalid",
         ],
-        Array [
+        [
           "valid",
           "invalid",
         ],
-        Array [
+        [
           "valid",
           "invalid",
         ],
       ],
     },
-    Object {
+    {
       "component": "String",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "stringCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
-    Object {
+    {
       "component": "Integer",
-      "componentProps": Object {},
+      "componentProps": {},
       "id": "integerCondition",
       "label": undefined,
       "status": "initial",
       "value": null,
     },
     null,
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "object",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Object",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "String",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "label": undefined,
               "status": "initial",
@@ -2198,23 +2361,23 @@ Object {
       "label": undefined,
       "status": "initial",
     },
-    Object {
+    {
       "component": "Object",
-      "componentProps": Object {},
-      "fieldIds": Array [
+      "componentProps": {},
+      "fieldIds": [
         "test",
       ],
-      "fields": Array [
-        Object {
+      "fields": [
+        {
           "component": "Null",
-          "componentProps": Object {},
-          "fieldIds": Array [
+          "componentProps": {},
+          "fieldIds": [
             "string",
           ],
-          "fields": Array [
-            Object {
+          "fields": [
+            {
               "component": "Null",
-              "componentProps": Object {},
+              "componentProps": {},
               "id": "string",
               "status": "initial",
             },
@@ -2227,15 +2390,15 @@ Object {
       "label": undefined,
       "message": undefined,
       "status": "success",
-      "value": Object {
+      "value": {
         "invalid01": 3,
       },
     },
-    Object {
+    {
       "component": "Array",
-      "componentProps": Object {},
-      "fieldIds": Array [],
-      "fields": Array [],
+      "componentProps": {},
+      "fieldIds": [],
+      "fields": [],
       "id": "submit",
       "label": undefined,
       "status": "initial",
@@ -2243,34 +2406,35 @@ Object {
     },
   ],
   "id": "root",
+  "index": 0,
   "status": "success",
 }
 `;
 
-exports[`core/Engine withFunctions 1`] = `
-Array [
-  Object {
+exports[`core/Engine > withFunctions 1`] = `
+[
+  {
     "component": "Null",
-    "componentProps": Object {
-      "onClick": [MockFunction],
+    "componentProps": {
+      "onClick": [MockFunction spy],
     },
-    "fields": Array [
-      Object {
+    "fields": [
+      {
         "component": "Null",
-        "componentProps": Object {
+        "componentProps": {
           "key": true,
-          "onFocus": [MockFunction],
+          "onFocus": [MockFunction spy],
         },
-        "fields": Array [
-          Object {
+        "fields": [
+          {
             "component": "Null",
             "componentProps": undefined,
-            "fields": Array [
-              Object {
+            "fields": [
+              {
                 "component": "Null",
-                "componentProps": Object {
-                  "props": Object {
-                    "onBlur": [MockFunction],
+                "componentProps": {
+                  "props": {
+                    "onBlur": [MockFunction spy],
                   },
                 },
                 "id": "0",
@@ -2294,28 +2458,28 @@ Array [
 ]
 `;
 
-exports[`core/Engine withoutFunctions 1`] = `
-Array [
-  Object {
+exports[`core/Engine > withoutFunctions 1`] = `
+[
+  {
     "component": "Null",
-    "componentProps": Object {
-      "onClick": Array [],
+    "componentProps": {
+      "onClick": [],
     },
-    "fields": Array [
-      Object {
+    "fields": [
+      {
         "component": "Null",
-        "componentProps": Object {
+        "componentProps": {
           "key": true,
         },
-        "fields": Array [
-          Object {
+        "fields": [
+          {
             "component": "Null",
-            "componentProps": Object {},
-            "fields": Array [
-              Object {
+            "componentProps": {},
+            "fields": [
+              {
                 "component": "Null",
-                "componentProps": Object {
-                  "props": Object {},
+                "componentProps": {
+                  "props": {},
                 },
                 "id": "0",
                 "status": "initial",
@@ -2324,9 +2488,9 @@ Array [
             "id": "__",
             "status": "initial",
           },
-          Object {
+          {
             "component": "Null",
-            "componentProps": Object {},
+            "componentProps": {},
             "id": "000",
             "status": "initial",
           },

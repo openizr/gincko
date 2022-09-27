@@ -10,9 +10,9 @@
  * diox mock.
  */
 const store = {
-  register: jest.fn(),
-  mutate: jest.fn(),
-  subscribe: jest.fn(),
+  register: vi.fn(),
+  mutate: vi.fn(),
+  subscribe: vi.fn(),
 };
 
-export default jest.fn(() => store);
+export default vi.fn(() => store);
