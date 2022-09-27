@@ -181,7 +181,7 @@ export default class BaseEngine {
    */
   protected withFunctions(fields: Fields, fieldConfigurations: FieldConfigurations): Fields {
     return fields.map((field) => {
-      const fieldConfiguration = fieldConfigurations[field?.id || ''];
+      const fieldConfiguration = fieldConfigurations[field?.id ?? ''];
       if (field === null || fieldConfiguration === undefined) {
         return null;
       }
@@ -198,8 +198,8 @@ export default class BaseEngine {
           });
         } else if (fieldConfiguration.type === 'dynamicObject') {
           fieldWithFunctions.fields = subFields.map((subField) => {
-            const subFieldId = subField?.id || '';
-            const pattern = this.getPattern(subFieldId, fieldConfiguration) || '';
+            const subFieldId = subField?.id ?? '';
+            const pattern = this.getPattern(subFieldId, fieldConfiguration) ?? '';
             const subFieldConfigurations = { [subFieldId]: fieldConfiguration.fields[pattern] };
             return this.withFunctions([subField], subFieldConfigurations)[0];
           });
@@ -290,7 +290,7 @@ export default class BaseEngine {
       label: fieldConfiguration.label,
       id: path.split('.').slice(-1)[0],
       component: fieldConfiguration.component,
-      componentProps: fieldConfiguration.componentProps || {},
+      componentProps: fieldConfiguration.componentProps ?? {},
     });
 
     if (fieldConfiguration.type === 'array' || fieldConfiguration.type === 'dynamicObject') {
@@ -389,18 +389,18 @@ export default class BaseEngine {
       const newUserActions: UserAction[] = [];
       const subFields = <Fields>(field.fields);
       const { fields } = <NestedFieldConfiguration>fieldConfiguration;
-      const fieldIds = (type === 'object') ? Object.keys(fields) : Object.keys(<UserInputs>newValue || {});
+      const fieldIds = (type === 'object') ? Object.keys(fields) : Object.keys(<UserInputs>newValue ?? {});
       for (let index = 0, { length } = fieldIds; index < length; index += 1) {
         const fieldId = fieldIds[index];
-        const subField = subFields[index] || null;
+        const subField = subFields[index] ?? null;
         newFields.push(subField);
         newFieldIds.push(fieldId);
         const key = (type === 'dynamicObject') ? this.getPattern(fieldId, fieldConfiguration) : fieldId;
-        const fieldValue = (<UserInputs>newValue)[fieldId];
-        if (key !== null && fieldValue !== null) {
+        const fieldValue = (<UserInputs>newValue)?.[fieldId] ?? null;
+        if (key !== null) {
           newUserActions.push(...this.deepCompare(
             subField,
-            (fieldValue !== undefined) ? fieldValue : null,
+            fieldValue,
             (type === 'array') ? <FieldConfiguration>fields : (<FieldConfigurations>fields)[key],
             `${path}.${fieldId}`,
             false,
@@ -442,7 +442,7 @@ export default class BaseEngine {
     if (renderCondition !== undefined && !renderCondition(this.userInputs, this.variables)) {
       parentField[fieldIndex] = null;
     } else {
-      parentField[fieldIndex] = parentField[fieldIndex] || this.createField(path, configuration);
+      parentField[fieldIndex] = parentField[fieldIndex] ?? this.createField(path, configuration);
       (<Field>parentField[fieldIndex]).value = (currentValues !== undefined) ? currentValues : null;
       const { fields, fieldIds } = <Field>parentField[fieldIndex];
       if (fields !== undefined && fieldIds !== undefined) {
@@ -616,7 +616,7 @@ export default class BaseEngine {
     }
     const splitted = path.split('.');
     subConfiguration = this.configuration.steps[splitted[0]];
-    configurations.push(deepFreeze(subConfiguration) || null);
+    configurations.push(deepFreeze(subConfiguration) ?? null);
     for (let index = 2, { length } = splitted; index < length; index += 1) {
       const subPath = splitted[index];
       const currentSubConfiguration = <FieldConfiguration | undefined>subConfiguration;
@@ -624,7 +624,7 @@ export default class BaseEngine {
         if (currentSubConfiguration.type === 'array') {
           subConfiguration = currentSubConfiguration.fields;
         } else if (currentSubConfiguration.type === 'dynamicObject') {
-          const pattern = this.getPattern(subPath, currentSubConfiguration) || '';
+          const pattern = this.getPattern(subPath, currentSubConfiguration) ?? '';
           subConfiguration = currentSubConfiguration.fields[pattern];
         } else if (currentSubConfiguration.type === 'object') {
           subConfiguration = currentSubConfiguration.fields[subPath];
@@ -632,7 +632,7 @@ export default class BaseEngine {
           subConfiguration = (<StepConfiguration>currentSubConfiguration).fields[subPath];
         }
       }
-      configurations.push(deepFreeze(subConfiguration) || null);
+      configurations.push(deepFreeze(subConfiguration) ?? null);
     }
     return configurations;
   }
@@ -661,9 +661,9 @@ export default class BaseEngine {
         if (index === length - 1) {
           currentInputs[subPath] = userInput;
         } else if (fieldConfiguration.type === 'array') {
-          currentInputs[subPath] = currentInputs[subPath] || [];
+          currentInputs[subPath] = currentInputs[subPath] ?? [];
         } else {
-          currentInputs[subPath] = currentInputs[subPath] || {};
+          currentInputs[subPath] = currentInputs[subPath] ?? {};
         }
         if (fieldConfiguration.type !== 'null') {
           currentInputs = <UserInputs>currentInputs[subPath];
@@ -684,7 +684,7 @@ export default class BaseEngine {
    */
   protected async triggerHooks<T extends HookData>(eventName: FormEvent, data: T): Promise<T> {
     try {
-      const hooksChain = (this.hooks[eventName] || []).reduce((chain, hook) => (updatedData) => (
+      const hooksChain = (this.hooks[eventName] ?? []).reduce((chain, hook) => (updatedData) => (
         hook(updatedData, chain as NextHook<HookData>)
       ), (updatedData) => Promise.resolve(updatedData));
       const updatedData = await (hooksChain as NextHook<HookData>)(data);
@@ -857,13 +857,13 @@ export default class BaseEngine {
     this.cacheTimeout = null;
     this.mutationTimeout = null;
     this.configuration = configuration;
-    this.cache = configuration.cache || null;
-    this.cacheKey = `gincko_${configuration.id || 'cache'}`;
-    this.variables = deepCopy(configuration.variables || {});
-    this.userInputs = deepCopy(configuration.initialValues || {});
+    this.cache = configuration.cache ?? null;
+    this.cacheKey = `gincko_${configuration.id ?? 'cache'}`;
+    this.variables = deepCopy(configuration.variables ?? {});
+    this.userInputs = deepCopy(configuration.initialValues ?? {});
 
     // Be careful: plugins' order matters!
-    (configuration.plugins || []).forEach((hook) => {
+    (configuration.plugins ?? []).forEach((hook) => {
       hook({
         on: this.on.bind(this),
         getSteps: this.getSteps.bind(this),
@@ -891,7 +891,7 @@ export default class BaseEngine {
 
     // Depending on the configuration, we want either to load the complete form from cache, or just
     // its filled values and restart user's journey from the beginning.
-    const cachePromise = this.cache?.get(this.cacheKey) || Promise.resolve(null);
+    const cachePromise = this.cache?.get(this.cacheKey) ?? Promise.resolve(null);
     cachePromise.then((data) => {
       if (data !== null) {
         const cachedData = <CachedData>data;
@@ -985,7 +985,7 @@ export default class BaseEngine {
    * @returns {void}
    */
   public on(eventName: FormEvent, hook: Hook<HookData>): void {
-    this.hooks[eventName] = [hook].concat(this.hooks[eventName] || []);
+    this.hooks[eventName] = [hook].concat(this.hooks[eventName] ?? []);
   }
 
   /**
@@ -1010,7 +1010,7 @@ export default class BaseEngine {
    */
   public getInputs(path?: string, freeze = true): UserInputs | UserInput | null {
     let currentInputs = <UserInput>(this.userInputs);
-    const splittedPath = path?.split('.') || [];
+    const splittedPath = path?.split('.') ?? [];
     for (let index = 2, { length } = splittedPath; index < length; index += 1) {
       if (currentInputs === undefined || currentInputs === null) {
         return null;
@@ -1056,7 +1056,7 @@ export default class BaseEngine {
         ? (<Fields>field.fields)[+subPath]
         : (<Fields>field.fields).find((currentField) => currentField?.id === subPath);
     }
-    return (splitted.length < 2) ? null : field || null;
+    return (splitted.length < 2) ? null : field ?? null;
   }
 
   /**

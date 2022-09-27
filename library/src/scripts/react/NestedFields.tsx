@@ -243,4 +243,4 @@ function NestedFields({
   );
 }
 
-export default React.memo(NestedFields) as JSXElement;
+export default React.memo(NestedFields);

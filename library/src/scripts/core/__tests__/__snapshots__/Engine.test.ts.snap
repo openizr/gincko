@@ -37,6 +37,11 @@ exports[`core/Engine > deepCompare 2`] = `
 exports[`core/Engine > deepCompare 3`] = `
 [
   {
+    "data": null,
+    "path": "root.0.field1.1.key",
+    "type": "input",
+  },
+  {
     "data": "new2",
     "path": "root.0.field1.2.key",
     "type": "input",
@@ -99,6 +104,11 @@ exports[`core/Engine > deepCompare 4`] = `
     {
       "component": "Null",
       "componentProps": {},
+      "fieldIds": [
+        "key",
+        "key2",
+        "key3",
+      ],
       "fields": [
         {
           "component": "Null",
@@ -107,6 +117,8 @@ exports[`core/Engine > deepCompare 4`] = `
           "status": "success",
           "value": "test1",
         },
+        null,
+        null,
       ],
       "id": "1",
       "status": "success",

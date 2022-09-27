@@ -48,7 +48,7 @@ exports[`vue/FormField > renders correctly - Array 2`] = `
   customcomponents="[object Object]"
   fields=""
   id="path__0__to__field"
-  isactive="true"
+  isactive="false"
   modifiers="success "
   removebuttonprops="[object Object]"
   t="function(...o) {
@@ -105,11 +105,13 @@ exports[`vue/FormField > renders correctly - DatePicker 1`] = `
 
 exports[`vue/FormField > renders correctly - DatePicker 2`] = `
 <div
-  debouncetimeout="100"
+  debouncetimeout="10"
   id="path__0__to__field"
   maxlength="10"
   modifiers="success "
   name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
+  value="2022/07/07"
 >
   {}
 </div>
@@ -212,6 +214,7 @@ exports[`vue/FormField > renders correctly - FilePicker 2`] = `
   id="path__0__to__field"
   modifiers="success "
   name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
 >
   {}
 </div>
@@ -267,10 +270,12 @@ exports[`vue/FormField > renders correctly - Textarea 1`] = `
 
 exports[`vue/FormField > renders correctly - Textarea 2`] = `
 <div
-  debouncetimeout="100"
+  debouncetimeout="10"
   id="path__0__to__field"
   modifiers="success "
   name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
+  value="test"
 >
   {}
 </div>
@@ -289,10 +294,12 @@ exports[`vue/FormField > renders correctly - Textfield 1`] = `
 
 exports[`vue/FormField > renders correctly - Textfield 2`] = `
 <div
-  debouncetimeout="100"
+  debouncetimeout="10"
   id="path__0__to__field"
   modifiers="success "
   name="path.0.to.field"
+  placeholder="TRANSLATED LABEL"
+  value="test"
 >
   {}
 </div>

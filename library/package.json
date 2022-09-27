@@ -31,10 +31,10 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/svelte": "^3.1.3",
     "@testing-library/vue": "^6.6.1",
-    "@types/react": "^18.0.15",
+    "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "coveralls": "^3.1.1",
-    "typescript-dev-kit": "^6.0.0"
+    "typescript-dev-kit": "^6.0.1"
   },
   "eslintConfig": {
     "extends": [
@@ -128,11 +128,12 @@
     }
   },
   "scripts": {
-    "init": "node_modules/typescript-dev-kit/scripts/init.sh",
+    "init": "node_modules/typescript-dev-kit/scripts/init",
     "test": "cd node_modules/typescript-dev-kit/ && scripts/test",
     "dev": "cd node_modules/typescript-dev-kit/ && node scripts/dev",
-    "build": "cd node_modules/typescript-dev-kit/ && node scripts/build && cp ../../src/scripts/*.d.ts ../../dist && rm ../../dist/global.d.ts ../../dist/index.d.ts",
+    "build": "cd node_modules/typescript-dev-kit/ && node scripts/build",
     "check": "cd node_modules/typescript-dev-kit/ && node scripts/check",
+    "types": "cp src/scripts/*.d.ts dist && rm dist/global.d.ts dist/index.d.ts",
     "postinstall": "rm -f node_modules/.eslintcache && test -n \"$POSTINSTALLED\" || POSTINSTALLED=1 yarn add --peer biuty svelte react react-dom vue"
   },
   "peerDependencies": {

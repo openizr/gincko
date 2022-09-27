@@ -7,6 +7,20 @@ exports[`vue/DynamicForm > renders correctly - with active step 1`] = `
 >
   <div
     class="gincko__steps"
-  />
+  >
+    
+    <div
+      id="step"
+    >
+      {"step":{"id":"start"},"index":0,"isActive":true,"customComponents":{}}
+    </div>
+    <div
+      id="step"
+    >
+      {"step":{"id":"end"},"index":1,"isActive":false,"customComponents":{}}
+    </div>
+    
+    <!--v-if-->
+  </div>
 </form>
 `;
