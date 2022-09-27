@@ -81,9 +81,9 @@ function Form({
           })}
 
           {state.loading && loader}
-        </div> as JSX.Element
+        </div> as Any
       }
-    </form> as JSX.Element
+    </form> as Any
   );
 }
 
@@ -92,4 +92,4 @@ export default React.memo(Form, (prevProps, nextProps) => (
   && prevProps.i18n === nextProps.i18n
   && prevProps.activeStep === nextProps.activeStep
   && prevProps.customComponents === nextProps.customComponents
-));
+)) as Any;

@@ -31,6 +31,7 @@ describe('svelte/Step', () => {
         index: 0,
         isActive: true,
         step: {
+          index: 0,
           id: 'step',
           status: 'success',
           fields: [{
@@ -55,6 +56,7 @@ describe('svelte/Step', () => {
       props: {
         index: 0,
         step: {
+          index: 0,
           id: 'step',
           status: 'success',
           fields: [{

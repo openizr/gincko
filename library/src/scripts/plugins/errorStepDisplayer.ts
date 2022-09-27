@@ -19,9 +19,9 @@ interface ErrorStepDisplayerOptions {
 /**
  * Gracefully handles errors by displaying a generic error step.
  *
- * @param {ErrorStepDisplayerOptions} options Plugin options.
+ * @param options Plugin options.
  *
- * @returns {Plugin} The actual gincko plugin.
+ * @returns The actual gincko plugin.
  */
 export default function errorStepDisplayer(options: ErrorStepDisplayerOptions): Plugin {
   return (engine): void => {

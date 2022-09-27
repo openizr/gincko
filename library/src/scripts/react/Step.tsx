@@ -55,4 +55,4 @@ function Step(props: StepProps): JSX.Element {
   );
 }
 
-export default React.memo(Step);
+export default React.memo(Step) as Any;
