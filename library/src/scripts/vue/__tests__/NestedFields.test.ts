@@ -40,6 +40,8 @@ describe('vue/NestedFields', () => {
           component: 'Message',
           componentProps: {},
         }, null],
+        addButtonProps: {},
+        removeButtonProps: {},
         onUserAction,
       },
     });

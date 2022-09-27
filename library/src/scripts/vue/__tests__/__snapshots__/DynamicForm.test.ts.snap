@@ -1,5 +1,60 @@
 // Vitest Snapshot v1
 
+exports[`vue/DynamicForm > renders correctly - loading next step 1`] = `
+<form
+  class="gincko"
+  id="test"
+>
+  <div
+    class="gincko__steps"
+  >
+    
+    <div
+      id="step"
+    >
+      {"step":{"id":"start"},"index":0,"isActive":false,"customComponents":{}}
+    </div>
+    <div
+      id="step"
+    >
+      {"step":{"id":"end"},"index":1,"isActive":true,"customComponents":{}}
+    </div>
+    
+    
+    
+  </div>
+</form>
+`;
+
+exports[`vue/DynamicForm > renders correctly - loading next step 2`] = `
+<form
+  class="gincko"
+  id="test"
+>
+  <div
+    class="gincko__steps"
+  >
+    
+    <div
+      id="step"
+    >
+      {"step":{"id":"start"},"index":0,"isActive":false,"customComponents":{}}
+    </div>
+    <div
+      id="step"
+    >
+      {"step":{"id":"end"},"index":1,"isActive":true,"customComponents":{}}
+    </div>
+    
+    
+    <div>
+      LOADING
+    </div>
+    
+  </div>
+</form>
+`;
+
 exports[`vue/DynamicForm > renders correctly - with active step 1`] = `
 <form
   class="gincko"

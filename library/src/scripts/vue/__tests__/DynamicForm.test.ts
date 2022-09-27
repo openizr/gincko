@@ -31,14 +31,13 @@ describe('vue/DynamicForm', () => {
     Object.assign(console, { warn: vi.fn() });
   });
 
-  // `vue` behaviour on `vitest` needs to be fixed for this test to pass.
-  test.skip('renders correctly - loading next step', async () => {
+  test('renders correctly - loading next step', async () => {
     process.env.LOADING = 'true';
     const { container } = render(DynamicForm, { props: { configuration } });
     expect(container.firstChild).toMatchSnapshot();
     const { container: newContainer } = render(DynamicForm, {
       props: { configuration },
-      // slots: { loader: '<div>LOADING</div>' },
+      slots: { loader: '<div>LOADING</div>' },
     });
     expect(newContainer.firstChild).toMatchSnapshot();
   });

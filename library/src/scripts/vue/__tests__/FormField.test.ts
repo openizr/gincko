@@ -30,8 +30,7 @@ describe('vue/FormField', () => {
     delete process.env.IS_DATE;
   });
 
-  // `vue` behaviour on `vitest` needs to be fixed for this test to pass.
-  test.skip('renders correctly - Unknown component', async () => {
+  test('renders correctly - Unknown component', async () => {
     const { container } = render(FormField, {
       props: {
         isActive,
