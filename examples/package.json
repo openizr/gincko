@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "@types/react": "^18.0.11",
+    "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.5",
-    "typescript-dev-kit": "^6.0.0"
+    "typescript-dev-kit": "^6.0.1"
   },
   "eslintConfig": {
     "extends": [
