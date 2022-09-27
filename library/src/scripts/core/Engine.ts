@@ -830,7 +830,9 @@ export default class BaseEngine {
       // (especially when updating an object sub-field for instance).
       this.setInput(path, updatedUserActions[0].data);
       this.toggleFields(this.currentStep);
-      this.validateFields(!shouldSubmit);
+      if (shouldSubmit || this.configuration.validateOnSubmit !== true) {
+        this.validateFields(!shouldSubmit);
+      }
       await Promise.all(updatedUserActions.map((action) => this.triggerHooks('afterUserAction', action)));
       if (this.currentStep.status === 'success' && shouldSubmit) {
         await this.handleSubmit();

@@ -335,6 +335,9 @@ declare module 'gincko' {
     /** Whether to submit only updated fields values. */
     submitPartialUpdates?: boolean;
 
+    /** Whether to validate fields only on step submission. */
+    validateOnSubmit?: boolean;
+
     /** Form's steps configurations. */
     steps: { [stepId: string]: StepConfiguration; };
   }

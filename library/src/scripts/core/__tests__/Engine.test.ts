@@ -376,6 +376,13 @@ describe('core/Engine', () => {
     }], 0, { component: 'Button', type: 'boolean' }, [true]);
   });
 
+  test('handleUserAction - validation on submit', async () => {
+    await createEngine({ ...configuration, validateOnSubmit: true });
+    const spy = vi.spyOn(engine, 'validateFields');
+    await engine.handleUserAction({ path: 'path.to.field', data: 1, type: 'input' });
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   test('submit - clear cache', async () => {
     const hook = vi.fn((data, next) => next(data));
     await createEngine({
