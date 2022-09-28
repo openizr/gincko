@@ -141,7 +141,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "svelte": "^3.50.1",
-    "vue": "^3.2.39"
+    "vue": "^3.2.40"
   },
   "peerDependenciesMeta": {
     "biuty": {

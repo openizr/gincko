@@ -542,6 +542,7 @@ export default class BaseEngine {
           fieldState = (fieldState === 'error') ? fieldState : subFieldState;
         }
       }
+      // This status might be overriten by the field's required/validation checks below.
       if (allSubfieldsPassed) {
         fieldState = 'progress';
         delete currentField.message;
@@ -827,11 +828,15 @@ export default class BaseEngine {
   protected async handleUserAction(userAction: UserAction | null): Promise<void> {
     if (userAction !== null && this.currentStep !== null) {
       const { path } = userAction;
+      const stepIndex = +path.split('.')[1];
       clearTimeout(<NodeJS.Timeout>(this.mutationTimeout));
 
       // If user changes a field in a previous step, it may have an impact on next steps to render.
       // Thus, it is not necessary to keep any more step than the one containing last user action.
-      this.steps = this.steps.slice(0, +path.split('.')[1] + 1);
+      if (!Number.isNaN(stepIndex)) {
+        this.steps = this.steps.slice(0, stepIndex + 1);
+        this.currentStep = this.steps[this.steps.length - 1];
+      }
 
       let shouldSubmit = false;
       const field = this.getField(path);
