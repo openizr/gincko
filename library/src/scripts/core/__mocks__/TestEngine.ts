@@ -59,12 +59,16 @@ export default class TestEngine extends Engine {
     return super.areEqual(firstInput, secondInput, type);
   }
 
+  public isEmpty(input: UserInput, type: string): boolean {
+    return super.isEmpty(input, type);
+  }
+
   public coerceAndCheckInput(userInput: UserInput, type: string): Promise<UserInput> {
     return super.coerceAndCheckInput(userInput, type);
   }
 
-  public validateFields(partial?: boolean): void {
-    super.validateFields(partial);
+  public validateFields(updatedFieldPaths: string[], partial?: boolean): void {
+    super.validateFields(updatedFieldPaths, partial);
   }
 
   public filterInputs(

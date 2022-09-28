@@ -29,6 +29,7 @@ declare global {
   type Fields = (Field | null)[];
   type NextHook<T> = (data: T) => Promise<T>;
   type Hook<T> = (data: T, next: NextHook<T>) => Promise<T>;
+  type Status = 'initial' | 'progress' | 'error' | 'success';
   type FieldConfigurations = { [fieldId: string]: FieldConfiguration; };
   type HookData = UserInputs | Error | Step | UserAction | boolean | null;
   type OnUserAction = (type: string, path: string, data: UserInput) => void;
@@ -259,7 +260,7 @@ declare global {
     component: string;
     fieldIds?: (string | number)[];
     componentProps: ComponentProps;
-    status: 'initial' | 'error' | 'success';
+    status: 'initial' | 'error' | 'progress' | 'success';
   }
 
   /**

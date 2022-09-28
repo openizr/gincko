@@ -604,6 +604,115 @@ exports[`core/Engine > getSteps 1`] = `
 ]
 `;
 
+exports[`core/Engine > handleUserAction - validation on submit 1`] = `
+[
+  {
+    "fields": [
+      {
+        "component": "Message",
+        "componentProps": {},
+        "id": "message",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "String",
+        "componentProps": {},
+        "id": "stringRequired",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "Array",
+        "componentProps": {},
+        "fieldIds": [],
+        "fields": [],
+        "id": "nestedArray",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "String",
+        "componentProps": {},
+        "id": "stringCondition",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "Integer",
+        "componentProps": {},
+        "id": "integerCondition",
+        "label": undefined,
+        "status": "progress",
+        "value": 1,
+      },
+      null,
+      {
+        "component": "Object",
+        "componentProps": {},
+        "fieldIds": [
+          "object",
+        ],
+        "fields": [
+          {
+            "component": "Object",
+            "componentProps": {},
+            "fieldIds": [
+              "string",
+            ],
+            "fields": [
+              {
+                "component": "String",
+                "componentProps": {},
+                "id": "string",
+                "label": undefined,
+                "status": "initial",
+                "value": null,
+              },
+            ],
+            "id": "object",
+            "label": undefined,
+            "status": "initial",
+            "value": null,
+          },
+        ],
+        "id": "nestedObject",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "Object",
+        "componentProps": {},
+        "fieldIds": [],
+        "fields": [],
+        "id": "nestedDynamicObject",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+      {
+        "component": "Array",
+        "componentProps": {},
+        "fieldIds": [],
+        "fields": [],
+        "id": "submit",
+        "label": undefined,
+        "status": "initial",
+        "value": null,
+      },
+    ],
+    "id": "root",
+    "index": 0,
+    "status": "progress",
+  },
+]
+`;
+
 exports[`core/Engine > handleUserAction 1`] = `
 [
   {
@@ -623,7 +732,7 @@ exports[`core/Engine > handleUserAction 1`] = `
         "label": undefined,
         "message": undefined,
         "status": "error",
-        "value": null,
+        "value": "",
       },
       {
         "component": "Array",
@@ -678,7 +787,8 @@ exports[`core/Engine > handleUserAction 1`] = `
             ],
             "id": "object",
             "label": undefined,
-            "status": "initial",
+            "message": undefined,
+            "status": "error",
             "value": null,
           },
         ],
@@ -804,7 +914,8 @@ exports[`core/Engine > handleUserAction 2`] = `
             ],
             "id": "object",
             "label": undefined,
-            "status": "initial",
+            "message": undefined,
+            "status": "error",
             "value": null,
           },
         ],
@@ -1138,8 +1249,7 @@ exports[`core/Engine > setVariables 4`] = `
       "componentProps": {},
       "id": "integerCondition",
       "label": undefined,
-      "message": undefined,
-      "status": "success",
+      "status": "initial",
       "value": 3,
     },
     null,
@@ -1766,7 +1876,8 @@ exports[`core/Engine > validateFields 1`] = `
           ],
           "id": "object",
           "label": undefined,
-          "status": "initial",
+          "message": undefined,
+          "status": "error",
           "value": null,
         },
       ],
@@ -1829,8 +1940,7 @@ exports[`core/Engine > validateFields 2`] = `
       "fields": [],
       "id": "nestedArray",
       "label": undefined,
-      "message": "ARRAY REQUIRED",
-      "status": "error",
+      "status": "initial",
       "value": null,
     },
     {
@@ -1970,7 +2080,7 @@ exports[`core/Engine > validateFields 3`] = `
           ],
           "id": "0",
           "message": undefined,
-          "status": "error",
+          "status": "success",
           "value": [
             "valid",
             "invalid",
@@ -2003,7 +2113,7 @@ exports[`core/Engine > validateFields 3`] = `
           ],
           "id": "1",
           "message": undefined,
-          "status": "error",
+          "status": "success",
           "value": [
             "valid",
             "invalid",
@@ -2036,7 +2146,7 @@ exports[`core/Engine > validateFields 3`] = `
           ],
           "id": "2",
           "message": undefined,
-          "status": "error",
+          "status": "success",
           "value": [
             "valid",
             "invalid",
@@ -2046,7 +2156,7 @@ exports[`core/Engine > validateFields 3`] = `
       "id": "nestedArray",
       "label": undefined,
       "message": undefined,
-      "status": "error",
+      "status": "success",
       "value": [
         [
           "valid",
@@ -2104,7 +2214,8 @@ exports[`core/Engine > validateFields 3`] = `
           ],
           "id": "object",
           "label": undefined,
-          "status": "initial",
+          "message": undefined,
+          "status": "error",
           "value": null,
         },
       ],
@@ -2141,7 +2252,7 @@ exports[`core/Engine > validateFields 3`] = `
       "id": "nestedDynamicObject",
       "label": undefined,
       "message": undefined,
-      "status": "error",
+      "status": "success",
       "value": {
         "invalid01": 3,
       },
@@ -2159,7 +2270,7 @@ exports[`core/Engine > validateFields 3`] = `
   ],
   "id": "root",
   "index": 0,
-  "status": "error",
+  "status": "success",
 }
 `;
 
@@ -2353,7 +2464,8 @@ exports[`core/Engine > validateFields 4`] = `
           ],
           "id": "object",
           "label": undefined,
-          "status": "initial",
+          "message": undefined,
+          "status": "error",
           "value": null,
         },
       ],

@@ -348,6 +348,7 @@ describe('core/Engine', () => {
   test('handleUserAction', async () => {
     await createEngine();
     await engine.handleUserAction({ path: 'path.to.field', data: 1, type: 'input' });
+    await engine.handleUserAction({ path: 'root.0.stringRequired', data: '', type: 'input' });
     await engine.handleUserAction({ path: 'root.0.submit', data: [false], type: 'input' });
     await engine.handleUserAction({ path: 'root.0.submit', data: [true], type: 'input' });
     expect(engine.getSteps()).toMatchSnapshot();
@@ -378,9 +379,10 @@ describe('core/Engine', () => {
 
   test('handleUserAction - validation on submit', async () => {
     await createEngine({ ...configuration, validateOnSubmit: true });
-    const spy = vi.spyOn(engine, 'validateFields');
-    await engine.handleUserAction({ path: 'path.to.field', data: 1, type: 'input' });
+    const spy = vi.spyOn(engine, 'isEmpty');
+    await engine.handleUserAction({ path: 'root.0.integerCondition', data: 1, type: 'input' });
     expect(spy).not.toHaveBeenCalled();
+    expect(engine.getSteps()).toMatchSnapshot();
   });
 
   test('submit - clear cache', async () => {
@@ -573,10 +575,10 @@ describe('core/Engine', () => {
   test('validateFields', async () => {
     await createEngine();
     const currentStep = <Step>engine.getCurrentStep();
-    engine.validateFields();
+    engine.validateFields([]);
     expect(currentStep).toMatchSnapshot();
     (<Field>currentStep.fields[6]).value = { object: {} };
-    engine.validateFields(true);
+    engine.validateFields(['root.0.nestedObject'], true);
     expect(currentStep).toMatchSnapshot();
     delete (<Field>currentStep.fields[6]).value;
     (<Field>currentStep.fields[1]).value = 'ok';
@@ -625,7 +627,11 @@ describe('core/Engine', () => {
         componentProps: {},
       }],
     });
-    engine.validateFields();
+    engine.validateFields([
+      'root.0.nestedDynamicObject',
+      'root.0.nestedDynamicObject.invalid01',
+      'root.0.nestedDynamicObject.invalid01.integer',
+    ]);
     expect(currentStep).toMatchSnapshot();
     for (let i = 0; i < 3; i += 1) {
       (<Field[]>(<Field[]>(<Field>currentStep.fields[2]).fields)[i].fields)[1].value = 'valid';
@@ -644,7 +650,11 @@ describe('core/Engine', () => {
         componentProps: {},
       }],
     });
-    engine.validateFields();
+    engine.validateFields([
+      'root.0.nestedDynamicObject',
+      'root.0.nestedDynamicObject.test',
+      'root.0.nestedDynamicObject.test.string',
+    ]);
     expect(currentStep).toMatchSnapshot();
   });
 

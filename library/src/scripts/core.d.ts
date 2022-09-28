@@ -12,6 +12,7 @@ declare module 'gincko' {
   type Fields = (Field | null)[];
   type NextHook<T> = (data: T) => Promise<T>;
   type Hook<T> = (data: T, next: NextHook<T>) => Promise<T>;
+  type Status = 'initial' | 'progress' | 'error' | 'success';
   type FieldConfigurations = { [fieldId: string]: FieldConfiguration; };
   type HookData = UserInputs | Error | Step | UserAction | boolean | null;
   type OnUserAction = (type: string, path: string, data: UserInput) => void;
@@ -549,13 +550,19 @@ declare module 'gincko' {
      *
      * @param partial Whether to also validate empty fields.
      *
+     * @param updatedFieldPaths List of updated fields paths (used for validation on submit only).
+     *
+     * @param fieldPath Path of the field to validate (used for validation on submit only).
+     *
      * @returns Field's state ("progress", "success" or "error").
      */
     protected validateField(
       field: Field | null,
+      fieldPath: string,
       configuration: FieldConfiguration,
       partial: boolean,
-    ): string;
+      updatedFieldPaths: string[],
+    ): Exclude<Status, 'initial'>;
 
     /**
      * Toggles all fields and sub-fields for `step`, according to their rendering conditions.
@@ -567,9 +574,11 @@ declare module 'gincko' {
     /**
      * Validates current step, making sure that all its fields' values pass validation rules.
      *
+     * @param updatedFieldPaths List of updated fields paths (used for validation on submit only).
+     *
      * @param partial Whether to also validate empty fields. Defaults to `false`.
      */
-    protected validateFields(partial?: boolean): void;
+    protected validateFields(updatedFieldPaths: string[], partial?: boolean): void;
 
     /**
      * Returns the list of gincko field/step's configurations for each part of `path`. If no path is

@@ -473,13 +473,19 @@ export default class BaseEngine {
    *
    * @param partial Whether to also validate empty fields.
    *
+   * @param updatedFieldPaths List of updated fields paths (used for validation on submit only).
+   *
+   * @param fieldPath Path of the field to validate (used for validation on submit only).
+   *
    * @returns Field's state ("progress", "success" or "error").
    */
   protected validateField(
     field: Field | null,
+    fieldPath: string,
     configuration: FieldConfiguration,
     partial: boolean,
-  ): string {
+    updatedFieldPaths: string[],
+  ): Exclude<Status, 'initial'> {
     const { type } = configuration;
 
     if (type === 'null' || field === null) {
@@ -488,63 +494,99 @@ export default class BaseEngine {
 
     // Note: this variable is used to determine the step's global status, and has nothing to do with
     // the field's status itself!
-    let fieldState = 'progress';
+    let fieldState: Exclude<Status, 'initial'> = (field.status === 'error') ? 'error' : 'progress';
     const currentField = field;
-    delete currentField.message;
-    const isRequired = configuration.required === true;
-    const isEmpty = this.isEmpty(field.value, type);
-
-    // Empty fields...
-    if (isEmpty && isRequired && (!partial || currentField.status === 'error')) {
-      currentField.message = configuration.messages?.required;
-      currentField.status = 'error';
-      return 'error';
-    }
-    if (isEmpty) {
-      currentField.status = 'initial';
-      return isRequired ? 'progress' : 'success';
-    }
-
-    // Validation rules...
-    const validation = configuration.messages?.validation;
-    const validationMessage = (validation !== undefined)
-      ? validation(field.value as unknown as never, this.userInputs, this.variables)
-      : null;
-
-    if (validationMessage !== null) {
-      fieldState = 'error';
-      currentField.message = validationMessage;
-    } else {
-      fieldState = 'success';
-      currentField.status = 'success';
-      currentField.message = configuration.messages?.success;
-    }
+    const hasBeenUpdated = updatedFieldPaths.includes(fieldPath);
 
     // Nested fields...
     const { fields, fieldIds } = field;
     if (fields !== undefined && fieldIds !== undefined) {
+      let allSubfieldsPassed = true;
+      let allSubfieldsInitial = true;
       for (let index = 0, { length } = fields; index < length; index += 1) {
-        let subFieldState = 'error';
+        let subFieldState: Exclude<Status, 'initial'> = 'error';
         if (type === 'array') {
-          subFieldState = this.validateField(fields[index], configuration.fields, partial);
+          subFieldState = this.validateField(
+            fields[index],
+            `${fieldPath}.${index}`,
+            configuration.fields,
+            partial,
+            updatedFieldPaths,
+          );
         } else if (type === 'object') {
           const fieldConfiguration = configuration.fields[fieldIds[index]];
-          subFieldState = this.validateField(fields[index], fieldConfiguration, partial);
+          subFieldState = this.validateField(
+            fields[index],
+            `${fieldPath}.${fieldIds[index]}`,
+            fieldConfiguration,
+            partial,
+            updatedFieldPaths,
+          );
         } else if (type === 'dynamicObject') {
           const pattern = this.getPattern(<string>fieldIds[index], configuration);
           if (pattern !== null) {
             const fieldConfiguration = configuration.fields[pattern];
-            subFieldState = this.validateField(fields[index], fieldConfiguration, partial);
+            subFieldState = this.validateField(
+              fields[index],
+              `${fieldPath}.${fieldIds[index]}`,
+              fieldConfiguration,
+              partial,
+              updatedFieldPaths,
+            );
           }
         }
+        allSubfieldsPassed = allSubfieldsPassed && (subFieldState !== 'error');
+        allSubfieldsInitial = allSubfieldsInitial && fields[index]?.status === 'initial';
         if (subFieldState === 'error' || subFieldState === 'progress') {
-          fieldState = subFieldState;
+          // `error` status always takes precedence over any other status.
+          fieldState = (fieldState === 'error') ? fieldState : subFieldState;
+        }
+      }
+      if (allSubfieldsPassed) {
+        fieldState = 'progress';
+        delete currentField.message;
+      }
+      currentField.status = allSubfieldsInitial ? 'initial' : fieldState;
+    }
+
+    // When `validateOnSubmit` option is enabled, we just reset the updated fields' statuses
+    // without performing any special check, unless one of them is a submit field.
+    if (hasBeenUpdated && this.configuration.validateOnSubmit && partial) {
+      fieldState = 'progress';
+      currentField.status = 'progress';
+      delete currentField.message;
+    } else if (!partial || (hasBeenUpdated && this.configuration.validateOnSubmit !== true)) {
+      delete currentField.message;
+      const isRequired = configuration.required === true;
+      const isEmpty = this.isEmpty(field.value, type);
+
+      // Empty fields...
+      if (isEmpty && isRequired && (!partial || currentField.status === 'error')) {
+        fieldState = 'error';
+        currentField.status = 'error';
+        currentField.message = configuration.messages?.required;
+      } else if (isEmpty) {
+        currentField.status = 'initial';
+        fieldState = isRequired ? 'progress' : 'success';
+      } else {
+        // Validation rules...
+        const validation = configuration.messages?.validation;
+        const validationMessage = (validation !== undefined)
+          ? validation(field.value as unknown as never, this.userInputs, this.variables)
+          : null;
+
+        if (validationMessage !== null) {
+          fieldState = 'error';
+          currentField.status = 'error';
+          currentField.message = validationMessage;
+        } else {
+          fieldState = 'success';
+          currentField.status = 'success';
+          currentField.message = configuration.messages?.success;
         }
       }
     }
-    if (fieldState === 'error') {
-      currentField.status = 'error';
-    }
+
     return fieldState;
   }
 
@@ -569,9 +611,11 @@ export default class BaseEngine {
   /**
    * Validates current step, making sure that all its fields' values pass validation rules.
    *
+   * @param updatedFieldPaths List of updated fields paths (used for validation on submit only).
+   *
    * @param partial Whether to also validate empty fields. Defaults to `false`.
    */
-  protected validateFields(partial = false): void {
+  protected validateFields(updatedFieldPaths: string[], partial = false): void {
     if (this.currentStep !== null) {
       let allFieldsSucceeded = true;
       // We reset current step status to not stay in error state forever.
@@ -580,7 +624,13 @@ export default class BaseEngine {
       const fieldConfigurations = Object.values(this.configuration.steps[currentStepId].fields);
       for (let index = 0, { length } = fieldConfigurations; index < length; index += 1) {
         const field = this.currentStep.fields[index];
-        const fieldState = this.validateField(field, fieldConfigurations[index], partial);
+        const fieldState = this.validateField(
+          field,
+          `${currentStepId}.${this.steps.length - 1}.${field?.id}`,
+          fieldConfigurations[index],
+          partial,
+          updatedFieldPaths,
+        );
         if (fieldState !== 'success') {
           allFieldsSucceeded = false;
           this.currentStep.status = (fieldState === 'progress') ? this.currentStep.status : 'error';
@@ -791,7 +841,6 @@ export default class BaseEngine {
       // calling `toggleFields` and `validateFields` only once, and to enforce hooks consistency.
       const subUserActions = this.deepCompare(field, userAction.data, fieldConfiguration, path);
       const allUserActions = [userAction].concat(subUserActions);
-      [userAction].concat();
       const updatedUserActions = await Promise.all(allUserActions.map(async (action) => {
         const updatedUserAction = await this.triggerHooks('userAction', action);
         if (updatedUserAction !== null) {
@@ -810,9 +859,7 @@ export default class BaseEngine {
       // (especially when updating an object sub-field for instance).
       this.setInput(path, updatedUserActions[0].data);
       this.toggleFields(this.currentStep);
-      if (shouldSubmit || this.configuration.validateOnSubmit !== true) {
-        this.validateFields(!shouldSubmit);
-      }
+      this.validateFields(allUserActions.map((action) => action.path), !shouldSubmit);
       await Promise.all(updatedUserActions.map((action) => this.triggerHooks('afterUserAction', action)));
       if (this.currentStep.status === 'success' && shouldSubmit) {
         await this.handleSubmit();
@@ -1066,7 +1113,7 @@ export default class BaseEngine {
   public setVariables(variables: Variables): void {
     this.variables = deepMerge(this.variables, variables);
     this.toggleFields(this.currentStep);
-    this.validateFields(true);
+    this.validateFields([], true);
     this.forceUpdate();
     this.updateCache();
   }
