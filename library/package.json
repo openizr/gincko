@@ -74,6 +74,14 @@
       },
       {
         "files": [
+          "src/__mocks__/diox/connectors/svelte.ts"
+        ],
+        "rules": {
+          "import/extensions": "off"
+        }
+      },
+      {
+        "files": [
           "GinckoForm.vue"
         ],
         "rules": {
