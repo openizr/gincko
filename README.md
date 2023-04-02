@@ -2,7 +2,7 @@
 
 Build complex, smart forms or inputs-based UIs in seconds.
 
-[![Build Status](https://travis-ci.org/openizr/gincko.svg?branch=master)](https://travis-ci.org/openizr/gincko)
+[![Build Status](https://github.com/openizr/gincko/actions/workflows/ci.yml/badge.svg)](https://github.com/openizr/gincko/actions/workflows/ci.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/openizr/gincko/badge.svg)](https://coveralls.io/github/openizr/gincko)
 [![npm](https://img.shields.io/npm/v/gincko.svg)](https://www.npmjs.com/package/gincko)
 [![node](https://img.shields.io/node/v/gincko.svg)](https://nodejs.org)
@@ -31,7 +31,7 @@ yarn add gincko
 
 Building user interfaces containing multiple inputs is very repetitive and low-value process. It always contains the same logic, and doesn't fundamentally change much accross apps and websites: we need to implement different types of fields, fields validations logic, transitions, manage form submission, and so on. Why should we always go back to that each time we create a new feature?
 
-gincko is meant to remove these unecessary, time-consuming parts, by providing a common, generic engine that automatically performs usual checks. Through a simple JSON configuration, you can generate deep, complex UIs, without a line of code, so you can focus on the real value of your project.
+gincko is meant to remove these unecessary, time-consuming parts, by providing a common, generic engine that automatically performs usual checks. Through a simple JSON-like configuration, you can generate deep, complex UIs, without a line of code, so you can focus on the real value of your project.
 
 gincko can be used for a wide variety of use cases, including:
 - Forms, surveys
@@ -44,7 +44,7 @@ Why choosing gincko to develop your project?
 - Tiny JSON configuration for basic use cases
 - Completely dynamic form steps generation, based on previous inputs
 - Fully extensible and customizable for most complex use cases, using plugins
-- Supports React and VueJS natively, although you can also provide your own implementation for them or any other frontend framework
+- Supports React, Svelte and Vue natively, although you can also provide your own implementation for them or any other frontend framework
 
 
 ## Documentation
