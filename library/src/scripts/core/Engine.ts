@@ -6,11 +6,8 @@
  *
  */
 
-/* eslint-disable class-methods-use-this */
-
 import Store from 'diox';
 import state from 'scripts/core/state';
-import { Cache } from 'scripts/index.d';
 import deepFreeze from 'scripts/core/deepFreeze';
 import userActions from 'scripts/core/userActions';
 import { isPlainObject, deepMerge, deepCopy } from 'basx';
@@ -23,7 +20,7 @@ export default class BaseEngine {
   protected store: Store;
 
   /** Cache client. */
-  protected cache: Cache | null;
+  protected cache: FormCache | null;
 
   /** Form cache key. */
   protected cacheKey: string;
@@ -556,7 +553,12 @@ export default class BaseEngine {
       fieldState = 'progress';
       currentField.status = 'progress';
       delete currentField.message;
-    } else if (!partial || (hasBeenUpdated && this.configuration.validateOnSubmit !== true)) {
+    } else if (
+      !partial
+      || (hasBeenUpdated && this.configuration.validateOnSubmit !== true)
+      || field.status === 'progress'
+      || field.status === 'success'
+    ) {
       delete currentField.message;
       const isRequired = configuration.required === true;
       const isEmpty = this.isEmpty(field.value, type);
@@ -586,6 +588,10 @@ export default class BaseEngine {
           currentField.message = configuration.messages?.success;
         }
       }
+    } else if (field.status === 'initial') {
+      const isRequired = configuration.required === true;
+      const isEmpty = this.isEmpty(field.value, type);
+      return !isRequired && isEmpty ? 'success' : fieldState;
     }
 
     return fieldState;
@@ -846,25 +852,31 @@ export default class BaseEngine {
       // calling `toggleFields` and `validateFields` only once, and to enforce hooks consistency.
       const subUserActions = this.deepCompare(field, userAction.data, fieldConfiguration, path);
       const allUserActions = [userAction].concat(subUserActions);
-      const updatedUserActions = await Promise.all(allUserActions.map(async (action) => {
-        const updatedUserAction = await this.triggerHooks('userAction', action);
-        if (updatedUserAction !== null) {
-          const { type, data, path: subPath } = updatedUserAction;
-          const subFieldConfiguration = (this.getConfiguration(subPath));
-          if (type === 'input' && subFieldConfiguration !== null) {
-            const { submit, type: fieldType } = <GenericFieldConfiguration>subFieldConfiguration;
-            updatedUserAction.data = await this.coerceAndCheckInput(data, fieldType);
-            shouldSubmit = submit === true || shouldSubmit;
+      const nonNullUserActions: UserAction[] = [];
+      const updatedUserActions = await Promise.all(
+        allUserActions.map(async (action, index) => {
+          const updatedUserAction = await this.triggerHooks('userAction', action);
+          if (updatedUserAction !== null) {
+            nonNullUserActions.push(updatedUserAction);
+            if (index === 0 && fieldConfiguration.type !== 'null') {
+              // Storing all fields values in a central registry ensures that they are always up
+              // to date (especially when updating an object sub-field for instance).
+              this.setInput(path, updatedUserAction.data);
+            }
+            const { type, data, path: subPath } = updatedUserAction;
+            const subFieldConfiguration = (this.getConfiguration(subPath));
+            if (type === 'input' && subFieldConfiguration !== null) {
+              const { submit, type: fieldType } = <GenericFieldConfiguration>subFieldConfiguration;
+              updatedUserAction.data = await this.coerceAndCheckInput(data, fieldType);
+              shouldSubmit = submit === true || shouldSubmit;
+            }
           }
-        }
-        return updatedUserAction;
-      }));
+          return updatedUserAction;
+        }),
+      );
 
-      // Storing all fields values in a central registry ensures that they are always up to date
-      // (especially when updating an object sub-field for instance).
-      this.setInput(path, updatedUserActions[0].data);
       this.toggleFields(this.currentStep);
-      this.validateFields(allUserActions.map((action) => action.path), !shouldSubmit);
+      this.validateFields(nonNullUserActions.map((action) => action.path), !shouldSubmit);
       await Promise.all(updatedUserActions.map((action) => this.triggerHooks('afterUserAction', action)));
       if (this.currentStep.status === 'success' && shouldSubmit) {
         await this.handleSubmit();
@@ -911,7 +923,7 @@ export default class BaseEngine {
         getCurrentStep: this.getCurrentStep.bind(this),
         getConfiguration: this.getConfiguration.bind(this),
         getInputs: ((path?: string) => this.getInputs(path)),
-      } as unknown as Engine);
+      } as unknown as BaseEngine);
     });
 
     // Engine initialization.
@@ -956,8 +968,6 @@ export default class BaseEngine {
    * Generates step with id `stepId`.
    *
    * @param stepId Step id.
-   *
-   * @returns Generated step.
    */
   public async createStep(stepId?: string | null): Promise<void> {
     if (stepId !== null && stepId !== undefined) {
@@ -1032,7 +1042,7 @@ export default class BaseEngine {
    *
    * @returns User inputs if they exist, `null` otherwise.
    */
-  public getInputs(path?: string, freeze = true): UserInputs | UserInput | null {
+  public getInputs<T>(path?: string, freeze = true): T | null {
     let currentInputs = <UserInput>(this.userInputs);
     const splittedPath = path?.split('.') ?? [];
     for (let index = 2, { length } = splittedPath; index < length; index += 1) {
@@ -1106,7 +1116,7 @@ export default class BaseEngine {
    *
    * @returns Form variables.
    */
-  public getVariables(): Variables {
+  public getVariables<T>(): T {
     return deepFreeze(this.variables);
   }
 
@@ -1115,7 +1125,7 @@ export default class BaseEngine {
    *
    * @param variables Form variables to add or override.
    */
-  public setVariables(variables: Variables): void {
+  public setVariables<T>(variables: T): void {
     this.variables = deepMerge(this.variables, variables);
     this.toggleFields(this.currentStep);
     this.validateFields([], true);
