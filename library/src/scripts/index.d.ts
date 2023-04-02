@@ -8,24 +8,24 @@
 
 import BaseEngine from 'scripts/core/Engine';
 
-/**
- * Form cache.
- */
-export interface Cache {
-  /** Stores `value` at `key` in cache. */
-  set(key: string, value: unknown): Promise<void>;
-
-  /** Fetches value at `key` from cache. */
-  get(key: string): Promise<unknown>;
-
-  /** Deletes value at `key` from cache. */
-  delete(key: string): Promise<void>;
-}
-
-/** Custom form plugin. */
-export type Plugin = (engine: Engine) => void;
-
 declare global {
+  /**
+   * Form cache.
+   */
+  interface FormCache {
+    /** Stores `value` at `key` in cache. */
+    set(key: string, value: unknown): Promise<void>;
+
+    /** Fetches value at `key` from cache. */
+    get(key: string): Promise<unknown>;
+
+    /** Deletes value at `key` from cache. */
+    delete(key: string): Promise<void>;
+  }
+
+  /** Custom form plugin. */
+  type FormPlugin = (engine: BaseEngine) => void;
+
   type Fields = (Field | null)[];
   type NextHook<T> = (data: T) => Promise<T>;
   type Hook<T> = (data: T, next: NextHook<T>) => Promise<T>;
@@ -35,7 +35,7 @@ declare global {
   type OnUserAction = (type: string, path: string, data: UserInput) => void;
   type NestedFieldConfiguration = ObjectFieldConfiguration | ArrayFieldConfiguration;
   type SubConfiguration = Configuration | FieldConfiguration | StepConfiguration | null;
-  type CustomComponent = (field: ExtendedField, onUserAction: OnUserAction) => unknown | null;
+  type CustomComponent = (field: ExtendedField, onUserAction: OnUserAction) => any | null;
 
   interface CachedData {
     steps: Step[];
@@ -207,32 +207,32 @@ declare global {
   }
 
   /** Field's component additional props. */
-  export type ComponentProps = {
+  type ComponentProps = {
     [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   };
 
   /** User input. */
-  export type UserInput = unknown;
+  type UserInput = any;
 
   /** User inputs. */
-  export type UserInputs = { [fieldId: string]: UserInput; };
+  type UserInputs = { [fieldId: string]: UserInput; };
 
   /** Form variables. */
-  export type Variables = { [key: string]: unknown; };
+  type Variables = { [key: string]: any; };
 
   /** List of hooks events names. */
-  export type FormEvent = 'start' | 'step' | 'afterStep' | 'userAction' | 'afterUserAction' | 'submit' | 'error';
+  type FormEvent = 'start' | 'step' | 'afterStep' | 'userAction' | 'afterUserAction' | 'submit' | 'error';
 
   /** Internationalization function, used for labels translation. */
-  export type I18n = (label: string, values?: Variables) => string;
+  type I18n = (label: string, values?: Variables) => string;
 
   /** List of custom form components. */
-  export type CustomComponents = Record<string, CustomComponent>;
+  type CustomComponents = Record<string, CustomComponent>;
 
   /**
    * Form user action.
    */
-  export interface UserAction {
+  interface UserAction {
     type: string;
     path: string;
     data: UserInput;
@@ -241,7 +241,7 @@ declare global {
   /**
    * Generated step.
    */
-  export interface Step {
+  interface Step {
     id: string;
     index: number;
     fields: (Field | null)[];
@@ -251,7 +251,7 @@ declare global {
   /**
    * Generated field.
    */
-  export interface Field {
+  interface Field {
     id: string;
     label?: string;
     fields?: Fields;
@@ -266,7 +266,7 @@ declare global {
   /**
    * Form field configuration.
    */
-  export type FieldConfiguration = (
+  type FieldConfiguration = (
     NullFieldConfiguration |
     StringFieldConfiguration |
     IntegerFieldConfiguration |
@@ -281,7 +281,7 @@ declare global {
   /**
    * Form step configuration.
    */
-  export interface StepConfiguration {
+  interface StepConfiguration {
     /** Step's fields configurations. */
     fields: FieldConfigurations;
 
@@ -295,7 +295,7 @@ declare global {
   /**
    * Form configuration.
    */
-  export interface Configuration {
+  interface Configuration {
     /** Form's id (used as a cache id). */
     id?: string;
 
@@ -306,13 +306,13 @@ declare global {
     autoFill?: boolean;
 
     /** List of custom plugins to register to the current form instance. */
-    plugins?: Plugin[];
+    plugins?: FormPlugin[];
 
     /** Set of initial variables. */
     variables?: Variables;
 
     /** Cache instance to use. */
-    cache?: Cache | null;
+    cache?: FormCache | null;
 
     /** Whether to restart form from the beginning when reloading the page. */
     restartOnReload?: boolean;
@@ -336,7 +336,7 @@ declare global {
   /**
    * Form engine.
    */
-  export class Engine extends BaseEngine {
+  class Engine extends BaseEngine {
     public on(eventName: 'userAction', hook: Hook<UserAction | null>): void;
 
     public on(eventName: 'afterUserAction', hook: Hook<UserAction | null>): void;
@@ -350,5 +350,50 @@ declare global {
     public on(eventName: 'submit', hook: Hook<UserInputs | null>): void;
 
     public on(eventName: 'start', hook: Hook<boolean | null>): void;
+  }
+
+  /** Gincko form props. */
+  interface FormProps {
+    /** Form's active step's id. */
+    activeStep?: string;
+
+    /** Form's configuration. */
+    configuration: Configuration,
+
+    /** Internationalization function, used to translate form labels into different languages. */
+    i18n?: I18n;
+
+    /** List of form's custom UI components. */
+    customComponents?: CustomComponents;
+
+    /** Custom gincko form engine class to use instead of the default engine. */
+    engineClass?: typeof BaseEngine;
+  }
+
+  /** Gincko form field props. */
+  interface FieldProps {
+    /** Generated field. */
+    field: Field;
+
+    /** Field's path. Something like `"step.0.nestedField.subField"`. */
+    path: string;
+
+    /** Whether field belongs to the active step. */
+    isActive: boolean;
+
+    /** Contains all variables that have been set so far. */
+    variables: Variables;
+
+    /** Contains user values that have been filled by user so far. */
+    userInputs: UserInputs;
+
+    /** Function to call in order to notify the engine about a user input. */
+    onUserAction: OnUserAction;
+
+    /** Internationalization function, used to translate form labels into different languages. */
+    i18n: I18n;
+
+    /** List of form's custom UI components. */
+    customComponents: CustomComponents;
   }
 }

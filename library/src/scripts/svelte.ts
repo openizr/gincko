@@ -7,7 +7,7 @@
  */
 
 import Engine from 'scripts/core/Engine';
-import Field from 'scripts/vue/FormField.vue';
+import Field from 'scripts/svelte/Field.svelte';
 import Form from 'scripts/svelte/Form.svelte';
 
 export default Form;

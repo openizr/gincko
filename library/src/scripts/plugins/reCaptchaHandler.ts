@@ -6,8 +6,6 @@
  *
  */
 
-import { Plugin } from 'scripts/index.d';
-
 type GreCaptcha = { grecaptcha: Client; };
 type Client = {
   ready: (callback: () => void) => void;
@@ -26,7 +24,7 @@ interface ReCaptchaHandlerOptions {
  *
  * @returns The actual plugin.
  */
-export default function reCaptchaHandler(options: ReCaptchaHandlerOptions): Plugin {
+export default function reCaptchaHandler(options: ReCaptchaHandlerOptions): FormPlugin {
   return (engine): void => {
     const { grecaptcha } = <Window & { grecaptcha?: Client; }>window;
     engine.on('submit', (userInputs, next) => new Promise((resolve) => {
@@ -46,6 +44,6 @@ export default function reCaptchaHandler(options: ReCaptchaHandlerOptions): Plug
       } else {
         submit(grecaptcha);
       }
-    }).then((reCaptchaToken) => next({ ...userInputs, reCaptchaToken })));
+    }).then((reCaptchaToken) => next({ ...userInputs as JSXElement, reCaptchaToken })));
   };
 }

@@ -6,19 +6,20 @@
  *
  */
 
+import BaseEngine from 'scripts/core/Engine';
 import { loaderDisplayer } from 'scripts/plugins';
-import BaseEngine from 'scripts/core/__mocks__/Engine';
+import Engine from 'scripts/core/__mocks__/Engine';
 
 vi.useFakeTimers();
 
 describe('plugins/loaderDisplayer', () => {
-  let engine: BaseEngine;
+  let engine: Engine;
 
   beforeEach(() => {
     vi.clearAllMocks();
-    engine = new BaseEngine();
+    engine = new Engine();
     delete process.env.NULL_NEXT_DATA;
-    loaderDisplayer()(engine as unknown as Engine);
+    loaderDisplayer()(engine as unknown as BaseEngine);
   });
 
   describe('userAction hook', () => {

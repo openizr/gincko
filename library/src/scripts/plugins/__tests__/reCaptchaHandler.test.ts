@@ -7,16 +7,17 @@
  * @vitest-environment jsdom
  */
 
+import BaseEngine from 'scripts/core/Engine';
 import { reCaptchaHandler } from 'scripts/plugins';
-import BaseEngine from 'scripts/core/__mocks__/Engine';
+import Engine from 'scripts/core/__mocks__/Engine';
 
 describe('plugins/reCaptchaHandler', () => {
-  let engine: BaseEngine;
+  let engine: Engine;
 
   beforeEach(() => {
     vi.clearAllMocks();
-    engine = new BaseEngine();
-    reCaptchaHandler({ siteKey: 'testKey' })(engine as unknown as Engine);
+    engine = new Engine();
+    reCaptchaHandler({ siteKey: 'testKey' })(engine as unknown as BaseEngine);
   });
 
   test('submit hook - reCAPTCHA client not loaded', async () => {

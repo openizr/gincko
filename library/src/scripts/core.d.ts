@@ -18,7 +18,7 @@ declare module 'gincko' {
   type OnUserAction = (type: string, path: string, data: UserInput) => void;
   type NestedFieldConfiguration = ObjectFieldConfiguration | ArrayFieldConfiguration;
   type SubConfiguration = Configuration | FieldConfiguration | StepConfiguration | null;
-  type CustomComponent = (field: ExtendedField, onUserAction: OnUserAction) => Any | null;
+  type CustomComponent = (field: ExtendedField, onUserAction: OnUserAction) => any | null;
 
   interface ExtendedField extends Field {
     /** Internationalization function, used for labels translation. */
@@ -202,6 +202,51 @@ declare module 'gincko' {
     };
   }
 
+  /** Gincko form props. */
+  export interface FormProps {
+    /** Form's active step's id. */
+    activeStep?: string;
+
+    /** Form's configuration. */
+    configuration: Configuration,
+
+    /** Internationalization function, used to translate form labels into different languages. */
+    i18n?: I18n;
+
+    /** List of form's custom UI components. */
+    customComponents?: CustomComponents;
+
+    /** Custom gincko form engine class to use instead of the default engine. */
+    engineClass?: Engine;
+  }
+
+  /** Gincko form field props. */
+  export interface FieldProps {
+    /** Generated field. */
+    field: Field;
+
+    /** Field's path. Something like `"step.0.nestedField.subField"`. */
+    path: string;
+
+    /** Whether field belongs to the active step. */
+    isActive: boolean;
+
+    /** Contains all variables that have been set so far. */
+    variables: Variables;
+
+    /** Contains user values that have been filled by user so far. */
+    userInputs: UserInputs;
+
+    /** Function to call in order to notify the engine about a user input. */
+    onUserAction: OnUserAction;
+
+    /** Internationalization function, used to translate form labels into different languages. */
+    i18n: I18n;
+
+    /** List of form's custom UI components. */
+    customComponents: CustomComponents;
+  }
+
   /** Field's component additional props. */
   export type ComponentProps = { [key: string]: unknown };
 
@@ -226,7 +271,7 @@ declare module 'gincko' {
   /**
    * Form cache.
    */
-  export interface Cache {
+  export interface FormCache {
     /** Stores `value` at `key` in cache. */
     set(key: string, value: unknown): Promise<void>;
 
@@ -238,7 +283,7 @@ declare module 'gincko' {
   }
 
   /** Custom form plugin. */
-  export type Plugin = (engine: Engine) => void;
+  export type FormPlugin = (engine: Engine) => void;
 
   /**
    * Form user action.
@@ -316,13 +361,13 @@ declare module 'gincko' {
     autoFill?: boolean;
 
     /** List of custom plugins to register to the current form instance. */
-    plugins?: Plugin[];
+    plugins?: FormPlugin[];
 
     /** Set of initial variables. */
     variables?: Variables;
 
     /** Cache instance to use. */
-    cache?: Cache | null;
+    cache?: FormCache | null;
 
     /** Whether to restart form from the beginning when reloading the page. */
     restartOnReload?: boolean;
@@ -351,7 +396,7 @@ declare module 'gincko' {
     protected store: Store;
 
     /** Cache client. */
-    protected cache: Cache | null;
+    protected cache: FormCache | null;
 
     /** Form cache key. */
     protected cacheKey: string;
@@ -595,8 +640,8 @@ declare module 'gincko' {
      *
      * @param path Path to insert/update user input at in the inputs store.
      *
-     * @param userInput User input to store. If `undefined`, existing value at `path`
-     * will be deleted instead of updated.
+     * @param userInput User input to store. If `undefined`, existing value at `path` will
+     * be deleted instead of updated.
      */
     protected setInput(path: string, userInput: UserInput): void;
 
@@ -649,8 +694,6 @@ declare module 'gincko' {
      * Generates step with id `stepId`.
      *
      * @param stepId Step id.
-     *
-     * @returns Generated step.
      */
     public createStep(stepId?: string | null): Promise<void>;
 
@@ -704,11 +747,13 @@ declare module 'gincko' {
     /**
      * Retrieves current user inputs at `path`. If no path is given, returns all user inputs.
      *
-     * @param [path] Input path.
+     * @param path Input path.
+     *
+     * @param freeze Whether to make returned input immutable. Defaults to `true`.
      *
      * @returns User inputs if they exist, `null` otherwise.
      */
-    public getInputs(path?: string): UserInputs | UserInput | null;
+    public getInputs<T>(path?: string, freeze?: boolean): T | null;
 
     /**
      * Returns gincko field/step's configuration for `path`. If no path is provided, the global form
@@ -748,14 +793,14 @@ declare module 'gincko' {
      *
      * @returns Form variables.
      */
-    public getVariables(): Variables;
+    public getVariables<T>(): T;
 
     /**
      * Adds or overrides the given form variables.
      *
      * @param variables Form variables to add or override.
      */
-    public setVariables(variables: Variables): void;
+    public setVariables<T>(variables: T): void;
 
     /**
      * Clears current form cache.

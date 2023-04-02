@@ -6,17 +6,18 @@
  *
  */
 
+import BaseEngine from 'scripts/core/Engine';
+import Engine from 'scripts/core/__mocks__/Engine';
 import { errorStepDisplayer } from 'scripts/plugins';
-import BaseEngine from 'scripts/core/__mocks__/Engine';
 
 describe('plugins/errorStepDisplayer', () => {
-  let engine: BaseEngine;
+  let engine: Engine;
   const setActiveStep = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
-    engine = new BaseEngine();
-    errorStepDisplayer({ stepId: 'error', setActiveStep })(engine as unknown as Engine);
+    engine = new Engine();
+    errorStepDisplayer({ stepId: 'error', setActiveStep })(engine as unknown as BaseEngine);
   });
 
   test('correctly generates error step', async () => {

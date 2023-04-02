@@ -74,6 +74,14 @@
       },
       {
         "files": [
+          "GinckoForm.vue"
+        ],
+        "rules": {
+          "new-cap": "off"
+        }
+      },
+      {
+        "files": [
           "*.svelte",
           "*.vue"
         ],
