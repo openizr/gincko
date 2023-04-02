@@ -11,6 +11,6 @@ import * as React from 'react';
 /**
  * gincko/react/Field mock.
  */
-export default function Field(field: Any): JSX.Element {
+export default function Field(field: JSXElement): JSX.Element {
   return <div id="field">{JSON.stringify(field)}</div>;
 }

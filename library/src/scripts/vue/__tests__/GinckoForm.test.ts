@@ -7,14 +7,14 @@
  * @vitest-environment jsdom
  */
 
-import DynamicForm from 'scripts/vue/DynamicForm.vue';
+import DynamicForm from 'scripts/vue/GinckoForm.vue';
 import { render, fireEvent, createEvent } from '@testing-library/vue';
 
-vi.mock('scripts/core/Engine');
-vi.mock('diox/connectors/vue');
-vi.mock('scripts/vue/FormStep.vue');
+describe('vue/Form', () => {
+  vi.mock('scripts/core/Engine');
+  vi.mock('diox/connectors/vue');
+  vi.mock('scripts/vue/FormStep.vue');
 
-describe('vue/DynamicForm', () => {
   const configuration = {
     id: 'test',
     root: 'start',

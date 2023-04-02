@@ -6,7 +6,7 @@
  *
  */
 
-import GenericComponent from 'scripts/__mocks__/biuty/GenericComponent.svelte';
+import GenericComponent from '__mocks__/biuty/GenericComponent.svelte';
 
 /**
  * biuty/svelte mock.

@@ -17,6 +17,13 @@ describe('svelte/Message', () => {
     vi.clearAllMocks();
   });
 
+  test('renders correctly - default props', async () => {
+    const { container, rerender } = render(Message, { props: { id: 'test', label: '*Test*' } });
+    expect(container.firstChild).toMatchSnapshot();
+    rerender({ props: { id: 'test', label: '*Test*', modifiers: null as unknown as undefined } });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - custom props', async () => {
     const { container } = render(Message, { props: { id: 'test', label: '*Test*', modifiers: 'strong' } });
     expect(container.firstChild).toMatchSnapshot();

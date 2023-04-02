@@ -11,7 +11,7 @@ import * as React from 'react';
 /**
  * gincko/react/Step mock.
  */
-export default function Step({ onUserAction, i18n, ...rest }: Any): JSX.Element {
+export default function Step({ onUserAction, i18n, ...rest }: JSXElement): JSX.Element {
   // Covers default i18n function.
   i18n('test');
   // Covers userAction callback.

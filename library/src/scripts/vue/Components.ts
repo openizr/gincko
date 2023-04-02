@@ -193,7 +193,7 @@ export default <CustomComponents>{
         value: field.value !== null
           ? (field.value as Date).toISOString().split('T')[0].replace(/-/g, '/')
           : undefined,
-        onKeyDown: (event: KeyboardEvent): void => {
+        onKeyDown: (_value: string, event: KeyboardEvent): void => {
           const keysRegExp = /(1|2|3|4|5|6|7|8|9|0|Backspace|Delete|ArrowRight|ArrowLeft|Tab|Enter)/;
           if (!keysRegExp.test(event.key) && !event.ctrlKey) {
             event.preventDefault();

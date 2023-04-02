@@ -101,10 +101,7 @@ const value = computed(() => {
   }
   return props.value as UserInputs | UserInput[];
 });
-const className = computed(() => buildClass('ui-nested-fields', [
-  props.modifiers ?? '',
-  props.type,
-].join(' ')));
+const className = computed(() => buildClass('ui-nested-fields', [props.modifiers, props.type].join(' ')));
 const isAddButtonDisabled = computed(() => props.fields.length >= props.maxItems);
 const addButtonDisabledModifier = computed(() => {
   const keyExistsOrIsEmpty = newKey.value === '' || value.value[newKey.value] !== undefined;
@@ -151,9 +148,8 @@ watch(() => [value, props.minItems], () => {
 // Removes extra fields if length does not fit maximum length.
 watch(() => [value, props.maxItems], () => {
   const currentLength = value.value.length;
-  const maxItems = (props.maxItems !== undefined) ? props.maxItems : Infinity;
-  if (props.type === 'array' && currentLength > maxItems) {
-    props.onUserAction('input', props.path, value.value.slice(0, maxItems));
+  if (props.type === 'array' && currentLength > props.maxItems) {
+    props.onUserAction('input', props.path, value.value.slice(0, props.maxItems));
   }
 });
 </script>
@@ -179,7 +175,7 @@ watch(() => [value, props.maxItems], () => {
       >{{ field.id }}</span>
 
       <UIButton
-        v-if="type !== 'object' && fields.length > (minItems ?? 0)"
+        v-if="type !== 'object' && fields.length > minItems"
         type="button"
         v-bind="removeButtonProps"
         :on-click="removeItem(index, $event)"

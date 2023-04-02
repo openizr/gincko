@@ -18,7 +18,19 @@ exports[`svelte/Message > renders correctly - default props 1`] = `
     class="ui-message "
     id="test"
   >
-    MARKDOWN FOR , false
+    MARKDOWN FOR *Test*, false
+  </section>
+  <!--&lt;Message&gt;-->
+</div>
+`;
+
+exports[`svelte/Message > renders correctly - default props 2`] = `
+<div>
+  <section
+    class="ui-message "
+    id="test"
+  >
+    MARKDOWN FOR *Test*, false
   </section>
   <!--&lt;Message&gt;-->
 </div>

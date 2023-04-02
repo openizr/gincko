@@ -10,14 +10,13 @@
 import Field from 'scripts/svelte/Field.svelte';
 import { render, waitFor } from '@testing-library/svelte';
 
-vi.mock('biuty/svelte');
-vi.mock('scripts/core/Engine');
-vi.mock('scripts/svelte/Message.svelte');
-vi.mock('scripts/svelte/NestedFields.svelte');
-
-const flushPromise = vi.fn(() => new Promise<void>((resolve) => { setTimeout(resolve, 50); }));
-
 describe('svelte/Field', () => {
+  vi.mock('biuty/svelte');
+  vi.mock('scripts/core/Engine');
+  vi.mock('scripts/svelte/Message.svelte');
+  vi.mock('scripts/svelte/NestedFields.svelte');
+
+  const flushPromise = vi.fn(() => new Promise<void>((resolve) => { setTimeout(resolve, 50); }));
   const isActive = true;
   const customComponents = {};
   const userInputs = { test: 'ok' };
@@ -157,7 +156,7 @@ describe('svelte/Field', () => {
           component: 'Options',
           componentProps: {
             onFocus: (): null => null,
-            options: [{ label: 'test', value: 'option1' }, { value: 'option2' }],
+            options: [{ label: 'test', value: 'option1' }, { value: 'option2' }, { type: 'divider' }],
           },
         },
       },

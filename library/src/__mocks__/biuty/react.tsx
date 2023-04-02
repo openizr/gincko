@@ -11,39 +11,37 @@ import * as React from 'react';
 /**
  * biuty/react mock.
  */
-function Component(props: Any): JSX.Element {
-  const { transform, onKeyDown } = props;
+function Component(props: JSXElement): JSX.Element {
   const { onChange, onFocus, onClick } = props;
+  const { transform, onKeyDown, onBlur } = props;
 
   // Covers `onChange` handler.
-  if (onChange !== undefined) {
-    setTimeout(() => {
-      onChange('test');
-      if (process.env.IS_DATE === 'true') {
-        onChange('2020/02/20');
-      }
-    }, 10);
-  }
+  setTimeout(() => {
+    onChange?.('test');
+    if (process.env.IS_DATE === 'true') {
+      onChange?.('2020/02/20');
+    }
+  }, 10);
+
   // Covers `onFocus` handler.
-  if (onFocus !== undefined) {
-    onFocus();
-  }
+  onFocus?.();
+
+  // Covers `onBlur` handler.
+  onBlur?.();
+
   // Covers `transform` function.
-  if (transform !== undefined) {
-    transform('ok');
-    transform('1002');
-    transform('100220');
-    transform('10022020');
-  }
+  transform?.('ok');
+  transform?.('1002');
+  transform?.('100220');
+  transform?.('10022020');
+
   // Covers `onKeyDown` handler.
-  if (onKeyDown !== undefined) {
-    onKeyDown({ key: '1' });
-    onKeyDown({ key: 'A', ctrlKey: false, preventDefault: vi.fn() });
-  }
+  onKeyDown?.('', { key: '1' });
+  onKeyDown?.('', { key: 'A', ctrlKey: false, preventDefault: vi.fn() });
   // Covers `onClick` handler.
-  if (onClick !== undefined && process.env.NOCLICK !== 'true') {
+  if (process.env.NOCLICK !== 'true') {
     setTimeout(() => {
-      onClick();
+      onClick?.();
     }, 10);
   }
   return (

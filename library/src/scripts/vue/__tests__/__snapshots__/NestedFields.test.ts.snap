@@ -22,7 +22,7 @@ exports[`vue/NestedFields > renders correctly - array 1`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   
@@ -63,7 +63,7 @@ exports[`vue/NestedFields > renders correctly - array with maxItems 1`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   
@@ -95,7 +95,7 @@ exports[`vue/NestedFields > renders correctly - array with maxItems 2`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   
@@ -127,7 +127,7 @@ exports[`vue/NestedFields > renders correctly - array with minItems 1`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   <div
@@ -142,7 +142,7 @@ exports[`vue/NestedFields > renders correctly - array with minItems 1`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   <div
@@ -157,7 +157,7 @@ exports[`vue/NestedFields > renders correctly - array with minItems 1`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   
@@ -190,7 +190,7 @@ exports[`vue/NestedFields > renders correctly - array with minItems 2`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   <div
@@ -201,7 +201,7 @@ exports[`vue/NestedFields > renders correctly - array with minItems 2`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   <div
@@ -212,7 +212,7 @@ exports[`vue/NestedFields > renders correctly - array with minItems 2`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   
@@ -253,7 +253,7 @@ exports[`vue/NestedFields > renders correctly - dynamicObject with error 1`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   <div
@@ -272,7 +272,7 @@ exports[`vue/NestedFields > renders correctly - dynamicObject with error 1`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   
@@ -324,7 +324,7 @@ exports[`vue/NestedFields > renders correctly - dynamicObject with invalid patte
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   
@@ -333,6 +333,7 @@ exports[`vue/NestedFields > renders correctly - dynamicObject with invalid patte
   >
     <div
       debounce-timeout="10"
+      debouncetimeout="10"
       helper="INVALID"
       name="undefined-add"
       readonly=""
@@ -373,7 +374,7 @@ exports[`vue/NestedFields > renders correctly - dynamicObject with valid pattern
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   
@@ -382,6 +383,7 @@ exports[`vue/NestedFields > renders correctly - dynamicObject with valid pattern
   >
     <div
       debounce-timeout="10"
+      debouncetimeout="10"
       name="undefined-add"
       readonly=""
       value=""
@@ -413,7 +415,7 @@ exports[`vue/NestedFields > renders correctly - object 1`] = `
     <div
       id="field"
     >
-      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"}}
+      {"field":{"id":"Message","status":"initial","component":"Message","componentProps":{}},"path":"path.0.to.field.Message","isActive":false,"variables":{"var":"value"},"userInputs":{"test":"ok"},"customComponents":{}}
     </div>
   </div>
   

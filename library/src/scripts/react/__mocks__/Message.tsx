@@ -11,6 +11,6 @@ import * as React from 'react';
 /**
  * gincko/react/Message mock.
  */
-export default function Message(props: Any): JSX.Element {
+export default function Message(props: JSXElement): JSX.Element {
   return <div id="field">{JSON.stringify(props)}</div>;
 }

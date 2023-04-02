@@ -18,7 +18,7 @@ describe('vue/MessageField', () => {
   });
 
   test('renders correctly - default props', async () => {
-    const { container } = render(MessageField, { props: { id: 'test' } });
+    const { container } = render(MessageField, { props: { id: 'test', label: '*Test*' } });
     expect(container.firstChild).toMatchSnapshot();
   });
 

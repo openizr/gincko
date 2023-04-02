@@ -13,6 +13,7 @@ import NestedFields from 'scripts/svelte/NestedFields.svelte';
 const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomComponent => (
   function Nested(field, onUserAction) {
     const { componentProps } = field;
+    const { onFocus, ...rest } = componentProps;
     const addButtonProps = {
       ...componentProps.addButtonProps,
       label: (componentProps.addButtonProps?.label !== undefined)
@@ -27,7 +28,7 @@ const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomCompone
     };
     const addTextfieldProps = {
       ...componentProps.addTextfieldProps,
-      onFocus: componentProps.onFocus,
+      onFocus,
       label: (componentProps.addTextfieldProps?.label !== undefined)
         ? field.i18n(componentProps.addTextfieldProps.label, field.allValues)
         : undefined,
@@ -39,7 +40,7 @@ const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomCompone
     return ({
       component: NestedFields,
       props: {
-        ...componentProps,
+        ...rest,
         type,
         onUserAction,
         t: field.i18n,

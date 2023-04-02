@@ -6,7 +6,7 @@
  *
  */
 
-import { readable } from 'svelte/store/index';
+import { readable } from 'svelte/store';
 
 /**
  * diox/connectors/svelte mock.

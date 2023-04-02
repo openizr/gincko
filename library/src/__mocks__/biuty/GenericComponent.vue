@@ -10,47 +10,48 @@
 
 import { computed } from 'vue';
 
-type Handler = (value?: string) => string;
+type Handler = (value?: string) => void;
+type KeyDownHandler = (value: string, event: unknown) => void;
 
 const props = defineProps<{
   transform?: Handler;
+  onChange?: Handler;
+  onFocus?: Handler;
+  onBlur?: Handler;
+  onClick?: Handler;
+  onKeyDown?: KeyDownHandler;
 }>();
-
-const emit = defineEmits({
-  focus: null,
-  click: null,
-  change: null,
-  keyDown: null,
-});
 
 const computedProps = computed(() => props);
 
 // Covers `onChange` handler.
 setTimeout(() => {
-  emit('change', 'test');
+  props.onChange?.('test');
   if (process.env.IS_DATE === 'true') {
-    emit('change', '2020/02/20');
+    props.onChange?.('2020/02/20');
   }
 }, 10);
 
 // Covers `onFocus` handler.
-emit('focus');
+props.onFocus?.();
+
+// Covers `onBlur` handler.
+props.onBlur?.();
 
 // Covers `onClick` handler.
 setTimeout(() => {
-  emit('click');
+  props.onClick?.();
 }, 10);
 
 // Covers `transform` function.
-if (props.transform !== undefined) {
-  props.transform('ok');
-  props.transform('1002');
-  props.transform('100220');
-  props.transform('10022020');
-}
+props.transform?.('ok');
+props.transform?.('1002');
+props.transform?.('100220');
+props.transform?.('10022020');
+
 // Covers `onKeyDown` handler.
-emit('keyDown', { key: '1' });
-emit('keyDown', { key: 'A', ctrlKey: false, preventDefault: vi.fn() });
+props.onKeyDown?.('', { key: '1' });
+props.onKeyDown?.('', { key: 'A', ctrlKey: false, preventDefault: vi.fn() });
 </script>
 
 <template>

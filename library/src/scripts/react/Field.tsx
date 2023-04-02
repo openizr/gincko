@@ -9,32 +9,6 @@
 import * as React from 'react';
 import builtInComponents from 'scripts/react/Components';
 
-interface FieldProps {
-  /** Generated field. */
-  field: Field;
-
-  /** Field's path. */
-  path: string;
-
-  /** Internationalization function, used for labels translation. */
-  i18n: I18n;
-
-  /** Whether field belongs to the active step. */
-  isActive: boolean;
-
-  /** Form variables. */
-  variables: Variables;
-
-  /** List of user inputs. */
-  userInputs: UserInputs;
-
-  /** Callback to trigger at each user action. */
-  onUserAction: OnUserAction;
-
-  /** List of form's custom UI components. */
-  customComponents: CustomComponents;
-}
-
 /**
  * React form field.
  */
@@ -118,4 +92,4 @@ function Field(props: FieldProps): JSX.Element {
   return actualField as JSX.Element;
 }
 
-export default React.memo(Field) as Any;
+export default React.memo(Field) as JSXElement;

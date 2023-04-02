@@ -16,17 +16,17 @@ import { StateState } from 'scripts/core/state';
 const props = withDefaults(defineProps<{
   i18n?: I18n;
   activeStep?: string;
-  engineClass?: typeof Engine;
+  engineClass?: Engine;
   configuration: Configuration,
   customComponents?: CustomComponents;
 }>(), {
-  i18n: (label) => label,
   activeStep: undefined,
   customComponents: {},
-  engineClass: Engine,
+  engineClass: undefined,
+  i18n: () => (label) => label,
 });
 
-const engine = new props.engineClass(props.configuration);
+const engine = new (props.engineClass ?? Engine)(props.configuration);
 const useSubscription = useStore(engine.getStore());
 const state = useSubscription<StateState>('state');
 
