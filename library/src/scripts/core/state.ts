@@ -27,7 +27,7 @@ export default <Module<StateState>>{
     userInputs: {},
   },
   mutations: {
-    UPDATE({ state }, mutation) {
+    UPDATE({ state }, mutation: StateState) {
       return deepMerge(state, {
         steps: mutation.steps,
         loading: mutation.loading,

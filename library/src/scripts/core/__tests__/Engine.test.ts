@@ -7,7 +7,7 @@
  */
 
 import cache from 'scripts/core/__mocks__/cache';
-import Engine from 'scripts/core/__mocks__/TestEngine';
+import TestEngine from 'scripts/core/__mocks__/TestEngine';
 import configuration from 'scripts/core/__mocks__/configuration';
 
 vi.mock('diox');
@@ -23,10 +23,13 @@ async function flushPromises(): Promise<void> {
 }
 
 describe('core/Engine', () => {
-  let engine: Engine;
+  let engine: TestEngine;
 
-  async function createEngine(conf: Configuration = configuration, flush = true): Promise<Engine> {
-    engine = new Engine(conf);
+  async function createEngine(
+    conf: Configuration = configuration,
+    flush = true,
+  ): Promise<TestEngine> {
+    engine = new TestEngine(conf);
     if (flush) {
       await flushPromises();
       vi.clearAllMocks();

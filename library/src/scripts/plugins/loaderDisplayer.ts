@@ -6,8 +6,6 @@
  *
  */
 
-import { Plugin } from 'scripts/index.d';
-
 interface LoaderDisplayerOptions {
   /** Minimum time during which loader should be displayed. */
   timeout?: number;
@@ -20,7 +18,7 @@ interface LoaderDisplayerOptions {
  *
  * @returns The actual plugin.
  */
-export default function loaderDisplayer(options: LoaderDisplayerOptions = {}): Plugin {
+export default function loaderDisplayer(options: LoaderDisplayerOptions = {}): FormPlugin {
   return (engine): void => {
     const timeout = options.timeout || 250;
     // This timestamp is used to mesure total time between user action and next step rendering.

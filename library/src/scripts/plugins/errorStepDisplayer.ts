@@ -6,8 +6,6 @@
  *
  */
 
-import { Plugin } from 'scripts/index.d';
-
 interface ErrorStepDisplayerOptions {
   /** Id of the error step in the configuration. */
   stepId: string;
@@ -23,7 +21,7 @@ interface ErrorStepDisplayerOptions {
  *
  * @returns The actual gincko plugin.
  */
-export default function errorStepDisplayer(options: ErrorStepDisplayerOptions): Plugin {
+export default function errorStepDisplayer(options: ErrorStepDisplayerOptions): FormPlugin {
   return (engine): void => {
     engine.on('error', async (error, next) => {
       await engine.createStep(options.stepId);

@@ -7,54 +7,21 @@
  */
 
 declare module 'gincko/svelte' {
-  import {
-    I18n,
-    Variables,
-    UserInputs,
-    OnUserAction,
-    Configuration,
-    CustomComponents,
-    Field as GeneratedField,
-  } from 'gincko';
-  import type Engine from 'gincko';
   import type { SvelteComponentTyped } from 'svelte';
+  import type { FormProps, FieldProps } from 'gincko';
 
   export * from 'gincko';
 
   /**
    * Svelte form field.
    */
-  export class Field extends SvelteComponentTyped<{
-    field: GeneratedField;
-    path: string;
-    i18n: I18n;
-    isActive: boolean;
-    variables: Variables;
-    userInputs: UserInputs;
-    onUserAction: OnUserAction;
-    customComponents: CustomComponents;
-  }> { }
+  export class Field extends SvelteComponentTyped<FieldProps> { }
 
   /**
    * Svelte form.
    */
-  export default class Form extends SvelteComponentTyped<{
-    /** Form's active step's id. */
-    activeStep?: string | null;
-
-    /** Form's configuration. */
-    configuration: Configuration,
-
-    /** Internationalization function, used to translate form labels into different languages. */
-    i18n?: I18n;
-
-    /** List of form's custom UI components. */
-    customComponents?: CustomComponents;
-
-    /** Custom gincko form engine class to use instead of the default engine. */
-    engineClass?: Engine;
-  }, Record<string, unknown>, {
+  export default class Form extends SvelteComponentTyped<FormProps, Record<string, unknown>, {
     /** UI component to use when loading steps. */
-    loader: Any;
+    loader: SvelteComponentTyped;
   }> { }
 }

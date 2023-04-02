@@ -15,6 +15,6 @@ describe('core/userActions', () => {
 
   test('ADD', () => {
     const data = { test: true };
-    expect(userActions.mutations.ADD({ state: null, mutate: vi.fn(), hash: 'steps' }, data)).toEqual(data);
+    expect(userActions.mutations.ADD({ state: null, id: 'steps' }, data)).toEqual(data);
   });
 });

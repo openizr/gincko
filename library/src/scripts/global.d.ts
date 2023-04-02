@@ -8,3 +8,6 @@
 
 declare module '*.vue';
 declare module '*.svelte';
+
+// Necessary to make Svelte, React and Vue work live together on the same project.
+type JSXElement = any;

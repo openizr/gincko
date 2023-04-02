@@ -8,7 +8,7 @@
 
 import Engine from 'scripts/core/Engine';
 import Field from 'scripts/vue/FormField.vue';
-import Form from 'scripts/vue/DynamicForm.vue';
+import Form from 'scripts/vue/GinckoForm.vue';
 
 export default Form;
 

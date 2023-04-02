@@ -21,8 +21,7 @@ describe('core/state', () => {
         variables: {},
         loading: true,
       },
-      mutate: vi.fn(),
-      hash: 'state',
+      id: 'state',
     }, {
       steps: [1],
       userInputs: { test: 'test' },
@@ -44,8 +43,7 @@ describe('core/state', () => {
         variables: {},
         loading: true,
       },
-      mutate: vi.fn(),
-      hash: 'state',
+      id: 'state',
     }, false)).toEqual({
       steps: [],
       userInputs: {},
