@@ -10,13 +10,12 @@
 
 import { buildClass, markdown } from 'biuty/svelte';
 
-export let label = '';
+export let label: string;
 export let modifiers = '';
 export let id: string | undefined;
 
 // Enforces props default values.
-$: label = label || '';
-$: modifiers = modifiers || '';
+$: modifiers = modifiers ?? '';
 
 $: parsedLabel = markdown(label, false);
 $: className = buildClass('ui-message', modifiers);

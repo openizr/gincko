@@ -18,22 +18,23 @@ const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomCompone
       ...componentProps.addButtonProps,
       label: (componentProps.addButtonProps?.label !== undefined)
         ? field.i18n(componentProps.addButtonProps.label, field.allValues)
-        : null,
+        : undefined,
     };
     const removeButtonProps = {
       ...componentProps.removeButtonProps,
       label: (componentProps.removeButtonProps?.label !== undefined)
         ? field.i18n(componentProps.removeButtonProps.label, field.allValues)
-        : null,
+        : undefined,
     };
     const addTextfieldProps = {
       ...componentProps.addTextfieldProps,
+      onFocus: componentProps.onFocus,
       label: (componentProps.addTextfieldProps?.label !== undefined)
         ? field.i18n(componentProps.addTextfieldProps.label, field.allValues)
-        : null,
+        : undefined,
       placeholder: (componentProps.addTextfieldProps?.placeholder !== undefined)
         ? field.i18n(componentProps.addTextfieldProps.placeholder, field.allValues)
-        : null,
+        : undefined,
     };
     return (
       <NestedFields
@@ -48,7 +49,7 @@ const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomCompone
         userInputs={field.userInputs}
         fields={field.fields as Fields}
         addButtonProps={addButtonProps}
-        value={field.value as UserInput[]}
+        value={field.value ?? undefined}
         maxItems={componentProps.maxItems}
         minItems={componentProps.minItems}
         id={field.path.replace(/\./g, '__')}
@@ -56,7 +57,7 @@ const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomCompone
         addTextfieldProps={addTextfieldProps}
         customComponents={field.customComponents}
         allowedPatterns={componentProps.allowedPatterns}
-        modifiers={`${field.status} ${componentProps.modifiers || ''}`}
+        modifiers={`${field.status} ${componentProps.modifiers ?? ''}`}
       />
     );
   }
@@ -75,7 +76,7 @@ export default {
       <Message
         label={field.label}
         id={field.path.replace(/\./g, '__')}
-        modifiers={`${field.status} ${componentProps.modifiers || ''}`}
+        modifiers={`${field.status} ${componentProps.modifiers ?? ''}`}
       />
     );
   },
@@ -83,13 +84,13 @@ export default {
     const { componentProps } = field;
     return (
       <biuty.UILink
-        label={field.label || ''}
+        label={field.label ?? ''}
         rel={componentProps.rel}
         href={componentProps.href}
         target={componentProps.target}
         onClick={componentProps.onClick}
         id={field.path.replace(/\./g, '__')}
-        modifiers={`${field.status} ${componentProps.modifiers || ''}`}
+        modifiers={`${field.status} ${componentProps.modifiers ?? ''}`}
       />
     );
   },
@@ -104,19 +105,22 @@ export default {
         id={field.path.replace(/\./g, '__')}
         iconPosition={componentProps.iconPosition}
         onClick={(): void => onUserAction('input', field.path, true)}
-        modifiers={`${field.status} ${componentProps.modifiers || ''}`}
+        modifiers={`${field.status} ${componentProps.modifiers ?? ''}`}
       />
     );
   },
   Options(field, onUserAction) {
     const { componentProps } = field;
     const translatedOptions = componentProps.options.map((option: biuty.Option) => {
+      if (option.type === 'divider') {
+        return option;
+      }
       const { label, ...rest } = option;
       return {
         ...rest,
         label: (label !== undefined)
-          ? field.i18n(label as unknown as string, field.allValues)
-          : null,
+          ? field.i18n(label, field.allValues)
+          : undefined,
       };
     });
     return (
@@ -124,25 +128,22 @@ export default {
         name={field.path}
         label={field.label}
         helper={field.message}
-        value={`${field.value}`}
         options={translatedOptions}
         select={componentProps.select}
         onFocus={componentProps.onFocus}
+        value={field.value ?? undefined}
         multiple={componentProps.multiple}
         id={field.path.replace(/\./g, '__')}
-        modifiers={`${field.status} ${componentProps.modifiers || ''}`}
+        modifiers={`${field.status} ${componentProps.modifiers ?? ''}`}
         onChange={(newValue): void => onUserAction('input', field.path, newValue)}
       />
     );
   },
   Textfield(field, onUserAction) {
     const { componentProps } = field;
-    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
-      ? componentProps.debounceTimeout
-      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
-      : null;
+      : undefined;
     return (
       <biuty.UITextfield
         name={field.path}
@@ -158,7 +159,7 @@ export default {
         onBlur={componentProps.onBlur}
         onPaste={componentProps.onPaste}
         onFocus={componentProps.onFocus}
-        debounceTimeout={debounceTimeout}
+        value={field.value ?? undefined}
         id={field.path.replace(/\./g, '__')}
         onKeyDown={componentProps.onKeyDown}
         maxlength={componentProps.maxlength}
@@ -170,20 +171,17 @@ export default {
         iconPosition={componentProps.iconPosition}
         onIconKeyDown={componentProps.onIconKeyDown}
         readonly={componentProps.readonly || !field.isActive}
-        modifiers={`${field.status} ${componentProps.modifiers || ''}`}
-        onChange={(value: string): void => onUserAction('input', field.path, value)}
-        value={field.value !== undefined && field.value !== null ? `${field.value}` : field.value}
+        debounceTimeout={componentProps.debounceTimeout ?? 100}
+        modifiers={`${field.status} ${componentProps.modifiers ?? ''}`}
+        onChange={(value): void => onUserAction('input', field.path, value)}
       />
     );
   },
   DatePicker(field, onUserAction) {
     const { componentProps } = field;
-    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
-      ? componentProps.debounceTimeout
-      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
-      : null;
+      : undefined;
     return (
       <biuty.UITextfield
         maxlength={10}
@@ -200,13 +198,13 @@ export default {
         onBlur={componentProps.onBlur}
         onPaste={componentProps.onPaste}
         onFocus={componentProps.onFocus}
-        onKeyDown={(event: React.KeyboardEvent): void => {
+        onKeyDown={(_value, event): void => {
           const keysRegExp = /(1|2|3|4|5|6|7|8|9|0|Backspace|Delete|ArrowRight|ArrowLeft|Tab|Enter)/;
           if (!keysRegExp.test(event.key) && !event.ctrlKey) {
             event.preventDefault();
           }
         }}
-        transform={(value: string): [string] => {
+        transform={(value): [string] => {
           const cleaned = value.replace(/\D/g, '');
           const match1 = cleaned.match(/^(\d{4})$/);
           const match2 = cleaned.match(/^(\d{4})(\d{2})$/);
@@ -222,7 +220,6 @@ export default {
           }
           return [value];
         }}
-        debounceTimeout={debounceTimeout}
         autofocus={componentProps.autofocus as boolean}
         id={field.path.replace(/\./g, '__')}
         allowedKeys={componentProps.allowedKeys}
@@ -231,27 +228,25 @@ export default {
         iconPosition={componentProps.iconPosition}
         onIconKeyDown={componentProps.onIconKeyDown}
         readonly={componentProps.readonly || !field.isActive}
+        debounceTimeout={componentProps.debounceTimeout ?? 100}
         value={field.value !== undefined && field.value !== null
           ? (field.value as Date).toISOString().split('T')[0].replace(/-/g, '/')
-          : field.value}
-        onChange={(value: string): void => {
+          : undefined}
+        onChange={(value): void => {
           if (/^(\d{4})\/(\d{2})\/(\d{2})$/.test(value)) {
             const newDate = new Date(new Date(value).getTime() + 25 * 3600 * 1000);
             onUserAction('input', field.path, newDate.toISOString().split('T')[0].replace(/-/g, '/'));
           }
         }}
-        modifiers={`${field.status} ${componentProps.modifiers || ''}`}
+        modifiers={`${field.status} ${componentProps.modifiers ?? ''}`}
       />
     );
   },
   Textarea(field, onUserAction) {
     const { componentProps } = field;
-    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
-      ? componentProps.debounceTimeout
-      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
-      : null;
+      : undefined;
     return (
       <biuty.UITextarea
         name={field.path}
@@ -263,16 +258,16 @@ export default {
         onBlur={componentProps.onBlur}
         onPaste={componentProps.onPaste}
         onFocus={componentProps.onFocus}
-        debounceTimeout={debounceTimeout}
+        value={field.value ?? undefined}
         onKeyDown={componentProps.onKeyDown}
         autofocus={componentProps.autofocus}
         maxlength={componentProps.maxlength}
         id={field.path.replace(/\./g, '__')}
         autocomplete={componentProps.autocomplete}
         readonly={componentProps.readonly || !field.isActive}
-        value={field.value !== null ? `${field.value}` : field.value}
-        modifiers={`${field.status} ${componentProps.modifiers || ''}`}
-        onChange={(value: string): void => onUserAction('input', field.path, value)}
+        debounceTimeout={componentProps.debounceTimeout ?? 100}
+        modifiers={`${field.status} ${componentProps.modifiers ?? ''}`}
+        onChange={(value): void => onUserAction('input', field.path, value)}
       />
     );
   },
@@ -280,7 +275,7 @@ export default {
     const { componentProps } = field;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
-      : null;
+      : undefined;
     return (
       <biuty.UIFilePicker
         name={field.path}
@@ -288,14 +283,14 @@ export default {
         helper={field.message}
         icon={componentProps.icon}
         placeholder={placeholder}
-        value={field.value as File[]}
         accept={componentProps.accept}
+        value={field.value ?? undefined}
         onFocus={componentProps.onFocus}
         multiple={componentProps.multiple}
         id={field.path.replace(/\./g, '__')}
         iconPosition={componentProps.iconPosition}
-        modifiers={`${field.status} ${componentProps.modifiers || ''}`}
-        onChange={(value: File[]): void => onUserAction('input', field.path, value)}
+        modifiers={`${field.status} ${componentProps.modifiers ?? ''}`}
+        onChange={(value): void => onUserAction('input', field.path, value)}
       />
     );
   },

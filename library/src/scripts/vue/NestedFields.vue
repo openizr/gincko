@@ -18,10 +18,10 @@ type ClipboardEventHandler = (event: ClipboardEvent) => void;
 type FocusEventHandler = (value: string, event: FocusEvent) => void;
 type Transform = (value: string, selectionStart: number) => [string, number?];
 
-const props = defineProps<{
-  id?: string;
+const props = withDefaults(defineProps<{
   path: string;
   t: I18n;
+  id?: string;
   fields: Fields;
   label?: string;
   helper?: string;
@@ -76,7 +76,20 @@ const props = defineProps<{
   customComponents?: CustomComponents;
   type: 'array' | 'object' | 'dynamicObject';
   value?: { [key: string]: UserInput; } | UserInput[] | null;
-}>();
+}>(), {
+  minItems: 0,
+  value: null,
+  id: undefined,
+  modifiers: '',
+  label: undefined,
+  helper: undefined,
+  maxItems: Infinity,
+  addButtonProps: undefined,
+  removeButtonProps: undefined,
+  addTextfieldProps: undefined,
+  customComponents: {},
+  allowedPatterns: [] as unknown as undefined,
+});
 
 const newKey = ref('');
 const isInvalidPattern = ref(false);
@@ -89,13 +102,10 @@ const value = computed(() => {
   return props.value as UserInputs | UserInput[];
 });
 const className = computed(() => buildClass('ui-nested-fields', [
-  props.modifiers || '',
+  props.modifiers ?? '',
   props.type,
 ].join(' ')));
-const isAddButtonDisabled = computed(() => {
-  const maxItems = (props.maxItems !== undefined) ? props.maxItems : Infinity;
-  return props.fields.length >= maxItems;
-});
+const isAddButtonDisabled = computed(() => props.fields.length >= props.maxItems);
 const addButtonDisabledModifier = computed(() => {
   const keyExistsOrIsEmpty = newKey.value === '' || value.value[newKey.value] !== undefined;
   return (isInvalidPattern.value || (props.type === 'dynamicObject' && keyExistsOrIsEmpty)) ? 'disabled' : '';
@@ -122,9 +132,8 @@ const addItem = () => {
 const handleChange = (newValue: string) => {
   let noPatternMatch = true;
   newKey.value = newValue;
-  const allowedPatterns = props.allowedPatterns || [];
-  for (let index = 0, { length } = allowedPatterns; index < length; index += 1) {
-    if (allowedPatterns[index].test(newValue)) {
+  for (let index = 0, { length } = props.allowedPatterns; index < length; index += 1) {
+    if (props.allowedPatterns[index].test(newValue)) {
       noPatternMatch = false;
     }
   }
@@ -133,10 +142,9 @@ const handleChange = (newValue: string) => {
 
 // Adds new fields if length does not fit minimum length.
 watch(() => [value, props.minItems], () => {
-  const minItems = props.minItems || 0;
   const currentLength = value.value.length;
-  if (props.type === 'array' && currentLength < minItems) {
-    props.onUserAction('input', props.path, value.value.concat(new Array(minItems - currentLength).fill(null)));
+  if (props.type === 'array' && currentLength < props.minItems) {
+    props.onUserAction('input', props.path, value.value.concat(new Array(props.minItems - currentLength).fill(null)));
   }
 });
 
@@ -171,14 +179,10 @@ watch(() => [value, props.maxItems], () => {
       >{{ field.id }}</span>
 
       <UIButton
-        v-if="type !== 'object' && fields.length > (minItems || 0)"
+        v-if="type !== 'object' && fields.length > (minItems ?? 0)"
         type="button"
-        :icon="removeButtonProps?.icon"
-        :label="removeButtonProps?.label"
-        :modifiers="removeButtonProps?.modifiers"
-        :icon-position="removeButtonProps?.iconPosition"
-        @click="removeItem(index, $event)"
-        @focus="removeButtonProps?.onFocus"
+        v-bind="removeButtonProps"
+        :on-click="removeItem(index, $event)"
       />
       <FormField
         :i18n="t"
@@ -201,37 +205,17 @@ watch(() => [value, props.maxItems], () => {
         :value="newKey"
         :name="`${id}-add`"
         :readonly="!isActive"
-        :icon="addTextfieldProps?.icon"
-        :label="addTextfieldProps?.label"
-        :modifiers="addTextfieldProps?.modifiers"
-        :autofocus="addTextfieldProps?.autofocus"
-        :transform="addTextfieldProps?.transform"
-        :maxlength="addTextfieldProps?.maxlength"
-        :allowed-keys="addTextfieldProps?.allowedKeys"
-        :placeholder="addTextfieldProps?.placeholder"
-        :autocomplete="addTextfieldProps?.autocomplete"
-        :icon-position="addTextfieldProps?.iconPosition"
+        v-bind="addTextfieldProps"
+        :on-change="handleChange"
+        :debounce-timeout="addTextfieldProps?.debounceTimeout ?? 100"
         :helper="isInvalidPattern ? addTextfieldProps?.helper : undefined"
-        :debounce-timeout="(addTextfieldProps?.debounceTimeout !== undefined)
-          ? addTextfieldProps?.debounceTimeout
-          : 100"
-        @change="handleChange"
-        @blur="addTextfieldProps?.onBlur"
-        @paste="addTextfieldProps?.onPaste"
-        @focus="addTextfieldProps?.onFocus"
-        @keydown="addTextfieldProps?.onKeyDown"
-        @icon-click="addTextfieldProps?.onIconClick"
-        @icon-key-down="addTextfieldProps?.onIconKeyDown"
       />
       <UIButton
         v-if="!isAddButtonDisabled"
         type="button"
-        :icon="addButtonProps?.icon"
-        :label="addButtonProps?.label"
-        :on-focus="addButtonProps?.onFocus"
-        :icon-position="addButtonProps?.iconPosition"
-        :modifiers="`${addButtonDisabledModifier} ${addButtonProps?.modifiers || ''}`"
-        @click="addItem"
+        v-bind="addButtonProps"
+        :modifiers="`${addButtonDisabledModifier} ${addButtonProps?.modifiers ?? ''}`"
+        :on-click="addItem"
       />
     </div>
     <span

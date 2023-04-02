@@ -1,9 +1,10 @@
 {
   "name": "gincko",
-  "version": "TRAVIS_TAG",
+  "version": "PACKAGE_VERSION",
   "description": "Build complex, dynamic forms or inputs-based UIs in seconds",
   "repository": "https://github.com/openizr/gincko",
   "bugs": "https://github.com/openizr/gincko/issues",
+  "type": "module",
   "main": "./core.js",
   "types": "./core.d.ts",
   "contributors": [
@@ -28,9 +29,9 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@testing-library/react": "^13.3.0",
+    "@testing-library/react": "^14.0.0",
     "@testing-library/svelte": "^3.1.3",
-    "@testing-library/vue": "^6.6.1",
+    "@testing-library/vue": "^7.0.0",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "coveralls": "^3.1.1",
@@ -59,7 +60,36 @@
           "import/no-named-as-default": "off",
           "import/no-relative-packages": "off",
           "import/no-named-as-default-member": "off",
-          "import/no-extraneous-dependencies": "off"
+          "import/no-extraneous-dependencies": "off",
+          "@typescript-eslint/no-explicit-any": "off"
+        }
+      },
+      {
+        "files": [
+          "Engine.ts"
+        ],
+        "rules": {
+          "class-methods-use-this": "off"
+        }
+      },
+      {
+        "files": [
+          "*.svelte",
+          "*.vue"
+        ],
+        "rules": {
+          "no-undef": "off",
+          "no-undef-init": "off"
+        }
+      },
+      {
+        "files": [
+          "MessageField.vue",
+          "Message.tsx"
+        ],
+        "rules": {
+          "vue/no-v-html": "off",
+          "react/no-danger": "off"
         }
       },
       {
@@ -69,43 +99,16 @@
         "rules": {
           "react/destructuring-assignment": "off"
         }
-      },
-      {
-        "files": [
-          "__mocks__/diox/connectors/svelte.ts"
-        ],
-        "rules": {
-          "import/extensions": "off"
-        }
-      },
-      {
-        "files": [
-          "*.vue",
-          "*.svelte"
-        ],
-        "rules": {
-          "no-undef-init": "off",
-          "no-undef": "off"
-        }
-      },
-      {
-        "files": [
-          "src/scripts/__mocks__/diox/connectors/react.ts",
-          "src/scripts/__mocks__/diox/connectors/svelte.ts",
-          "src/scripts/__mocks__/diox/connectors/vue.ts"
-        ],
-        "rules": {
-          "import/no-extraneous-dependencies": "off"
-        }
       }
     ]
   },
   "dependencies": {
     "basx": "^2.0.1",
-    "diox": "^5.0.3"
+    "biuty": "^2.0.0",
+    "diox": "^6.0.1"
   },
   "engines": {
-    "node": ">= 14.0.0",
+    "node": ">= 16.0.0",
     "npm": ">= 7.0.0"
   },
   "tsDevKitConfig": {
@@ -121,32 +124,23 @@
     "splitChunks": false,
     "srcPath": "src",
     "distPath": "dist",
-    "banner": "/*!\n * Copyright (c) Openizr. All Rights Reserved.\n *\n * This source code is licensed under the MIT license found in the\n * LICENSE file in the root directory of this source tree.\n */",
-    "env": {
-      "development": {},
-      "production": {}
-    }
+    "banner": "/*!\n * Copyright (c) Openizr. All Rights Reserved.\n *\n * This source code is licensed under the MIT license found in the\n * LICENSE file in the root directory of this source tree.\n */"
   },
   "scripts": {
-    "init": "node_modules/typescript-dev-kit/scripts/init",
     "test": "cd node_modules/typescript-dev-kit/ && scripts/test",
     "dev": "cd node_modules/typescript-dev-kit/ && node scripts/dev",
-    "build": "cd node_modules/typescript-dev-kit/ && node scripts/build",
     "check": "cd node_modules/typescript-dev-kit/ && node scripts/check",
     "types": "cp src/scripts/*.d.ts dist && rm dist/global.d.ts dist/index.d.ts",
-    "postinstall": "rm -f node_modules/.eslintcache && test -n \"$POSTINSTALLED\" || POSTINSTALLED=1 yarn add --peer biuty svelte react react-dom vue"
+    "build": "cd node_modules/typescript-dev-kit/ && node scripts/build && cd ../../ && yarn run types",
+    "postinstall": "rm -f node_modules/.eslintcache && test -n \"$POSTINSTALLED\" || POSTINSTALLED=1 yarn add --peer svelte react react-dom vue"
   },
   "peerDependencies": {
-    "biuty": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "svelte": "^3.50.1",
-    "vue": "^3.2.40"
+    "svelte": "^3.58.0",
+    "vue": "^3.2.47"
   },
   "peerDependenciesMeta": {
-    "biuty": {
-      "optional": true
-    },
     "react": {
       "optional": true
     },

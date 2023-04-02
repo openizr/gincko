@@ -22,7 +22,6 @@ function Message({ id, label = '', modifiers = '' }: MessageProps): JSX.Element 
   return (
     <section
       id={id}
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: markdown(label as string, false) }}
       className={buildClass('ui-message', modifiers)}
     />

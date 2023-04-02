@@ -10,40 +10,25 @@
 
 import builtInComponents from 'scripts/svelte/Components';
 
-/** Generated field. */
 export let field: Field;
-
-/** Field's path. */
 export let path: string;
-
-/** Internationalization function, used for labels translation. */
 export let i18n: I18n;
-
-/** Whether field belongs to the active step. */
 export let isActive: boolean;
-
-/** Form variables. */
 export let variables: Variables;
-
-/** List of user inputs. */
 export let userInputs: UserInputs;
-
-/** Callback to trigger at each user action. */
 export let onUserAction: OnUserAction;
-
-/** List of form's custom UI components. */
 export let customComponents: CustomComponents;
 
 let actualField: Any;
-let message: string | null;
+let message: string | undefined;
 let allComponents: CustomComponents;
 
 $: allComponents = { ...builtInComponents, ...customComponents };
 $: allValues = { ...variables, ...userInputs };
-$: label = (field.label !== undefined) ? i18n(field.label, allValues) : null;
+$: label = (field.label !== undefined) ? i18n(field.label, allValues) : undefined;
 $: {
   const helper = field.message || field.componentProps.helper;
-  message = (helper !== undefined) ? i18n(helper, allValues) : null;
+  message = (helper !== undefined) ? i18n(helper, allValues) : undefined;
 }
 
 // The following lines prevent browsers auto-fill system from changing fields
@@ -56,6 +41,9 @@ const focusField = (focusedValue: UserInput): void => {
 };
 
 $: {
+  const componentProps = {
+    ...field.componentProps, onFocus: focusField,
+  };
   // Unknown field type...
   if (allComponents[field.component] === undefined) {
     actualField = null;
@@ -66,13 +54,13 @@ $: {
       isActive,
       path,
       i18n,
-      label: label as string,
-      message: message as string,
+      label,
+      message,
       allValues,
       variables,
       userInputs,
+      componentProps,
       customComponents,
-      componentProps: field.componentProps,
     }, onUserAction);
   }
 }
@@ -83,12 +71,5 @@ $: {
   this={actualField.component}
   {...actualField.props}
   on:focus={focusField}
-  on:change={actualField.events.change}
-  on:click={actualField.events.click}
-  on:paste={actualField.events.paste}
-  on:blur={actualField.events.blur}
-  on:keyDown={actualField.events.keyDown}
-  on:iconClick={actualField.events.iconClick}
-  on:iconKeyDown={actualField.events.iconKeyDown}
 />
 {/if}

@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`core/Engine > constructor > cache exists, \`useCache\` is \`true\`, \`restartOnReload\` is \`true\` 1`] = `null`;
 

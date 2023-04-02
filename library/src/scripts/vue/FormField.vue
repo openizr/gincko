@@ -11,31 +11,16 @@
 import { computed, watch, ref } from 'vue';
 import builtInComponents from 'scripts/vue/Components';
 
-const props = defineProps<{
-  /** Generated field. */
+const props = withDefaults(defineProps<{
   field: Field;
-
-  /** Field's path. */
   path: string;
-
-  /** Internationalization function, used for labels translation. */
   i18n: I18n;
-
-  /** Whether field belongs to the active step. */
   isActive: boolean;
-
-  /** Form variables. */
   variables: Variables;
-
-  /** List of user inputs. */
   userInputs: UserInputs;
-
-  /** Callback to trigger at each user action. */
   onUserAction: OnUserAction;
-
-  /** List of form's custom UI components. */
   customComponents: CustomComponents;
-}>();
+}>(), {});
 
 const allComponents = computed(() => ({
   ...props.customComponents,
@@ -99,10 +84,5 @@ const actualField = computed(() => {
     :is="actualField.component"
     v-if="actualField !== null"
     v-bind="actualField.props"
-    v-on="Object.keys(actualField.events).reduce((events, event) => (
-      (actualField.events[event] !== undefined)
-        ? { ...events, [event]: actualField.events[event] }
-        : events
-    ), {})"
   />
 </template>
