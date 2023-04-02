@@ -96,23 +96,4 @@ export default <Configuration>{
       },
     },
   },
-  // plugins: [
-  //   errorStepDisplayer({ setActiveStep: () => '', stepId: 'error' }),
-  //   ((engine) => {
-  //     engine.on('userAction', (userAction, next) => {
-  //       if (userAction?.fieldId === 'city') {
-  //         throw new Error('ok');
-  //       }
-  //       const currentStep = engine.getCurrentStep();
-  //       if (userAction !== null && currentStep !== null) {
-  //         currentStep.fields[1].options.formValues = {
-  //           ...engine.getValues(),
-  //           [userAction.fieldId]: userAction.value,
-  //         };
-  //         engine.setCurrentStep(currentStep);
-  //       }
-  //       return next(userAction);
-  //     });
-  //   }) as Plugin,
-  // ],
 };
