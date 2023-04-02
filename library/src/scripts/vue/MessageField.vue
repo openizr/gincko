@@ -8,21 +8,21 @@
  *
  */
 
-/* eslint-disable vue/no-v-html */
-
 import { buildClass, markdown } from 'biuty/vue';
 
-defineProps<{
+withDefaults(defineProps<{
   id: string;
-  label?: string;
+  label: string;
   modifiers?: string;
-}>();
+}>(), {
+  modifiers: '',
+});
 </script>
 
 <template>
   <section
     :id="id"
-    :class="buildClass('ui-message', modifiers || '')"
-    v-html="markdown(label || '', false)"
+    :class="buildClass('ui-message', modifiers)"
+    v-html="markdown(label, false)"
   />
 </template>

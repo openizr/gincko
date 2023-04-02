@@ -17,22 +17,23 @@ const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomCompone
       ...componentProps.addButtonProps,
       label: (componentProps.addButtonProps?.label !== undefined)
         ? field.i18n(componentProps.addButtonProps.label, field.allValues)
-        : null,
+        : undefined,
     };
     const removeButtonProps = {
       ...componentProps.removeButtonProps,
       label: (componentProps.removeButtonProps?.label !== undefined)
         ? field.i18n(componentProps.removeButtonProps.label, field.allValues)
-        : null,
+        : undefined,
     };
     const addTextfieldProps = {
       ...componentProps.addTextfieldProps,
+      onFocus: componentProps.onFocus,
       label: (componentProps.addTextfieldProps?.label !== undefined)
         ? field.i18n(componentProps.addTextfieldProps.label, field.allValues)
-        : null,
+        : undefined,
       placeholder: (componentProps.addTextfieldProps?.placeholder !== undefined)
         ? field.i18n(componentProps.addTextfieldProps.placeholder, field.allValues)
-        : null,
+        : undefined,
     };
 
     return ({
@@ -47,17 +48,16 @@ const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomCompone
         removeButtonProps,
         addTextfieldProps,
         label: field.label,
-        value: field.value,
         fields: field.fields,
         helper: field.message,
         isActive: field.isActive,
         variables: field.variables,
         userInputs: field.userInputs,
+        value: field.value ?? undefined,
         id: field.path.replace(/\./g, '__'),
         customComponents: field.customComponents,
-        modifiers: `${field.status} ${componentProps.modifiers || ''}`,
+        modifiers: `${field.status} ${componentProps.modifiers ?? ''}`,
       },
-      events: {},
     });
   }
 );
@@ -65,7 +65,7 @@ const nestedFields = (type: 'array' | 'object' | 'dynamicObject'): CustomCompone
 /**
  * Gincko built-in form components.
  */
-export default {
+export default <CustomComponents>{
   Array: nestedFields('array'),
   Object: nestedFields('object'),
   DynamicObject: nestedFields('dynamicObject'),
@@ -76,9 +76,8 @@ export default {
       props: {
         label: field.label,
         id: field.path.replace(/\./g, '__'),
-        modifiers: `${field.status} ${componentProps.modifiers || ''}`,
+        modifiers: `${field.status} ${componentProps.modifiers ?? ''}`,
       },
-      events: {},
     });
   },
   Link(field) {
@@ -87,12 +86,9 @@ export default {
       component: biuty.UILink,
       props: {
         ...componentProps,
-        label: field.label || '',
+        label: field.label,
         id: field.path.replace(/\./g, '__'),
-        modifiers: `${field.status} ${componentProps.modifiers || ''}`,
-      },
-      events: {
-        click: componentProps.onClick,
+        modifiers: `${field.status} ${componentProps.modifiers ?? ''}`,
       },
     });
   },
@@ -104,17 +100,17 @@ export default {
         ...componentProps,
         label: field.label,
         id: field.path.replace(/\./g, '__'),
-        modifiers: `${field.status} ${componentProps.modifiers || ''}`,
-      },
-      events: {
-        focus: componentProps.onFocus,
-        click: (): void => onUserAction('input', field.path, true),
+        modifiers: `${field.status} ${componentProps.modifiers ?? ''}`,
+        onClick: (): void => onUserAction('input', field.path, true),
       },
     });
   },
   Options(field, onUserAction) {
     const { componentProps } = field;
     const translatedOptions = componentProps.options.map((option: biuty.Option) => {
+      if (option.type === 'divider') {
+        return option;
+      }
       const { label, ...rest } = option;
       return {
         ...rest,
@@ -133,62 +129,44 @@ export default {
         helper: field.message,
         options: translatedOptions,
         id: field.path.replace(/\./g, '__'),
-        modifiers: `${field.status} ${componentProps.modifiers || ''}`,
-      },
-      events: {
-        focus: componentProps.onFocus,
-        change: (newValue: string): void => onUserAction('input', field.path, newValue),
+        modifiers: `${field.status} ${componentProps.modifiers ?? ''}`,
+        onChange: (newValue: string): void => onUserAction('input', field.path, newValue),
       },
     });
   },
   Textfield(field, onUserAction) {
     const { componentProps } = field;
-    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
-      ? componentProps.debounceTimeout
-      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
-      : null;
+      : undefined;
     return ({
       component: biuty.UITextfield,
       props: {
         ...componentProps,
         placeholder,
-        debounceTimeout,
         name: field.path,
         label: field.label,
         helper: field.message,
         id: field.path.replace(/\./g, '__'),
         readonly: componentProps.readonly || !field.isActive,
-        modifiers: `${field.status} ${componentProps.modifiers || ''}`,
+        debounceTimeout: componentProps.debounceTimeout ?? 100,
+        modifiers: `${field.status} ${componentProps.modifiers ?? ''}`,
         value: field.value !== null ? `${field.value}` : field.value,
-      },
-      events: {
-        blur: componentProps.onBlur,
-        paste: componentProps.onPaste,
-        focus: componentProps.onFocus,
-        keyDown: componentProps.onKeyDown,
-        iconClick: componentProps.onIconClick,
-        iconKeyDown: componentProps.onIconKeyDown,
-        change: (value: string): void => onUserAction('input', field.path, value),
+        onChange: (value: string): void => onUserAction('input', field.path, value),
       },
     });
   },
   DatePicker(field, onUserAction) {
     const { componentProps } = field;
-    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
-      ? componentProps.debounceTimeout
-      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
-      : null;
+      : undefined;
     return ({
       component: biuty.UITextfield,
       props: {
         ...componentProps,
         maxlength: 10,
         placeholder,
-        debounceTimeout,
         name: field.path,
         label: field.label,
         helper: field.message,
@@ -210,20 +188,18 @@ export default {
           return [value];
         },
         readonly: componentProps.readonly || !field.isActive,
-        modifiers: `${field.status} ${componentProps.modifiers || ''}`,
+        debounceTimeout: componentProps.debounceTimeout ?? 100,
+        modifiers: `${field.status} ${componentProps.modifiers ?? ''}`,
         value: field.value !== null
           ? (field.value as Date).toISOString().split('T')[0].replace(/-/g, '/')
-          : field.value,
-      },
-      events: {
-        focus: componentProps.onFocus,
-        keyDown: (event: KeyboardEvent): void => {
+          : undefined,
+        onKeyDown: (event: KeyboardEvent): void => {
           const keysRegExp = /(1|2|3|4|5|6|7|8|9|0|Backspace|Delete|ArrowRight|ArrowLeft|Tab|Enter)/;
           if (!keysRegExp.test(event.key) && !event.ctrlKey) {
             event.preventDefault();
           }
         },
-        change: (value: string): void => {
+        onChange: (value: string): void => {
           if (/^(\d{4})\/(\d{2})\/(\d{2})$/.test(value)) {
             const newDate = new Date(new Date(value).getTime() + 25 * 3600 * 1000);
             onUserAction('input', field.path, newDate.toISOString().split('T')[0].replace(/-/g, '/'));
@@ -234,34 +210,23 @@ export default {
   },
   Textarea(field, onUserAction) {
     const { componentProps } = field;
-    const debounceTimeout = (componentProps.debounceTimeout !== undefined)
-      ? componentProps.debounceTimeout
-      : 100;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
-      : null;
+      : undefined;
     return ({
       component: biuty.UITextarea,
       props: {
         ...componentProps,
         placeholder,
-        debounceTimeout,
         name: field.path,
         label: field.label,
         helper: field.message,
         id: field.path.replace(/\./g, '__'),
         readonly: componentProps.readonly || !field.isActive,
-        modifiers: `${field.status} ${componentProps.modifiers || ''}`,
+        debounceTimeout: componentProps.debounceTimeout ?? 100,
+        modifiers: `${field.status} ${componentProps.modifiers ?? ''}`,
         value: field.value !== null ? `${field.value}` : field.value,
-      },
-      events: {
-        blur: componentProps.onBlur,
-        paste: componentProps.onPaste,
-        focus: componentProps.onFocus,
-        keyDown: componentProps.onKeyDown,
-        iconClick: componentProps.onIconClick,
-        iconKeyDown: componentProps.onIconKeyDown,
-        change: (value: string): void => onUserAction('input', field.path, value),
+        onChange: (value: string): void => onUserAction('input', field.path, value),
       },
     });
   },
@@ -269,7 +234,7 @@ export default {
     const { componentProps } = field;
     const placeholder = (componentProps.placeholder !== undefined)
       ? field.i18n(componentProps.placeholder, field.allValues)
-      : null;
+      : undefined;
     return ({
       component: biuty.UIFilePicker,
       props: {
@@ -281,17 +246,9 @@ export default {
         helper: field.message,
         id: field.path.replace(/\./g, '__'),
         readonly: componentProps.readonly || !field.isActive,
-        modifiers: `${field.status} ${componentProps.modifiers || ''}`,
-      },
-      events: {
-        blur: componentProps.onBlur,
-        paste: componentProps.onPaste,
-        focus: componentProps.onFocus,
-        keyDown: componentProps.onKeyDown,
-        iconClick: componentProps.onIconClick,
-        iconKeyDown: componentProps.onIconKeyDown,
-        change: (value: File): void => onUserAction('input', field.path, value),
+        modifiers: `${field.status} ${componentProps.modifiers ?? ''}`,
+        onChange: (value: File): void => onUserAction('input', field.path, value),
       },
     });
   },
-} as CustomComponents;
+};

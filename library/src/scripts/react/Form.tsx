@@ -12,40 +12,20 @@ import Engine from 'scripts/core/Engine';
 import useStore from 'diox/connectors/react';
 import { StateState } from 'scripts/core/state';
 
-interface FormProps {
-  /** Form's active step's id. */
-  activeStep?: string | null;
-
-  /** Form's configuration. */
-  configuration: Configuration,
-
-  /** Internationalization function, used to translate form labels into different languages. */
-  i18n?: I18n;
-
-  /** List of form's custom UI components. */
-  customComponents?: CustomComponents;
-
-  /** Custom gincko form engine class to use instead of the default engine. */
-  engineClass?: typeof Engine;
-
-  /** UI component to use when loading steps. */
-  loader?: JSX.Element | null;
-}
-
 /**
  * React form.
  */
 function Form({
+  activeStep,
   loader = null,
   configuration,
-  activeStep = null,
   customComponents = {},
   engineClass: EngineClass = Engine,
   i18n = (label: string): string => label,
-}: FormProps): JSX.Element {
+}: FormProps & { loader?: JSX.Element | null; }): JSX.Element {
   const [engine] = React.useState(() => new EngineClass(configuration));
-  const useCombiner = useStore(engine.getStore());
-  const state = useCombiner<StateState>('state');
+  const useSubscription = useStore(engine.getStore());
+  const state = useSubscription<StateState>('state');
 
   const onUserAction = React.useCallback((type: string, path: string, data: UserInput): void => {
     engine.getStore().mutate('userActions', 'ADD', { type, path, data });

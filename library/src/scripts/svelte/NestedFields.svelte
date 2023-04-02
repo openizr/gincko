@@ -32,8 +32,8 @@ interface TextfieldProps {
   iconPosition?: 'left' | 'right';
   onIconClick?: (event: MouseEvent) => void;
   onIconKeyDown?: (event: KeyboardEvent) => void;
-  onPaste?: (event: ClipboardEvent) => void;
-  onKeyDown?: (event: KeyboardEvent) => void;
+  onPaste?: (value: string, event: ClipboardEvent) => void;
+  onKeyDown?: (value: string, event: KeyboardEvent) => void;
   transform?: (value: string, selectionStart: number) => [string, number?];
   onBlur?: (value: string, event: FocusEvent) => void;
   onFocus?: (value: string, event: FocusEvent) => void;
@@ -68,27 +68,19 @@ export let type: 'array' | 'object' | 'dynamicObject';
 export let value: UserInputs | UserInput[] | null = null;
 
 // Enforces props default values.
-$: id = id || null;
-$: value = value || null;
-$: label = label || null;
-$: helper = helper || null;
-$: minItems = minItems || 0;
-$: modifiers = modifiers || '';
-$: isActive = isActive || false;
-$: maxItems = maxItems || Infinity;
-$: addButtonProps = addButtonProps || {};
-$: allowedPatterns = allowedPatterns || [];
-$: customComponents = customComponents || {};
-$: addTextfieldProps = addTextfieldProps || {};
-$: removeButtonProps = removeButtonProps || {};
-$: addButtonPropsOnFocus = addButtonProps.onFocus as () => void;
-$: addTextfieldPropsOnBlur = addTextfieldProps.onBlur as () => void;
-$: addTextfieldPropsOnPaste = addTextfieldProps.onPaste as () => void;
-$: addTextfieldPropsOnFocus = addTextfieldProps.onFocus as () => void;
-$: removeButtonPropsOnFocus = removeButtonProps.onFocus as () => void;
-$: addTextfieldPropsOnKeyDown = addTextfieldProps.onKeyDown as () => void;
-$: addTextfieldPropsOnIconClick = addTextfieldProps.onIconClick as () => void;
-$: addTextfieldPropsOnIconKeyDown = addTextfieldProps.onIconKeyDown as () => void;
+$: id = id ?? null;
+$: value = value ?? null;
+$: label = label ?? null;
+$: helper = helper ?? null;
+$: minItems = minItems ?? 0;
+$: modifiers = modifiers ?? '';
+$: isActive = isActive ?? false;
+$: maxItems = maxItems ?? Infinity;
+$: addButtonProps = addButtonProps ?? {};
+$: allowedPatterns = allowedPatterns ?? [];
+$: customComponents = customComponents ?? {};
+$: addTextfieldProps = addTextfieldProps ?? {};
+$: removeButtonProps = removeButtonProps ?? {};
 
 let newKey = '';
 let isInvalidPattern = false;
@@ -123,9 +115,9 @@ const addItem = () => {
   newKey = '';
 };
 
-const handleChange = (details: {detail: { newValue: string; }; }) => {
+const handleChange = (newValue: string) => {
   let noPatternMatch = true;
-  newKey = details.detail.newValue;
+  newKey = newValue;
   for (let index = 0, { length } = allowedPatterns; index < length; index += 1) {
     if (allowedPatterns[index].test(newKey)) {
       noPatternMatch = false;
@@ -164,12 +156,8 @@ $: {
         {/if}
         {#if type !== 'object' && fields.length > minItems}
           <UIButton
-            icon={removeButtonProps.icon}
-            label={removeButtonProps.label}
-            modifiers={removeButtonProps.modifiers}
-            iconPosition={removeButtonProps.iconPosition}
-            on:click={removeItem(index)}
-            on:focus={removeButtonPropsOnFocus}
+            {...removeButtonProps}
+            onClick={removeItem(index)}
           />
         {/if}
         <Field
@@ -193,36 +181,16 @@ $: {
           value={newKey}
           name={`${id}-add`}
           readonly={!isActive}
-          icon={addTextfieldProps.icon}
-          label={addTextfieldProps.label}
-          modifiers={addTextfieldProps.modifiers}
-          autofocus={addTextfieldProps.autofocus}
-          transform={addTextfieldProps.transform}
-          maxlength={addTextfieldProps.maxlength}
-          allowedKeys={addTextfieldProps.allowedKeys}
-          placeholder={addTextfieldProps.placeholder}
-          autocomplete={addTextfieldProps.autocomplete}
-          iconPosition={addTextfieldProps.iconPosition}
-          helper={isInvalidPattern ? addTextfieldProps.helper : undefined}
-          debounceTimeout={(addTextfieldProps.debounceTimeout !== undefined)
-            ? addTextfieldProps.debounceTimeout
-            : 100}
-          on:change={handleChange}
-          on:blur={addTextfieldPropsOnBlur}
-          on:paste={addTextfieldPropsOnPaste}
-          on:focus={addTextfieldPropsOnFocus}
-          on:keyDown={addTextfieldPropsOnKeyDown}
-          on:iconClick={addTextfieldPropsOnIconClick}
-          on:iconKeyDown={addTextfieldPropsOnIconKeyDown}
-        />
+          {...addTextfieldProps}
+          onChange={handleChange}
+          debounceTimeout={addTextfieldProps.debounceTimeout ?? 100}
+          helper={isInvalidPattern && addTextfieldProps.helper !== undefined ? addTextfieldProps.helper : undefined}
+          />
       {/if}
       {#if !isAddButtonDisabled}
         <UIButton
-          on:click={addItem}
-          icon={addButtonProps.icon}
-          label={addButtonProps.label}
-          on:focus={addButtonPropsOnFocus}
-          iconPosition={addButtonProps.iconPosition}
+          {...addButtonProps}
+          onClick={addItem}
           modifiers={`${addButtonDisabledModifier} ${addButtonProps.modifiers || ''}`}
         />
       {/if}

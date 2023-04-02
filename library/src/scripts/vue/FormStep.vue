@@ -12,7 +12,7 @@ import { computed } from 'vue';
 import { buildClass } from 'biuty/vue';
 import FormField from 'scripts/vue/FormField.vue';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   i18n: I18n;
   step: Step;
   index: number;
@@ -21,7 +21,7 @@ const props = defineProps<{
   userInputs: UserInputs;
   onUserAction: OnUserAction;
   customComponents: CustomComponents;
-}>();
+}>(), {});
 
 const modifiers = computed(() => [
   props.step.status,

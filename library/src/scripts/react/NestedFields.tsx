@@ -24,14 +24,14 @@ interface NestedFieldsProps {
     label?: string;
     modifiers?: string;
     iconPosition?: 'left' | 'right';
-    onFocus?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onFocus?: (event: FocusEvent) => void;
   };
   removeButtonProps?: {
     icon?: string;
     label?: string;
     modifiers?: string;
     iconPosition?: 'left' | 'right';
-    onFocus?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onFocus?: (event: FocusEvent) => void;
   };
   addTextfieldProps?: {
     icon?: string;
@@ -44,13 +44,13 @@ interface NestedFieldsProps {
     debounceTimeout?: number;
     autocomplete?: 'on' | 'off';
     iconPosition?: 'left' | 'right';
-    onIconClick?: (event: React.MouseEvent<HTMLElement>) => void;
-    onIconKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
-    onPaste?: (event: React.ClipboardEvent<HTMLInputElement>) => void;
-    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+    onIconClick?: (event: MouseEvent) => void;
+    onIconKeyDown?: (event: KeyboardEvent) => void;
+    onPaste?: (value: string, event: ClipboardEvent) => void;
+    onKeyDown?: (value: string, event: KeyboardEvent) => void;
     transform?: (value: string, selectionStart: number) => [string, number?];
-    onBlur?: (value: string, event: React.FocusEvent<HTMLInputElement>) => void;
-    onFocus?: (value: string, event: React.FocusEvent<HTMLInputElement>) => void;
+    onBlur?: (value: string, event: FocusEvent) => void;
+    onFocus?: (value: string, event: FocusEvent) => void;
     allowedKeys?: {
       altKey?: RegExp;
       metaKey?: RegExp;

@@ -55,7 +55,7 @@ declare module 'gincko/vue' {
     engineClass?: Engine;
   }, Record<string, unknown>, {
     /** UI component to use when loading steps. */
-    loader: Any;
+    loader: any;
   }>;
 
   export default Form;
