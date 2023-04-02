@@ -172,14 +172,17 @@ In order to keep this package up-to-date, dependencies updates should be checked
 using the `yarn outdated` and `yarn upgrade-interactive --latest` commands. Here is the list of repositories
 changelogs to watch for updates:
 
-- [@types/prop-types](https://github.com/DefinitelyTyped/DefinitelyTyped#readme)
 - [@types/react](https://github.com/DefinitelyTyped/DefinitelyTyped#readme)
 - [@types/react-dom](https://github.com/DefinitelyTyped/DefinitelyTyped#readme)
-- [@vue/test-utils](https://github.com/vuejs/vue-test-utils/releases)
+- [@testing-library](https://github.com/testing-library/react-testing-library/releases)
+- [@testing-library/react](https://github.com/testing-library/react-testing-library/releases)
+- [@testing-library/svelte](https://github.com/testing-library/svelte-testing-library/releases)
+- [@testing-library/vue](https://github.com/testing-library/vue-testing-library/releases)
+- [biuty](https://github.com/openizr/biuty/releases)
 - [coveralls](https://github.com/nickmerwin/node-coveralls/releases)
-- [prop-types](https://github.com/facebook/prop-types/blob/master/CHANGELOG.md)
 - [react](https://github.com/facebook/react/releases)
 - [react-dom](https://github.com/facebook/react/releases)
+- [svelte](https://github.com/sveltejs/svelte/blob/master/CHANGELOG.md)
 - [typescript-dev-kit](https://github.com/openizr/typescript-dev-kit/releases)
 - [vue](https://github.com/vuejs/vue/releases)
 
@@ -187,7 +190,7 @@ changelogs to watch for updates:
 ## Build & Deployment
 
 You don't have to worry about deploying the code and publishing it on `npm`, the CI/CD system does
-it for you (using TravisCI). Each time a new release is created on the `master` branch, TravisCI
+it for you (using Github Actions). Each time a new release is created on the `master` branch, Github Actions
 will automatically build and deploy this release on `npm` with the version you specified in your
 release name. Of course, all tests must pass otherwise code won't be deployed. However, if you want
 to get an preview of the distributed package, you can run `docker exec <PROJECT_NAME>_library yarn run build`.
@@ -209,7 +212,6 @@ To provide good and clear git commit messages, you should follow [these guidelin
 ## Project structure
 
 Project is structured as follow:
-- **`/docs`:** contains the documentation automatically generated from code
 - **`library`:** contains the actual library codebase
 - **`examples`:** contains a bunch of code samples and allows you to play with the library in real-time while developing it
 
