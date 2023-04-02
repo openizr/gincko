@@ -10,12 +10,9 @@
     ]
   },
   "dependencies": {
-    "biuty": "^1.2.0",
-    "gincko": "file:../../../library/dist",
+    "gincko": "file:/library/dist",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "svelte": "^3.48.0",
-    "vue": "^3.2.36"
+    "react-dom": "^18.1.0"
   },
   "tsDevKitConfig": {
     "target": "web",
@@ -40,7 +37,6 @@
     }
   },
   "scripts": {
-    "init": "node_modules/typescript-dev-kit/scripts/init",
     "dev": "cd node_modules/typescript-dev-kit/ && node scripts/dev",
     "build": "cd node_modules/typescript-dev-kit/ && node scripts/build",
     "postinstall": "rm -f node_modules/.eslintcache"

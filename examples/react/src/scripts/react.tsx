@@ -15,11 +15,10 @@ const translate = (label: string, variables: Variables = {}): string => {
 
 function main(): void {
   app = createRoot(document.querySelector('#root') as HTMLElement);
-  const StrictMode = React.StrictMode as JSXElement;
   app.render(
-    <StrictMode>
+    <React.StrictMode>
       <Form configuration={configuration} i18n={translate} />
-    </StrictMode>,
+    </React.StrictMode>,
   );
 }
 
