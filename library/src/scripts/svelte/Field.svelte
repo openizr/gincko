@@ -19,7 +19,7 @@ export let userInputs: UserInputs;
 export let onUserAction: OnUserAction;
 export let customComponents: CustomComponents;
 
-let actualField: Any;
+let actualField: JSXElement;
 let message: string | undefined;
 let allComponents: CustomComponents;
 

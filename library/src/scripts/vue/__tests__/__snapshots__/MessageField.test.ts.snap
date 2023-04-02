@@ -14,6 +14,6 @@ exports[`vue/MessageField > renders correctly - default props 1`] = `
   class="ui-message"
   id="test"
 >
-  MARKDOWN FOR , false
+  MARKDOWN FOR *Test*, false
 </section>
 `;

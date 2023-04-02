@@ -8,7 +8,7 @@
  *
  */
 
- interface ButtonProps {
+interface ButtonProps {
   icon?: string;
   label?: string;
   modifiers?: string;

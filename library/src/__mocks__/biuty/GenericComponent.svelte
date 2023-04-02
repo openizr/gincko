@@ -8,10 +8,6 @@
  *
  */
 
-import { createEventDispatcher } from 'svelte';
-
-const dispatch = createEventDispatcher();
-
 export let t:unknown | undefined = undefined;
 export let path:unknown | undefined = undefined;
 export let type:unknown | undefined = undefined;
@@ -27,7 +23,6 @@ export let id: unknown | undefined = undefined;
 export let name: unknown | undefined = undefined;
 export let label: unknown | undefined = undefined;
 export let helper: unknown | undefined = undefined;
-export let onFocus: unknown | undefined = undefined;
 export let options: unknown | undefined = undefined;
 export let autocomplete: unknown | undefined = undefined;
 export let iconPosition: unknown | undefined = undefined;
@@ -36,33 +31,40 @@ export let autofocus: unknown | undefined = undefined;
 export let icon: unknown | undefined = undefined;
 export let placeholder: unknown | undefined = undefined;
 export let transform: ((value: string) => string) | undefined = undefined;
+export let onChange: ((value: string) => void) | undefined = vi.fn();
+export let onClick: (() => void) | undefined = vi.fn();
+export let onFocus: (() => void) | undefined = vi.fn();
+export let onBlur: (() => void) | undefined = vi.fn();
+export let onKeyDown: ((value: string, event: unknown) => void) | undefined = vi.fn();
 
 // Covers `onChange` handler.
 setTimeout(() => {
-  dispatch('change', 'test');
+  onChange?.('test');
   if (process.env.IS_DATE === 'true') {
-    dispatch('change', '2020/02/20');
+    onChange?.('2020/02/20');
   }
 }, 10);
 
 // Covers `onFocus` handler.
-dispatch('focus');
+onFocus?.();
+
+// Covers `onBlur` handler.
+onBlur?.();
 
 // Covers `onClick` handler.
 setTimeout(() => {
-  dispatch('click');
+  onClick?.();
 }, 10);
 
 // Covers `transform` function.
-if (transform !== undefined) {
-  transform('ok');
-  transform('1002');
-  transform('100220');
-  transform('10022020');
-}
+transform?.('ok');
+transform?.('1002');
+transform?.('100220');
+transform?.('10022020');
+
 // Covers `onKeyDown` handler.
-dispatch('keyDown', { key: '1' });
-dispatch('keyDown', { key: 'A', ctrlKey: false, preventDefault: vi.fn() });
+onKeyDown?.('', { key: '1' });
+onKeyDown?.('', { key: 'A', ctrlKey: false, preventDefault: vi.fn() });
 </script>
 
 <div>

@@ -848,38 +848,43 @@ export default class BaseEngine {
       const field = this.getField(path);
       const fieldConfiguration = <FieldConfiguration>(this.getConfiguration(path));
 
-      // We process current and all subsequent user actions in batch to optimize performance by
-      // calling `toggleFields` and `validateFields` only once, and to enforce hooks consistency.
-      const subUserActions = this.deepCompare(field, userAction.data, fieldConfiguration, path);
-      const allUserActions = [userAction].concat(subUserActions);
-      const nonNullUserActions: UserAction[] = [];
-      const updatedUserActions = await Promise.all(
-        allUserActions.map(async (action, index) => {
-          const updatedUserAction = await this.triggerHooks('userAction', action);
-          if (updatedUserAction !== null) {
-            nonNullUserActions.push(updatedUserAction);
-            if (index === 0 && fieldConfiguration.type !== 'null') {
-              // Storing all fields values in a central registry ensures that they are always up
-              // to date (especially when updating an object sub-field for instance).
-              this.setInput(path, updatedUserAction.data);
+      if (fieldConfiguration !== null) {
+        // We process current and all subsequent user actions in batch to optimize performance by
+        // calling `toggleFields` and `validateFields` only once, and to enforce hooks consistency.
+        const subUserActions = this.deepCompare(field, userAction.data, fieldConfiguration, path);
+        const allUserActions = [userAction].concat(subUserActions);
+        const nonNullUserActions: UserAction[] = [];
+        const updatedUserActions = await Promise.all(
+          allUserActions.map(async (action, index) => {
+            const updatedUserAction = await this.triggerHooks('userAction', action);
+            if (updatedUserAction !== null) {
+              nonNullUserActions.push(updatedUserAction);
+              if (index === 0 && fieldConfiguration.type !== 'null') {
+                // Storing all fields values in a central registry ensures that they are always up
+                // to date (especially when updating an object sub-field for instance).
+                this.setInput(path, updatedUserAction.data);
+              }
+              const { type, data, path: subPath } = updatedUserAction;
+              const subFieldConfiguration = (this.getConfiguration(subPath));
+              if (type === 'input' && subFieldConfiguration !== null) {
+                const {
+                  submit,
+                  type: fieldType,
+                } = <GenericFieldConfiguration>subFieldConfiguration;
+                updatedUserAction.data = await this.coerceAndCheckInput(data, fieldType);
+                shouldSubmit = submit === true || shouldSubmit;
+              }
             }
-            const { type, data, path: subPath } = updatedUserAction;
-            const subFieldConfiguration = (this.getConfiguration(subPath));
-            if (type === 'input' && subFieldConfiguration !== null) {
-              const { submit, type: fieldType } = <GenericFieldConfiguration>subFieldConfiguration;
-              updatedUserAction.data = await this.coerceAndCheckInput(data, fieldType);
-              shouldSubmit = submit === true || shouldSubmit;
-            }
-          }
-          return updatedUserAction;
-        }),
-      );
+            return updatedUserAction;
+          }),
+        );
 
-      this.toggleFields(this.currentStep);
-      this.validateFields(nonNullUserActions.map((action) => action.path), !shouldSubmit);
-      await Promise.all(updatedUserActions.map((action) => this.triggerHooks('afterUserAction', action)));
-      if (this.currentStep.status === 'success' && shouldSubmit) {
-        await this.handleSubmit();
+        this.toggleFields(this.currentStep);
+        this.validateFields(nonNullUserActions.map((action) => action.path), !shouldSubmit);
+        await Promise.all(updatedUserActions.map((action) => this.triggerHooks('afterUserAction', action)));
+        if (this.currentStep.status === 'success' && shouldSubmit) {
+          await this.handleSubmit();
+        }
       }
     }
   }

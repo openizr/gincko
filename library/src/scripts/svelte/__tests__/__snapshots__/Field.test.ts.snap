@@ -5,7 +5,7 @@ exports[`svelte/Field > renders correctly - Array 1`] = `
   <div
     id="field"
   >
-    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":null,"placeholder":null},"type":"array","value":null,"customComponents":{}}
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{},"removeButtonProps":{},"addTextfieldProps":{},"type":"array","value":null,"customComponents":{}}
   </div>
   <!--&lt;NestedFields&gt;-->
   
@@ -19,7 +19,7 @@ exports[`svelte/Field > renders correctly - Array 2`] = `
   <div
     id="field"
   >
-    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":false,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":"TRANSLATED LABEL"},"removeButtonProps":{"label":"TRANSLATED LABEL"},"addTextfieldProps":{"label":null,"placeholder":null},"type":"array","value":null,"customComponents":{}}
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":false,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":"TRANSLATED LABEL"},"removeButtonProps":{"label":"TRANSLATED LABEL"},"addTextfieldProps":{},"type":"array","value":null,"customComponents":{}}
   </div>
   <!--&lt;NestedFields&gt;-->
   
@@ -45,7 +45,7 @@ exports[`svelte/Field > renders correctly - Button 1`] = `
      
     undefined
      
-    null
+    undefined
      
     undefined
      
@@ -65,7 +65,13 @@ exports[`svelte/Field > renders correctly - Button 1`] = `
      
     undefined
      
-    undefined
+    focusedValue =&gt; {
+		$$invalidate(2, isActive = true);
+
+		if (field.componentProps['on:focus'] !== undefined) {
+			field.componentProps['on:focus'](focusedValue);
+		}
+	}
      
     undefined
      
@@ -103,13 +109,13 @@ exports[`svelte/Field > renders correctly - DatePicker 1`] = `
      
     path.0.to.field
      
-    null
+    undefined
      
-    null
+    undefined
      
-    null
+    undefined
      
-    null
+    undefined
      
     100
      
@@ -123,7 +129,13 @@ exports[`svelte/Field > renders correctly - DatePicker 1`] = `
      
     10
      
-    undefined
+    focusedValue =&gt; {
+		$$invalidate(2, isActive = true);
+
+		if (field.componentProps['on:focus'] !== undefined) {
+			field.componentProps['on:focus'](focusedValue);
+		}
+	}
      
     undefined
      
@@ -161,13 +173,13 @@ exports[`svelte/Field > renders correctly - DatePicker 2`] = `
      
     path.0.to.field
      
-    null
+    undefined
      
     2022/07/07
      
     TRANSLATED LABEL
      
-    null
+    undefined
      
     10
      
@@ -181,7 +193,13 @@ exports[`svelte/Field > renders correctly - DatePicker 2`] = `
      
     10
      
-    undefined
+    focusedValue =&gt; {
+		$$invalidate(2, isActive = true);
+
+		if (field.componentProps['on:focus'] !== undefined) {
+			field.componentProps['on:focus'](focusedValue);
+		}
+	}
      
     undefined
      
@@ -207,7 +225,7 @@ exports[`svelte/Field > renders correctly - DynamicObject 1`] = `
   <div
     id="field"
   >
-    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":null,"placeholder":null},"type":"dynamicObject","value":null,"customComponents":{}}
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{},"removeButtonProps":{},"addTextfieldProps":{},"type":"dynamicObject","value":null,"customComponents":{}}
   </div>
   <!--&lt;NestedFields&gt;-->
   
@@ -221,7 +239,7 @@ exports[`svelte/Field > renders correctly - DynamicObject 2`] = `
   <div
     id="field"
   >
-    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{"label":null},"removeButtonProps":{"label":null},"addTextfieldProps":{"label":"TRANSLATED LABEL","placeholder":"TRANSLATED LABEL"},"type":"dynamicObject","value":null,"customComponents":{}}
+    {"id":"path__0__to__field","path":"path.0.to.field","fields":[],"minItems":0,"modifiers":"success ","isActive":true,"maxItems":null,"variables":{"var":"value"},"userInputs":{"test":"ok"},"label":null,"helper":null,"allowedPatterns":[],"addButtonProps":{},"removeButtonProps":{},"addTextfieldProps":{"label":"TRANSLATED LABEL","placeholder":"TRANSLATED LABEL"},"type":"dynamicObject","value":null,"customComponents":{}}
   </div>
   <!--&lt;NestedFields&gt;-->
   
@@ -247,13 +265,13 @@ exports[`svelte/Field > renders correctly - FilePicker 1`] = `
      
     path.0.to.field
      
-    null
+    undefined
      
     undefined
      
-    null
+    undefined
      
-    null
+    undefined
      
     undefined
      
@@ -267,7 +285,13 @@ exports[`svelte/Field > renders correctly - FilePicker 1`] = `
      
     undefined
      
-    undefined
+    focusedValue =&gt; {
+		$$invalidate(2, isActive = true);
+
+		if (field.componentProps['on:focus'] !== undefined) {
+			field.componentProps['on:focus'](focusedValue);
+		}
+	}
      
     undefined
      
@@ -305,13 +329,13 @@ exports[`svelte/Field > renders correctly - FilePicker 2`] = `
      
     path.0.to.field
      
-    null
+    undefined
      
     undefined
      
     TRANSLATED LABEL
      
-    null
+    undefined
      
     undefined
      
@@ -325,7 +349,13 @@ exports[`svelte/Field > renders correctly - FilePicker 2`] = `
      
     undefined
      
-    undefined
+    focusedValue =&gt; {
+		$$invalidate(2, isActive = true);
+
+		if (field.componentProps['on:focus'] !== undefined) {
+			field.componentProps['on:focus'](focusedValue);
+		}
+	}
      
     undefined
      
@@ -363,7 +393,7 @@ exports[`svelte/Field > renders correctly - Link 1`] = `
      
     undefined
      
-    
+    undefined
      
     undefined
      
@@ -383,7 +413,13 @@ exports[`svelte/Field > renders correctly - Link 1`] = `
      
     undefined
      
-    undefined
+    focusedValue =&gt; {
+		$$invalidate(2, isActive = true);
+
+		if (field.componentProps['on:focus'] !== undefined) {
+			field.componentProps['on:focus'](focusedValue);
+		}
+	}
      
     undefined
      
@@ -449,13 +485,13 @@ exports[`svelte/Field > renders correctly - Options 1`] = `
      
     path.0.to.field
      
-    null
-     
     undefined
      
     undefined
      
-    null
+    undefined
+     
+    undefined
      
     undefined
      
@@ -469,9 +505,15 @@ exports[`svelte/Field > renders correctly - Options 1`] = `
      
     undefined
      
-    () =&gt; null
+    focusedValue =&gt; {
+		$$invalidate(2, isActive = true);
+
+		if (field.componentProps['on:focus'] !== undefined) {
+			field.componentProps['on:focus'](focusedValue);
+		}
+	}
      
-    [object Object],[object Object]
+    [object Object],[object Object],[object Object]
      
     undefined
      
@@ -507,13 +549,13 @@ exports[`svelte/Field > renders correctly - Textarea 1`] = `
      
     path.0.to.field
      
-    null
+    undefined
      
-    null
+    undefined
      
-    null
+    undefined
      
-    null
+    undefined
      
     100
      
@@ -527,7 +569,13 @@ exports[`svelte/Field > renders correctly - Textarea 1`] = `
      
     undefined
      
-    undefined
+    focusedValue =&gt; {
+		$$invalidate(2, isActive = true);
+
+		if (field.componentProps['on:focus'] !== undefined) {
+			field.componentProps['on:focus'](focusedValue);
+		}
+	}
      
     undefined
      
@@ -565,13 +613,13 @@ exports[`svelte/Field > renders correctly - Textarea 2`] = `
      
     path.0.to.field
      
-    null
+    undefined
      
     test
      
     TRANSLATED LABEL
      
-    null
+    undefined
      
     10
      
@@ -585,7 +633,13 @@ exports[`svelte/Field > renders correctly - Textarea 2`] = `
      
     undefined
      
-    undefined
+    focusedValue =&gt; {
+		$$invalidate(2, isActive = true);
+
+		if (field.componentProps['on:focus'] !== undefined) {
+			field.componentProps['on:focus'](focusedValue);
+		}
+	}
      
     undefined
      
@@ -623,13 +677,13 @@ exports[`svelte/Field > renders correctly - Textfield 1`] = `
      
     path.0.to.field
      
-    null
+    undefined
      
-    null
+    undefined
      
-    null
+    undefined
      
-    null
+    undefined
      
     100
      
@@ -643,7 +697,13 @@ exports[`svelte/Field > renders correctly - Textfield 1`] = `
      
     undefined
      
-    undefined
+    focusedValue =&gt; {
+		$$invalidate(2, isActive = true);
+
+		if (field.componentProps['on:focus'] !== undefined) {
+			field.componentProps['on:focus'](focusedValue);
+		}
+	}
      
     undefined
      
@@ -681,13 +741,13 @@ exports[`svelte/Field > renders correctly - Textfield 2`] = `
      
     path.0.to.field
      
-    null
+    undefined
      
     test
      
     TRANSLATED LABEL
      
-    null
+    undefined
      
     10
      
@@ -701,7 +761,13 @@ exports[`svelte/Field > renders correctly - Textfield 2`] = `
      
     undefined
      
-    undefined
+    focusedValue =&gt; {
+		$$invalidate(2, isActive = true);
+
+		if (field.componentProps['on:focus'] !== undefined) {
+			field.componentProps['on:focus'](focusedValue);
+		}
+	}
      
     undefined
      

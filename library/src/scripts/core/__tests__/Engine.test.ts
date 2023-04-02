@@ -384,7 +384,11 @@ describe('core/Engine', () => {
     await createEngine({ ...configuration, validateOnSubmit: true });
     const spy = vi.spyOn(engine, 'isEmpty');
     await engine.handleUserAction({ path: 'root.0.integerCondition', data: 1, type: 'input' });
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(8);
+    expect(spy).toHaveBeenCalledWith(null, 'string');
+    expect(spy).toHaveBeenCalledWith(null, 'array');
+    expect(spy).toHaveBeenCalledWith(null, 'object');
+    expect(spy).toHaveBeenCalledWith(null, 'dynamicObject');
     expect(engine.getSteps()).toMatchSnapshot();
   });
 

@@ -18,8 +18,8 @@ const defaultI18n = (label: string): string => label;
 export let activeStep: string | null = null;
 export let configuration: Configuration;
 export let i18n: I18n = defaultI18n;
-export let customComponents: CustomComponents = {};
 export let engineClass: typeof Engine = Engine;
+export let customComponents: CustomComponents = {};
 
 // Enforces props default values.
 $: i18n = i18n ?? defaultI18n;

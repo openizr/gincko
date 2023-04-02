@@ -11,6 +11,6 @@ import * as React from 'react';
 /**
  * gincko/react/NestedFields mock.
  */
-export default function NestedFields(props: Any): JSX.Element {
+export default function NestedFields(props: JSXElement): JSX.Element {
   return <div id="field">{JSON.stringify(props)}</div>;
 }

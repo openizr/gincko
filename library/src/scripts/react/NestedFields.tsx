@@ -240,7 +240,7 @@ function NestedFields({
       )}
       {(helper !== undefined) && <span className="ui-nested-fields__helper">{helper}</span>}
     </div>
-  ) as Any;
+  ) as JSXElement;
 }
 
-export default React.memo(NestedFields) as Any;
+export default React.memo(NestedFields) as JSXElement;

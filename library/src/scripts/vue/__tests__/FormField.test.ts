@@ -157,7 +157,7 @@ describe('vue/FormField', () => {
           component: 'Options',
           componentProps: {
             onFocus: (): null => null,
-            options: [{ label: 'test', value: 'option1' }, { value: 'option2' }],
+            options: [{ label: 'test', value: 'option1' }, { value: 'option2' }, { type: 'divider' }],
           },
         },
       },

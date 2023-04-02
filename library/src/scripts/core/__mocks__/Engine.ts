@@ -12,7 +12,7 @@
 export default class Engine {
   private configuration: Record<string, FieldConfiguration>;
 
-  private store: { mutate: Any; };
+  private store: { mutate: JSXElement; };
 
   private currentStep: Step | null;
 
@@ -215,7 +215,7 @@ export default class Engine {
     return this.currentStep;
   }
 
-  public getStore(): { mutate: Any; } {
+  public getStore(): { mutate: JSXElement; } {
     return this.store;
   }
 

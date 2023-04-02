@@ -6,7 +6,7 @@
  *
  */
 
-import GenericComponent from 'scripts/__mocks__/biuty/GenericComponent.vue';
+import GenericComponent from '__mocks__/biuty/GenericComponent.vue';
 
 /**
  * biuty/vue mock.

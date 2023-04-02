@@ -41,7 +41,7 @@ function Form({
         <div className="gincko__steps">
           {state.steps.map((step, index) => {
             const key = `${step.id}.${index}`;
-            const isActive = (activeStep !== null)
+            const isActive = (activeStep !== undefined)
               ? activeStep === step.id
               : index === state.steps.length - 1;
 
@@ -61,9 +61,9 @@ function Form({
           })}
 
           {state.loading && loader}
-        </div> as Any
+        </div> as JSXElement
       }
-    </form> as Any
+    </form> as JSXElement
   );
 }
 
@@ -72,4 +72,4 @@ export default React.memo(Form, (prevProps, nextProps) => (
   && prevProps.i18n === nextProps.i18n
   && prevProps.activeStep === nextProps.activeStep
   && prevProps.customComponents === nextProps.customComponents
-)) as Any;
+)) as JSXElement;
