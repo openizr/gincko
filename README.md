@@ -1,4 +1,7 @@
-# gincko
+# ⚠️ Please use [@perseid/form](https://www.npmjs.com/package/@perseid/form) instead
+
+This NPM package is deprecated and no longer maintained.
+[@perseid/form](https://github.com/openizr/perseid/tree/main/form) is the new official repository.
 
 Build complex, smart forms or inputs-based UIs in seconds.
 
